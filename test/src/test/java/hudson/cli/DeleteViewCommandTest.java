@@ -24,6 +24,7 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result; // CAP AL
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.nullValue;
@@ -173,14 +174,7 @@ public class DeleteViewCommandTest {
                 .authorizedTo(View.READ, View.DELETE, Jenkins.READ)
                 .invokeWithArgs("never_created", "aView1", "aView2");
 
-        assertThat(result, failedWith(5));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("never_created: No view named never_created inside view Jenkins"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(j.jenkins.getView("aView1"), nullValue());
-        assertThat(j.jenkins.getView("aView2"), nullValue());
-        assertThat(j.jenkins.getView("never_created"), nullValue());
+        extractedMethod19772(result); // CAP AL
     }
 
     @Test public void deleteViewManyShouldFailIfMiddleViewDoesNotExist() throws Exception {
@@ -192,14 +186,7 @@ public class DeleteViewCommandTest {
                 .authorizedTo(View.READ, View.DELETE, Jenkins.READ)
                 .invokeWithArgs("aView1", "never_created", "aView2");
 
-        assertThat(result, failedWith(5));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("never_created: No view named never_created inside view Jenkins"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(j.jenkins.getView("aView1"), nullValue());
-        assertThat(j.jenkins.getView("aView2"), nullValue());
-        assertThat(j.jenkins.getView("never_created"), nullValue());
+        extractedMethod19772(result); // CAP AL
     }
 
     @Test public void deleteViewManyShouldFailIfLastViewDoesNotExist() throws Exception {
@@ -211,15 +198,19 @@ public class DeleteViewCommandTest {
                 .authorizedTo(View.READ, View.DELETE, Jenkins.READ)
                 .invokeWithArgs("aView1", "aView2", "never_created");
 
-        assertThat(result, failedWith(5));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("never_created: No view named never_created inside view Jenkins"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(j.jenkins.getView("aView1"), nullValue());
-        assertThat(j.jenkins.getView("aView2"), nullValue());
-        assertThat(j.jenkins.getView("never_created"), nullValue());
+        extractedMethod19772(result); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod19772(final CLICommandInvoker.Result result) { // CAP AL
+        assertThat(result, failedWith(5)); // CAP AL
+        assertThat(result, hasNoStandardOutput()); // CAP AL
+        assertThat(result.stderr(), containsString("never_created: No view named never_created inside view Jenkins")); // CAP AL
+        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT)); // CAP AL
+         // CAP AL
+        assertThat(j.jenkins.getView("aView1"), nullValue()); // CAP AL
+        assertThat(j.jenkins.getView("aView2"), nullValue()); // CAP AL
+        assertThat(j.jenkins.getView("never_created"), nullValue()); // CAP AL
+    } // CAP AL
 
     @Test public void deleteViewManyShouldFailIfMoreViewsDoNotExist() throws Exception {
 
