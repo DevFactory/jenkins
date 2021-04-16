@@ -23,6 +23,7 @@
  */
 package hudson;
 
+import org.jvnet.hudson.test.JenkinsRule.WebClient; // CAP AL
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import jenkins.model.Jenkins;
 import org.junit.Rule;
@@ -86,29 +87,28 @@ public class AboutJenkinsTest {
         }
         
         { // admin can access it
-            wc.login(ADMIN);
-            HtmlPage page = wc.goTo("about/");
-            assertEquals(HttpURLConnection.HTTP_OK, page.getWebResponse().getStatusCode());
+            HtmlPage page = getPage3400(wc, ADMIN); // CAP AL
             assertThat(page.getWebResponse().getContentAsString(), containsString("Mavenized dependencies"));
         }
 
         { // manager can access it
-            wc.login(MANAGER);
-            HtmlPage page = wc.goTo("about/");
-            assertEquals(HttpURLConnection.HTTP_OK, page.getWebResponse().getStatusCode());
+            HtmlPage page = getPage3400(wc, MANAGER); // CAP AL
         }
 
         { // readonly can access it
-            wc.login(READONLY);
-            HtmlPage page = wc.goTo("about/");
-            assertEquals(HttpURLConnection.HTTP_OK, page.getWebResponse().getStatusCode());
+            HtmlPage page = getPage3400(wc, READONLY); // CAP AL
         }
 
         { // manager-readonly can access it
-            wc.login(MANAGER_READONLY);
-            HtmlPage page = wc.goTo("about/");
-            assertEquals(HttpURLConnection.HTTP_OK, page.getWebResponse().getStatusCode());
+            HtmlPage page = getPage3400(wc, MANAGER_READONLY); // CAP AL
         }
     }
+ // CAP AL
+    private HtmlPage getPage3400(final JenkinsRule.WebClient wc, final String MANAGER) throws Exception { // CAP AL
+        wc.login(MANAGER); // CAP AL
+        HtmlPage page = wc.goTo("about/"); // CAP AL
+        assertEquals(HttpURLConnection.HTTP_OK, page.getWebResponse().getStatusCode()); // CAP AL
+        return page; // CAP AL
+    } // CAP AL
     
 }
