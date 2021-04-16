@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result; // CAP AL
+import org.springframework.security.access.AccessDeniedException; // CAP AL
 import hudson.Functions;
 import hudson.model.ExecutorTest;
 import hudson.model.FreeStyleProject;
@@ -109,9 +111,7 @@ public class DeleteBuildsCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, Job.READ, Run.DELETE)
                 .invokeWithArgs("aProject", "1");
-        assertThat(result, succeeded());
-        assertThat(result.stdout(), containsString("Deleted 1 builds"));
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(0));
+        extractedMethod94445(result); // CAP AL
     }
 
     @Test public void deleteBuildsShouldSuccessIfBuildDoesNotExist() throws Exception {
@@ -145,9 +145,7 @@ public class DeleteBuildsCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, Job.READ, Run.DELETE)
                 .invokeWithArgs("aProject", "1");
-        assertThat(result, succeeded());
-        assertThat(result.stdout(), containsString("Deleted 1 builds"));
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(0));
+        extractedMethod94445(result); // CAP AL
         assertThat(project.isBuilding(), equalTo(false));
     }
 
@@ -215,9 +213,7 @@ public class DeleteBuildsCommandTest {
         result = command
                 .authorizedTo(Jenkins.READ, Job.READ, Run.DELETE)
                 .invokeWithArgs("aProject", "1-1,1-2,2-2");
-        assertThat(result, succeeded());
-        assertThat(result.stdout(), containsString("Deleted 1 builds"));
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(0));
+        extractedMethod94445(result); // CAP AL
     }
 
     @Test public void deleteBuildsManyShouldSuccessEvenLastBuildDoesNotExist() throws Exception {
@@ -236,9 +232,7 @@ public class DeleteBuildsCommandTest {
         result = command
                 .authorizedTo(Jenkins.READ, Job.READ, Run.DELETE)
                 .invokeWithArgs("aProject", "2-3");
-        assertThat(result, succeeded());
-        assertThat(result.stdout(), containsString("Deleted 1 builds"));
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(0));
+        extractedMethod94445(result); // CAP AL
     }
 
     @Test public void deleteBuildsManyShouldSuccessEvenMiddleBuildDoesNotExist() throws Exception {
@@ -286,9 +280,7 @@ public class DeleteBuildsCommandTest {
         result = command
                 .authorizedTo(Jenkins.READ, Job.READ, Run.DELETE)
                 .invokeWithArgs("aProject", "2-3");
-        assertThat(result, succeeded());
-        assertThat(result.stdout(), containsString("Deleted 1 builds"));
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(0));
+        extractedMethod94445(result); // CAP AL
     }
 
     @Test public void deleteBuildsManyShouldSuccessEvenTheFirstAndLastBuildDoesNotExist() throws Exception {
@@ -313,8 +305,12 @@ public class DeleteBuildsCommandTest {
         result = command
                 .authorizedTo(Jenkins.READ, Job.READ, Run.DELETE)
                 .invokeWithArgs("aProject", "3-5");
-        assertThat(result, succeeded());
-        assertThat(result.stdout(), containsString("Deleted 1 builds"));
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(0));
+        extractedMethod94445(result); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod94445(final CLICommandInvoker.Result result) throws AccessDeniedException { // CAP AL
+        assertThat(result, succeeded()); // CAP AL
+        assertThat(result.stdout(), containsString("Deleted 1 builds")); // CAP AL
+        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(0)); // CAP AL
+    } // CAP AL
 }
