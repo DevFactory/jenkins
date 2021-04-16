@@ -143,35 +143,29 @@ public class HealthReport implements Serializable, Comparable<HealthReport> {
      */
     public HealthReport(int score, String iconUrl, Localizable description) {
         this.score = score;
-        if (score <= 20) {
-            this.iconClassName = HEALTH_0_TO_20;
-        } else if (score <= 40) {
-            this.iconClassName = HEALTH_21_TO_40;
-        } else if (score <= 60) {
-            this.iconClassName = HEALTH_41_TO_60;
-        } else if (score <= 80) {
-            this.iconClassName = HEALTH_61_TO_80;
-        } else {
-            this.iconClassName = HEALTH_OVER_80;
-        }
+        extractedMethod87075(score); // CAP AL
         if (iconUrl == null) {
-            if (score <= 20) {
-                this.iconUrl = HEALTH_0_TO_20_IMG;
-            } else if (score <= 40) {
-                this.iconUrl = HEALTH_21_TO_40_IMG;
-            } else if (score <= 60) {
-                this.iconUrl = HEALTH_41_TO_60_IMG;
-            } else if (score <= 80) {
-                this.iconUrl = HEALTH_61_TO_80_IMG;
-            } else {
-                this.iconUrl = HEALTH_OVER_80_IMG;
-            }
+            extractedMethod87075(score); // CAP AL
         } else {
             this.iconUrl = iconUrl;
         }
         this.description = null;
         setLocalizibleDescription(description);
     }
+ // CAP AL
+    private void extractedMethod87075(final int score) { // CAP AL
+        if (score <= 20) { // CAP AL
+            this.iconUrl = HEALTH_0_TO_20_IMG; // CAP AL
+        } else if (score <= 40) { // CAP AL
+            this.iconUrl = HEALTH_21_TO_40_IMG; // CAP AL
+        } else if (score <= 60) { // CAP AL
+            this.iconUrl = HEALTH_41_TO_60_IMG; // CAP AL
+        } else if (score <= 80) { // CAP AL
+            this.iconUrl = HEALTH_61_TO_80_IMG; // CAP AL
+        } else { // CAP AL
+            this.iconUrl = HEALTH_OVER_80_IMG; // CAP AL
+        } // CAP AL
+    } // CAP AL
 
     /**
      * Create a new HealthReport.
