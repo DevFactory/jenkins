@@ -23,6 +23,7 @@
  */
 package hudson.util;
 
+import hudson.util.ExtractedSeparateClass63480; // CAP AL
 import com.sun.jna.Memory;
 import com.sun.jna.Native;
 import com.sun.jna.NativeLong;
@@ -1332,10 +1333,7 @@ public abstract class ProcessTree implements Iterable<OSProcess>, IProcessTree, 
          * convert it to the correct value on little-endian systems.
          */
         private static int adjust(int i) {
-            if(IS_LITTLE_ENDIAN)
-                return (i<<24) |((i<<8) & 0x00FF0000) | ((i>>8) & 0x0000FF00) | (i>>>24);
-            else
-                return i;
+            return ExtractedSeparateClass63480.getVar68451(i, IS_LITTLE_ENDIAN); // CAP AL
         }
 
         public static long adjustL(long i) {
@@ -1599,10 +1597,7 @@ public abstract class ProcessTree implements Iterable<OSProcess>, IProcessTree, 
          * convert it to the correct value on little-endian systems.
          */
         private static int adjust(int i) {
-            if(IS_LITTLE_ENDIAN)
-                return (i<<24) |((i<<8) & 0x00FF0000) | ((i>>8) & 0x0000FF00) | (i>>>24);
-            else
-                return i;
+            return ExtractedSeparateClass63480.getVar68451(i, IS_LITTLE_ENDIAN); // CAP AL
         }
 
         public static long adjustL(long i) {
