@@ -23,6 +23,7 @@
  */
 package hudson.util;
 
+import hudson.util.ExtractedSeparateClass70328; // CAP AL
 import com.sun.jna.Memory;
 import com.sun.jna.Native;
 import com.sun.jna.NativeLong;
@@ -1313,10 +1314,7 @@ public abstract class ProcessTree implements Iterable<OSProcess>, IProcessTree, 
                     buf.write(ch);
                     addr++;
                 }
-                String line = buf.toString();
-                if(LOGGER.isLoggable(FINEST))
-                    LOGGER.finest(prefix+" was "+line);
-                return line;
+                return ExtractedSeparateClass70328.getLine2318(buf, prefix, FINEST, LOGGER); // CAP AL
             }
         }
 
@@ -1580,10 +1578,7 @@ public abstract class ProcessTree implements Iterable<OSProcess>, IProcessTree, 
                     buf.write(ch);
                     addr++;
                 }
-                String line = buf.toString();
-                if(LOGGER.isLoggable(FINEST))
-                    LOGGER.finest(prefix+" was "+line);
-                return line;
+                return ExtractedSeparateClass70328.getLine2318(buf, prefix, FINEST, LOGGER); // CAP AL
             }
         }
 
