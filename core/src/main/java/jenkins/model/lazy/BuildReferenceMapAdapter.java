@@ -1,5 +1,6 @@
 package jenkins.model.lazy;
 
+import jenkins.model.lazy.ExtractedSeparateClass98121; // CAP AL
 import groovy.util.MapEntry;
 import hudson.util.AdaptedIterator;
 import hudson.util.Iterators;
@@ -200,11 +201,7 @@ class BuildReferenceMapAdapter<R> implements SortedMap<Integer,R> {
         }
 
         public boolean containsAll(Collection<?> c) {
-            for (Object o : c) {
-                if (!contains(o))
-                    return false;
-            }
-            return true;
+            return ExtractedSeparateClass98121.isVar24841(c, this); // CAP AL
         }
 
         public boolean addAll(Collection<? extends R> c) {
@@ -303,11 +300,7 @@ class BuildReferenceMapAdapter<R> implements SortedMap<Integer,R> {
         }
 
         public boolean containsAll(Collection<?> c) {
-            for (Object o : c) {
-                if (!contains(o))
-                    return false;
-            }
-            return true;
+            return ExtractedSeparateClass98121.isVar24841(c, this); // CAP AL
         }
 
         public boolean addAll(Collection<? extends Entry<Integer,R>> c) {
