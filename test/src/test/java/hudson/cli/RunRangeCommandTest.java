@@ -24,6 +24,7 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result; // CAP AL
 import hudson.Extension;
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
@@ -191,9 +192,7 @@ public class RunRangeCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, Job.READ)
                 .invokeWithArgs(PROJECT_NAME, "-1");
-        assertThat(result, failedWith(2));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: \"-1\" is not a valid option"));
+        extractedMethod45352(result); // CAP AL
     }
 
     @Test public void dummyRangeNumberSingleShouldFailIfBuildNumberIsTooBig() {
@@ -829,9 +828,7 @@ public class RunRangeCommandTest {
         CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, Job.READ)
                 .invokeWithArgs(PROJECT_NAME, "-1");
-        assertThat(result, failedWith(2));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: \"-1\" is not a valid option"));
+        extractedMethod45352(result); // CAP AL
 
         result = command
                 .authorizedTo(Jenkins.READ, Job.READ)
@@ -847,6 +844,12 @@ public class RunRangeCommandTest {
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("ERROR: \"-\" is not a valid option"));
     }
+ // CAP AL
+    private void extractedMethod45352(final CLICommandInvoker.Result result) { // CAP AL
+            assertThat(result, failedWith(2)); // CAP AL
+            assertThat(result, hasNoStandardOutput()); // CAP AL
+            assertThat(result.stderr(), containsString("ERROR: \"-1\" is not a valid option")); // CAP AL
+    } // CAP AL
 
     @Test public void dummyRangeRangeSingleShouldFailIfBuildRangeContainsSpace() {
         CLICommandInvoker.Result result = command
