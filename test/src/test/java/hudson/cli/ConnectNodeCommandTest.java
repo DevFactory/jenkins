@@ -24,6 +24,7 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result; // CAP AL
 import hudson.model.Computer;
 import hudson.slaves.DumbSlave;
 import jenkins.model.Jenkins;
@@ -138,9 +139,7 @@ public class ConnectNodeCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "aNode3");
-        assertThat(result, succeededSilently());
-        assertThat(slave1.toComputer().isOnline(), equalTo(true));
-        assertThat(slave2.toComputer().isOnline(), equalTo(true));
+        extractedMethod70272(result, slave1, slave2); // CAP AL
         assertThat(slave3.toComputer().isOnline(), equalTo(true));
     }
 
@@ -167,10 +166,14 @@ public class ConnectNodeCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "aNode1");
-        assertThat(result, succeededSilently());
-        assertThat(slave1.toComputer().isOnline(), equalTo(true));
-        assertThat(slave2.toComputer().isOnline(), equalTo(true));
+        extractedMethod70272(result, slave1, slave2); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod70272(final CLICommandInvoker.Result result, final DumbSlave slave1, final DumbSlave slave2) { // CAP AL
+        assertThat(result, succeededSilently()); // CAP AL
+        assertThat(slave1.toComputer().isOnline(), equalTo(true)); // CAP AL
+        assertThat(slave2.toComputer().isOnline(), equalTo(true)); // CAP AL
+    } // CAP AL
 
     @Test public void connectNodeShouldSucceedOnMaster() throws Exception {
         final Computer masterComputer = j.jenkins.getComputer("");
