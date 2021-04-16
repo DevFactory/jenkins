@@ -24,6 +24,7 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result; // CAP AL
 import hudson.model.Computer;
 import hudson.slaves.DumbSlave;
 import jenkins.model.Jenkins;
@@ -87,13 +88,7 @@ public class ConnectNodeCommandTest {
         result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode");
-        assertThat(result, succeededSilently());
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
-
-        slave.toComputer().disconnect();
-        slave.toComputer().waitUntilOffline();
-        assertThat(slave.toComputer().isOnline(), equalTo(false));
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
+        extractedMethod59814(result, slave); // CAP AL
 
         result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
@@ -115,13 +110,7 @@ public class ConnectNodeCommandTest {
         result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("-f", "aNode");
-        assertThat(result, succeededSilently());
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
-
-        slave.toComputer().disconnect();
-        slave.toComputer().waitUntilOffline();
-        assertThat(slave.toComputer().isOnline(), equalTo(false));
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
+        extractedMethod59814(result, slave); // CAP AL
 
         result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
@@ -129,6 +118,16 @@ public class ConnectNodeCommandTest {
         assertThat(result, succeededSilently());
         assertThat(slave.toComputer().isOnline(), equalTo(true));
     }
+ // CAP AL
+    private void extractedMethod59814(final CLICommandInvoker.Result result, final DumbSlave slave) throws InterruptedException { // CAP AL
+        assertThat(result, succeededSilently()); // CAP AL
+        assertThat(slave.toComputer().isOnline(), equalTo(true)); // CAP AL
+         // CAP AL
+        slave.toComputer().disconnect(); // CAP AL
+        slave.toComputer().waitUntilOffline(); // CAP AL
+        assertThat(slave.toComputer().isOnline(), equalTo(false)); // CAP AL
+        assertThat(slave.toComputer().isOffline(), equalTo(true)); // CAP AL
+    } // CAP AL
 
     @Test public void connectNodeManyShouldSucceed() throws Exception {
         DumbSlave slave1 = j.createSlave("aNode1", "", null);
