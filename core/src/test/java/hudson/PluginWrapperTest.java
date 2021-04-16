@@ -1,5 +1,6 @@
 package hudson;
 
+import hudson.PluginWrapper.Dependency; // CAP AL
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,20 +48,23 @@ public class PluginWrapperTest {
     @Test
     public void dependencyTest() {
         String version = "plugin:0.0.2";
-        PluginWrapper.Dependency dependency = new PluginWrapper.Dependency(version);
-        assertEquals("plugin", dependency.shortName);
-        assertEquals("0.0.2", dependency.version);
+        PluginWrapper.Dependency dependency = getDependency3252(version); // CAP AL
         assertFalse(dependency.optional);
     }
 
     @Test
     public void optionalDependencyTest() {
         String version = "plugin:0.0.2;resolution:=optional";
-        PluginWrapper.Dependency dependency = new PluginWrapper.Dependency(version);
-        assertEquals("plugin", dependency.shortName);
-        assertEquals("0.0.2", dependency.version);
+        PluginWrapper.Dependency dependency = getDependency3252(version); // CAP AL
         assertTrue(dependency.optional);
     }
+ // CAP AL
+    private PluginWrapper.Dependency getDependency3252(final String version) { // CAP AL
+        PluginWrapper.Dependency dependency = new PluginWrapper.Dependency(version); // CAP AL
+        assertEquals("plugin", dependency.shortName); // CAP AL
+        assertEquals("0.0.2", dependency.version); // CAP AL
+        return dependency; // CAP AL
+    } // CAP AL
 
     @Test
     public void jenkinsCoreTooOld() {
