@@ -80,14 +80,7 @@ public class ZipArchiverTest {
 
         // examine zip contents and assert that none of the entry names (paths) have
         // back-slashes ("\")
-        String zipEntryName = null;
-
-        try (ZipFile zipFileVerify = new ZipFile(zipFile)) {
-
-            zipEntryName = ((ZipEntry) zipFileVerify.entries().nextElement()).getName();
-        } catch (Exception e) {
-            fail("failure enumerating zip entries", e);
-        }
+        String zipEntryName = getZipEntryName34283(zipFile); // CAP AL
 
         assertEquals("foo/bar/baz/Test.txt", zipEntryName);
     }
@@ -132,17 +125,22 @@ public class ZipArchiverTest {
         }
 
         // examine zip contents and assert that there's an item there...
-        String zipEntryName = null;
-
-        try (ZipFile zipFileVerify = new ZipFile(zipFile)) {
-
-            zipEntryName = ((ZipEntry) zipFileVerify.entries().nextElement()).getName();
-        } catch (Exception e) {
-            fail("failure enumerating zip entries", e);
-        }
+        String zipEntryName = getZipEntryName34283(zipFile); // CAP AL
 
         assertEquals("huge64bitFileTest.txt", zipEntryName);
     }
+ // CAP AL
+    private String getZipEntryName34283(final File zipFile) { // CAP AL
+        String zipEntryName = null; // CAP AL
+         // CAP AL
+        try (ZipFile zipFileVerify = new ZipFile(zipFile)) { // CAP AL
+         // CAP AL
+            zipEntryName = ((ZipEntry) zipFileVerify.entries().nextElement()).getName(); // CAP AL
+        } catch (Exception e) { // CAP AL
+            fail("failure enumerating zip entries", e); // CAP AL
+        } // CAP AL
+        return zipEntryName; // CAP AL
+    } // CAP AL
 
     /**
      * Convenience method for failing with a cause.
