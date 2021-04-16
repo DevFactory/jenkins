@@ -24,6 +24,7 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result; // CAP AL
 import hudson.model.DirectlyModifiableView;
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
@@ -59,9 +60,7 @@ public class RemoveJobFromViewCommandTest extends ViewManipulationTestBase {
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
                 .invokeWithArgs("aView", "aProject");
 
-        assertThat(result, succeededSilently());
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
-        assertThat(j.jenkins.getView("aView").contains(project), equalTo(false));
+        extractedMethod64728(result, project); // CAP AL
     }
 
     @Test public void removeJobManyShouldSucceed() throws Exception {
@@ -80,9 +79,7 @@ public class RemoveJobFromViewCommandTest extends ViewManipulationTestBase {
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
                 .invokeWithArgs("aView", "aProject1", "aProject2");
 
-        assertThat(result, succeededSilently());
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
-        assertThat(j.jenkins.getView("aView").contains(project1), equalTo(false));
+        extractedMethod64728(result, project1); // CAP AL
         assertThat(j.jenkins.getView("aView").contains(project2 ), equalTo(false));
     }
 
@@ -99,9 +96,13 @@ public class RemoveJobFromViewCommandTest extends ViewManipulationTestBase {
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
                 .invokeWithArgs("aView", "aProject", "aProject");
 
-        assertThat(result, succeededSilently());
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
-        assertThat(j.jenkins.getView("aView").contains(project), equalTo(false));
+        extractedMethod64728(result, project); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod64728(final CLICommandInvoker.Result result, final FreeStyleProject project1) { // CAP AL
+        assertThat(result, succeededSilently()); // CAP AL
+        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0)); // CAP AL
+        assertThat(j.jenkins.getView("aView").contains(project1), equalTo(false)); // CAP AL
+    } // CAP AL
 
 }
