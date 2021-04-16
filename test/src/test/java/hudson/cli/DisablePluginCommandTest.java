@@ -25,6 +25,7 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result; // CAP AL
 import hudson.Functions;
 import hudson.PluginWrapper;
 import org.apache.commons.lang.StringUtils;
@@ -242,10 +243,7 @@ public class DisablePluginCommandTest {
     @WithPlugin({"depender-0.0.2.hpi", "dependee-0.0.2.hpi", })
     public void disablePluginsMessageAlreadyDisabled() {
         CLICommandInvoker.Result result = disablePluginsCLiCommand("-strategy", "all", "dependee", "depender");
-        assertThat(result, succeeded());
-
-        assertPluginDisabled("dependee");
-        assertPluginDisabled("depender");
+        extractedMethod5100(result); // CAP AL
 
         assertTrue("An occurrence of the depender plugin in the log says it was successfully disabled", checkResultWith(result, StringUtils::contains, "depender", PluginWrapper.PluginDisableStatus.DISABLED));
         assertTrue("An occurrence of the depender plugin in the log says it was already disabled", checkResultWith(result, StringUtils::contains, "depender", PluginWrapper.PluginDisableStatus.ALREADY_DISABLED));
@@ -286,14 +284,18 @@ public class DisablePluginCommandTest {
     @WithPlugin({"depender-0.0.2.hpi", "dependee-0.0.2.hpi", "mandatory-depender-0.0.2.hpi"})
     public void quietModeEmptyOutputSucceed() {
         CLICommandInvoker.Result result = disablePluginsCLiCommand("-strategy", "all", "-quiet", "dependee");
-        assertThat(result, succeeded());
-
-        assertPluginDisabled("dependee");
-        assertPluginDisabled("depender");
+        extractedMethod5100(result); // CAP AL
         assertPluginDisabled("mandatory-depender");
 
         assertTrue("No log in quiet mode if all plugins disabled", StringUtils.isEmpty(result.stdout()));
     }
+ // CAP AL
+    private void extractedMethod5100(final CLICommandInvoker.Result result) { // CAP AL
+        assertThat(result, succeeded()); // CAP AL
+         // CAP AL
+        assertPluginDisabled("dependee"); // CAP AL
+        assertPluginDisabled("depender"); // CAP AL
+    } // CAP AL
 
     /**
      * In quiet mode, only the errors (no such plugin) are printed.
