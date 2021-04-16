@@ -151,52 +151,32 @@ public class DotNet {
     }
 
     private static boolean isV40Installed(IJIWinReg registry, JIPolicyHandle hklm) throws JIException {
-        JIPolicyHandle key = null;
-        try {
-            key = registry.winreg_OpenKey(hklm, PATH4, IJIWinReg.KEY_READ);
-            return GetIntValue(registry, key, VALUE_INSTALL) == 1;
-        } finally {
-            if (key != null) {
-                registry.winreg_CloseKey(key);
-            }
-        }
+        return isVar77545(registry, hklm); // CAP AL
     }
 
     private static boolean isV35Installed(IJIWinReg registry, JIPolicyHandle hklm) throws JIException {
-        JIPolicyHandle key = null;
-        try {
-            key = registry.winreg_OpenKey(hklm, PATH35, IJIWinReg.KEY_READ);
-            return GetIntValue(registry, key, VALUE_INSTALL) == 1;
-        } finally {
-            if (key != null) {
-                registry.winreg_CloseKey(key);
-            }
-        }
+        return isVar77545(registry, hklm); // CAP AL
     }
 
     private static boolean isV30Installed(IJIWinReg registry, JIPolicyHandle hklm) throws JIException {
-        JIPolicyHandle key = null;
-        try {
-            key = registry.winreg_OpenKey(hklm, PATH30, IJIWinReg.KEY_READ);
-            return GetIntValue(registry, key, VALUE_INSTALL_SUCCESS) == 1;
-        } finally {
-            if (key != null) {
-                registry.winreg_CloseKey(key);
-            }
-        }
+        return isVar77545(registry, hklm); // CAP AL
     }
 
     private static boolean isV20Installed(IJIWinReg registry, JIPolicyHandle hklm) throws JIException {
-        JIPolicyHandle key = null;
-        try {
-            key = registry.winreg_OpenKey(hklm, PATH20, IJIWinReg.KEY_READ);
-            return GetIntValue(registry, key, VALUE_INSTALL) == 1;
-        } finally {
-            if (key != null) {
-                registry.winreg_CloseKey(key);
-            }
-        }
+        return isVar77545(registry, hklm); // CAP AL
     }
+ // CAP AL
+    private static boolean isVar77545(final IJIWinReg registry, final JIPolicyHandle hklm) throws JIException { // CAP AL
+        JIPolicyHandle key = null; // CAP AL
+        try { // CAP AL
+            key = registry.winreg_OpenKey(hklm, PATH30, IJIWinReg.KEY_READ); // CAP AL
+            return GetIntValue(registry, key, VALUE_INSTALL_SUCCESS) == 1; // CAP AL
+        } finally { // CAP AL
+            if (key != null) { // CAP AL
+                registry.winreg_CloseKey(key); // CAP AL
+            } // CAP AL
+        } // CAP AL
+    } // CAP AL
 
     private static int GetIntValue(IJIWinReg registry, JIPolicyHandle key, String name) throws JIException {
         return RegistryKey.convertBufferToInt((byte[])registry.winreg_QueryValue(key, name, Integer.BYTES)[1]);
