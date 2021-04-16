@@ -24,6 +24,7 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result; // CAP AL
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.nullValue;
@@ -158,9 +159,7 @@ public class DeleteViewCommandTest {
                 .authorizedTo(View.READ, View.DELETE, Jenkins.READ)
                 .invokeWithArgs("aView1", "aView2", "aView3");
 
-        assertThat(result, succeededSilently());
-        assertThat(j.jenkins.getView("aView1"), nullValue());
-        assertThat(j.jenkins.getView("aView2"), nullValue());
+        extractedMethod3606(result); // CAP AL
         assertThat(j.jenkins.getView("aView3"), nullValue());
     }
 
@@ -251,10 +250,14 @@ public class DeleteViewCommandTest {
                 .authorizedTo(View.READ, View.DELETE, Jenkins.READ)
                 .invokeWithArgs("aView1", "aView2", "aView1");
 
-        assertThat(result, succeededSilently());
-        assertThat(j.jenkins.getView("aView1"), nullValue());
-        assertThat(j.jenkins.getView("aView2"), nullValue());
+        extractedMethod3606(result); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod3606(final CLICommandInvoker.Result result) { // CAP AL
+        assertThat(result, succeededSilently()); // CAP AL
+        assertThat(j.jenkins.getView("aView1"), nullValue()); // CAP AL
+        assertThat(j.jenkins.getView("aView2"), nullValue()); // CAP AL
+    } // CAP AL
 
     @Test public void deleteViewManyShouldFailWithoutViewDeletePermissionButOthersShouldBeDeleted() throws Exception {
 
