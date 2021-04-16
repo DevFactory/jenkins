@@ -99,9 +99,7 @@ public class SimpleScheduledRetentionStrategy extends RetentionStrategy<SlaveCom
             time.add(Calendar.MINUTE, -upTimeMins);
             time.add(Calendar.MINUTE, -upTimeMins);
             time.add(Calendar.MINUTE, -upTimeMins);
-            lastStart = time.getTimeInMillis();
-            time.add(Calendar.MINUTE, upTimeMins);
-            lastStop = time.getTimeInMillis();
+            extractedMethod62109(time); // CAP AL
 
             // we're only interested in the last start if it is less than the upTimeMins ago
             // any older and last Start is not relevant as the node should be stopped
@@ -111,9 +109,7 @@ public class SimpleScheduledRetentionStrategy extends RetentionStrategy<SlaveCom
 
             while (System.currentTimeMillis() + 1000 > time.getTimeInMillis()) {
                 if (tabs.check(time)) {
-                    lastStart = time.getTimeInMillis();
-                    time.add(Calendar.MINUTE, upTimeMins);
-                    lastStop = time.getTimeInMillis();
+                    extractedMethod62109(time); // CAP AL
                     break;
                 }
                 time.add(Calendar.MINUTE, 1);
@@ -133,15 +129,19 @@ public class SimpleScheduledRetentionStrategy extends RetentionStrategy<SlaveCom
             time.setTimeInMillis(nextStop);
             while (stopLooking > time.getTimeInMillis()) {
                 if (tabs.check(time)) {
-                    nextStart = time.getTimeInMillis();
-                    time.add(Calendar.MINUTE, upTimeMins);
-                    nextStop = time.getTimeInMillis();
+                    extractedMethod62109(time); // CAP AL
                     break;
                 }
                 time.add(Calendar.MINUTE, 1);
             }
         }
     }
+ // CAP AL
+    private void extractedMethod62109(final Calendar time) { // CAP AL
+        lastStart = time.getTimeInMillis(); // CAP AL
+        time.add(Calendar.MINUTE, upTimeMins); // CAP AL
+        lastStop = time.getTimeInMillis(); // CAP AL
+    } // CAP AL
 
     protected synchronized Object readResolve() throws ObjectStreamException {
         try {
