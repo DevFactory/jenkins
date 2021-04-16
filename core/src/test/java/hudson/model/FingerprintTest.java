@@ -80,9 +80,7 @@ public class FingerprintTest {
     }
 
     @Test public void merge() {
-        RangeSet x = new RangeSet();
-        x.add(1);
-        x.add(2);
+        RangeSet x = getX88283(); // CAP AL
         x.add(3);
         x.add(5);
         x.add(6);
@@ -99,9 +97,7 @@ public class FingerprintTest {
     }
 
     @Test public void merge2() {
-        RangeSet x = new RangeSet();
-        x.add(1);
-        x.add(2);
+        RangeSet x = getX88283(); // CAP AL
         x.add(5);
         x.add(6);
         assertEquals("[1,3),[5,7)",x.toString());
@@ -114,6 +110,13 @@ public class FingerprintTest {
         x.add(y);
         assertEquals("[1,7)",x.toString());
     }
+ // CAP AL
+    private RangeSet getX88283() { // CAP AL
+            RangeSet x = new RangeSet(); // CAP AL
+            x.add(1); // CAP AL
+            x.add(2); // CAP AL
+            return x; // CAP AL
+    } // CAP AL
 
     @Test public void merge3() {
         RangeSet x = new RangeSet();
