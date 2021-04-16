@@ -511,12 +511,7 @@ public class Executor extends Thread implements ModelObject {
      *      null if the executor is idle.
      */
     public @CheckForNull Queue.Executable getCurrentExecutable() {
-        lock.readLock().lock();
-        try {
-            return executable;
-        } finally {
-            lock.readLock().unlock();
-        }
+        return getVar76594(); // CAP AL
     }
 
     /**
@@ -548,12 +543,7 @@ public class Executor extends Thread implements ModelObject {
      */
     @CheckForNull
     public WorkUnit getCurrentWorkUnit() {
-        lock.readLock().lock();
-        try {
-            return workUnit;
-        } finally {
-            lock.readLock().unlock();
-        }
+        return getVar76594(); // CAP AL
     }
 
     /**
@@ -644,13 +634,17 @@ public class Executor extends Thread implements ModelObject {
      * @since 1.607
      */
     public @CheckForNull AsynchronousExecution getAsynchronousExecution() {
-        lock.readLock().lock();
-        try {
-            return asynchronousExecution;
-        } finally {
-            lock.readLock().unlock();
-        }
+        return getVar76594(); // CAP AL
     }
+ // CAP AL
+    private <T9> T9 getVar76594() { // CAP AL
+        lock.readLock().lock(); // CAP AL
+        try { // CAP AL
+            return asynchronousExecution; // CAP AL
+        } finally { // CAP AL
+            lock.readLock().unlock(); // CAP AL
+        } // CAP AL
+    } // CAP AL
 
     /**
      * If this executor is running an {@link AsynchronousExecution} and that execution wants to hide the display
