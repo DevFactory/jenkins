@@ -24,6 +24,7 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result; // CAP AL
 import hudson.model.Computer;
 import jenkins.model.Jenkins;
 import org.junit.Before;
@@ -99,9 +100,7 @@ public class DeleteNodeCommandTest {
                 .authorizedTo(Computer.DELETE, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "aNode3");
 
-        assertThat(result, succeededSilently());
-        assertThat(j.jenkins.getView("aNode1"), nullValue());
-        assertThat(j.jenkins.getView("aNode2"), nullValue());
+        extractedMethod45071(result); // CAP AL
         assertThat(j.jenkins.getView("aNode3"), nullValue());
     }
 
@@ -192,8 +191,12 @@ public class DeleteNodeCommandTest {
                 .authorizedTo(Computer.DELETE, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "aNode1");
 
-        assertThat(result, succeededSilently());
-        assertThat(j.jenkins.getView("aNode1"), nullValue());
-        assertThat(j.jenkins.getView("aNode2"), nullValue());
+        extractedMethod45071(result); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod45071(final CLICommandInvoker.Result result) { // CAP AL
+        assertThat(result, succeededSilently()); // CAP AL
+        assertThat(j.jenkins.getView("aNode1"), nullValue()); // CAP AL
+        assertThat(j.jenkins.getView("aNode2"), nullValue()); // CAP AL
+    } // CAP AL
 }
