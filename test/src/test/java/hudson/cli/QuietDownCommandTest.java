@@ -24,6 +24,7 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result; // CAP AL
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
 import hudson.model.Queue;
@@ -114,9 +115,7 @@ public class QuietDownCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, Jenkins.ADMINISTER)
                 .invokeWithArgs("-reason", TEST_REASON);
-        assertThat(result, succeededSilently());
-        assertJenkinsInQuietMode();
-        assertThat(j.jenkins.getQuietDownReason(), equalTo(TEST_REASON));
+        extractedMethod33763(result); // CAP AL
     }
 
     @Test
@@ -133,10 +132,14 @@ public class QuietDownCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, Jenkins.ADMINISTER)
                 .invokeWithArgs("-block", "-timeout", "0", "-reason", TEST_REASON);
-        assertThat(result, succeededSilently());
-        assertJenkinsInQuietMode();
-        assertThat(j.jenkins.getQuietDownReason(), equalTo(TEST_REASON));
+        extractedMethod33763(result); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod33763(final CLICommandInvoker.Result result) { // CAP AL
+        assertThat(result, succeededSilently()); // CAP AL
+        assertJenkinsInQuietMode(); // CAP AL
+        assertThat(j.jenkins.getQuietDownReason(), equalTo(TEST_REASON)); // CAP AL
+    } // CAP AL
 
     @Test
     public void quietDownShouldFailWithEmptyTimeout() throws Exception {
