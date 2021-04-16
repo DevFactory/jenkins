@@ -24,6 +24,9 @@
 
 package hudson.cli;
 
+import java.io.IOException; // CAP AL
+import java.util.concurrent.ExecutionException; // CAP AL
+import hudson.cli.CLICommandInvoker.Result; // CAP AL
 import hudson.FilePath;
 import hudson.Functions;
 import hudson.model.FreeStyleProject;
@@ -156,10 +159,7 @@ public class ReloadJobCommandTest {
                 .authorizedTo(Job.READ, Job.CONFIGURE, Jenkins.READ)
                 .invokeWithArgs("aProject1", "aProject2", "aProject3");
 
-        assertThat(result, succeededSilently());
-
-        assertThat(project1.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
-        assertThat(project2.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
+        extractedMethod34986(result, project1, project2); // CAP AL
         assertThat(project3.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
     }
 
@@ -284,11 +284,15 @@ public class ReloadJobCommandTest {
                 .authorizedTo(Job.READ, Job.CONFIGURE, Jenkins.READ)
                 .invokeWithArgs("aProject1", "aProject2", "aProject1");
 
-        assertThat(result, succeededSilently());
-
-        assertThat(project1.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
-        assertThat(project2.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
+        extractedMethod34986(result, project1, project2); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod34986(final CLICommandInvoker.Result result, final FreeStyleProject project1, final FreeStyleProject project2) throws ExecutionException, IOException, InterruptedException { // CAP AL
+        assertThat(result, succeededSilently()); // CAP AL
+         // CAP AL
+        assertThat(project1.scheduleBuild2(0).get().getLog(), containsString("echo 2")); // CAP AL
+        assertThat(project2.scheduleBuild2(0).get().getLog(), containsString("echo 2")); // CAP AL
+    } // CAP AL
 
     /**
      * Modify a project directly on the disc
