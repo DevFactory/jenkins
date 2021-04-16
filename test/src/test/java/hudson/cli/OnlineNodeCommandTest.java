@@ -24,6 +24,7 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result; // CAP AL
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
@@ -224,15 +225,7 @@ public class OnlineNodeCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "aNode3");
-        assertThat(result, succeededSilently());
-        if (slave1.toComputer().isConnecting()) {
-            System.out.println("Waiting until aNode1 going online is in progress...");
-            slave1.toComputer().waitUntilOnline();
-        }
-        if (slave2.toComputer().isConnecting()) {
-            System.out.println("Waiting until aNode2 going online is in progress...");
-            slave2.toComputer().waitUntilOnline();
-        }
+        extractedMethod23323(result, slave1, slave2); // CAP AL
         if (slave3.toComputer().isConnecting()) {
             System.out.println("Waiting until aNode3 going online is in progress...");
             slave3.toComputer().waitUntilOnline();
@@ -272,18 +265,22 @@ public class OnlineNodeCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "aNode1");
-        assertThat(result, succeededSilently());
-        if (slave1.toComputer().isConnecting()) {
-            System.out.println("Waiting until aNode1 going online is in progress...");
-            slave1.toComputer().waitUntilOnline();
-        }
-        if (slave2.toComputer().isConnecting()) {
-            System.out.println("Waiting until aNode2 going online is in progress...");
-            slave2.toComputer().waitUntilOnline();
-        }
+        extractedMethod23323(result, slave1, slave2); // CAP AL
         assertThat(slave1.toComputer().isOnline(), equalTo(true));
         assertThat(slave2.toComputer().isOnline(), equalTo(true));
     }
+ // CAP AL
+    private void extractedMethod23323(final CLICommandInvoker.Result result, final DumbSlave slave1, final DumbSlave slave2) throws InterruptedException { // CAP AL
+        assertThat(result, succeededSilently()); // CAP AL
+        if (slave1.toComputer().isConnecting()) { // CAP AL
+            System.out.println("Waiting until aNode1 going online is in progress..."); // CAP AL
+            slave1.toComputer().waitUntilOnline(); // CAP AL
+        } // CAP AL
+        if (slave2.toComputer().isConnecting()) { // CAP AL
+            System.out.println("Waiting until aNode2 going online is in progress..."); // CAP AL
+            slave2.toComputer().waitUntilOnline(); // CAP AL
+        } // CAP AL
+    } // CAP AL
 
     @Test public void onlineNodeShouldSucceedOnMaster() throws Exception {
         final Computer masterComputer = j.jenkins.getComputer("");
