@@ -1,5 +1,6 @@
 package hudson.diagnosis;
 
+import org.jvnet.hudson.test.JenkinsRule.WebClient; // CAP AL
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
@@ -91,11 +92,7 @@ public class TooManyJobsButNoViewTest {
                 .grant(Jenkins.SYSTEM_READ).everywhere().to(READONLY)
         );
 
-        for (int i = 0; i <= TooManyJobsButNoView.THRESHOLD; i++)
-            r.createFreeStyleProject();
-
-        JenkinsRule.WebClient wc = r.createWebClient();
-        wc.login(READONLY);
+        JenkinsRule.WebClient wc = getWc94381(READONLY); // CAP AL
 
         verifyNoMonitor(wc);
     }
@@ -118,14 +115,19 @@ public class TooManyJobsButNoViewTest {
                 .grant(View.READ).everywhere().to(READONLY)
         );
 
-        for (int i = 0; i <= TooManyJobsButNoView.THRESHOLD; i++)
-            r.createFreeStyleProject();
-
-        JenkinsRule.WebClient wc = r.createWebClient();
-        wc.login(READONLY);
+        JenkinsRule.WebClient wc = getWc94381(READONLY); // CAP AL
 
         verifyMonitor(wc);
     }
+ // CAP AL
+    private JenkinsRule.WebClient getWc94381(final String READONLY) throws Exception { // CAP AL
+        for (int i = 0; i <= TooManyJobsButNoView.THRESHOLD; i++) // CAP AL
+            r.createFreeStyleProject(); // CAP AL
+         // CAP AL
+        JenkinsRule.WebClient wc = r.createWebClient(); // CAP AL
+        wc.login(READONLY); // CAP AL
+        return wc; // CAP AL
+    } // CAP AL
 
     private void verifyMonitor(JenkinsRule.WebClient wc) throws IOException, SAXException {
         HtmlPage p = wc.goTo("manage");
