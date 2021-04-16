@@ -426,14 +426,7 @@ public class VirtualFileTest {
 
         File root = tmp.getRoot();
         VirtualFile virtualRoot = VirtualFile.forFile(root);
-        VirtualFile virtualRootChildA = virtualRoot.child("a");
-        List<VirtualFile> children = Arrays.asList(virtualRootChildA.list());
-        assertThat(children, hasSize(3));
-        assertThat(children, containsInAnyOrder(
-                VFMatcher.hasName("aa"),
-                VFMatcher.hasName("ab"),
-                VFMatcher.hasName("_b")
-        ));
+        extractedMethod48183(virtualRoot); // CAP AL
     }
 
     @Test
@@ -612,14 +605,7 @@ public class VirtualFileTest {
 
         File root = tmp.getRoot();
         VirtualFile virtualRoot = VirtualFile.forFilePath(new FilePath(root));
-        VirtualFile virtualRootChildA = virtualRoot.child("a");
-        List<VirtualFile> children = Arrays.asList(virtualRootChildA.list());
-        assertThat(children, hasSize(3));
-        assertThat(children, containsInAnyOrder(
-                VFMatcher.hasName("aa"),
-                VFMatcher.hasName("ab"),
-                VFMatcher.hasName("_b")
-        ));
+        extractedMethod48183(virtualRoot); // CAP AL
     }
 
     @Test
@@ -673,15 +659,19 @@ public class VirtualFileTest {
 
         File root = tmp.getRoot();
         VirtualFile virtualRoot = new VirtualFileMinimalImplementation(root);
-        VirtualFile virtualRootChildA = virtualRoot.child("a");
-        List<VirtualFile> children = Arrays.asList(virtualRootChildA.list());
-        assertThat(children, hasSize(3));
-        assertThat(children, containsInAnyOrder(
-                VFMatcher.hasName("aa"),
-                VFMatcher.hasName("ab"),
-                VFMatcher.hasName("_b")
-        ));
+        extractedMethod48183(virtualRoot); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod48183(final VirtualFile virtualRoot) throws IOException { // CAP AL
+        VirtualFile virtualRootChildA = virtualRoot.child("a"); // CAP AL
+        List<VirtualFile> children = Arrays.asList(virtualRootChildA.list()); // CAP AL
+        assertThat(children, hasSize(3)); // CAP AL
+        assertThat(children, containsInAnyOrder( // CAP AL
+                VFMatcher.hasName("aa"), // CAP AL
+                VFMatcher.hasName("ab"), // CAP AL
+                VFMatcher.hasName("_b") // CAP AL
+        )); // CAP AL
+    } // CAP AL
 
     @Test
     @Issue("SECURITY-1452")
