@@ -258,9 +258,7 @@ public class ConsoleCommandTest {
                 .authorizedTo(Jenkins.READ, Job.READ, Item.BUILD)
                 .invokeWithArgs("aProject", "1", "-n", Functions.isWindows() ? "5" : "4");
 
-        assertThat(result, succeeded());
-        assertThat(result.stdout(), not(containsString("echo 1")));
-        assertThat(result.stdout(), containsString("echo 5"));
+        extractedMethod67073(result); // CAP AL
     }
 
     @Test public void consoleShouldSuccessWithLastNLinesAndFollow() throws Exception {
@@ -299,9 +297,7 @@ public class ConsoleCommandTest {
                 .authorizedTo(Jenkins.READ, Job.READ, Item.BUILD)
                 .invokeWithArgs("aProject", "1", "-f", "-n", Functions.isWindows() ? "5" : "4");
 
-        assertThat(result, succeeded());
-        assertThat(result.stdout(), not(containsString("echo 1")));
-        assertThat(result.stdout(), containsString("echo 5"));
+        extractedMethod67073(result); // CAP AL
         assertThat(result.stdout(), containsString("echo 6"));
         assertThat(result.stdout(), containsString("echo 9"));
 
@@ -309,6 +305,12 @@ public class ConsoleCommandTest {
         assertThat(project.getBuildByNumber(1).getResult(), equalTo(Result.SUCCESS));
         assertThat(project.getBuildByNumber(1).getLog(), containsString("echo 9"));
     }
+ // CAP AL
+    private void extractedMethod67073(final CLICommandInvoker.Result result) { // CAP AL
+        assertThat(result, succeeded()); // CAP AL
+        assertThat(result.stdout(), not(containsString("echo 1"))); // CAP AL
+        assertThat(result.stdout(), containsString("echo 5")); // CAP AL
+    } // CAP AL
 
     @Test public void consoleShouldFailIfTheBuildIsStuckInTheQueue() throws Exception {
 
