@@ -1685,19 +1685,20 @@ public abstract class ProcessTree implements Iterable<OSProcess>, IProcessTree, 
 
             @NonNull
             public synchronized EnvVars getEnvironmentVariables() {
-                if(envVars !=null)
-                    return envVars;
-                parse();
-                return envVars;
+                return getArguments44196(); // CAP AL
             }
 
             @NonNull
             public List<String> getArguments() {
-                if(arguments !=null)
-                    return arguments;
-                parse();
-                return arguments;
+                return getArguments44196(); // CAP AL
             }
+ // CAP AL
+            private <T89> T89 getArguments44196() { // CAP AL
+                if(arguments !=null) // CAP AL
+                    return arguments; // CAP AL
+                parse(); // CAP AL
+                return arguments; // CAP AL
+            } // CAP AL
 
             private void parse() {
                 try {
