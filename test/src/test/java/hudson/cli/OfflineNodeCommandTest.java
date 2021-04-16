@@ -24,6 +24,7 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result; // CAP AL
 import hudson.model.Computer;
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
@@ -458,10 +459,7 @@ public class OfflineNodeCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
                 .invokeWithArgs("");
-        assertThat(result, succeededSilently());
-        assertThat(masterComputer.isOffline(), equalTo(true));
-        assertThat(masterComputer.isTemporarilyOffline(), equalTo(true));
-        assertThat(masterComputer.getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
+        extractedMethod68913(result, masterComputer); // CAP AL
         assertThat(((OfflineCause.ByCLI) masterComputer.getOfflineCause()).message, equalTo(null));
     }
 
@@ -472,10 +470,14 @@ public class OfflineNodeCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
                 .invokeWithArgs("", "-m", "aCause");
-        assertThat(result, succeededSilently());
-        assertThat(masterComputer.isOffline(), equalTo(true));
-        assertThat(masterComputer.isTemporarilyOffline(), equalTo(true));
-        assertThat(masterComputer.getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
+        extractedMethod68913(result, masterComputer); // CAP AL
         assertThat(((OfflineCause.ByCLI) masterComputer.getOfflineCause()).message, equalTo("aCause"));
     }
+ // CAP AL
+    private void extractedMethod68913(final CLICommandInvoker.Result result, final Computer masterComputer) { // CAP AL
+        assertThat(result, succeededSilently()); // CAP AL
+        assertThat(masterComputer.isOffline(), equalTo(true)); // CAP AL
+        assertThat(masterComputer.isTemporarilyOffline(), equalTo(true)); // CAP AL
+        assertThat(masterComputer.getOfflineCause(), instanceOf(OfflineCause.ByCLI.class)); // CAP AL
+    } // CAP AL
 }
