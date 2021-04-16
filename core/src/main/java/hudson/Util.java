@@ -835,9 +835,7 @@ public class Util {
                     w.write(c);
                     w.flush();
                     for (byte b : buf.toByteArray()) {
-                        out.append('%');
-                        out.append(toDigit((b >> 4) & 0xF));
-                        out.append(toDigit(b & 0xF));
+                        extractedMethod64686(out, b); // CAP AL
                     }
                     buf.reset();
                     escaped = true;
@@ -902,9 +900,7 @@ public class Util {
                         ByteBuffer bytes = enc.encode(buf);
                         while (bytes.hasRemaining()) {
                             byte b = bytes.get();
-                            out.append('%');
-                            out.append(toDigit((b >> 4) & 0xF));
-                            out.append(toDigit(b & 0xF));
+                            extractedMethod64686(out, b); // CAP AL
                         }
                     } catch (CharacterCodingException ex) {
                     }
@@ -920,9 +916,7 @@ public class Util {
 
                 byte[] bytes = new String(new int[] { codePoint }, 0, 1).getBytes(StandardCharsets.UTF_8);
                 for (byte aByte : bytes) {
-                    out.append('%');
-                    out.append(toDigit((aByte >> 4) & 0xF));
-                    out.append(toDigit(aByte & 0xF));
+                    extractedMethod64686(out, aByte); // CAP AL
                 }
 
                 if(Character.charCount(codePoint) > 1) {
@@ -932,6 +926,12 @@ public class Util {
         }
         return escaped ? out.toString() : s;
     }
+ // CAP AL
+    private static void extractedMethod64686(final StringBuilder out, final byte b) { // CAP AL
+        out.append('%'); // CAP AL
+        out.append(toDigit((b >> 4) & 0xF)); // CAP AL
+        out.append(toDigit(b & 0xF)); // CAP AL
+    } // CAP AL
 
     private static char toDigit(int n) {
         return (char)(n < 10 ? '0' + n : 'A' + n - 10);
