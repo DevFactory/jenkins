@@ -206,10 +206,7 @@ public class ViewOptionHandlerTest {
                 parseFailedWith(AccessDeniedException.class, "outer/nested/inner")
         );
 
-        verify(outer).checkPermission(View.READ);
-
-        verifyNoInteractions(nested);
-        verifyNoInteractions(inner);
+        extractedMethod78884(); // CAP AL
         verifyNoInteractions(setter);
     }
 
@@ -222,11 +219,15 @@ public class ViewOptionHandlerTest {
                 parseFailedWith(AccessDeniedException.class, "outer/nested/inner")
         );
 
-        verify(nested).checkPermission(View.READ);
-
-        verifyNoInteractions(inner);
-        verifyNoInteractions(setter);
+        extractedMethod78884(); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod78884() throws AccessDeniedException { // CAP AL
+        verify(nested).checkPermission(View.READ); // CAP AL
+         // CAP AL
+        verifyNoInteractions(inner); // CAP AL
+        verifyNoInteractions(setter); // CAP AL
+    } // CAP AL
 
     @Test public void refuseToReadInnerView() throws Exception {
 
