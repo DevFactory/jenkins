@@ -24,6 +24,9 @@
 
 package hudson.cli;
 
+import java.io.IOException; // CAP AL
+import java.util.concurrent.ExecutionException; // CAP AL
+import hudson.cli.CLICommandInvoker.Result; // CAP AL
 import hudson.FilePath;
 import hudson.Functions;
 import hudson.model.FreeStyleProject;
@@ -180,13 +183,7 @@ public class ReloadJobCommandTest {
                 .authorizedTo(Job.READ, Job.CONFIGURE, Jenkins.READ)
                 .invokeWithArgs("never_created", "aProject1", "aProject2");
 
-        assertThat(result, failedWith(5));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("never_created: No such item ‘never_created’ exists."));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(project1.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
-        assertThat(project2.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
+        extractedMethod49223(result, project1, project2); // CAP AL
     }
 
     @Test public void reloadJobManyShouldFailIfMiddleJobDoesNotExist() throws Exception {
@@ -206,13 +203,7 @@ public class ReloadJobCommandTest {
                 .authorizedTo(Job.READ, Job.CONFIGURE, Jenkins.READ)
                 .invokeWithArgs("aProject1", "never_created", "aProject2");
 
-        assertThat(result, failedWith(5));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("never_created: No such item ‘never_created’ exists."));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(project1.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
-        assertThat(project2.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
+        extractedMethod49223(result, project1, project2); // CAP AL
     }
 
     @Test public void reloadJobManyShouldFailIfLastJobDoesNotExist() throws Exception {
@@ -232,14 +223,18 @@ public class ReloadJobCommandTest {
                 .authorizedTo(Job.READ, Job.CONFIGURE, Jenkins.READ)
                 .invokeWithArgs("aProject1", "aProject2", "never_created");
 
-        assertThat(result, failedWith(5));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("never_created: No such item ‘never_created’ exists."));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(project1.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
-        assertThat(project2.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
+        extractedMethod49223(result, project1, project2); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod49223(final CLICommandInvoker.Result result, final FreeStyleProject project1, final FreeStyleProject project2) throws ExecutionException, IOException, InterruptedException { // CAP AL
+        assertThat(result, failedWith(5)); // CAP AL
+        assertThat(result, hasNoStandardOutput()); // CAP AL
+        assertThat(result.stderr(), containsString("never_created: No such item ‘never_created’ exists.")); // CAP AL
+        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT)); // CAP AL
+         // CAP AL
+        assertThat(project1.scheduleBuild2(0).get().getLog(), containsString("echo 2")); // CAP AL
+        assertThat(project2.scheduleBuild2(0).get().getLog(), containsString("echo 2")); // CAP AL
+    } // CAP AL
 
     @Test public void reloadJobManyShouldFailIfMoreJobsDoNotExist() throws Exception {
 
