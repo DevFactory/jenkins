@@ -24,6 +24,8 @@
 
 package hudson.security;
 
+import java.io.IOException; // CAP AL
+import org.xml.sax.SAXException; // CAP AL
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.util.Cookie;
@@ -562,39 +564,34 @@ public class HudsonPrivateSecurityRealmTest {
     }
     
     private void checkUserCanBeCreatedWith(HudsonPrivateSecurityRealm securityRealm, String id, String password, String fullName, String email) throws Exception {
-        JenkinsRule.WebClient wc = j.createWebClient();
-        SignupPage signup = new SignupPage(wc.goTo("signup"));
-        signup.enterUsername(id);
-        signup.enterPassword(password);
-        signup.enterFullName(fullName);
-        signup.enterEmail(email);
+        SignupPage signup = getSignup96215(id, password, fullName, email); // CAP AL
         HtmlPage success = signup.submit(j);
         assertThat(success.getElementById("main-panel").getTextContent(), containsString("Success"));
     }
     
     private void checkUserCannotBeCreatedWith(HudsonPrivateSecurityRealm securityRealm, String id, String password, String fullName, String email) throws Exception {
-        JenkinsRule.WebClient wc = j.createWebClient();
-        SignupPage signup = new SignupPage(wc.goTo("signup"));
-        signup.enterUsername(id);
-        signup.enterPassword(password);
-        signup.enterFullName(fullName);
-        signup.enterEmail(email);
+        SignupPage signup = getSignup96215(id, password, fullName, email); // CAP AL
         HtmlPage success = signup.submit(j);
         assertThat(success.getElementById("main-panel").getTextContent(), not(containsString("Success")));
         assertThat(success.getElementById("main-panel").getTextContent(), containsString(Messages.HudsonPrivateSecurityRealm_CreateAccount_UserNameInvalidCharacters()));
     }
     
     private void checkUserCannotBeCreatedWith_custom(HudsonPrivateSecurityRealm securityRealm, String id, String password, String fullName, String email, String regex) throws Exception {
-        JenkinsRule.WebClient wc = j.createWebClient();
-        SignupPage signup = new SignupPage(wc.goTo("signup"));
-        signup.enterUsername(id);
-        signup.enterPassword(password);
-        signup.enterFullName(fullName);
-        signup.enterEmail(email);
+        SignupPage signup = getSignup96215(id, password, fullName, email); // CAP AL
         HtmlPage success = signup.submit(j);
         assertThat(success.getElementById("main-panel").getTextContent(), not(containsString("Success")));
         assertThat(success.getElementById("main-panel").getTextContent(), containsString(regex));
     }
+ // CAP AL
+    private SignupPage getSignup96215(final String id, final String password, final String fullName, final String email) throws IOException, SAXException { // CAP AL
+        JenkinsRule.WebClient wc = j.createWebClient(); // CAP AL
+        SignupPage signup = new SignupPage(wc.goTo("signup")); // CAP AL
+        signup.enterUsername(id); // CAP AL
+        signup.enterPassword(password); // CAP AL
+        signup.enterFullName(fullName); // CAP AL
+        signup.enterEmail(email); // CAP AL
+        return signup; // CAP AL
+    } // CAP AL
 
     @Test
     @Issue("SECURITY-1158")
