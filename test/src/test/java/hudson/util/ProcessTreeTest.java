@@ -129,17 +129,7 @@ public class ProcessTreeTest {
     public void considersKillingVetos() throws Exception {
         // on some platforms where we fail to list any processes, this test will
         // just not work
-        assumeTrue(ProcessTree.get() != ProcessTree.DEFAULT);
-
-        // kick off a process we (shouldn't) kill
-        ProcessBuilder pb = new ProcessBuilder();
-        pb.environment().put("cookie", "testKeepDaemonsAlive");
-
-        if (File.pathSeparatorChar == ';') {
-            pb.command("cmd");
-        } else {
-            pb.command("sleep", "5m");
-        }
+        ProcessBuilder pb = getPb76552(); // CAP AL
 
         process = pb.start();
 
@@ -158,17 +148,7 @@ public class ProcessTreeTest {
     public void considersKillingVetosOnSlave() throws Exception {
         // on some platforms where we fail to list any processes, this test will
         // just not work
-        assumeTrue(ProcessTree.get() != ProcessTree.DEFAULT);
-
-        // Define a process we (shouldn't) kill
-        ProcessBuilder pb = new ProcessBuilder();
-        pb.environment().put("cookie", "testKeepDaemonsAlive");
-
-        if (File.pathSeparatorChar == ';') {
-            pb.command("cmd");
-        } else {
-            pb.command("sleep", "5m");
-        }
+        ProcessBuilder pb = getPb76552(); // CAP AL
 
         // Create an agent so we can tell it to kill the process
         Slave s = j.createSlave();
@@ -188,6 +168,21 @@ public class ProcessTreeTest {
             // Means the process is still running
         }
     }
+ // CAP AL
+    private ProcessBuilder getPb76552() { // CAP AL
+        assumeTrue(ProcessTree.get() != ProcessTree.DEFAULT); // CAP AL
+         // CAP AL
+        // Define a process we (shouldn't) kill // CAP AL
+        ProcessBuilder pb = new ProcessBuilder(); // CAP AL
+        pb.environment().put("cookie", "testKeepDaemonsAlive"); // CAP AL
+         // CAP AL
+        if (File.pathSeparatorChar == ';') { // CAP AL
+            pb.command("cmd"); // CAP AL
+        } else { // CAP AL
+            pb.command("sleep", "5m"); // CAP AL
+        } // CAP AL
+        return pb; // CAP AL
+    } // CAP AL
 
     @TestExtension({"considersKillingVetos", "considersKillingVetosOnSlave"})
     public static class VetoAllKilling extends ProcessKillingVeto {
