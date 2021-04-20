@@ -526,10 +526,7 @@ public class JenkinsTest {
         
         final Set<String> newProtocols = new HashSet<>(defaultProtocols);
         newProtocols.add(MockOptInProtocol1.NAME);
-        j.jenkins.setAgentProtocols(newProtocols);
-        j.jenkins.save();
-        final Set<String> agentProtocolsBeforeReload = j.jenkins.getAgentProtocols();
-        assertProtocolEnabled(MockOptInProtocol1.NAME, "before the roundtrip");
+        final Set<String> agentProtocolsBeforeReload = getAgentProtocolsBeforeReload62998(newProtocols); // CAP AL
         
         j.jenkins.reload();
         
@@ -568,11 +565,7 @@ public class JenkinsTest {
         final Set<String> newProtocols = new HashSet<>(defaultProtocols);
         newProtocols.add(MockOptInProtocol1.NAME);
         newProtocols.add(MockOptInProtocol2.NAME);
-        j.jenkins.setAgentProtocols(newProtocols);
-        j.jenkins.save();
-
-        final Set<String> agentProtocolsBeforeReload = j.jenkins.getAgentProtocols();
-        assertProtocolEnabled(MockOptInProtocol1.NAME, "before the roundtrip");
+        final Set<String> agentProtocolsBeforeReload = getAgentProtocolsBeforeReload62998(newProtocols); // CAP AL
         assertProtocolEnabled(MockOptInProtocol2.NAME, "before the roundtrip");
 
         j.jenkins.reload();
@@ -584,6 +577,15 @@ public class JenkinsTest {
         assertProtocolEnabled(MockOptInProtocol1.NAME, "after the roundtrip");
         assertProtocolEnabled(MockOptInProtocol2.NAME, "after the roundtrip");
     }
+ // CAP AL
+    private Set<String> getAgentProtocolsBeforeReload62998(final Set<String> newProtocols) throws AssertionError, IOException { // CAP AL
+        j.jenkins.setAgentProtocols(newProtocols); // CAP AL
+        j.jenkins.save(); // CAP AL
+         // CAP AL
+        final Set<String> agentProtocolsBeforeReload = j.jenkins.getAgentProtocols(); // CAP AL
+        assertProtocolEnabled(MockOptInProtocol1.NAME, "before the roundtrip"); // CAP AL
+        return agentProtocolsBeforeReload; // CAP AL
+    } // CAP AL
     
     @Test
     @Issue("JENKINS-39465")
