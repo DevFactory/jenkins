@@ -153,11 +153,7 @@ public class FingerprintTest {
     
     @Test
     public void shouldCreateFingerprintsForArtifacts() throws Exception {
-        FreeStyleProject project = rule.createFreeStyleProject();
-        project.getBuildersList().add(new CreateFileBuilder("test.txt", "Hello, world!"));
-        ArtifactArchiver archiver = new ArtifactArchiver("test.txt");
-        archiver.setFingerprint(true);
-        project.getPublishersList().add(archiver);
+        FreeStyleProject project = getProject10248(); // CAP AL
         FreeStyleBuild build = rule.buildAndAssertSuccess(project);
         
         Fingerprint fp = getFingerprint(build, "test.txt");
@@ -382,11 +378,7 @@ public class FingerprintTest {
 
     @Test
     public void checkNormalFingerprint() throws Exception {
-        FreeStyleProject project = rule.createFreeStyleProject();
-        project.getBuildersList().add(new CreateFileBuilder("test.txt", "Hello, world!"));
-        ArtifactArchiver archiver = new ArtifactArchiver("test.txt");
-        archiver.setFingerprint(true);
-        project.getPublishersList().add(archiver);
+        FreeStyleProject project = getProject10248(); // CAP AL
         FreeStyleBuild build = rule.buildAndAssertSuccess(project);
 
         Fingerprint fp = getFingerprint(build, "test.txt");
@@ -396,11 +388,7 @@ public class FingerprintTest {
 
     @Test
     public void checkNormalFingerprintWithWebClient() throws Exception {
-        FreeStyleProject project = rule.createFreeStyleProject();
-        project.getBuildersList().add(new CreateFileBuilder("test.txt", "Hello, world!"));
-        ArtifactArchiver archiver = new ArtifactArchiver("test.txt");
-        archiver.setFingerprint(true);
-        project.getPublishersList().add(archiver);
+        FreeStyleProject project = getProject10248(); // CAP AL
         FreeStyleBuild build = rule.buildAndAssertSuccess(project);
 
         Fingerprint fp = getFingerprint(build, "test.txt");
@@ -416,11 +404,7 @@ public class FingerprintTest {
     @Test
     @Issue("SECURITY-2023")
     public void checkArbitraryEmptyFileExistence() throws Exception {
-        FreeStyleProject project = rule.createFreeStyleProject();
-        project.getBuildersList().add(new CreateFileBuilder("test.txt", "Hello, world!"));
-        ArtifactArchiver archiver = new ArtifactArchiver("test.txt");
-        archiver.setFingerprint(true);
-        project.getPublishersList().add(archiver);
+        FreeStyleProject project = getProject10248(); // CAP AL
         FreeStyleBuild build = rule.buildAndAssertSuccess(project);
 
         Fingerprint fp = getFingerprint(build, "test.txt");
@@ -440,11 +424,7 @@ public class FingerprintTest {
     @Test
     @Issue("SECURITY-2023")
     public void checkArbitraryEmptyFileExistenceWithWebClient() throws Exception {
-        FreeStyleProject project = rule.createFreeStyleProject();
-        project.getBuildersList().add(new CreateFileBuilder("test.txt", "Hello, world!"));
-        ArtifactArchiver archiver = new ArtifactArchiver("test.txt");
-        archiver.setFingerprint(true);
-        project.getPublishersList().add(archiver);
+        FreeStyleProject project = getProject10248(); // CAP AL
         FreeStyleBuild build = rule.buildAndAssertSuccess(project);
 
         Fingerprint fp = getFingerprint(build, "test.txt");
@@ -460,11 +440,7 @@ public class FingerprintTest {
     @Test
     @Issue("SECURITY-2023")
     public void checkArbitraryFileExistence() throws Exception {
-        FreeStyleProject project = rule.createFreeStyleProject();
-        project.getBuildersList().add(new CreateFileBuilder("test.txt", "Hello, world!"));
-        ArtifactArchiver archiver = new ArtifactArchiver("test.txt");
-        archiver.setFingerprint(true);
-        project.getPublishersList().add(archiver);
+        FreeStyleProject project = getProject10248(); // CAP AL
         FreeStyleBuild build = rule.buildAndAssertSuccess(project);
 
         Fingerprint fp = getFingerprint(build, "test.txt");
@@ -487,11 +463,7 @@ public class FingerprintTest {
                 .record(FileFingerprintStorage.class, Level.WARNING)
                 .capture(1000);
 
-        FreeStyleProject project = rule.createFreeStyleProject();
-        project.getBuildersList().add(new CreateFileBuilder("test.txt", "Hello, world!"));
-        ArtifactArchiver archiver = new ArtifactArchiver("test.txt");
-        archiver.setFingerprint(true);
-        project.getPublishersList().add(archiver);
+        FreeStyleProject project = getProject10248(); // CAP AL
         FreeStyleBuild build = rule.buildAndAssertSuccess(project);
 
         Fingerprint fp = getFingerprint(build, "test.txt");
@@ -509,11 +481,7 @@ public class FingerprintTest {
     @Test
     @Issue("SECURITY-2023")
     public void checkArbitraryFileNonexistence() throws Exception {
-        FreeStyleProject project = rule.createFreeStyleProject();
-        project.getBuildersList().add(new CreateFileBuilder("test.txt", "Hello, world!"));
-        ArtifactArchiver archiver = new ArtifactArchiver("test.txt");
-        archiver.setFingerprint(true);
-        project.getPublishersList().add(archiver);
+        FreeStyleProject project = getProject10248(); // CAP AL
         FreeStyleBuild build = rule.buildAndAssertSuccess(project);
 
         Fingerprint fp = getFingerprint(build, "test.txt");
@@ -527,11 +495,7 @@ public class FingerprintTest {
     @Test
     @Issue("SECURITY-2023")
     public void checkArbitraryFileNonexistenceWithWebClient() throws Exception {
-        FreeStyleProject project = rule.createFreeStyleProject();
-        project.getBuildersList().add(new CreateFileBuilder("test.txt", "Hello, world!"));
-        ArtifactArchiver archiver = new ArtifactArchiver("test.txt");
-        archiver.setFingerprint(true);
-        project.getPublishersList().add(archiver);
+        FreeStyleProject project = getProject10248(); // CAP AL
         FreeStyleBuild build = rule.buildAndAssertSuccess(project);
 
         Fingerprint fp = getFingerprint(build, "test.txt");
@@ -543,11 +507,7 @@ public class FingerprintTest {
     @Test
     @Issue("SECURITY-2023")
     public void checkArbitraryFingerprintConfigFileExistenceWithWebClient() throws Exception {
-        FreeStyleProject project = rule.createFreeStyleProject();
-        project.getBuildersList().add(new CreateFileBuilder("test.txt", "Hello, world!"));
-        ArtifactArchiver archiver = new ArtifactArchiver("test.txt");
-        archiver.setFingerprint(true);
-        project.getPublishersList().add(archiver);
+        FreeStyleProject project = getProject10248(); // CAP AL
         FreeStyleBuild build = rule.buildAndAssertSuccess(project);
 
         Fingerprint fp = getFingerprint(build, "test.txt");
@@ -574,6 +534,15 @@ public class FingerprintTest {
         }
         assertTrue(targetFile.exists());
     }
+ // CAP AL
+    private FreeStyleProject getProject10248() throws IOException { // CAP AL
+        FreeStyleProject project = rule.createFreeStyleProject(); // CAP AL
+        project.getBuildersList().add(new CreateFileBuilder("test.txt", "Hello, world!")); // CAP AL
+        ArtifactArchiver archiver = new ArtifactArchiver("test.txt"); // CAP AL
+        archiver.setFingerprint(true); // CAP AL
+        project.getPublishersList().add(archiver); // CAP AL
+        return project; // CAP AL
+    } // CAP AL
     
     @NonNull
     private Fingerprint getFingerprint(@CheckForNull Run<?, ?> run, @NonNull String filename) {
