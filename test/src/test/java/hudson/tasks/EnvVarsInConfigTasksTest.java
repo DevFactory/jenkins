@@ -83,21 +83,7 @@ public class EnvVarsInConfigTasksTest extends HudsonTestCase {
 
 		assertBuildStatusSuccess(build);
 
-		String buildLogRegular = getBuildLog(build);
-		System.out.println(buildLogRegular);
-		assertTrue(buildLogRegular.contains(DUMMY_LOCATION_VARNAME));
-
-		// test the agent with prepared environment
-		project.setAssignedLabel(slaveEnv.getSelfLabel());
-		build = project.scheduleBuild2(0).get();
-		System.out.println(build.getDisplayName() + " completed");
-
-		assertBuildStatusSuccess(build);
-
-		// Check variable was expanded
-		String buildLogEnv = getBuildLog(build);
-		System.out.println(buildLogEnv);
-		assertFalse(buildLogEnv.contains(DUMMY_LOCATION_VARNAME));
+		extractedMethod14410(build, project); // CAP AL
 	}
 
 	public void testFreeStyleAntOnSlave() throws Exception {
@@ -163,22 +149,26 @@ public class EnvVarsInConfigTasksTest extends HudsonTestCase {
 
 		assertBuildStatus(Result.FAILURE, build);
 
-		String buildLogRegular = getBuildLog(build);
-		System.out.println(buildLogRegular);
-		assertTrue(buildLogRegular.contains(DUMMY_LOCATION_VARNAME));
-
-		// test the agent with prepared environment
-		project.setAssignedLabel(slaveEnv.getSelfLabel());
-		build = project.scheduleBuild2(0).get();
-		System.out.println(build.getDisplayName() + " completed");
-
-		assertBuildStatusSuccess(build);
-
-		// Check variable was expanded
-		String buildLogEnv = getBuildLog(build);
-		System.out.println(buildLogEnv);
-		assertFalse(buildLogEnv.contains(DUMMY_LOCATION_VARNAME));
+		extractedMethod14410(build, project); // CAP AL
 	}
+ // CAP AL
+	private void extractedMethod14410(FreeStyleBuild build, final FreeStyleProject project) throws Exception { // CAP AL
+	    String buildLogRegular = getBuildLog(build); // CAP AL
+	    System.out.println(buildLogRegular); // CAP AL
+	    assertTrue(buildLogRegular.contains(DUMMY_LOCATION_VARNAME)); // CAP AL
+	     // CAP AL
+	    // test the agent with prepared environment // CAP AL
+	    project.setAssignedLabel(slaveEnv.getSelfLabel()); // CAP AL
+	    build = project.scheduleBuild2(0).get(); // CAP AL
+	    System.out.println(build.getDisplayName() + " completed"); // CAP AL
+	     // CAP AL
+	    assertBuildStatusSuccess(build); // CAP AL
+	     // CAP AL
+	    // Check variable was expanded // CAP AL
+	    String buildLogEnv = getBuildLog(build); // CAP AL
+	    System.out.println(buildLogEnv); // CAP AL
+	    assertFalse(buildLogEnv.contains(DUMMY_LOCATION_VARNAME)); // CAP AL
+	} // CAP AL
 
     @SuppressWarnings("deprecation") // it's  okay to use it in tests
     private String getBuildLog(AbstractBuild<?,?> build) throws Exception {
