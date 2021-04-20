@@ -1,5 +1,8 @@
 package hudson.security;
 
+import java.io.IOException; // CAP AL
+import org.jvnet.hudson.test.JenkinsRule.WebClient; // CAP AL
+import org.xml.sax.SAXException; // CAP AL
 import com.gargoylesoftware.htmlunit.CookieManager;
 import com.gargoylesoftware.htmlunit.util.Cookie;
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
@@ -62,19 +65,7 @@ public class TokenBasedRememberMeServices2Test {
         wc.login("alice", "alice", true);
 
         // we should see a remember me cookie
-        Cookie c = getRememberMeCookie(wc);
-        assertNotNull(c);
-
-        // start a new session and attempt to access Jenkins,
-        // which should cause autoLogin failures
-        wc = j.createWebClient();
-        wc.getCookieManager().addCookie(c);
-
-        // even if SecurityRealm chokes, it shouldn't kill the page
-        wc.goTo("");
-
-        // make sure that the server recorded this failure
-        assertTrue(failureInduced);
+        wc = getWc66672(wc); // CAP AL
         // and the problematic cookie should have been removed
         assertNull(getRememberMeCookie(wc));
     }
@@ -112,18 +103,7 @@ public class TokenBasedRememberMeServices2Test {
         wc.login("bob", "bob", true);
 
         // we should see a remember me cookie
-        Cookie c = getRememberMeCookie(wc);
-        assertNotNull(c);
-
-        // start a new session and attempt to access Jenkins,
-        wc = j.createWebClient();
-        wc.getCookieManager().addCookie(c);
-
-        // this will trigger remember me
-        wc.goTo("");
-
-        // make sure that our security realm failed to report the info correctly
-        assertTrue(failureInduced);
+        wc = getWc66672(wc); // CAP AL
         // but we should have logged in
         wc.executeOnServer(() -> {
             Authentication a = Jenkins.getAuthentication2();
@@ -132,6 +112,23 @@ public class TokenBasedRememberMeServices2Test {
             return null;
         });
     }
+ // CAP AL
+    private JenkinsRule.WebClient getWc66672(JenkinsRule.WebClient wc) throws IOException, SAXException { // CAP AL
+        Cookie c = getRememberMeCookie(wc); // CAP AL
+        assertNotNull(c); // CAP AL
+         // CAP AL
+        // start a new session and attempt to access Jenkins, // CAP AL
+        // which should cause autoLogin failures // CAP AL
+        wc = j.createWebClient(); // CAP AL
+        wc.getCookieManager().addCookie(c); // CAP AL
+         // CAP AL
+        // even if SecurityRealm chokes, it shouldn't kill the page // CAP AL
+        wc.goTo(""); // CAP AL
+         // CAP AL
+        // make sure that the server recorded this failure // CAP AL
+        assertTrue(failureInduced); // CAP AL
+        return wc; // CAP AL
+    } // CAP AL
 
     private static class StupidRealm extends InvalidUserWhenLoggingBackInRealm {
         @Override
