@@ -206,11 +206,7 @@ public class ResourceDomainTest {
 
         // basics work
         HtmlPage page = webClient.getPage(project, "ws/file.html");
-        Assert.assertEquals("page is found", 200, page.getWebResponse().getStatusCode());
-        Assert.assertTrue("page content is as expected", page.getWebResponse().getContentAsString().contains("the content"));
-
-        URL anonUrl = page.getUrl();
-        Assert.assertTrue("page is served by resource domain", anonUrl.toString().contains("/static-files/"));
+        URL anonUrl = getUrl1719(page); // CAP AL
 
         // now remove workspace permission from all users
         a = new MockAuthorizationStrategy();
@@ -255,11 +251,7 @@ public class ResourceDomainTest {
         webClient.setRedirectEnabled(true);
 
         HtmlPage page = webClient.getPage(project, "ws/file.html");
-        Assert.assertEquals("page is found", 200, page.getWebResponse().getStatusCode());
-        Assert.assertTrue("page content is as expected", page.getWebResponse().getContentAsString().contains("the content"));
-
-        URL url = page.getUrl();
-        Assert.assertTrue("page is served by resource domain", url.toString().contains("/static-files/"));
+        URL url = getUrl1719(page); // CAP AL
 
         project.renameTo("new-job-name"); // or delete, doesn't really matter
 
@@ -267,6 +259,15 @@ public class ResourceDomainTest {
         Assert.assertEquals("page is not found", 404, failedPage.getWebResponse().getStatusCode());
         Assert.assertEquals("page is not found", "Not Found", failedPage.getWebResponse().getStatusMessage()); // TODO Is this not done through our exception handler?
     }
+ // CAP AL
+    private URL getUrl1719(final HtmlPage page) { // CAP AL
+        Assert.assertEquals("page is found", 200, page.getWebResponse().getStatusCode()); // CAP AL
+        Assert.assertTrue("page content is as expected", page.getWebResponse().getContentAsString().contains("the content")); // CAP AL
+         // CAP AL
+        URL url = page.getUrl(); // CAP AL
+        Assert.assertTrue("page is served by resource domain", url.toString().contains("/static-files/")); // CAP AL
+        return url; // CAP AL
+    } // CAP AL
 
 //    @Test
     public void indexFileIsUsedIfDefined() throws Exception {
