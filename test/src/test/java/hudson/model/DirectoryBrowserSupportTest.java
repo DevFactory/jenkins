@@ -23,6 +23,7 @@
  */
 package hudson.model;
 
+import org.jvnet.hudson.test.JenkinsRule.WebClient; // CAP AL
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.UnexpectedPage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -540,13 +541,7 @@ public class DirectoryBrowserSupportTest {
                     "public1.key"
             ));
         }
-        { // all the outside folders / files are not included in the zip
-            Page zipPage = wc.goTo(p.getUrl() + "ws/intermediateFolder/*zip*/intermediateFolder.zip", null);
-            assertThat(zipPage.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_OK));
-
-            List<String> entryNames = getListOfEntriesInDownloadedZip((UnexpectedPage) zipPage);
-            assertThat(entryNames, contains("intermediateFolder/public2.key"));
-        }
+        extractedMethod29812(wc, p); // CAP AL
         { // workaround for JENKINS-19947 is still supported, i.e. no parent folder, even inside a sub-folder
             Page zipPage = wc.goTo(p.getUrl() + "ws/intermediateFolder/**/*zip*/intermediateFolder.zip", null);
             assertThat(zipPage.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_OK));
@@ -760,14 +755,18 @@ public class DirectoryBrowserSupportTest {
                     p.getName() + "/public1.key"
             ));
         }
-        { // all the outside folders / files are not included in the zip
-            Page zipPage = wc.goTo(p.getUrl() + "ws/intermediateFolder/*zip*/intermediateFolder.zip", null);
-            assertThat(zipPage.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_OK));
-
-            List<String> entryNames = getListOfEntriesInDownloadedZip((UnexpectedPage) zipPage);
-            assertThat(entryNames, contains("intermediateFolder/public2.key"));
-        }
+        extractedMethod29812(wc, p); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod29812(final JenkinsRule.WebClient wc, final FreeStyleProject p) throws Exception { // CAP AL
+        { // all the outside folders / files are not included in the zip // CAP AL
+            Page zipPage = wc.goTo(p.getUrl() + "ws/intermediateFolder/*zip*/intermediateFolder.zip", null); // CAP AL
+            assertThat(zipPage.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_OK)); // CAP AL
+         // CAP AL
+            List<String> entryNames = getListOfEntriesInDownloadedZip((UnexpectedPage) zipPage); // CAP AL
+            assertThat(entryNames, contains("intermediateFolder/public2.key")); // CAP AL
+        } // CAP AL
+    } // CAP AL
 
     private List<String> getListOfEntriesInDownloadedZip(UnexpectedPage zipPage) throws Exception {
         List<String> result;
