@@ -686,101 +686,63 @@ public class ViewTest {
     @Test
     @Issue("SECURITY-1923")
     public void simplifiedOriginalDescription() throws Exception {
-        this.prepareSec1923();
-
-        /*  This is a simplified version of the original report in SECURITY-1923.
-            The XML is broken, because the root element doesn't have a matching end.
-            The last line is almost a matching end, but it lacks the slash character.
-            Instead that line gets interpreted as another contained element, one that
-            doesn't actually exist on the class. This causes it to get logged by the
-            old data monitor. */
-
-        JenkinsRule.WebClient wc = j.createWebClient();
-        wc.login(CREATE_VIEW);
-
-        /*  The view to create has to be nonexistent, otherwise a different code path is followed
-            and the vulnerability doesn't manifest. */
-        WebRequest req = new WebRequest(wc.createCrumbedUrl("createView?name=nonexistent"), HttpMethod.POST);
-        req.setAdditionalHeader("Content-Type", "application/xml");
-        req.setRequestBody(ORIGINAL_BAD_USER_XML);
-
-        try {
-            wc.getPage(req);
-            fail("Should have returned failure.");
-        } catch (FailingHttpStatusCodeException e) {
-            // This really shouldn't return 500, but that's what it does now.
-            assertThat(e.getStatusCode(), equalTo(500));
-
-            // This should have a different message, but this is the current behavior demonstrating the problem.
-            assertThat(e.getResponse().getContentAsString(), containsString("A problem occurred while processing the request."));
-        }
-
-        OldDataMonitor odm = ExtensionList.lookupSingleton(OldDataMonitor.class);
-        Map<Saveable, OldDataMonitor.VersionRange> data = odm.getData();
-
-        assertThat(data.size(), equalTo(0));
-
-        odm.doDiscard(null, null);
-
-        View view = j.getInstance().getView("nonexistent");
-
-        // The view should still be nonexistent, as we gave it a user and not a view.
-        assertNull("Should not have created view.", view);
-
-        User.AllUsers.scanAll();
-        boolean createUser = false;
-        User badUser = User.getById("foo", createUser);
-
-        assertNull("Should not have created user.", badUser);
+        extractedMethod65226(); // CAP AL
     }
 
     @Test
     @Issue("SECURITY-1923")
     public void simplifiedWithValidXmlAndBadField() throws Exception {
-        this.prepareSec1923();
-
-        /*  This is the same thing as the original report, except it uses valid XML.
-            It just adds in additional invalid field, which gets picked up by the old data monitor.
-            Way too much duplicated code here, but this is just for demonstration. */
-
-        JenkinsRule.WebClient wc = j.createWebClient();
-        wc.login(CREATE_VIEW);
-
-        /*  The view to create has to be nonexistent, otherwise a different code path is followed
-            and the vulnerability doesn't manifest. */
-        WebRequest req = new WebRequest(wc.createCrumbedUrl("createView?name=nonexistent"), HttpMethod.POST);
-        req.setAdditionalHeader("Content-Type", "application/xml");
-        req.setRequestBody(VALID_XML_BAD_FIELD_USER_XML);
-
-        try {
-            wc.getPage(req);
-            fail("Should have returned failure.");
-        } catch (FailingHttpStatusCodeException e) {
-            // This really shouldn't return 500, but that's what it does now.
-            assertThat(e.getStatusCode(), equalTo(500));
-
-            // This should have a different message, but this is the current behavior demonstrating the problem.
-            assertThat(e.getResponse().getContentAsString(), containsString("A problem occurred while processing the request."));
-        }
-
-        OldDataMonitor odm = ExtensionList.lookupSingleton(OldDataMonitor.class);
-        Map<Saveable, OldDataMonitor.VersionRange> data = odm.getData();
-
-        assertThat(data.size(), equalTo(0));
-
-        odm.doDiscard(null, null);
-
-        View view = j.getInstance().getView("nonexistent");
-
-        // The view should still be nonexistent, as we gave it a user and not a view.
-        assertNull("Should not have created view.", view);
-
-        User.AllUsers.scanAll();
-        boolean createUser = false;
-        User badUser = User.getById("foo", createUser);
-
-        assertNull("Should not have created user.", badUser);
+        extractedMethod65226(); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod65226() throws Exception { // CAP AL
+        this.prepareSec1923(); // CAP AL
+         // CAP AL
+        /*  This is a simplified version of the original report in SECURITY-1923. // CAP AL
+            The XML is broken, because the root element doesn't have a matching end. // CAP AL
+            The last line is almost a matching end, but it lacks the slash character. // CAP AL
+            Instead that line gets interpreted as another contained element, one that // CAP AL
+            doesn't actually exist on the class. This causes it to get logged by the // CAP AL
+            old data monitor. */ // CAP AL
+         // CAP AL
+        JenkinsRule.WebClient wc = j.createWebClient(); // CAP AL
+        wc.login(CREATE_VIEW); // CAP AL
+         // CAP AL
+        /*  The view to create has to be nonexistent, otherwise a different code path is followed // CAP AL
+            and the vulnerability doesn't manifest. */ // CAP AL
+        WebRequest req = new WebRequest(wc.createCrumbedUrl("createView?name=nonexistent"), HttpMethod.POST); // CAP AL
+        req.setAdditionalHeader("Content-Type", "application/xml"); // CAP AL
+        req.setRequestBody(ORIGINAL_BAD_USER_XML); // CAP AL
+         // CAP AL
+        try { // CAP AL
+            wc.getPage(req); // CAP AL
+            fail("Should have returned failure."); // CAP AL
+        } catch (FailingHttpStatusCodeException e) { // CAP AL
+            // This really shouldn't return 500, but that's what it does now. // CAP AL
+            assertThat(e.getStatusCode(), equalTo(500)); // CAP AL
+         // CAP AL
+            // This should have a different message, but this is the current behavior demonstrating the problem. // CAP AL
+            assertThat(e.getResponse().getContentAsString(), containsString("A problem occurred while processing the request.")); // CAP AL
+        } // CAP AL
+         // CAP AL
+        OldDataMonitor odm = ExtensionList.lookupSingleton(OldDataMonitor.class); // CAP AL
+        Map<Saveable, OldDataMonitor.VersionRange> data = odm.getData(); // CAP AL
+         // CAP AL
+        assertThat(data.size(), equalTo(0)); // CAP AL
+         // CAP AL
+        odm.doDiscard(null, null); // CAP AL
+         // CAP AL
+        View view = j.getInstance().getView("nonexistent"); // CAP AL
+         // CAP AL
+        // The view should still be nonexistent, as we gave it a user and not a view. // CAP AL
+        assertNull("Should not have created view.", view); // CAP AL
+         // CAP AL
+        User.AllUsers.scanAll(); // CAP AL
+        boolean createUser = false; // CAP AL
+        User badUser = User.getById("foo", createUser); // CAP AL
+         // CAP AL
+        assertNull("Should not have created user.", badUser); // CAP AL
+    } // CAP AL
 
     @Test
     @Issue("SECURITY-1923")
