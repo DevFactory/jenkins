@@ -1,5 +1,7 @@
 package hudson.model;
 
+import org.jvnet.hudson.reactor.ReactorException; // CAP AL
+import org.springframework.security.access.AccessDeniedException; // CAP AL
 import hudson.Functions;
 import hudson.Launcher;
 import hudson.XmlFile;
@@ -188,16 +190,7 @@ public class ParametersAction2Test {
                        hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted2"));
             assertFalse("whitelisted3 parameter is listed in getParameters",
                        hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted3"));
-            j.jenkins.reload();
-            //Test again after reload
-            p = j.jenkins.getItemByFullName(name, FreeStyleProject.class);
-            build = p.getLastBuild();
-            assertTrue("whitelisted1 parameter is listed in getParameters",
-                       hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted1"));
-            assertTrue("whitelisted2 parameter is listed in getParameters",
-                       hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted2"));
-            assertFalse("whitelisted3 parameter is listed in getParameters",
-                       hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted3"));
+            build = getBuild58694(name); // CAP AL
         } finally {
             System.clearProperty(ParametersAction.SAFE_PARAMETERS_SYSTEM_PROPERTY_NAME);
         }
@@ -232,15 +225,7 @@ public class ParametersAction2Test {
                        hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted4"));
 
             System.setProperty(ParametersAction.SAFE_PARAMETERS_SYSTEM_PROPERTY_NAME, "whitelisted3,whitelisted4");
-            j.jenkins.reload();
-            p = j.jenkins.getItemByFullName(name, FreeStyleProject.class);
-            build = p.getLastBuild();
-            assertTrue("whitelisted1 parameter is listed in getParameters",
-                       hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted1"));
-            assertTrue("whitelisted2 parameter is listed in getParameters",
-                       hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted2"));
-            assertFalse("whitelisted3 parameter is listed in getParameters",
-                        hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted3"));
+            build = getBuild58694(name); // CAP AL
             assertFalse("whitelisted4 parameter is listed in getParameters",
                         hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted4"));
 
@@ -248,6 +233,20 @@ public class ParametersAction2Test {
             System.clearProperty(ParametersAction.SAFE_PARAMETERS_SYSTEM_PROPERTY_NAME);
         }
     }
+ // CAP AL
+    private FreeStyleBuild getBuild58694(final String name) throws AccessDeniedException, IOException, InterruptedException, ReactorException { // CAP AL
+        j.jenkins.reload(); // CAP AL
+        //Test again after reload // CAP AL
+        FreeStyleProject p = j.jenkins.getItemByFullName(name, FreeStyleProject.class); // CAP AL
+        FreeStyleBuild build = p.getLastBuild(); // CAP AL
+        assertTrue("whitelisted1 parameter is listed in getParameters", // CAP AL
+                   hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted1")); // CAP AL
+        assertTrue("whitelisted2 parameter is listed in getParameters", // CAP AL
+                   hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted2")); // CAP AL
+        assertFalse("whitelisted3 parameter is listed in getParameters", // CAP AL
+                   hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted3")); // CAP AL
+        return build; // CAP AL
+    } // CAP AL
 
 
 
