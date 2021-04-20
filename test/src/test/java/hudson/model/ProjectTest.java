@@ -23,6 +23,7 @@
  */
 package hudson.model;
 
+import org.jvnet.hudson.test.JenkinsRule.WebClient; // CAP AL
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.javascript.host.event.Event;
@@ -646,12 +647,7 @@ public class ProjectTest {
                fail("AccessDeniedException should be thrown.");
             }
         } 
-        auth.add(Job.READ, user.getId());
-        auth.add(Job.CONFIGURE, user.getId());
-        auth.add(Jenkins.READ, user.getId());
-
-        JenkinsRule.WebClient wc = j.createWebClient();
-        wc.withBasicCredentials(user.getId(), "password");
+        JenkinsRule.WebClient wc = getWc15628(auth, user); // CAP AL
         HtmlPage p = wc.goTo(project.getUrl());
 
         List<HtmlForm> forms = p.getForms();
@@ -684,12 +680,7 @@ public class ProjectTest {
                fail("AccessDeniedException should be thrown.");
             }
         } 
-        auth.add(Job.READ, user.getId());
-        auth.add(Job.CONFIGURE, user.getId());
-        auth.add(Jenkins.READ, user.getId());
-
-        JenkinsRule.WebClient wc = j.createWebClient();
-        wc.withBasicCredentials(user.getId(), "password");
+        JenkinsRule.WebClient wc = getWc15628(auth, user); // CAP AL
         HtmlPage p = wc.goTo(project.getUrl());
 
         List<HtmlForm> forms = p.getForms();
@@ -700,6 +691,16 @@ public class ProjectTest {
         }
        assertFalse("Project should be enabled.", project.isDisabled());
     }
+ // CAP AL
+    private JenkinsRule.WebClient getWc15628(final GlobalMatrixAuthorizationStrategy auth, final User user) { // CAP AL
+        auth.add(Job.READ, user.getId()); // CAP AL
+        auth.add(Job.CONFIGURE, user.getId()); // CAP AL
+        auth.add(Jenkins.READ, user.getId()); // CAP AL
+         // CAP AL
+        JenkinsRule.WebClient wc = j.createWebClient(); // CAP AL
+        wc.withBasicCredentials(user.getId(), "password"); // CAP AL
+        return wc; // CAP AL
+    } // CAP AL
     
     /**
      * Job is un-restricted (no nabel), this is submitted to queue, which spawns an on demand slave
