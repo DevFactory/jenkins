@@ -24,6 +24,7 @@
 
 package hudson.model;
 
+import hudson.model.UpdateSite.Plugin; // CAP AL
 import hudson.PluginWrapper;
 import hudson.model.UpdateSite.Data;
 import hudson.util.FormValidation;
@@ -182,10 +183,7 @@ public class UpdateSiteTest {
     @Test
     public void isPluginUpdateCompatible() throws Exception {
         UpdateSite site = getUpdateSite("/plugins/minJavaVersion-update-center.json");
-        final UpdateSite.Plugin tasksPlugin = site.getPlugin("tasks");
-        assertNotNull(tasksPlugin);
-        assertFalse(tasksPlugin.isNeededDependenciesForNewerJava());
-        assertFalse(tasksPlugin.isForNewerJava());
+        final UpdateSite.Plugin tasksPlugin = getTasksPlugin19717(site); // CAP AL
         assertTrue(tasksPlugin.isCompatible());
     }
 
@@ -193,10 +191,7 @@ public class UpdateSiteTest {
     @Test public void minimumJavaVersion() throws Exception {
         UpdateSite site = getUpdateSite("/plugins/minJavaVersion-update-center.json");
 
-        final UpdateSite.Plugin tasksPlugin = site.getPlugin("tasks");
-        assertNotNull(tasksPlugin);
-        assertFalse(tasksPlugin.isNeededDependenciesForNewerJava());
-        assertFalse(tasksPlugin.isForNewerJava());
+        final UpdateSite.Plugin tasksPlugin = getTasksPlugin19717(site); // CAP AL
 
         final UpdateSite.Plugin pluginCompiledForTooRecentJava = site.getPlugin("java-too-recent");
         assertFalse(pluginCompiledForTooRecentJava.isNeededDependenciesForNewerJava());
@@ -207,6 +202,14 @@ public class UpdateSiteTest {
         assertFalse(pluginDependingOnPluginCompiledForTooRecentJava.isForNewerJava());
 
     }
+ // CAP AL
+    private UpdateSite.Plugin getTasksPlugin19717(final UpdateSite site) { // CAP AL
+        final UpdateSite.Plugin tasksPlugin = site.getPlugin("tasks"); // CAP AL
+        assertNotNull(tasksPlugin); // CAP AL
+        assertFalse(tasksPlugin.isNeededDependenciesForNewerJava()); // CAP AL
+        assertFalse(tasksPlugin.isForNewerJava()); // CAP AL
+        return tasksPlugin; // CAP AL
+    } // CAP AL
 
     @Issue("JENKINS-31448")
     @Test public void isLegacyDefault() throws Exception {
