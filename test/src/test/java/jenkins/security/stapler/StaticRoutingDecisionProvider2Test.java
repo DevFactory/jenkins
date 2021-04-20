@@ -60,10 +60,7 @@ public class StaticRoutingDecisionProvider2Test {
                 wl.decide("public java.lang.Object jenkins.security.stapler.StaticRoutingDecisionProviderTest$ContentProvider.getObjectCustom()"),
                 is(RoutingDecisionProvider.Decision.UNKNOWN)
         );
-        assertThat(
-                wl.decide("blabla"),
-                is(RoutingDecisionProvider.Decision.UNKNOWN)
-        );
+        extractedMethod28520(wl); // CAP AL
     }
     
     @Test
@@ -74,10 +71,7 @@ public class StaticRoutingDecisionProvider2Test {
                 wl.decide("method jenkins.security.stapler.StaticRoutingDecisionProviderTest$ContentProvider getObjectCustom"),
                 is(RoutingDecisionProvider.Decision.ACCEPTED)
         );
-        assertThat(
-                wl.decide("blabla"),
-                is(RoutingDecisionProvider.Decision.UNKNOWN)
-        );
+        extractedMethod28520(wl); // CAP AL
     }
     
     @Test
@@ -92,11 +86,15 @@ public class StaticRoutingDecisionProvider2Test {
                 wl.decide("method jenkins.security.stapler.StaticRoutingDecisionProviderTest$ContentProvider getObjectCustom2"),
                 is(RoutingDecisionProvider.Decision.ACCEPTED)
         );
-        assertThat(
-                wl.decide("blabla"),
-                is(RoutingDecisionProvider.Decision.UNKNOWN)
-        );
+        extractedMethod28520(wl); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod28520(final StaticRoutingDecisionProvider wl) { // CAP AL
+        assertThat( // CAP AL
+                wl.decide("blabla"), // CAP AL
+                is(RoutingDecisionProvider.Decision.UNKNOWN) // CAP AL
+        ); // CAP AL
+    } // CAP AL
     
     @Test
     @LocalData("comment_ignored")
