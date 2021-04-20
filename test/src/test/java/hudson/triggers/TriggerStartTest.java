@@ -66,9 +66,7 @@ public class TriggerStartTest {
         p.addTrigger(t);
         p.save();
         p = (FreeStyleProject)j.configRoundtrip((Item)p);
-        t = p.getTrigger(MockTrigger.class);
-        assertNotNull(t);
-        assertEquals("[true]", t.calls.toString());
+        extractedMethod95320(p); // CAP AL
     }
 
     @Test public void updateByXmlCallsStartTrue() throws Exception {
@@ -95,10 +93,14 @@ public class TriggerStartTest {
         p.addTrigger(t);
         p.save();
         p = j.jenkins.copy(p, "nue");
-        t = p.getTrigger(MockTrigger.class);
-        assertNotNull(t);
-        assertEquals("[true]", t.calls.toString());
+        extractedMethod95320(p); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod95320(final AbstractProject p) { // CAP AL
+        MockTrigger t = p.getTrigger(MockTrigger.class); // CAP AL
+        assertNotNull(t); // CAP AL
+        assertEquals("[true]", t.calls.toString()); // CAP AL
+    } // CAP AL
 
     private String triggersSection() {
         String tagname = MockTrigger.class.getName().replace("$", "_-");
