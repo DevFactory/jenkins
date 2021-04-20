@@ -1,5 +1,8 @@
 package org.kohsuke.stapler.beanutils;
 
+import java.io.IOException; // CAP AL
+import org.jvnet.hudson.test.JenkinsRule.WebClient; // CAP AL
+import org.xml.sax.SAXException; // CAP AL
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import hudson.model.InvisibleAction;
 import hudson.model.RootAction;
@@ -86,24 +89,7 @@ public class TagTest {
     @Test
     public void testIncludeTag() throws Exception {
         final JenkinsRule.WebClient wc = j.createWebClient().withThrowExceptionOnFailingStatusCode(false);
-        { // Jelly views with basic include variants
-            {
-                final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/jellyStIncludeIt");
-                assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
-            }
-            {
-                final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/jellyStInclude");
-                assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
-            }
-            {
-                final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/jellyStIncludeClass");
-                assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
-            }
-            {
-                final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/jellyStIncludeClassByName");
-                assertThat(page.getWebResponse().getStatusCode(), is(500)); // this has never worked, no conversion takes place (sadly)
-            }
-        }
+        extractedMethod67824(wc); // CAP AL
         { // Groovy views
             {
                 final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyLibInclude");
@@ -133,24 +119,7 @@ public class TagTest {
         try {
             StaplerTagLibrary.DISABLE_INCLUDE_TAG_CLASS_ATTRIBUTE_REWRITING = true;
 
-            { // Jelly views with basic include variants
-                {
-                    final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/jellyStIncludeIt");
-                    assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
-                }
-                {
-                    final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/jellyStInclude");
-                    assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
-                }
-                {
-                    final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/jellyStIncludeClass");
-                    assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
-                }
-                {
-                    final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/jellyStIncludeClassByName");
-                    assertThat(page.getWebResponse().getStatusCode(), is(500)); // this has never worked, no conversion takes place (sadly)
-                }
-            }
+            extractedMethod67824(wc); // CAP AL
             { // Groovy views
                 {
                     final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyLibInclude");
@@ -181,6 +150,27 @@ public class TagTest {
             StaplerTagLibrary.DISABLE_INCLUDE_TAG_CLASS_ATTRIBUTE_REWRITING = false;
         }
     }
+ // CAP AL
+    private void extractedMethod67824(final JenkinsRule.WebClient wc) throws IOException, SAXException { // CAP AL
+        { // Jelly views with basic include variants // CAP AL
+            { // CAP AL
+                final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/jellyStIncludeIt"); // CAP AL
+                assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World")); // CAP AL
+            } // CAP AL
+            { // CAP AL
+                final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/jellyStInclude"); // CAP AL
+                assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World")); // CAP AL
+            } // CAP AL
+            { // CAP AL
+                final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/jellyStIncludeClass"); // CAP AL
+                assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World")); // CAP AL
+            } // CAP AL
+            { // CAP AL
+                final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/jellyStIncludeClassByName"); // CAP AL
+                assertThat(page.getWebResponse().getStatusCode(), is(500)); // this has never worked, no conversion takes place (sadly) // CAP AL
+            } // CAP AL
+        } // CAP AL
+    } // CAP AL
 
     @TestExtension
     public static class RootActionImpl extends InvisibleAction implements RootAction {
