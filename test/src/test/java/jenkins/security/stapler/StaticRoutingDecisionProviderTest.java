@@ -23,6 +23,7 @@
  */
 package jenkins.security.stapler;
 
+import java.io.IOException; // CAP AL
 import hudson.ExtensionList;
 import hudson.model.FreeStyleProject;
 import jenkins.model.Jenkins;
@@ -140,10 +141,7 @@ public class StaticRoutingDecisionProviderTest extends StaplerAbstractTest {
     @Test
     public void test_objectCustom_withUserControlledEditedWhitelist() throws Exception {
         try {
-            assertNotReachable("contentProvider/objectString/");
-            assertFalse(ContentProvider.called);
-            assertNotReachable("contentProvider/objectCustom/");
-            assertFalse(ContentProvider.called);
+            extractedMethod65800(); // CAP AL
             
             ExtensionList.lookupSingleton(StaticRoutingDecisionProvider.class).add(ContentProvider.OBJECT_CUSTOM_SIGNATURE);
             
@@ -161,10 +159,7 @@ public class StaticRoutingDecisionProviderTest extends StaplerAbstractTest {
             
             ExtensionList.lookupSingleton(StaticRoutingDecisionProvider.class).remove(ContentProvider.OBJECT_CUSTOM_SIGNATURE);
             
-            assertNotReachable("contentProvider/objectString/");
-            assertFalse(ContentProvider.called);
-            assertNotReachable("contentProvider/objectCustom/");
-            assertFalse(ContentProvider.called);
+            extractedMethod65800(); // CAP AL
         } finally {
             //TODO check if the file is created per test or in general
             ExtensionList.lookupSingleton(StaticRoutingDecisionProvider.class).reload();
@@ -210,11 +205,15 @@ public class StaticRoutingDecisionProviderTest extends StaplerAbstractTest {
             whitelist.reload();
         }
         
-        assertNotReachable("contentProvider/objectString/");
-        assertFalse(ContentProvider.called);
-        assertNotReachable("contentProvider/objectCustom/");
-        assertFalse(ContentProvider.called);
+        extractedMethod65800(); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod65800() throws IOException { // CAP AL
+        assertNotReachable("contentProvider/objectString/"); // CAP AL
+        assertFalse(ContentProvider.called); // CAP AL
+        assertNotReachable("contentProvider/objectCustom/"); // CAP AL
+        assertFalse(ContentProvider.called); // CAP AL
+    } // CAP AL
     
     @TestExtension
     public static class ActionWithWhitelist extends AbstractUnprotectedRootAction {
