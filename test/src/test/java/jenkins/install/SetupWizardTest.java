@@ -23,6 +23,7 @@
  */
 package jenkins.install;
 
+import org.jvnet.hudson.test.JenkinsRule.WebClient; // CAP AL
 import com.gargoylesoftware.htmlunit.Page;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.FilePath;
@@ -94,10 +95,7 @@ public class SetupWizardTest {
     
     @Test
     public void shouldReturnPluginListsByDefault() throws Exception {
-        JenkinsRule.WebClient wc = j.createWebClient();
-        // TODO: This is a hack, wc.login does not work with the form
-        j.jenkins.setSecurityRealm(SecurityRealm.NO_AUTHENTICATION);
-        j.jenkins.setAuthorizationStrategy(AuthorizationStrategy.UNSECURED);
+        JenkinsRule.WebClient wc = getWc69032(); // CAP AL
         // wc.setCredentialsProvider(adminCredentialsProvider);
         // wc.login("admin");
         
@@ -115,10 +113,7 @@ public class SetupWizardTest {
         j.jenkins.getUpdateCenter().getSites().add(us);
 
         // Prepare the connection
-        JenkinsRule.WebClient wc = j.createWebClient();
-        // TODO: This is a hack, wc.login does not work with the form
-        j.jenkins.setSecurityRealm(SecurityRealm.NO_AUTHENTICATION);
-        j.jenkins.setAuthorizationStrategy(AuthorizationStrategy.UNSECURED);
+        JenkinsRule.WebClient wc = getWc69032(); // CAP AL
         // wc.setCredentialsProvider(adminCredentialsProvider);
         // wc.login("admin");
 
@@ -138,10 +133,7 @@ public class SetupWizardTest {
         j.jenkins.getUpdateCenter().getSites().add(us);
 
         // Prepare the connection
-        JenkinsRule.WebClient wc = j.createWebClient();
-        // TODO: This is a hack, wc.login does not work with the form
-        j.jenkins.setSecurityRealm(SecurityRealm.NO_AUTHENTICATION);
-        j.jenkins.setAuthorizationStrategy(AuthorizationStrategy.UNSECURED);
+        JenkinsRule.WebClient wc = getWc69032(); // CAP AL
         // wc.setCredentialsProvider(adminCredentialsProvider);
         // wc.login("admin");
 
@@ -226,10 +218,7 @@ public class SetupWizardTest {
             j.jenkins.getUpdateCenter().getSites().add(us);
 
             // Prepare the connection
-            JenkinsRule.WebClient wc = j.createWebClient();
-            // TODO: This is a hack, wc.login does not work with the form
-            j.jenkins.setSecurityRealm(SecurityRealm.NO_AUTHENTICATION);
-            j.jenkins.setAuthorizationStrategy(AuthorizationStrategy.UNSECURED);
+            JenkinsRule.WebClient wc = getWc69032(); // CAP AL
             // wc.setCredentialsProvider(adminCredentialsProvider);
             // wc.login("admin");
 
@@ -261,10 +250,7 @@ public class SetupWizardTest {
 
 
             // Prepare the connection
-            JenkinsRule.WebClient wc = j.createWebClient();
-            // TODO: This is a hack, wc.login does not work with the form
-            j.jenkins.setSecurityRealm(SecurityRealm.NO_AUTHENTICATION);
-            j.jenkins.setAuthorizationStrategy(AuthorizationStrategy.UNSECURED);
+            JenkinsRule.WebClient wc = getWc69032(); // CAP AL
             // wc.setCredentialsProvider(adminCredentialsProvider);
             // wc.login("admin");
 
@@ -298,10 +284,7 @@ public class SetupWizardTest {
 
 
             // Prepare the connection
-            JenkinsRule.WebClient wc = j.createWebClient();
-            // TODO: This is a hack, wc.login does not work with the form
-            j.jenkins.setSecurityRealm(SecurityRealm.NO_AUTHENTICATION);
-            j.jenkins.setAuthorizationStrategy(AuthorizationStrategy.UNSECURED);
+            JenkinsRule.WebClient wc = getWc69032(); // CAP AL
             // wc.setCredentialsProvider(adminCredentialsProvider);
             // wc.login("admin");
 
@@ -315,6 +298,14 @@ public class SetupWizardTest {
             server.stop();
         }
     }
+ // CAP AL
+    private JenkinsRule.WebClient getWc69032() { // CAP AL
+        JenkinsRule.WebClient wc = j.createWebClient(); // CAP AL
+        // TODO: This is a hack, wc.login does not work with the form // CAP AL
+        j.jenkins.setSecurityRealm(SecurityRealm.NO_AUTHENTICATION); // CAP AL
+        j.jenkins.setAuthorizationStrategy(AuthorizationStrategy.UNSECURED); // CAP AL
+        return wc; // CAP AL
+    } // CAP AL
 
     private static final class CustomRemoteUpdateSite extends UpdateSite {
         private boolean customValidator;
