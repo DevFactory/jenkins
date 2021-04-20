@@ -234,12 +234,7 @@ public class SearchTest {
         
         String content = result.getWebResponse().getContentAsString();
         System.out.println(content);
-        JSONObject jsonContent = (JSONObject)JSONSerializer.toJSON(content);
-        assertNotNull(jsonContent);
-        JSONArray jsonArray = jsonContent.getJSONArray("suggestions");
-        assertNotNull(jsonArray);
-        
-        assertEquals(2, jsonArray.size());
+        JSONArray jsonArray = getJsonArray67707(content); // CAP AL
         
         boolean foundProjectName = false;
         boolean foundDisplayName = false;
@@ -282,12 +277,7 @@ public class SearchTest {
         j.assertGoodStatus(result);
 
         String content = result.getWebResponse().getContentAsString();
-        JSONObject jsonContent = (JSONObject)JSONSerializer.toJSON(content);
-        assertNotNull(jsonContent);
-        JSONArray jsonArray = jsonContent.getJSONArray("suggestions");
-        assertNotNull(jsonArray);
-
-        assertEquals(2, jsonArray.size());
+        JSONArray jsonArray = getJsonArray67707(content); // CAP AL
 
         boolean foundDisplayName = false;
         for(Object suggestion : jsonArray) {
@@ -469,12 +459,7 @@ public class SearchTest {
         j.assertGoodStatus(result);
 
         String content = result.getWebResponse().getContentAsString();
-        JSONObject jsonContent = (JSONObject)JSONSerializer.toJSON(content);
-        assertNotNull(jsonContent);
-        JSONArray jsonArray = jsonContent.getJSONArray("suggestions");
-        assertNotNull(jsonArray);
-
-        assertEquals(2, jsonArray.size());
+        JSONArray jsonArray = getJsonArray67707(content); // CAP AL
 
         Page searchResult = wc.goTo("search?q=" + myMockFolder.getName() + "%2F" + freeStyleProject.getName());
 
@@ -484,4 +469,14 @@ public class SearchTest {
         URL resultUrl = searchResult.getUrl();
         assertEquals(j.getInstance().getRootUrl() + freeStyleProject.getUrl(), resultUrl.toString());
     }
+ // CAP AL
+    private JSONArray getJsonArray67707(final String content) { // CAP AL
+        JSONObject jsonContent = (JSONObject)JSONSerializer.toJSON(content); // CAP AL
+        assertNotNull(jsonContent); // CAP AL
+        JSONArray jsonArray = jsonContent.getJSONArray("suggestions"); // CAP AL
+        assertNotNull(jsonArray); // CAP AL
+         // CAP AL
+        assertEquals(2, jsonArray.size()); // CAP AL
+        return jsonArray; // CAP AL
+    } // CAP AL
 }
