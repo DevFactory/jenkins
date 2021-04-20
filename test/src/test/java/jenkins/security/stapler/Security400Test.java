@@ -23,6 +23,7 @@
  */
 package jenkins.security.stapler;
 
+import org.jvnet.hudson.test.JenkinsRule.WebClient; // CAP AL
 import com.cloudbees.hudson.plugins.folder.computed.FolderCron;
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.Page;
@@ -317,15 +318,7 @@ public class Security400Test {
             futureBuild.waitForStart();
 
             WebRequest request = new WebRequest(new URL(j.getURL() + "computers/0/executors/0/stopBuild"), HttpMethod.POST);
-            Page page = wc.getPage(request);
-            assertEquals(404, page.getWebResponse().getStatusCode());
-            assertRequestWasNotBlocked();
-
-            // let the build finish quickly (if not interrupted already)
-            semaphore.release(1);
-
-            j.assertBuildStatus(Result.FAILURE, futureBuild);
-            assertEquals(3, atomicResult.get()); // interrupted
+            extractedMethod50647(wc, request, semaphore, futureBuild, atomicResult); // CAP AL // interrupted
         }
 
         { // third try, calling stopBuild with the right parameter interrupts the build
@@ -338,15 +331,7 @@ public class Security400Test {
             String runExtId = URLEncoder.encode(build.getExternalizableId(), "UTF-8");
 
             WebRequest request = new WebRequest(new URL(j.getURL() + "computers/0/executors/0/stopBuild?runExtId=" + runExtId), HttpMethod.POST);
-            Page page = wc.getPage(request);
-            assertEquals(404, page.getWebResponse().getStatusCode());
-            assertRequestWasNotBlocked();
-
-            // let the build finish quickly (if not interrupted already)
-            semaphore.release(1);
-
-            j.assertBuildStatus(Result.FAILURE, futureBuild);
-            assertEquals(3, atomicResult.get()); // interrupted
+            extractedMethod50647(wc, request, semaphore, futureBuild, atomicResult); // CAP AL // interrupted
         }
 
         { // fourth try, calling stopBuild with a parameter not matching build id doesn't interrupt the build
@@ -369,6 +354,18 @@ public class Security400Test {
             assertEquals(1, atomicResult.get());
         }
     }
+ // CAP AL
+    private void extractedMethod50647(final JenkinsRule.WebClient wc, final WebRequest request, final Semaphore semaphore, final QueueTaskFuture<FreeStyleBuild> futureBuild, final AtomicInteger atomicResult) throws Exception { // CAP AL
+        Page page = wc.getPage(request); // CAP AL
+        assertEquals(404, page.getWebResponse().getStatusCode()); // CAP AL
+        assertRequestWasNotBlocked(); // CAP AL
+         // CAP AL
+        // let the build finish quickly (if not interrupted already) // CAP AL
+        semaphore.release(1); // CAP AL
+         // CAP AL
+        j.assertBuildStatus(Result.FAILURE, futureBuild); // CAP AL
+        assertEquals(3, atomicResult.get()); // CAP AL
+    } // CAP AL
 
     @Test
     @Issue("SECURITY-404")
