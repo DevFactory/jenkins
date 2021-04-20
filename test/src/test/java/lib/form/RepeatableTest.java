@@ -95,10 +95,7 @@ public class RepeatableTest extends HudsonTestCase {
     public void testSimpleCheckNumberOfButtons() throws Exception {
         HtmlPage p = createWebClient().goTo("self/testSimpleWithDeleteButton");
         HtmlForm f = p.getFormByName("config");
-        String buttonCaption = "Add";
-        assertEquals(1, getButtonsList(f, buttonCaption).size());
-        getHtmlButton(f, buttonCaption, true).click(); // click Add button
-        waitForJavaScript(p);
+        String buttonCaption = getButtonCaption11696(f, p); // CAP AL
         assertEquals(1, getButtonsList(f, buttonCaption).size()); // check that second Add button is not present
         getHtmlButton(f, "Delete", true).click(); // click Delete button
         waitForJavaScript(p);
@@ -113,15 +110,20 @@ public class RepeatableTest extends HudsonTestCase {
     public void testSimpleCheckNumberOfButtonsEnabledTopButton() throws Exception {
         HtmlPage p = createWebClient().goTo("self/testSimpleWithDeleteButtonTopButton");
         HtmlForm f = p.getFormByName("config");
-        String buttonCaption = "Add";
-        assertEquals(1, getButtonsList(f, buttonCaption).size());
-        getHtmlButton(f, buttonCaption, true).click(); // click Add button
-        waitForJavaScript(p);
+        String buttonCaption = getButtonCaption11696(f, p); // CAP AL
         assertEquals(2, getButtonsList(f, buttonCaption).size()); // check that second Add button was added into form
         getHtmlButton(f, "Delete", true).click(); // click Delete button
         waitForJavaScript(p);
         assertEquals(1, getButtonsList(f, buttonCaption).size()); // check that only one Add button is in form
     }
+ // CAP AL
+    private String getButtonCaption11696(final HtmlForm f, final HtmlPage p) throws IOException { // CAP AL
+        String buttonCaption = "Add"; // CAP AL
+        assertEquals(1, getButtonsList(f, buttonCaption).size()); // CAP AL
+        getHtmlButton(f, buttonCaption, true).click(); // click Add button // CAP AL
+        waitForJavaScript(p); // CAP AL
+        return buttonCaption; // CAP AL
+    } // CAP AL
 
     // ========================================================================
 
