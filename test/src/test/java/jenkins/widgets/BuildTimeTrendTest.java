@@ -23,6 +23,7 @@
  */
 package jenkins.widgets;
 
+import org.jvnet.hudson.test.JenkinsRule.WebClient; // CAP AL
 import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.DomNodeList;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -64,11 +65,7 @@ public class BuildTimeTrendTest {
     @Test
     public void withAbstractJob_OnMaster() throws Exception {
         FreeStyleProject p = j.createFreeStyleProject();
-        j.assertBuildStatusSuccess(p.scheduleBuild2(0));
-
-        JenkinsRule.WebClient wc = j.createWebClient();
-
-        wc.withThrowExceptionOnFailingStatusCode(false);
+        JenkinsRule.WebClient wc = getWc84368(p); // CAP AL
         HtmlPage page = wc.getPage(p, "buildTimeTrend");
 
         HtmlTable table = page.getDocumentElement().querySelector("table[data-is-master-slave-enabled=false]");
@@ -81,11 +78,7 @@ public class BuildTimeTrendTest {
         FreeStyleProject p = j.createFreeStyleProject();
         p.setAssignedNode(agent);
 
-        j.assertBuildStatusSuccess(p.scheduleBuild2(0));
-
-        JenkinsRule.WebClient wc = j.createWebClient();
-
-        wc.withThrowExceptionOnFailingStatusCode(false);
+        JenkinsRule.WebClient wc = getWc84368(p); // CAP AL
         HtmlPage page = wc.getPage(p, "buildTimeTrend");
         DomNodeList<DomNode> anchors = page.getDocumentElement().querySelectorAll("table[data-is-master-slave-enabled=true] td a");
         Optional<DomNode> anchor = anchors.stream()
@@ -103,11 +96,7 @@ public class BuildTimeTrendTest {
         j.assertBuildStatusSuccess(p.scheduleBuild2(0));
         
         p.setAssignedNode(agent);
-        j.assertBuildStatusSuccess(p.scheduleBuild2(0));
-
-        JenkinsRule.WebClient wc = j.createWebClient();
-
-        wc.withThrowExceptionOnFailingStatusCode(false);
+        JenkinsRule.WebClient wc = getWc84368(p); // CAP AL
         HtmlPage page = wc.getPage(p, "buildTimeTrend");
 
         DomNodeList<DomNode> anchors = page.getDocumentElement().querySelectorAll("table[data-is-master-slave-enabled=true] td a");
@@ -125,6 +114,15 @@ public class BuildTimeTrendTest {
         // for the build on master
         assertTrue(td.isPresent());
     }
+ // CAP AL
+    private JenkinsRule.WebClient getWc84368(final FreeStyleProject p) throws Exception { // CAP AL
+        j.assertBuildStatusSuccess(p.scheduleBuild2(0)); // CAP AL
+         // CAP AL
+        JenkinsRule.WebClient wc = j.createWebClient(); // CAP AL
+         // CAP AL
+        wc.withThrowExceptionOnFailingStatusCode(false); // CAP AL
+        return wc; // CAP AL
+    } // CAP AL
 
     @Test
     @LocalData("localDataNonAbstractJob")
