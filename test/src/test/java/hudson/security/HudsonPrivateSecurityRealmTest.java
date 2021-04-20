@@ -24,6 +24,8 @@
 
 package hudson.security;
 
+import java.io.IOException; // CAP AL
+import org.xml.sax.SAXException; // CAP AL
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.util.Cookie;
@@ -119,13 +121,7 @@ public class HudsonPrivateSecurityRealmTest {
         
         // Check both users can use their token
         XmlPage w1 = (XmlPage) wc1.goTo("whoAmI/api/xml", "application/xml");
-        assertThat(w1, hasXPath("//name", is("user1")));
-        
-        XmlPage w2 = (XmlPage) wc2.goTo("whoAmI/api/xml", "application/xml");
-        assertThat(w2, hasXPath("//name", is("user2")));
-
-        u1.setFullName("user2");
-        u1.save();
+        XmlPage w2 = getW259006(w1, wc2, u1); // CAP AL
         
         // check the tokens still work
         wc1 = j.createWebClient();
@@ -171,14 +167,7 @@ public class HudsonPrivateSecurityRealmTest {
         
         // Check both users can use their token
         XmlPage w1 = (XmlPage) wc1.goTo("whoAmI/api/xml", "application/xml");
-        assertThat(w1, hasXPath("//name", is("user1")));
-        
-        XmlPage w2 = (XmlPage) wc2.goTo("whoAmI/api/xml", "application/xml");
-        assertThat(w2, hasXPath("//name", is("user2")));
-
-
-        u1.setFullName("user2");
-        u1.save();
+        XmlPage w2 = getW259006(w1, wc2, u1); // CAP AL
         // check the tokens still work
         w1 = (XmlPage) wc1.goTo("whoAmI/api/xml", "application/xml");
         assertThat(w1, hasXPath("//name", is("user1")));
@@ -186,6 +175,18 @@ public class HudsonPrivateSecurityRealmTest {
         w2 = (XmlPage) wc2.goTo("whoAmI/api/xml", "application/xml");
         assertThat(w2, hasXPath("//name", is("user2")));
     }
+ // CAP AL
+    private XmlPage getW259006(final XmlPage w1, final WebClient wc2, final User u1) throws IOException, SAXException { // CAP AL
+        assertThat(w1, hasXPath("//name", is("user1"))); // CAP AL
+         // CAP AL
+        XmlPage w2 = (XmlPage) wc2.goTo("whoAmI/api/xml", "application/xml"); // CAP AL
+        assertThat(w2, hasXPath("//name", is("user2"))); // CAP AL
+         // CAP AL
+         // CAP AL
+        u1.setFullName("user2"); // CAP AL
+        u1.save(); // CAP AL
+        return w2; // CAP AL
+    } // CAP AL
 
 
     private static String basicHeader(String user, String pass) {
