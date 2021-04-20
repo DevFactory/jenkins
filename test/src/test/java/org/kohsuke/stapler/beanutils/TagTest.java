@@ -1,5 +1,8 @@
 package org.kohsuke.stapler.beanutils;
 
+import java.io.IOException; // CAP AL
+import org.jvnet.hudson.test.JenkinsRule.WebClient; // CAP AL
+import org.xml.sax.SAXException; // CAP AL
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import hudson.model.InvisibleAction;
 import hudson.model.RootAction;
@@ -113,14 +116,7 @@ public class TagTest {
                 final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyLibWithClassInclude");
                 assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
             }
-            {
-                final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyLibWithItInclude");
-                assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
-            }
-            {
-                final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyNamespaceInclude");
-                assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
-            }
+            extractedMethod38574(wc); // CAP AL
             {
                 final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyNamespaceWithClassInclude");
                 assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
@@ -160,14 +156,7 @@ public class TagTest {
                     final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyLibWithClassInclude");
                     assertThat(page.getWebResponse().getStatusCode(), is(500)); // the error we're preventing
                 }
-                {
-                    final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyLibWithItInclude");
-                    assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
-                }
-                {
-                    final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyNamespaceInclude");
-                    assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
-                }
+                extractedMethod38574(wc); // CAP AL
                 {
                     final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyNamespaceWithClassInclude");
                     assertThat(page.getWebResponse().getStatusCode(), is(500)); // the error we're preventing
@@ -181,6 +170,17 @@ public class TagTest {
             StaplerTagLibrary.DISABLE_INCLUDE_TAG_CLASS_ATTRIBUTE_REWRITING = false;
         }
     }
+ // CAP AL
+    private void extractedMethod38574(final JenkinsRule.WebClient wc) throws IOException, SAXException { // CAP AL
+        { // CAP AL
+            final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyLibWithItInclude"); // CAP AL
+            assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World")); // CAP AL
+        } // CAP AL
+        { // CAP AL
+            final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyNamespaceInclude"); // CAP AL
+            assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World")); // CAP AL
+        } // CAP AL
+    } // CAP AL
 
     @TestExtension
     public static class RootActionImpl extends InvisibleAction implements RootAction {
