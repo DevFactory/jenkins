@@ -1,5 +1,8 @@
 package org.kohsuke.stapler.beanutils;
 
+import java.io.IOException; // CAP AL
+import org.jvnet.hudson.test.JenkinsRule.WebClient; // CAP AL
+import org.xml.sax.SAXException; // CAP AL
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import hudson.model.InvisibleAction;
 import hudson.model.RootAction;
@@ -105,10 +108,7 @@ public class TagTest {
             }
         }
         { // Groovy views
-            {
-                final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyLibInclude");
-                assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
-            }
+            extractedMethod99608(wc); // CAP AL
             {
                 final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyLibWithClassInclude");
                 assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
@@ -152,10 +152,7 @@ public class TagTest {
                 }
             }
             { // Groovy views
-                {
-                    final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyLibInclude");
-                    assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
-                }
+                extractedMethod99608(wc); // CAP AL
                 {
                     final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyLibWithClassInclude");
                     assertThat(page.getWebResponse().getStatusCode(), is(500)); // the error we're preventing
@@ -181,6 +178,13 @@ public class TagTest {
             StaplerTagLibrary.DISABLE_INCLUDE_TAG_CLASS_ATTRIBUTE_REWRITING = false;
         }
     }
+ // CAP AL
+    private void extractedMethod99608(final JenkinsRule.WebClient wc) throws IOException, SAXException { // CAP AL
+        { // CAP AL
+            final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyLibInclude"); // CAP AL
+            assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World")); // CAP AL
+        } // CAP AL
+    } // CAP AL
 
     @TestExtension
     public static class RootActionImpl extends InvisibleAction implements RootAction {
