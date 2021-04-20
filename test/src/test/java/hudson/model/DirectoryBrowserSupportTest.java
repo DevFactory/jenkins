@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import org.jvnet.hudson.test.JenkinsRule.WebClient; // CAP AL
+import org.xml.sax.SAXException; // CAP AL
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.UnexpectedPage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -478,10 +480,7 @@ public class DirectoryBrowserSupportTest {
             Page page = wc.goTo(p.getUrl() + "ws/to_secrets1/", null);
             assertThat(page.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_NOT_FOUND));
         }
-        { // to_secrets_goal1 not reachable
-            Page page = wc.goTo(p.getUrl() + "ws/to_secrets_goal1/", null);
-            assertThat(page.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_NOT_FOUND));
-        }
+        extractedMethod673(wc, p); // CAP AL
         { // intermediateFolder must be reachable (regular case)
             Page page = wc.goTo(p.getUrl() + "ws/intermediateFolder/", null);
             assertThat(page.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_OK));
@@ -691,10 +690,7 @@ public class DirectoryBrowserSupportTest {
             Page page = wc.goTo(p.getUrl() + "ws/to_secrets1j/", null);
             assertThat(page.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_NOT_FOUND));
         }
-        { // to_secrets_goal1 not reachable
-            Page page = wc.goTo(p.getUrl() + "ws/to_secrets_goal1/", null);
-            assertThat(page.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_NOT_FOUND));
-        }
+        extractedMethod673(wc, p); // CAP AL
         { // intermediateFolder must be reachable (regular case)
             Page page = wc.goTo(p.getUrl() + "ws/intermediateFolder/", null);
             assertThat(page.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_OK));
@@ -768,6 +764,13 @@ public class DirectoryBrowserSupportTest {
             assertThat(entryNames, contains("intermediateFolder/public2.key"));
         }
     }
+ // CAP AL
+    private void extractedMethod673(final JenkinsRule.WebClient wc, final FreeStyleProject p) throws IOException, SAXException { // CAP AL
+        { // to_secrets_goal1 not reachable // CAP AL
+            Page page = wc.goTo(p.getUrl() + "ws/to_secrets_goal1/", null); // CAP AL
+            assertThat(page.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_NOT_FOUND)); // CAP AL
+        } // CAP AL
+    } // CAP AL
 
     private List<String> getListOfEntriesInDownloadedZip(UnexpectedPage zipPage) throws Exception {
         List<String> result;
