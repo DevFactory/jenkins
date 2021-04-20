@@ -23,6 +23,7 @@
  */
 package jenkins.security.seed;
 
+import org.jvnet.hudson.test.JenkinsRule.WebClient; // CAP AL
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.HttpMethod;
@@ -151,10 +152,7 @@ public class UserSeedPropertyTest {
         // even after the security realm deleted the user, they can still connect, until session invalidation
         assertUserConnected(wc, ALICE);
 
-        requestRenewSeedForUser(alice);
-
-        assertUserNotConnected(wc, ALICE);
-        assertUserConnected(wc, "anonymous");
+        extractedMethod84107(alice, wc, ALICE); // CAP AL
 
         try {
             wc.login(ALICE);
@@ -243,14 +241,18 @@ public class UserSeedPropertyTest {
 
         assertUserConnected(wc, ALICE);
 
-        requestRenewSeedForUser(alice);
-
-        assertUserNotConnected(wc, ALICE);
-        assertUserConnected(wc, "anonymous");
+        extractedMethod84107(alice, wc, ALICE); // CAP AL
 
         wc.login(ALICE);
         assertUserConnected(wc, ALICE);
     }
+ // CAP AL
+    private void extractedMethod84107(final User alice, final JenkinsRule.WebClient wc, final String ALICE) throws Exception { // CAP AL
+        requestRenewSeedForUser(alice); // CAP AL
+         // CAP AL
+        assertUserNotConnected(wc, ALICE); // CAP AL
+        assertUserConnected(wc, "anonymous"); // CAP AL
+    } // CAP AL
 
     @Test
     public void userSeedSection_isCorrectlyDisplayed() throws Exception {
