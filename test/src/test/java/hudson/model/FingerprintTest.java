@@ -23,6 +23,7 @@
  */
 package hudson.model;
 
+import hudson.model.Fingerprint.BuildPtr; // CAP AL
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.WebRequest;
@@ -261,10 +262,7 @@ public class FingerprintTest {
         setupProjectMatrixAuthStrategy(Jenkins.READ, Item.DISCOVER);
 
         try (ACLContext acl = ACL.as(user1)) {
-            Fingerprint.BuildPtr original = fingerprint.getOriginal();
-            assertThat("user1 should able to see the origin", fingerprint.getOriginal(), notNullValue());
-            assertEquals("user1 sees the wrong original name with Item.DISCOVER", project.getFullName(), original.getName());
-            assertEquals("user1 sees the wrong original number with Item.DISCOVER", build.getNumber(), original.getNumber());
+            Fingerprint.BuildPtr original = getOriginal30903(fingerprint, project, build); // CAP AL
             assertEquals("Usage ref in fingerprint should be visible to user1", 1, fingerprint._getUsages().size());
         }
     }
@@ -286,15 +284,20 @@ public class FingerprintTest {
         try (ACLContext acl = ACL.as(user1)) {
             assertTrue("Test framework issue: User1 should be able to read the folder", folder.hasPermission(Item.READ));
 
-            Fingerprint.BuildPtr original = fingerprint.getOriginal();
-            assertThat("user1 should able to see the origin", fingerprint.getOriginal(), notNullValue());
-            assertEquals("user1 sees the wrong original name with Item.DISCOVER", project.getFullName(), original.getName());
-            assertEquals("user1 sees the wrong original number with Item.DISCOVER", build.getNumber(), original.getNumber());
+            Fingerprint.BuildPtr original = getOriginal30903(fingerprint, project, build); // CAP AL
             assertEquals("user1 should be able to see the job", 1, fingerprint._getUsages().size());
 
             assertThat("User should be unable do retrieve the job due to the missing read", original.getJob(), nullValue());
         }
     }
+ // CAP AL
+    private Fingerprint.BuildPtr getOriginal30903(final Fingerprint fingerprint, final FreeStyleProject project, final FreeStyleBuild build) { // CAP AL
+        Fingerprint.BuildPtr original = fingerprint.getOriginal(); // CAP AL
+        assertThat("user1 should able to see the origin", fingerprint.getOriginal(), notNullValue()); // CAP AL
+        assertEquals("user1 sees the wrong original name with Item.DISCOVER", project.getFullName(), original.getName()); // CAP AL
+        assertEquals("user1 sees the wrong original number with Item.DISCOVER", build.getNumber(), original.getNumber()); // CAP AL
+        return original; // CAP AL
+    } // CAP AL
     
     @Test
     public void shouldBeUnableToSeeFingerprintsInUnreadableFolder() throws Exception {
