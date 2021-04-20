@@ -38,14 +38,7 @@ public class ParametersAction2Test {
                 new StringParameterDefinition("foo", "foo"),
                 new StringParameterDefinition("bar", "bar")
         })));
-        ParametersCheckBuilder b = new ParametersCheckBuilder(false);
-        p.getBuildersList().add(b);
-        p.save();
-
-        j.assertBuildStatusSuccess(p.scheduleBuild2(0, new Cause.UserIdCause(), new ParametersAction(
-                new StringParameterValue("foo", "baz"),
-                new StringParameterValue("undef", "undef")
-        )));
+        extractedMethod78036(p); // CAP AL
     }
 
     @Test
@@ -87,15 +80,19 @@ public class ParametersAction2Test {
         hasParameterWithName(pa, "UNDEF");
 
         // A new build should work as expected (undef is not published to env)
-        ParametersCheckBuilder b = new ParametersCheckBuilder(false);
-        p.getBuildersList().add(b);
-        p.save();
-
-        j.assertBuildStatusSuccess(p.scheduleBuild2(0, new Cause.UserIdCause(), new ParametersAction(
-                new StringParameterValue("foo", "baz"),
-                new StringParameterValue("undef", "undef")
-        )));
+        extractedMethod78036(p); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod78036(final FreeStyleProject p) throws Exception { // CAP AL
+        ParametersCheckBuilder b = new ParametersCheckBuilder(false); // CAP AL
+        p.getBuildersList().add(b); // CAP AL
+        p.save(); // CAP AL
+         // CAP AL
+        j.assertBuildStatusSuccess(p.scheduleBuild2(0, new Cause.UserIdCause(), new ParametersAction( // CAP AL
+                new StringParameterValue("foo", "baz"), // CAP AL
+                new StringParameterValue("undef", "undef") // CAP AL
+        ))); // CAP AL
+    } // CAP AL
 
     @Test
     @Issue("SECURITY-170")
