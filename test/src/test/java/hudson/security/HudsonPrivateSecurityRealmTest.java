@@ -24,6 +24,8 @@
 
 package hudson.security;
 
+import java.io.IOException; // CAP AL
+import org.xml.sax.SAXException; // CAP AL
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.util.Cookie;
@@ -136,11 +138,7 @@ public class HudsonPrivateSecurityRealmTest {
         wc2.login("user2", "password2");
 
         // belt and braces in case the failed login no longer throws exceptions.
-        w1 = (XmlPage) wc1.goTo("whoAmI/api/xml", "application/xml");
-        assertThat(w1, hasXPath("//name", is("user1")));
-        
-        w2 = (XmlPage) wc2.goTo("whoAmI/api/xml", "application/xml");
-        assertThat(w2, hasXPath("//name", is("user2")));
+        extractedMethod20035(wc1, wc2); // CAP AL
     }
 
     @Issue("SECURITY-243")
@@ -180,12 +178,16 @@ public class HudsonPrivateSecurityRealmTest {
         u1.setFullName("user2");
         u1.save();
         // check the tokens still work
-        w1 = (XmlPage) wc1.goTo("whoAmI/api/xml", "application/xml");
-        assertThat(w1, hasXPath("//name", is("user1")));
-        
-        w2 = (XmlPage) wc2.goTo("whoAmI/api/xml", "application/xml");
-        assertThat(w2, hasXPath("//name", is("user2")));
+        extractedMethod20035(wc1, wc2); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod20035(final WebClient wc1, final WebClient wc2) throws IOException, SAXException { // CAP AL
+        XmlPage w1 = (XmlPage) wc1.goTo("whoAmI/api/xml", "application/xml"); // CAP AL
+        assertThat(w1, hasXPath("//name", is("user1"))); // CAP AL
+         // CAP AL
+        XmlPage w2 = (XmlPage) wc2.goTo("whoAmI/api/xml", "application/xml"); // CAP AL
+        assertThat(w2, hasXPath("//name", is("user2"))); // CAP AL
+    } // CAP AL
 
 
     private static String basicHeader(String user, String pass) {
