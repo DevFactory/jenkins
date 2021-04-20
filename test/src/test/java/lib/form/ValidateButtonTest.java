@@ -23,6 +23,9 @@
  */
 package lib.form;
 
+import java.io.IOException; // CAP AL
+import lib.form.ValidateButtonTest.NoInjectionArePossible.DescriptorImpl; // CAP AL
+import org.xml.sax.SAXException; // CAP AL
 import com.gargoylesoftware.htmlunit.html.DomNodeList;
 import com.gargoylesoftware.htmlunit.html.HtmlButton;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -138,14 +141,7 @@ public class ValidateButtonTest {
         descriptor.paramMethod = "validateInjection";
         descriptor.paramWith = "a,b";
         
-        JenkinsRule.WebClient wc = j.createWebClient()
-                .withThrowExceptionOnFailingStatusCode(false);
-        HtmlPage p = wc.goTo("test");
-        
-        descriptor.wasCalled = false;
-        HtmlElementUtil.click(getValidateButton(p));
-        assertNotEquals("hacked", p.getTitleText());
-        assertTrue(descriptor.wasCalled);
+        extractedMethod50029(descriptor); // CAP AL
     }
     
     private void checkInjectionInMethod(NoInjectionArePossible.DescriptorImpl descriptor) throws Exception {
@@ -166,15 +162,19 @@ public class ValidateButtonTest {
         descriptor.paramMethod = "validateInjection";
         descriptor.paramWith = "a,b',document.title='hacked'+'";
         
-        JenkinsRule.WebClient wc = j.createWebClient()
-                .withThrowExceptionOnFailingStatusCode(false);
-        HtmlPage p = wc.goTo("test");
-        
-        descriptor.wasCalled = false;
-        HtmlElementUtil.click(getValidateButton(p));
-        assertNotEquals("hacked", p.getTitleText());
-        assertTrue(descriptor.wasCalled);
+        extractedMethod50029(descriptor); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod50029(final NoInjectionArePossible.DescriptorImpl descriptor) throws IOException, SAXException { // CAP AL
+        JenkinsRule.WebClient wc = j.createWebClient() // CAP AL
+                .withThrowExceptionOnFailingStatusCode(false); // CAP AL
+        HtmlPage p = wc.goTo("test"); // CAP AL
+         // CAP AL
+        descriptor.wasCalled = false; // CAP AL
+        HtmlElementUtil.click(getValidateButton(p)); // CAP AL
+        assertNotEquals("hacked", p.getTitleText()); // CAP AL
+        assertTrue(descriptor.wasCalled); // CAP AL
+    } // CAP AL
     
     private HtmlButton getValidateButton(HtmlPage page){
         DomNodeList<HtmlElement> buttons = page.getElementById("test-panel").getElementsByTagName("button");
