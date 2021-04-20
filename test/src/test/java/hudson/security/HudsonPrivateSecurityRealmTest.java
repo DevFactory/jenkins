@@ -24,6 +24,7 @@
 
 package hudson.security;
 
+import java.io.IOException; // CAP AL
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.util.Cookie;
@@ -100,11 +101,7 @@ public class HudsonPrivateSecurityRealmTest {
     @Test
     public void fullNameCollisionPassword() throws Exception {
         HudsonPrivateSecurityRealm securityRealm = new HudsonPrivateSecurityRealm(false, false, null);
-        j.jenkins.setSecurityRealm(securityRealm);
-        
-        User u1 = securityRealm.createAccount("user1", "password1");
-        u1.setFullName("User One");
-        u1.save();
+        User u1 = getU115132(securityRealm); // CAP AL
 
         User u2 = securityRealm.createAccount("user2", "password2");
         u2.setFullName("User Two");
@@ -149,11 +146,7 @@ public class HudsonPrivateSecurityRealmTest {
         ApiTokenTestHelper.enableLegacyBehavior();
         
         HudsonPrivateSecurityRealm securityRealm = new HudsonPrivateSecurityRealm(false, false, null);
-        j.jenkins.setSecurityRealm(securityRealm);
-        
-        User u1 = securityRealm.createAccount("user1", "password1");
-        u1.setFullName("User One");
-        u1.save();
+        User u1 = getU115132(securityRealm); // CAP AL
         String u1Token = u1.getProperty(ApiTokenProperty.class).getApiToken();
 
         User u2 = securityRealm.createAccount("user2", "password2");
@@ -186,6 +179,15 @@ public class HudsonPrivateSecurityRealmTest {
         w2 = (XmlPage) wc2.goTo("whoAmI/api/xml", "application/xml");
         assertThat(w2, hasXPath("//name", is("user2")));
     }
+ // CAP AL
+    private User getU115132(final HudsonPrivateSecurityRealm securityRealm) throws IOException { // CAP AL
+        j.jenkins.setSecurityRealm(securityRealm); // CAP AL
+         // CAP AL
+        User u1 = securityRealm.createAccount("user1", "password1"); // CAP AL
+        u1.setFullName("User One"); // CAP AL
+        u1.save(); // CAP AL
+        return u1; // CAP AL
+    } // CAP AL
 
 
     private static String basicHeader(String user, String pass) {
