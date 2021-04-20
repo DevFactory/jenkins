@@ -165,10 +165,7 @@ public class ParametersAction2Test {
     @Issue("SECURITY-170")
     public void whitelistedParameterByOverride() throws Exception {
         FreeStyleProject p = j.createFreeStyleProject();
-        String name = p.getFullName();
-        p.addProperty(new ParametersDefinitionProperty(Arrays.asList(
-                new StringParameterDefinition("foo", "foo"),
-                new StringParameterDefinition("bar", "bar"))));
+        String name = getName17476(p); // CAP AL
 
         try {
             ParametersAction action = new ParametersAction(
@@ -207,10 +204,7 @@ public class ParametersAction2Test {
     @Issue("SECURITY-170")
     public void whitelistedParameterSameAfterChange() throws Exception {
         FreeStyleProject p = j.createFreeStyleProject();
-        String name = p.getFullName();
-        p.addProperty(new ParametersDefinitionProperty(Arrays.asList(
-                new StringParameterDefinition("foo", "foo"),
-                new StringParameterDefinition("bar", "bar"))));
+        String name = getName17476(p); // CAP AL
 
         try {
             System.setProperty(ParametersAction.SAFE_PARAMETERS_SYSTEM_PROPERTY_NAME, "whitelisted1,whitelisted2");
@@ -248,6 +242,14 @@ public class ParametersAction2Test {
             System.clearProperty(ParametersAction.SAFE_PARAMETERS_SYSTEM_PROPERTY_NAME);
         }
     }
+ // CAP AL
+    private String getName17476(final FreeStyleProject p) throws IOException { // CAP AL
+        String name = p.getFullName(); // CAP AL
+        p.addProperty(new ParametersDefinitionProperty(Arrays.asList( // CAP AL
+                new StringParameterDefinition("foo", "foo"), // CAP AL
+                new StringParameterDefinition("bar", "bar")))); // CAP AL
+        return name; // CAP AL
+    } // CAP AL
 
 
 
