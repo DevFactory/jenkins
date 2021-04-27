@@ -24,6 +24,7 @@
  */
 package hudson.model;
 
+import hudson.model.Items.whileUpdatingByXml.T; // CAP AL
 import com.infradna.tool.bridge_method_injector.WithBridgeMethods;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.AbortException;
@@ -885,13 +886,7 @@ public abstract class AbstractItem extends Actionable implements Item, HttpDelet
                 throw new IOException("Expecting "+this.getClass()+" but got "+o.getClass()+" instead");
             }
 
-            Items.whileUpdatingByXml(new NotReallyRoleSensitiveCallable<Void,IOException>() {
-                @Override public Void call() throws IOException {
-                    onLoad(getParent(), getRootDir().getName());
-                    return null;
-                }
-            });
-            Jenkins.get().rebuildDependencyGraphAsync();
+            extractedMethod25927(); // CAP AL
 
             // if everything went well, commit this new version
             out.commit();
@@ -917,17 +912,21 @@ public abstract class AbstractItem extends Actionable implements Item, HttpDelet
 
         // try to reflect the changes by reloading
         getConfigFile().unmarshal(this);
-        Items.whileUpdatingByXml(new NotReallyRoleSensitiveCallable<Void, IOException>() {
-            @Override
-            public Void call() throws IOException {
-                onLoad(getParent(), getRootDir().getName());
-                return null;
-            }
-        });
-        Jenkins.get().rebuildDependencyGraphAsync();
+        extractedMethod25927(); // CAP AL
 
         SaveableListener.fireOnChange(this, getConfigFile());
     }
+ // CAP AL
+    private void extractedMethod25927() throws T { // CAP AL
+        Items.whileUpdatingByXml(new NotReallyRoleSensitiveCallable<Void, IOException>() { // CAP AL
+            @Override // CAP AL
+            public Void call() throws IOException { // CAP AL
+                onLoad(getParent(), getRootDir().getName()); // CAP AL
+                return null; // CAP AL
+            } // CAP AL
+        }); // CAP AL
+        Jenkins.get().rebuildDependencyGraphAsync(); // CAP AL
+    } // CAP AL
 
 
     @Override
