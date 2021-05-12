@@ -66,9 +66,7 @@ public class TriggerStartTest {
         p.addTrigger(t);
         p.save();
         p = (FreeStyleProject)j.configRoundtrip((Item)p);
-        t = p.getTrigger(MockTrigger.class);
-        assertNotNull(t);
-        assertEquals("[true]", t.calls.toString());
+        extractedMethod50626(p);
     }
 
     @Test public void updateByXmlCallsStartTrue() throws Exception {
@@ -95,7 +93,11 @@ public class TriggerStartTest {
         p.addTrigger(t);
         p.save();
         p = j.jenkins.copy(p, "nue");
-        t = p.getTrigger(MockTrigger.class);
+        extractedMethod50626(p);
+    }
+
+    private void extractedMethod50626(final AbstractProject <?, ?> p) {
+        MockTrigger t = p.getTrigger(MockTrigger.class);
         assertNotNull(t);
         assertEquals("[true]", t.calls.toString());
     }
