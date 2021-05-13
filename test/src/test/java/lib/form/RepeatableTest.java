@@ -213,20 +213,22 @@ public class RepeatableTest extends HudsonTestCase {
     
     private void assertWithDefaults(final String viewName) throws Exception {
         list = null;
-        addDefaults();
-        gotoAndSubmitConfig(viewName);
-        assertNotNull(formData.get("list"));
+        extractedMethod91071(viewName);
         assertEqualsJsonArray("[{\"bool\":true,\"txt\":\"default one\"},{\"bool\":false,\"txt\":\"default two\"}]",
                 formData.get("list"));
     }    
 
     private void assertDefaultsIgnoredIfHaveData(final String viewName) throws Exception {
         addData();
+        extractedMethod91071(viewName);
+        assertEqualsJsonArray("[{\"bool\":true,\"txt\":\"existing one\"},{\"bool\":false,\"txt\":\"existing two\"}]",
+                formData.get("list"));
+    }
+
+    private void extractedMethod91071(final String viewName) throws Exception {
         addDefaults();
         gotoAndSubmitConfig(viewName);
         assertNotNull(formData.get("list"));
-        assertEqualsJsonArray("[{\"bool\":true,\"txt\":\"existing one\"},{\"bool\":false,\"txt\":\"existing two\"}]",
-                formData.get("list"));
     }
     
     private void gotoAndSubmitConfig(final String viewName) throws Exception {
