@@ -96,10 +96,7 @@ public class OfflineNodeCommandTest {
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode");
         assertThat(result, succeededSilently());
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
-        assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(true));
-        assertThat(slave.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
-        assertThat(((OfflineCause.ByCLI) slave.toComputer().getOfflineCause()).message, equalTo(null));
+        extractedMethod69455(slave);
     }
 
     @Test
@@ -114,10 +111,7 @@ public class OfflineNodeCommandTest {
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode");
         assertThat(result, succeededSilently());
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
-        assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(true));
-        assertThat(slave.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
-        assertThat(((OfflineCause.ByCLI) slave.toComputer().getOfflineCause()).message, equalTo(null));
+        extractedMethod69455(slave);
     }
 
     @Test
@@ -132,10 +126,7 @@ public class OfflineNodeCommandTest {
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode");
         assertThat(result, succeededSilently());
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
-        assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(true));
-        assertThat(slave.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
-        assertThat(((OfflineCause.ByCLI) slave.toComputer().getOfflineCause()).message, equalTo(null));
+        extractedMethod69455(slave);
     }
 
     @Test
@@ -155,10 +146,7 @@ public class OfflineNodeCommandTest {
                 .invokeWithArgs("aNode");
         assertThat(result, succeededSilently());
         assertThat(slave.toComputer().isOnline(), equalTo(false));
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
-        assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(true));
-        assertThat(slave.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
-        assertThat(((OfflineCause.ByCLI) slave.toComputer().getOfflineCause()).message, equalTo(null));
+        extractedMethod69455(slave);
     }
 
     @Test
@@ -250,10 +238,7 @@ public class OfflineNodeCommandTest {
                 .invokeWithArgs("aNode");
         assertThat(result, succeededSilently());
         slave.toComputer().waitUntilOffline();
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
-        assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(true));
-        assertThat(slave.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
-        assertThat(((OfflineCause.ByCLI) slave.toComputer().getOfflineCause()).message, equalTo(null));
+        extractedMethod69455(slave);
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
         assertThat(project.isBuilding(), equalTo(true));
 
@@ -262,6 +247,13 @@ public class OfflineNodeCommandTest {
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
         assertThat(project.isBuilding(), equalTo(false));
         j.assertBuildStatusSuccess(build);
+    }
+
+    private void extractedMethod69455(final DumbSlave slave) {
+        assertThat(slave.toComputer().isOffline(), equalTo(true));
+        assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(true));
+        assertThat(slave.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
+        assertThat(((OfflineCause.ByCLI) slave.toComputer().getOfflineCause()).message, equalTo(null));
     }
 
     @Test
