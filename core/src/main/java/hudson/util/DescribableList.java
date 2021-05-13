@@ -23,6 +23,8 @@
  */
 package hudson.util;
 
+import hudson.util.ExtractedSeparateClass30141;
+
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
@@ -280,9 +282,7 @@ public class DescribableList<T extends Describable<T>, D extends Descriptor<T>> 
                 x.initCause(e);
                 throw x;
             } catch (IllegalAccessException e) {
-                IllegalAccessError x = new IllegalAccessError();
-                x.initCause(e);
-                throw x;
+                throw ExtractedSeparateClass30141.getX35602(e);
             }
         }
     }

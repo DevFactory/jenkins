@@ -23,6 +23,8 @@
  */
 package hudson.util;
 
+import hudson.util.ExtractedSeparateClass30141;
+
 import com.sun.jna.Memory;
 import com.sun.jna.Native;
 import com.sun.jna.NativeLong;
@@ -813,9 +815,7 @@ public abstract class ProcessTree implements Iterable<OSProcess>, IProcessTree, 
                 } while (System.nanoTime() < deadline);
             } catch (IllegalAccessException e) {
                 // this is impossible
-                IllegalAccessError x = new IllegalAccessError();
-                x.initCause(e);
-                throw x;
+                throw ExtractedSeparateClass30141.getX35602(e);
             } catch (InvocationTargetException e) {
                 // tunnel serious errors
                 if(e.getTargetException() instanceof Error)
@@ -933,9 +933,7 @@ public abstract class ProcessTree implements Iterable<OSProcess>, IProcessTree, 
                     return (int)pid;
                 }
             } catch (IllegalAccessException | InvocationTargetException e) { // impossible
-                IllegalAccessError x = new IllegalAccessError();
-                x.initCause(e);
-                throw x;
+                throw ExtractedSeparateClass30141.getX35602(e);
             }
         }
     }

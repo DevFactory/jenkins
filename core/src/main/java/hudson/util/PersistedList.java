@@ -23,6 +23,8 @@
  */
 package hudson.util;
 
+import hudson.util.ExtractedSeparateClass30141;
+
 import com.google.common.collect.ImmutableSet;
 import com.infradna.tool.bridge_method_injector.WithBridgeMethods;
 import com.thoughtworks.xstream.converters.Converter;
@@ -282,9 +284,7 @@ public class PersistedList<T> extends AbstractList<T> {
                 x.initCause(e);
                 throw x;
             } catch (IllegalAccessException e) {
-                IllegalAccessError x = new IllegalAccessError();
-                x.initCause(e);
-                throw x;
+                throw ExtractedSeparateClass30141.getX35602(e);
             }
         }
     }
