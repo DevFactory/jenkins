@@ -297,15 +297,8 @@ public class Security400Test {
             futureBuild.waitForStart();
 
             WebRequest request = new WebRequest(new URL(j.getURL() + "computers/0/executors/0/stopBuild"), HttpMethod.POST);
-            Page page = wc.getPage(request);
-            assertEquals(404, page.getWebResponse().getStatusCode());
-            assertRequestWasNotBlocked();
-
-            // let the build finish quickly (if not interrupted already)
-            semaphore.release(1);
-
-            j.assertBuildStatus(Result.FAILURE, futureBuild);
-            assertEquals(3, atomicResult.get()); // interrupted
+            extractedMethod23124(wc, request, semaphore, futureBuild, atomicResult);
+             // interrupted
         }
 
         { // third try, calling stopBuild with the right parameter interrupts the build
@@ -318,15 +311,8 @@ public class Security400Test {
             String runExtId = URLEncoder.encode(build.getExternalizableId(), "UTF-8");
 
             WebRequest request = new WebRequest(new URL(j.getURL() + "computers/0/executors/0/stopBuild?runExtId=" + runExtId), HttpMethod.POST);
-            Page page = wc.getPage(request);
-            assertEquals(404, page.getWebResponse().getStatusCode());
-            assertRequestWasNotBlocked();
-
-            // let the build finish quickly (if not interrupted already)
-            semaphore.release(1);
-
-            j.assertBuildStatus(Result.FAILURE, futureBuild);
-            assertEquals(3, atomicResult.get()); // interrupted
+            extractedMethod23124(wc, request, semaphore, futureBuild, atomicResult);
+             // interrupted
         }
 
         { // fourth try, calling stopBuild with a parameter not matching build id doesn't interrupt the build
@@ -360,6 +346,18 @@ public class Security400Test {
         j.assertBuildStatus(Result.SUCCESS, futureBuild); // CAP AL
         assertEquals(1, atomicResult.get()); // CAP AL
     } // CAP AL
+
+    private void extractedMethod23124(final JenkinsRule.WebClient wc, final WebRequest request, final Semaphore semaphore, final QueueTaskFuture<FreeStyleBuild> futureBuild, final AtomicInteger atomicResult) throws Exception {
+        Page page = wc.getPage(request);
+        assertEquals(404, page.getWebResponse().getStatusCode());
+        assertRequestWasNotBlocked();
+        
+        // let the build finish quickly (if not interrupted already)
+        semaphore.release(1);
+        
+        j.assertBuildStatus(Result.FAILURE, futureBuild);
+        assertEquals(3, atomicResult.get());
+    }
 
     @Test
     @Issue("SECURITY-404")
