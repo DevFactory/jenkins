@@ -23,6 +23,8 @@
  */
 package hudson.search;
 
+import hudson.ExtractedSeparateClass92678;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -426,9 +428,7 @@ public class SearchTest {
     @Test
     @Issue("JENKINS-7874")
     public void adminOnlyLinksNotShownToRegularUser() {
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
-        MockAuthorizationStrategy mas = new MockAuthorizationStrategy();
-        mas.grant(Jenkins.READ).onRoot().toEveryone();
+        MockAuthorizationStrategy mas = ExtractedSeparateClass92678.getAuthorizationStrategy75326(j);
         j.jenkins.setAuthorizationStrategy(mas);
 
         try(ACLContext acl = ACL.as(User.get("alice"))) {

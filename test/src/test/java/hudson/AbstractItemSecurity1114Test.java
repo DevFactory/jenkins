@@ -1,5 +1,7 @@
 package hudson;
 
+import hudson.ExtractedSeparateClass92678;
+
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import hudson.model.AbstractItem;
 import hudson.model.Item;
@@ -26,9 +28,7 @@ public class AbstractItemSecurity1114Test {
     @Issue("SECURITY-1114")
     @For(AbstractItem.class)
     public void testAccess() throws Exception {
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
-        MockAuthorizationStrategy authorizationStrategy = new MockAuthorizationStrategy();
-        authorizationStrategy.grant(Jenkins.READ).onRoot().toEveryone();
+        MockAuthorizationStrategy authorizationStrategy = ExtractedSeparateClass92678.getAuthorizationStrategy75326(j);
         authorizationStrategy.grant(Item.DISCOVER).everywhere().to("alice");
         authorizationStrategy.grant(Item.READ).everywhere().to("bob");
         j.jenkins.setAuthorizationStrategy(authorizationStrategy);
