@@ -95,10 +95,7 @@ public class InstallPluginCommand extends CLICommand {
                 stdout.println(Messages.InstallPluginCommand_InstallingPluginFromStdin());
                 File f = getTmpFile();
                 FileUtils.copyInputStreamToFile(stdin, f);
-                f = moveToFinalLocation(f);
-                if (dynamicLoad) {
-                    pm.dynamicLoad(f);
-                }
+                extractedMethod43391(f, pm);
                 continue;
             }
 
@@ -108,10 +105,7 @@ public class InstallPluginCommand extends CLICommand {
                 stdout.println(Messages.InstallPluginCommand_InstallingPluginFromUrl(u));
                 File f = getTmpFile();
                 FileUtils.copyURLToFile(u, f); // TODO JENKINS-58248 proxy
-                f = moveToFinalLocation(f);
-                if (dynamicLoad) {
-                    pm.dynamicLoad(f);
-                }
+                extractedMethod43391(f, pm);
                 continue;
             } catch (MalformedURLException e) {
                 // not an URL
@@ -166,6 +160,13 @@ public class InstallPluginCommand extends CLICommand {
         if (restart)
             h.safeRestart();
         return 0; // all success
+    }
+
+    private void extractedMethod43391(File f, final PluginManager pm) throws Exception {
+        f = moveToFinalLocation(f);
+        if (dynamicLoad) {
+            pm.dynamicLoad(f);
+        }
     }
 
     private static File getTmpFile() throws Exception {
