@@ -250,23 +250,7 @@ public class VirtualFileTest {
         prepareFileStructureForIsDescendant(source);
 
         VirtualFile sourcePath = VirtualFile.forFilePath(new FilePath(source));
-        try (FileOutputStream outputStream = new FileOutputStream(zipFile)) {
-            sourcePath.zip( outputStream,"**", null, true, true, "");
-        }
-        FilePath zipPath = new FilePath(zipFile);
-        assertTrue(zipPath.exists());
-        assertFalse(zipPath.isDirectory());
-        FilePath unzipPath = new FilePath(new File(tmp.getRoot(), "unzip"));
-        zipPath.unzip(unzipPath);
-        assertTrue(unzipPath.exists());
-        assertTrue(unzipPath.isDirectory());
-        assertTrue(unzipPath.child("a").child("aa").child("aa.txt").exists());
-        assertTrue(unzipPath.child("a").child("ab").child("ab.txt").exists());
-        assertFalse(unzipPath.child("a").child("aa").child("aaa").exists());
-        assertFalse(unzipPath.child("a").child("_b").exists());
-        assertTrue(unzipPath.child("b").child("ba").child("ba.txt").exists());
-        assertFalse(unzipPath.child("b").child("_a").exists());
-        assertFalse(unzipPath.child("b").child("_aatxt").exists());
+        extractedMethod68779(zipFile, sourcePath);
     }
 
     @Test
@@ -308,6 +292,10 @@ public class VirtualFileTest {
         prepareFileStructureForIsDescendant(source);
 
         VirtualFile sourcePath = VirtualFile.forFile(source);
+        extractedMethod68779(zipFile, sourcePath);
+    }
+
+    private void extractedMethod68779(final File zipFile, final VirtualFile sourcePath) throws IOException, InterruptedException {
         try (FileOutputStream outputStream = new FileOutputStream(zipFile)) {
             sourcePath.zip( outputStream,"**", null, true, true, "");
         }
