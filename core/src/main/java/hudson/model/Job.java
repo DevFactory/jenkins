@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import hudson.model.ExtractedSeparateClass98293;
+
 import com.infradna.tool.bridge_method_injector.WithBridgeMethods;
 import hudson.BulkChange;
 import hudson.EnvVars;
@@ -1489,13 +1491,7 @@ public abstract class Job<JobT extends Job<JobT, RunT>, RunT extends Run<JobT, R
                 plot.setRangeGridlinePaint(Color.black);
 
                 CategoryAxis domainAxis = new ShiftedCategoryAxis(null);
-                plot.setDomainAxis(domainAxis);
-                domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_90);
-                domainAxis.setLowerMargin(0.0);
-                domainAxis.setUpperMargin(0.0);
-                domainAxis.setCategoryMargin(0.0);
-
-                final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+                final NumberAxis rangeAxis = ExtractedSeparateClass98293.getRangeAxis92805(plot, domainAxis);
                 ChartUtil.adjustChebyshev(dataset, rangeAxis);
                 rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
