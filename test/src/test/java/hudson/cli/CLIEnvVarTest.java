@@ -166,27 +166,25 @@ public class CLIEnvVarTest {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             Map<String, String> envars = new HashMap<>();
             envars.put("JENKINS_USER_ID", "admin");
-            assertNotEquals(0, launch(envars,
-                                      "java",
-                                      "-Duser.home=" + home,
-                                      "-jar", jar.getAbsolutePath(),
-                                      "-s", r.getURL().toString(),
-                                      "who-am-i")
-            );
+            extractedMethod90111(envars);
         }
 
         // only JENKINS_API_TOKEN
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             Map<String, String> envars = new HashMap<>();
             envars.put("JENKINS_API_TOKEN", token);
-            assertNotEquals(0, launch(envars,
-                                      "java",
-                                      "-Duser.home=" + home,
-                                      "-jar", jar.getAbsolutePath(),
-                                      "-s", r.getURL().toString(),
-                                      "who-am-i")
-            );
+            extractedMethod90111(envars);
         }
+    }
+
+    private void extractedMethod90111(final Map<String, String> envars) throws Exception {
+        assertNotEquals(0, launch(envars,
+                                  "java",
+                                  "-Duser.home=" + home,
+                                  "-jar", jar.getAbsolutePath(),
+                                  "-s", r.getURL().toString(),
+                                  "who-am-i")
+        );
     }
 
     @Test
