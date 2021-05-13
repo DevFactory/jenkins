@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result;
+
 import hudson.model.Computer;
 import hudson.slaves.DumbSlave;
 import jenkins.model.Jenkins;
@@ -87,13 +89,7 @@ public class ConnectNodeCommandTest {
         result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode");
-        assertThat(result, succeededSilently());
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
-
-        slave.toComputer().disconnect();
-        slave.toComputer().waitUntilOffline();
-        assertThat(slave.toComputer().isOnline(), equalTo(false));
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
+        extractedMethod93829(result, slave);
 
         result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
@@ -115,19 +111,23 @@ public class ConnectNodeCommandTest {
         result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("-f", "aNode");
-        assertThat(result, succeededSilently());
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
-
-        slave.toComputer().disconnect();
-        slave.toComputer().waitUntilOffline();
-        assertThat(slave.toComputer().isOnline(), equalTo(false));
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
+        extractedMethod93829(result, slave);
 
         result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("-f", "aNode");
         assertThat(result, succeededSilently());
         assertThat(slave.toComputer().isOnline(), equalTo(true));
+    }
+
+    private void extractedMethod93829(final CLICommandInvoker.Result result, final DumbSlave slave) throws InterruptedException {
+        assertThat(result, succeededSilently());
+        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        
+        slave.toComputer().disconnect();
+        slave.toComputer().waitUntilOffline();
+        assertThat(slave.toComputer().isOnline(), equalTo(false));
+        assertThat(slave.toComputer().isOffline(), equalTo(true));
     }
 
     @Test public void connectNodeManyShouldSucceed() throws Exception {
