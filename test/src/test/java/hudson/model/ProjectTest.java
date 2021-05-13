@@ -711,15 +711,7 @@ public class ProjectTest {
          * Setup a project with an SCM. Jenkins should have no executors in itself. 
          */
         FreeStyleProject proj = j.createFreeStyleProject("JENKINS-21394-spawn");        
-        RequiresWorkspaceSCM requiresWorkspaceScm = new RequiresWorkspaceSCM(true);
-        proj.setScm(requiresWorkspaceScm);        
-        j.jenkins.setNumExecutors(0);        
-        /*
-         * We have a cloud
-         */
-        DummyCloudImpl2 c2 = new DummyCloudImpl2(j, 0);
-        c2.label = new LabelAtom("test-cloud-label");        
-        j.jenkins.clouds.add(c2);
+        DummyCloudImpl2 c2 = getC29076(proj);
         
         SCMTrigger t = new SCMTrigger("@daily", true);
         t.start(proj, true);
@@ -783,16 +775,7 @@ public class ProjectTest {
     @Test
     public void testRestrictedLabelOnSlaveYesQueue() throws Exception {        
         FreeStyleProject proj = j.createFreeStyleProject("JENKINS-21394-yesqueue");
-        RequiresWorkspaceSCM requiresWorkspaceScm = new RequiresWorkspaceSCM(true);
-        proj.setScm(requiresWorkspaceScm);        
-        j.jenkins.setNumExecutors(0);
-        
-        /*
-         * We have a cloud
-         */
-        DummyCloudImpl2 c2 = new DummyCloudImpl2(j, 0);
-        c2.label = new LabelAtom("test-cloud-label");        
-        j.jenkins.clouds.add(c2);
+        DummyCloudImpl2 c2 = getC29076(proj);
         proj.setAssignedLabel(c2.label);
         
         SCMTrigger t = new SCMTrigger("@daily", true);
@@ -803,6 +786,20 @@ public class ProjectTest {
         Thread.sleep(1000);
         //The job should be in queue
         assertEquals(1, j.jenkins.getQueue().getItems().length);    
+    }
+
+    private DummyCloudImpl2 getC29076(final FreeStyleProject proj) throws IOException {
+        RequiresWorkspaceSCM requiresWorkspaceScm = new RequiresWorkspaceSCM(true);
+        proj.setScm(requiresWorkspaceScm);        
+        j.jenkins.setNumExecutors(0);
+        
+        /*
+         * We have a cloud
+         */
+        DummyCloudImpl2 c2 = new DummyCloudImpl2(j, 0);
+        c2.label = new LabelAtom("test-cloud-label");        
+        j.jenkins.clouds.add(c2);
+        return c2;
     }
 
     @Issue("JENKINS-22750")
