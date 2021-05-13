@@ -72,9 +72,7 @@ public class ClassFilterImplTest {
 
     @Test
     public void masterToSlaveBypassesWhitelist() throws Exception {
-        assumeThat(ClassFilterImpl.WHITELISTED_CLASSES, not(contains(LinkedListMultimap.class.getName())));
-        FreeStyleProject p = r.createFreeStyleProject();
-        p.setAssignedNode(r.createSlave());
+        FreeStyleProject p = getP28919();
         p.getBuildersList().add(new M2SBuilder());
         r.assertLogContains("sent {}", r.buildAndAssertSuccess(p));
     }
@@ -105,11 +103,16 @@ public class ClassFilterImplTest {
 
     @Test
     public void slaveToMasterRequiresWhitelist() throws Exception {
+        FreeStyleProject p = getP28919();
+        p.getBuildersList().add(new S2MBuilder());
+        r.assertBuildStatus(Result.FAILURE, p.scheduleBuild2(0));
+    }
+
+    private FreeStyleProject getP28919() throws Exception {
         assumeThat(ClassFilterImpl.WHITELISTED_CLASSES, not(contains(LinkedListMultimap.class.getName())));
         FreeStyleProject p = r.createFreeStyleProject();
         p.setAssignedNode(r.createSlave());
-        p.getBuildersList().add(new S2MBuilder());
-        r.assertBuildStatus(Result.FAILURE, p.scheduleBuild2(0));
+        return p;
     }
     public static class S2MBuilder extends Builder {
         @Override
