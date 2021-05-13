@@ -150,15 +150,7 @@ public class OnlineNodeCommandTest {
         slave.toComputer().waitUntilOffline();
         assertThat(slave.toComputer().isOffline(), equalTo(true));
 
-        final CLICommandInvoker.Result result = command
-                .authorizedTo(Computer.CONNECT, Jenkins.READ)
-                .invokeWithArgs("aNode");
-        assertThat(result, succeededSilently());
-        if (slave.toComputer().isConnecting()) {
-            System.out.println("Waiting until going online is in progress...");
-            slave.toComputer().waitUntilOnline();
-        }
-        assertThat(slave.toComputer().isOnline(), equalTo(false));
+        extractedMethod3002(slave);
     }
 
     @Test public void onlineNodeShouldSucceedOnDisconnectingNode() throws Exception {
@@ -170,6 +162,10 @@ public class OnlineNodeCommandTest {
         assertThat(slave.toComputer().isOnline(), equalTo(true));
         slave.toComputer().disconnect();
 
+        extractedMethod3002(slave);
+    }
+
+    private void extractedMethod3002(final DumbSlave slave) throws InterruptedException {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode");
