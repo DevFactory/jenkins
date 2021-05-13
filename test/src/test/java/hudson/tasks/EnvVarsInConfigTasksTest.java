@@ -83,21 +83,7 @@ public class EnvVarsInConfigTasksTest extends HudsonTestCase {
 
 		assertBuildStatusSuccess(build);
 
-		String buildLogRegular = getBuildLog(build);
-		System.out.println(buildLogRegular);
-		assertTrue(buildLogRegular.contains(DUMMY_LOCATION_VARNAME));
-
-		// test the agent with prepared environment
-		project.setAssignedLabel(slaveEnv.getSelfLabel());
-		build = project.scheduleBuild2(0).get();
-		System.out.println(build.getDisplayName() + " completed");
-
-		assertBuildStatusSuccess(build);
-
-		// Check variable was expanded
-		String buildLogEnv = getBuildLog(build);
-		System.out.println(buildLogEnv);
-		assertFalse(buildLogEnv.contains(DUMMY_LOCATION_VARNAME));
+		extractedMethod37104(build, project);
 	}
 
 	public void testFreeStyleAntOnSlave() throws Exception {
@@ -163,21 +149,25 @@ public class EnvVarsInConfigTasksTest extends HudsonTestCase {
 
 		assertBuildStatus(Result.FAILURE, build);
 
-		String buildLogRegular = getBuildLog(build);
-		System.out.println(buildLogRegular);
-		assertTrue(buildLogRegular.contains(DUMMY_LOCATION_VARNAME));
+		extractedMethod37104(build, project);
+	}
 
-		// test the agent with prepared environment
-		project.setAssignedLabel(slaveEnv.getSelfLabel());
-		build = project.scheduleBuild2(0).get();
-		System.out.println(build.getDisplayName() + " completed");
-
-		assertBuildStatusSuccess(build);
-
-		// Check variable was expanded
-		String buildLogEnv = getBuildLog(build);
-		System.out.println(buildLogEnv);
-		assertFalse(buildLogEnv.contains(DUMMY_LOCATION_VARNAME));
+	private void extractedMethod37104(FreeStyleBuild build, final FreeStyleProject project) throws Exception {
+	    String buildLogRegular = getBuildLog(build);
+	    System.out.println(buildLogRegular);
+	    assertTrue(buildLogRegular.contains(DUMMY_LOCATION_VARNAME));
+	    
+	    // test the agent with prepared environment
+	    project.setAssignedLabel(slaveEnv.getSelfLabel());
+	    build = project.scheduleBuild2(0).get();
+	    System.out.println(build.getDisplayName() + " completed");
+	    
+	    assertBuildStatusSuccess(build);
+	    
+	    // Check variable was expanded
+	    String buildLogEnv = getBuildLog(build);
+	    System.out.println(buildLogEnv);
+	    assertFalse(buildLogEnv.contains(DUMMY_LOCATION_VARNAME));
 	}
 
     @SuppressWarnings("deprecation") // it's  okay to use it in tests
