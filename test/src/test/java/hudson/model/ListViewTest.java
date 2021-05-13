@@ -267,9 +267,7 @@ public class ListViewTest {
         when(req.getInputStream()).thenReturn(new Stream(IOUtils.toInputStream(configXml)));
         when(req.getContentType()).thenReturn("application/xml");
         v.doCreateItem(req, rsp);
-        List<TopLevelItem> items = v.getItems();
-        assertEquals(1, items.size());
-        assertEquals("job1", items.get(0).getName());
+        extractedMethod18508(v);
     }
 
     @Issue("JENKINS-23411")
@@ -280,9 +278,7 @@ public class ListViewTest {
         FreeStyleProject job = folder.createProject(FreeStyleProject.class, "job1");
         view.add(job);
 
-        List<TopLevelItem> items = view.getItems();
-        assertEquals(1, items.size());
-        assertEquals("job1", items.get(0).getName());
+        extractedMethod18508(view);
 
         // remove a contained job
         view.doRemoveJobFromView("job1");
@@ -296,6 +292,12 @@ public class ListViewTest {
         } catch(Failure e) {
             assertEquals("Query parameter 'name' does not correspond to a known and readable item", e.getMessage());
         }
+    }
+
+    private void extractedMethod18508(final ListView view) {
+        List<TopLevelItem> items = view.getItems();
+        assertEquals(1, items.size());
+        assertEquals("job1", items.get(0).getName());
     }
 
     @Test public void getItemsNames() throws Exception {
