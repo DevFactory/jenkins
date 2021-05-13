@@ -145,12 +145,7 @@ public class ProcessTreeTest {
 
         ProcessTree processTree = ProcessTree.get();
         processTree.killAll(ImmutableMap.of("cookie", "testKeepDaemonsAlive"));
-        try {
-            process.exitValue();
-            fail("Process should have been excluded from the killing");
-        } catch (IllegalThreadStateException e) {
-            // Means the process is still running
-        }
+        extractedMethod51217();
     }
 
     @Test
@@ -181,6 +176,10 @@ public class ProcessTreeTest {
         StringWriter out = new StringWriter();
         s.createLauncher(new StreamTaskListener(out)).kill(ImmutableMap.of("cookie", "testKeepDaemonsAlive"));
 
+        extractedMethod51217();
+    }
+
+    private void extractedMethod51217() {
         try {
             process.exitValue();
             fail("Process should have been excluded from the killing");
