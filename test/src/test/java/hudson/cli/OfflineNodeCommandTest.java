@@ -104,11 +104,7 @@ public class OfflineNodeCommandTest {
 
     @Test
     public void offlineNodeShouldSucceedOnOnlineNode() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        slave.toComputer().waitUntilOnline();
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
-        assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(false));
-        assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
+        DumbSlave slave = getSlave52357();
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
@@ -178,11 +174,7 @@ public class OfflineNodeCommandTest {
 
     @Test
     public void offlineNodeShouldSucceedOnOnlineNodeWithCause() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        slave.toComputer().waitUntilOnline();
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
-        assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(false));
-        assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
+        DumbSlave slave = getSlave52357();
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
@@ -192,6 +184,15 @@ public class OfflineNodeCommandTest {
         assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(true));
         assertThat(slave.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
         assertThat(((OfflineCause.ByCLI) slave.toComputer().getOfflineCause()).message, equalTo("aCause"));
+    }
+
+    private DumbSlave getSlave52357() throws Exception {
+        DumbSlave slave = j.createSlave("aNode", "", null);
+        slave.toComputer().waitUntilOnline();
+        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(false));
+        assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
+        return slave;
     }
 
     @Test
