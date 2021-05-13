@@ -199,12 +199,7 @@ public class QuietDownCommandTest {
                 .invoke();
         assertThat(result, succeededSilently());
         assertJenkinsInQuietMode();
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
-        assertJenkinsInQuietMode();
+        extractedMethod14643(finish, build, project);
     }
 
     //
@@ -334,12 +329,7 @@ public class QuietDownCommandTest {
             fail("Blocking call didn't finish after timeout!");
         }
         assertThat(exec_task.isDone(), equalTo(true));
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
-        assertJenkinsInQuietMode();
+        extractedMethod14643(finish, build, project);
     }
 
     //
@@ -380,12 +370,7 @@ public class QuietDownCommandTest {
         if(!timeoutOccurred)
             fail("Missing timeout for CLI call");
 
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
-        assertJenkinsInQuietMode();
+        extractedMethod14643(finish, build, project);
     }
 
     //
@@ -420,12 +405,7 @@ public class QuietDownCommandTest {
         beforeCli.block();
         assertJenkinsInQuietMode();
 
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
-        assertJenkinsInQuietMode();
+        extractedMethod14643(finish, build, project);
 
         get(exec_task);
 
@@ -465,13 +445,17 @@ public class QuietDownCommandTest {
         beforeCli.block();
         assertJenkinsInQuietMode();
 
+        extractedMethod14643(finish, build, project);
+        get(exec_task);
+    }
+
+    private void extractedMethod14643(final OneShotEvent finish, final Future<FreeStyleBuild> build, final FreeStyleProject project) throws Exception {
         finish.signal();
         build.get();
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
         assertThat(project.isBuilding(), equalTo(false));
         j.assertBuildStatusSuccess(build);
         assertJenkinsInQuietMode();
-        get(exec_task);
     }
 
     /**
