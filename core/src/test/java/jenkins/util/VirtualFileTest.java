@@ -1141,13 +1141,7 @@ public class VirtualFileTest {
         String childString = "child";
         FileUtils.write(new File(ws, childString), childString);
         File childThroughSymlink = new File(tmp.getRoot(), "/" + symlinkName + "/" + childString);
-        VirtualFile child = rootVirtualFile.child(symlinkName).child(childString);
-        try {
-        child.open(true);
-            fail("Should have not followed links.");
-        } catch (IOException ioe) {
-            // expected
-        }
+        extractedMethod99621(rootVirtualFile, symlinkName, childString);
     }
 
     @Test
@@ -1159,6 +1153,10 @@ public class VirtualFileTest {
         String childString = "child";
         FileUtils.write(new File(ws, childString), childString);
         VirtualFile rootVirtualPath = VirtualFile.forFilePath(new FilePath(tmp.getRoot()));
+        extractedMethod99621(rootVirtualPath, symlinkName, childString);
+    }
+
+    private void extractedMethod99621(final VirtualFile rootVirtualPath, final String symlinkName, final String childString) {
         VirtualFile childVirtualPath = rootVirtualPath.child(symlinkName).child(childString);
         try {
             childVirtualPath.open(true);
