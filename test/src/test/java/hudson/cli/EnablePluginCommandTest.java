@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass36657;
+
 import hudson.PluginManager;
 import hudson.PluginWrapper;
 import org.junit.Assume;
@@ -70,9 +72,7 @@ public class EnablePluginCommandTest {
     }
 
     private void assertPluginDisabled(String name) {
-        PluginWrapper plugin = j.getPluginManager().getPlugin(name);
-        assertThat(plugin, is(notNullValue()));
-        assertFalse(plugin.isEnabled());
+        ExtractedSeparateClass36657.extractedMethod36202(j, name);
     }
 
     private void assumeNotWindows() {
