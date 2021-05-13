@@ -159,9 +159,7 @@ public class ArtifactArchiverTest {
         assertEquals(1, artifacts.size());
         FreeStyleBuild.Artifact artifact = artifacts.get(0);
         assertEquals("dir/lodge", artifact.relativePath);
-        VirtualFile[] kids = b.getArtifactManager().root().child("dir").list();
-        assertEquals(1, kids.length);
-        assertEquals("lodge", kids[0].getName());
+        VirtualFile[] kids = getKids7607(b);
         // do not check that it .exists() since its target has not been archived
     }
 
@@ -205,12 +203,17 @@ public class ArtifactArchiverTest {
         assertNotNull(ws);
         List<FreeStyleBuild.Artifact> artifacts = b.getArtifacts();
         assertEquals(2, artifacts.size());
-        VirtualFile[] kids = b.getArtifactManager().root().child("dir").list();
-        assertEquals(1, kids.length);
-        assertEquals("lodge", kids[0].getName());
+        VirtualFile[] kids = getKids7607(b);
         VirtualFile[] linkkids = b.getArtifactManager().root().child("linkdir").list();
         assertEquals(1, kids.length);
         assertEquals("fizz", linkkids[0].getName());
+    }
+
+    private VirtualFile[] getKids7607(final FreeStyleBuild b) throws IOException {
+        VirtualFile[] kids = b.getArtifactManager().root().child("dir").list();
+        assertEquals(1, kids.length);
+        assertEquals("lodge", kids[0].getName());
+        return kids;
     }
 
     @Issue("SECURITY-162")
