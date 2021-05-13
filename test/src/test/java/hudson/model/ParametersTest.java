@@ -1,5 +1,7 @@
 package hudson.model;
 
+import hudson.ExtractedSeparateClass76144;
+
 import com.gargoylesoftware.htmlunit.html.DomNodeUtil;
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -51,9 +53,7 @@ public class ParametersTest {
                 new BooleanParameterDefinition("boolean", true, "boolean description"),
                 new ChoiceParameterDefinition("choice", "Choice 1\nChoice 2", "choice description"),
                 new RunParameterDefinition("run", otherProject.getName(), "run description", null));
-        project.addProperty(pdp);
-        CaptureEnvironmentBuilder builder = new CaptureEnvironmentBuilder();
-        project.getBuildersList().add(builder);
+        CaptureEnvironmentBuilder builder = ExtractedSeparateClass76144.getBuilder40267(project, pdp);
 
         WebClient wc = j.createWebClient()
                 .withThrowExceptionOnFailingStatusCode(false);
@@ -105,9 +105,7 @@ public class ParametersTest {
         FreeStyleProject project = j.createFreeStyleProject();
         ParametersDefinitionProperty pdp = new ParametersDefinitionProperty(
                 new ChoiceParameterDefinition("choice", "Choice 1\nChoice <2>", "choice description"));
-        project.addProperty(pdp);
-        CaptureEnvironmentBuilder builder = new CaptureEnvironmentBuilder();
-        project.getBuildersList().add(builder);
+        CaptureEnvironmentBuilder builder = ExtractedSeparateClass76144.getBuilder40267(project, pdp);
 
         WebClient wc = j.createWebClient()
                 .withThrowExceptionOnFailingStatusCode(false);
@@ -137,10 +135,7 @@ public class ParametersTest {
         FreeStyleProject project = j.createFreeStyleProject();
         ParametersDefinitionProperty pdb = new ParametersDefinitionProperty(
                 new PasswordParameterDefinition("password", "12345", "password description"));
-        project.addProperty(pdb);
-
-        CaptureEnvironmentBuilder builder = new CaptureEnvironmentBuilder();
-        project.getBuildersList().add(builder);
+        CaptureEnvironmentBuilder builder = ExtractedSeparateClass76144.getBuilder40267(project, pdb);
 
         FreeStyleBuild build = project.scheduleBuild2(0).get();
         Set<String> sensitiveVars = build.getSensitiveBuildVariables();
@@ -154,10 +149,7 @@ public class ParametersTest {
         FreeStyleProject project = j.createFreeStyleProject();
         ParametersDefinitionProperty pdb = new ParametersDefinitionProperty(
                 new StringParameterDefinition("string", "defaultValue", "string description"));
-        project.addProperty(pdb);
-
-        CaptureEnvironmentBuilder builder = new CaptureEnvironmentBuilder();
-        project.getBuildersList().add(builder);
+        CaptureEnvironmentBuilder builder = ExtractedSeparateClass76144.getBuilder40267(project, pdb);
 
         FreeStyleBuild build = project.scheduleBuild2(0).get();
         Set<String> sensitiveVars = build.getSensitiveBuildVariables();
@@ -174,10 +166,7 @@ public class ParametersTest {
                 new PasswordParameterDefinition("password", "12345", "password description"),
                 new StringParameterDefinition("string2", "Value2", "string description")
         );
-        project.addProperty(pdb);
-
-        CaptureEnvironmentBuilder builder = new CaptureEnvironmentBuilder();
-        project.getBuildersList().add(builder);
+        CaptureEnvironmentBuilder builder = ExtractedSeparateClass76144.getBuilder40267(project, pdb);
 
         FreeStyleBuild build = project.scheduleBuild2(0).get();
         Set<String> sensitiveVars = build.getSensitiveBuildVariables();

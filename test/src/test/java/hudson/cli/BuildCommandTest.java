@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.ExtractedSeparateClass76144;
+
 import hudson.Extension;
 import hudson.Functions;
 import hudson.Launcher;
@@ -229,9 +231,7 @@ public class BuildCommandTest {
         ParametersDefinitionProperty pdp = new ParametersDefinitionProperty(
                 new StringParameterDefinition("string", "defaultValue", "description"),
                 nullDefaultDefinition);
-        project.addProperty(pdp);
-        CaptureEnvironmentBuilder builder = new CaptureEnvironmentBuilder();
-        project.getBuildersList().add(builder);
+        CaptureEnvironmentBuilder builder = ExtractedSeparateClass76144.getBuilder40267(project, pdp);
 
         // Warmup
         j.buildAndAssertSuccess(project);
