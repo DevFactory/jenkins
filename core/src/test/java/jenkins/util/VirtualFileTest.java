@@ -983,9 +983,7 @@ public class VirtualFileTest {
         String child = "child";
         File childFile = new File(parentFile, child);
         VirtualFile vf = VirtualFile.forFile(childFile);
-        URI uri = vf.toURI();
-        assertThat(uri.getScheme(), is("file"));
-        assertThat(uri.getPath(), endsWith(parentFolder + "/" + child));
+        extractedMethod16758(vf, parentFolder, child);
     }
 
     @Test
@@ -1217,6 +1215,10 @@ public class VirtualFileTest {
         String child = "child";
         File childFile = new File(parentFile, child);
         VirtualFile vf = VirtualFile.forFilePath(new FilePath(childFile));
+        extractedMethod16758(vf, parentFolder, child);
+    }
+
+    private void extractedMethod16758(final VirtualFile vf, final String parentFolder, final String child) {
         URI uri = vf.toURI();
         assertThat(uri.getScheme(), is("file"));
         assertThat(uri.getPath(), endsWith(parentFolder + "/" + child));
