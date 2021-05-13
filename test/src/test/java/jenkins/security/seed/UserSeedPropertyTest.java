@@ -137,19 +137,7 @@ public class UserSeedPropertyTest {
         realm.createAccount(ALICE);
 
         JenkinsRule.WebClient wc = j.createWebClient();
-        wc.login(ALICE);
-
-        User alice = User.getById(ALICE, false);
-        assertNotNull(alice);
-        UserSeedProperty userSeed = alice.getProperty(UserSeedProperty.class);
-        assertNotNull(userSeed);
-
-        assertUserConnected(wc, ALICE);
-
-        realm.deleteAccount(ALICE);
-
-        // even after the security realm deleted the user, they can still connect, until session invalidation
-        assertUserConnected(wc, ALICE);
+        User alice = getAlice93909(wc, ALICE, realm);
 
         requestRenewSeedForUser(alice);
 
@@ -180,19 +168,7 @@ public class UserSeedPropertyTest {
             realm.createAccount(ALICE);
 
             JenkinsRule.WebClient wc = j.createWebClient();
-            wc.login(ALICE);
-
-            User alice = User.getById(ALICE, false);
-            assertNotNull(alice);
-            UserSeedProperty userSeed = alice.getProperty(UserSeedProperty.class);
-            assertNotNull(userSeed);
-
-            assertUserConnected(wc, ALICE);
-
-            realm.deleteAccount(ALICE);
-
-            // even after the security realm deleted the user, they can still connect, until session invalidation
-            assertUserConnected(wc, ALICE);
+            User alice = getAlice93909(wc, ALICE, realm);
 
             try {
                 requestRenewSeedForUser(alice);
@@ -220,6 +196,23 @@ public class UserSeedPropertyTest {
         } finally {
             UserSeedProperty.DISABLE_USER_SEED = currentStatus;
         }
+    }
+
+    private User getAlice93909(final JenkinsRule.WebClient wc, final String ALICE, final InMemorySecurityRealm realm) throws Exception {
+        wc.login(ALICE);
+        
+        User alice = User.getById(ALICE, false);
+        assertNotNull(alice);
+        UserSeedProperty userSeed = alice.getProperty(UserSeedProperty.class);
+        assertNotNull(userSeed);
+        
+        assertUserConnected(wc, ALICE);
+        
+        realm.deleteAccount(ALICE);
+        
+        // even after the security realm deleted the user, they can still connect, until session invalidation
+        assertUserConnected(wc, ALICE);
+        return alice;
     }
 
     @Test
