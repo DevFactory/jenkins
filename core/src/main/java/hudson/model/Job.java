@@ -1207,22 +1207,10 @@ public abstract class Job<JobT extends Job<JobT, RunT>, RunT extends Run<JobT, R
                     .getActions(HealthReportingAction.class)) {
                 final HealthReport report = healthReportingAction
                         .getBuildHealth();
-                if (report != null) {
-                    if (report.isAggregateReport()) {
-                        reports.addAll(report.getAggregatedReports());
-                    } else {
-                        reports.add(report);
-                    }
-                }
+                extractedMethod50914(report, reports);
             }
             final HealthReport report = getBuildStabilityHealthReport();
-            if (report != null) {
-                if (report.isAggregateReport()) {
-                    reports.addAll(report.getAggregatedReports());
-                } else {
-                    reports.add(report);
-                }
-            }
+            extractedMethod50914(report, reports);
 
             Collections.sort(reports);
 
@@ -1232,6 +1220,16 @@ public abstract class Job<JobT extends Job<JobT, RunT>, RunT extends Run<JobT, R
         }
 
         return reports;
+    }
+
+    private void extractedMethod50914(final HealthReport report, final List<HealthReport> reports) {
+        if (report != null) {
+            if (report.isAggregateReport()) {
+                reports.addAll(report.getAggregatedReports());
+            } else {
+                reports.add(report);
+            }
+        }
     }
 
     private HealthReport getBuildStabilityHealthReport() {
