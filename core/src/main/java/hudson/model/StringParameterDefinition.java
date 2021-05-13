@@ -122,10 +122,7 @@ public class StringParameterDefinition extends SimpleParameterDefinition {
     
     @Override
     public StringParameterValue getDefaultParameterValue() {
-        StringParameterValue value = new StringParameterValue(getName(), defaultValue, getDescription());
-        if (isTrim()) {
-            value.doTrim();
-        }
+        StringParameterValue value = getValue57963(defaultValue);
         return value;
     }
 
@@ -154,6 +151,11 @@ public class StringParameterDefinition extends SimpleParameterDefinition {
     }
 
     public ParameterValue createValue(String str) {
+        StringParameterValue value = getValue57963(str);
+        return value;
+    }
+
+    private StringParameterValue getValue57963(final String str) {
         StringParameterValue value = new StringParameterValue(getName(), str, getDescription());
         if (isTrim()) {
             value.doTrim();
