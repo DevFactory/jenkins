@@ -60,10 +60,7 @@ public class StaticRoutingDecisionProvider2Test {
                 wl.decide("public java.lang.Object jenkins.security.stapler.StaticRoutingDecisionProviderTest$ContentProvider.getObjectCustom()"),
                 is(RoutingDecisionProvider.Decision.UNKNOWN)
         );
-        assertThat(
-                wl.decide("blabla"),
-                is(RoutingDecisionProvider.Decision.UNKNOWN)
-        );
+        extractedMethod5058(wl);
     }
     
     @Test
@@ -74,10 +71,7 @@ public class StaticRoutingDecisionProvider2Test {
                 wl.decide("method jenkins.security.stapler.StaticRoutingDecisionProviderTest$ContentProvider getObjectCustom"),
                 is(RoutingDecisionProvider.Decision.ACCEPTED)
         );
-        assertThat(
-                wl.decide("blabla"),
-                is(RoutingDecisionProvider.Decision.UNKNOWN)
-        );
+        extractedMethod5058(wl);
     }
     
     @Test
@@ -92,6 +86,10 @@ public class StaticRoutingDecisionProvider2Test {
                 wl.decide("method jenkins.security.stapler.StaticRoutingDecisionProviderTest$ContentProvider getObjectCustom2"),
                 is(RoutingDecisionProvider.Decision.ACCEPTED)
         );
+        extractedMethod5058(wl);
+    }
+
+    private void extractedMethod5058(final StaticRoutingDecisionProvider wl) {
         assertThat(
                 wl.decide("blabla"),
                 is(RoutingDecisionProvider.Decision.UNKNOWN)
