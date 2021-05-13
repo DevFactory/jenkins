@@ -139,17 +139,7 @@ public class ResourceListTest {
 
     @Test
     public void parentChildR() {
-        x.r(a1);
-        x.r(a2);
-        y.r(a3);
-        y.r(a4);
-        z.r(a);
-        assertFalse("Reads should never conflict", x.isCollidingWith(y));
-        assertFalse("Reads should never conflict", y.isCollidingWith(x));
-        assertFalse("Reads should never conflict", x.isCollidingWith(z));
-        assertFalse("Reads should never conflict", z.isCollidingWith(x));
-        assertFalse("Reads should never conflict", z.isCollidingWith(y));
-        assertFalse("Reads should never conflict", y.isCollidingWith(z));
+        extractedMethod28388(a1, a2, a3, a4, a);
     }
 
     @Test
@@ -169,6 +159,10 @@ public class ResourceListTest {
 
     @Test
     public void parentChildR3() {
+        extractedMethod28388(c1, c2, c3, c4, c);
+    }
+
+    private void extractedMethod28388(final Resource c1, final Resource c2, final Resource c3, final Resource c4, final Resource c) {
         x.r(c1);
         x.r(c2);
         y.r(c3);
