@@ -234,12 +234,7 @@ public class SearchTest {
         
         String content = result.getWebResponse().getContentAsString();
         System.out.println(content);
-        JSONObject jsonContent = (JSONObject)JSONSerializer.toJSON(content);
-        assertNotNull(jsonContent);
-        JSONArray jsonArray = jsonContent.getJSONArray("suggestions");
-        assertNotNull(jsonArray);
-        
-        assertEquals(2, jsonArray.size());
+        JSONArray jsonArray = getJsonArray41848(content);
         
         boolean foundProjectName = false;
         boolean foundDisplayName = false;
@@ -469,12 +464,7 @@ public class SearchTest {
         j.assertGoodStatus(result);
 
         String content = result.getWebResponse().getContentAsString();
-        JSONObject jsonContent = (JSONObject)JSONSerializer.toJSON(content);
-        assertNotNull(jsonContent);
-        JSONArray jsonArray = jsonContent.getJSONArray("suggestions");
-        assertNotNull(jsonArray);
-
-        assertEquals(2, jsonArray.size());
+        JSONArray jsonArray = getJsonArray41848(content);
 
         Page searchResult = wc.goTo("search?q=" + myMockFolder.getName() + "%2F" + freeStyleProject.getName());
 
@@ -483,5 +473,15 @@ public class SearchTest {
 
         URL resultUrl = searchResult.getUrl();
         assertEquals(j.getInstance().getRootUrl() + freeStyleProject.getUrl(), resultUrl.toString());
+    }
+
+    private JSONArray getJsonArray41848(final String content) {
+        JSONObject jsonContent = (JSONObject)JSONSerializer.toJSON(content);
+        assertNotNull(jsonContent);
+        JSONArray jsonArray = jsonContent.getJSONArray("suggestions");
+        assertNotNull(jsonArray);
+        
+        assertEquals(2, jsonArray.size());
+        return jsonArray;
     }
 }
