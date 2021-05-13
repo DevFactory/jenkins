@@ -41,9 +41,7 @@ public class DownloadServiceTest extends HudsonTestCase {
         JSONObject json1 = JSONObject.fromObject(DownloadService.loadJSON(resource1));
         JSONObject json2 = JSONObject.fromObject(DownloadService.loadJSON(resource2));
         JSONObject json3 = JSONObject.fromObject(DownloadService.loadJSON(resource3));
-        List<JSONObject> jsonObjectList = new ArrayList<>();
-        jsonObjectList.add(json1);
-        jsonObjectList.add(json2);
+        List<JSONObject> jsonObjectList = getJsonObjectList19309(json1, json2);
         jsonObjectList.add(json3);
         Downloadable downloadable = new Maven.MavenInstaller.DescriptorImpl().createDownloadable();
         JSONObject reducedJson = downloadable.reduce(jsonObjectList);
@@ -59,9 +57,7 @@ public class DownloadServiceTest extends HudsonTestCase {
         JSONObject json1 = JSONObject.fromObject(DownloadService.loadJSON(resource1));
         JSONObject json2 = JSONObject.fromObject(DownloadService.loadJSON(resource2));
         JSONObject json3 = JSONObject.fromObject(DownloadService.loadJSON(resource3));
-        List<JSONObject> jsonObjectList = new ArrayList<>();
-        jsonObjectList.add(json1);
-        jsonObjectList.add(json2);
+        List<JSONObject> jsonObjectList = getJsonObjectList19309(json1, json2);
         jsonObjectList.add(json3);
         Downloadable downloadable = new hudson.tasks.Ant.AntInstaller.DescriptorImpl().createDownloadable();
         JSONObject reducedJson = downloadable.reduce(jsonObjectList);
@@ -75,14 +71,19 @@ public class DownloadServiceTest extends HudsonTestCase {
         URL resource2 = DownloadServiceTest.class.getResource("hudson.plugins.cmake.CmakeInstaller2.json");
         JSONObject json1 = JSONObject.fromObject(DownloadService.loadJSON(resource1));
         JSONObject json2 = JSONObject.fromObject(DownloadService.loadJSON(resource2));
-        List<JSONObject> jsonObjectList = new ArrayList<>();
-        jsonObjectList.add(json1);
-        jsonObjectList.add(json2);
+        List<JSONObject> jsonObjectList = getJsonObjectList19309(json1, json2);
         Downloadable downloadable = new GenericDownloadFromUrlInstaller.DescriptorImpl().createDownloadable();
         JSONObject reducedJson = downloadable.reduce(jsonObjectList);
         URL expectedResult = DownloadServiceTest.class.getResource("hudson.plugins.cmake.CmakeInstallerResult.json");
         JSONObject expectedResultJson = JSONObject.fromObject(DownloadService.loadJSON(expectedResult));
         assertEquals(reducedJson, expectedResultJson);
+    }
+
+    private List<JSONObject> getJsonObjectList19309(final JSONObject json1, final JSONObject json2) {
+        List<JSONObject> jsonObjectList = new ArrayList<>();
+        jsonObjectList.add(json1);
+        jsonObjectList.add(json2);
+        return jsonObjectList;
     }
 
     private static class GenericDownloadFromUrlInstaller extends DownloadFromUrlInstaller {
