@@ -23,6 +23,8 @@
  */
 package jenkins.security.stapler;
 
+import java.util.concurrent.ExecutionException;
+
 import com.cloudbees.hudson.plugins.folder.computed.FolderCron;
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.Page;
@@ -295,11 +297,7 @@ public class Security400Test {
 
         { // first try, we let the build finishes normally
             // reset semaphore and result code
-            semaphore.drainPermits();
-            atomicResult.set(0);
-
-            QueueTaskFuture<FreeStyleBuild> futureBuild = p.scheduleBuild2(0);
-            futureBuild.waitForStart();
+            QueueTaskFuture<FreeStyleBuild> futureBuild = getFutureBuild69108(semaphore, atomicResult, p);
 
             // let the build finishes
             semaphore.release(1);
@@ -310,11 +308,7 @@ public class Security400Test {
 
         { // second try, calling stopBuild without parameter interrupts the build (same as calling stop)
             // reset semaphore and result code
-            semaphore.drainPermits();
-            atomicResult.set(0);
-
-            QueueTaskFuture<FreeStyleBuild> futureBuild = p.scheduleBuild2(0);
-            futureBuild.waitForStart();
+            QueueTaskFuture<FreeStyleBuild> futureBuild = getFutureBuild69108(semaphore, atomicResult, p);
 
             WebRequest request = new WebRequest(new URL(j.getURL() + "computers/0/executors/0/stopBuild"), HttpMethod.POST);
             Page page = wc.getPage(request);
@@ -351,11 +345,7 @@ public class Security400Test {
 
         { // fourth try, calling stopBuild with a parameter not matching build id doesn't interrupt the build
             // reset semaphore and result code
-            semaphore.drainPermits();
-            atomicResult.set(0);
-
-            QueueTaskFuture<FreeStyleBuild> futureBuild = p.scheduleBuild2(0);
-            futureBuild.waitForStart();
+            QueueTaskFuture<FreeStyleBuild> futureBuild = getFutureBuild69108(semaphore, atomicResult, p);
 
             WebRequest request = new WebRequest(new URL(j.getURL() + "computers/0/executors/0/stopBuild?runExtId=whatever"), HttpMethod.POST);
             Page page = wc.getPage(request);
@@ -368,6 +358,15 @@ public class Security400Test {
             j.assertBuildStatus(Result.SUCCESS, futureBuild);
             assertEquals(1, atomicResult.get());
         }
+    }
+
+    private QueueTaskFuture<FreeStyleBuild> getFutureBuild69108(final Semaphore semaphore, final AtomicInteger atomicResult, final FreeStyleProject p) throws ExecutionException, InterruptedException {
+        semaphore.drainPermits();
+        atomicResult.set(0);
+        
+        QueueTaskFuture<FreeStyleBuild> futureBuild = p.scheduleBuild2(0);
+        futureBuild.waitForStart();
+        return futureBuild;
     }
 
     @Test
