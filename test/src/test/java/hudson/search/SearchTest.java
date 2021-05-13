@@ -289,17 +289,7 @@ public class SearchTest {
 
         assertEquals(2, jsonArray.size());
 
-        boolean foundDisplayName = false;
-        for(Object suggestion : jsonArray) {
-            JSONObject jsonSuggestion = (JSONObject)suggestion;
-
-            String name = (String)jsonSuggestion.get("name");
-            if(projectName1.equals(name)) {
-                foundDisplayName = true;
-            }
-        }
-
-        assertTrue(foundDisplayName);
+        extractedMethod17754(jsonArray, projectName1);
     }
 
     @Issue("JENKINS-24433")
@@ -332,17 +322,21 @@ public class SearchTest {
 
         assertEquals(1, jsonArray.size());
 
+        extractedMethod17754(jsonArray, displayName2);
+    }
+
+    private void extractedMethod17754(final JSONArray jsonArray, final String displayName2) {
         boolean foundDisplayName = false;
         for(Object suggestion : jsonArray) {
             JSONObject jsonSuggestion = (JSONObject)suggestion;
-
+        
             String name = (String)jsonSuggestion.get("name");
-
+        
             if(displayName2.equals(name)) {
                 foundDisplayName = true;
             }
         }
-
+        
         assertTrue(foundDisplayName);
     }
 
