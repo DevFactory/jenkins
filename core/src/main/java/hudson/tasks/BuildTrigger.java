@@ -23,6 +23,8 @@
  */
 package hudson.tasks;
 
+import hudson.tasks.ExtractedSeparateClass89208;
+
 import hudson.Extension;
 import hudson.Launcher;
 import hudson.Util;
@@ -445,11 +447,7 @@ public class BuildTrigger extends Recorder implements DependencyDeclarer {
                         String cp2 = Items.computeRelativeNamesAfterRenaming(oldFullName, newFullName, t.childProjects, p.getParent());
                         if (!cp2.equals(t.childProjects)) {
                             t.childProjects = cp2;
-                            try {
-                                p.save();
-                            } catch (IOException e) {
-                                LOGGER.log(Level.WARNING, "Failed to persist project setting during rename from "+oldFullName+" to "+newFullName,e);
-                            }
+                            ExtractedSeparateClass89208.extractedMethod10484(p, LOGGER, oldFullName, newFullName);
                         }
                     }
                 }
