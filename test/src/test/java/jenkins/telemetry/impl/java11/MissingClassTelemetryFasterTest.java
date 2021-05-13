@@ -312,17 +312,7 @@ public class MissingClassTelemetryFasterTest {
 
         } catch (Exception e) {
             // Look for anything to report
-            MissingClassTelemetry.reportExceptionInside(e);
-
-            // Get the events gathered
-            MissingClassEvents events = MissingClassTelemetry.getEvents();
-            ConcurrentHashMap<List<StackTraceElement>, MissingClassEvent> eventsGathered = events.getEventsAndClean();
-
-            // One event gathered
-            assertEquals(1, eventsGathered.size());
-
-            // the circular reference has been recorded in the log
-            assertThat(logging, LoggerRule.recorded(containsString(MissingClassTelemetry.CIRCULAR_REFERENCE)));
+            extractedMethod67289(e);
         }
     }
 
@@ -355,18 +345,22 @@ public class MissingClassTelemetryFasterTest {
 
         } catch (Exception e) {
             // Look for anything to report
-            MissingClassTelemetry.reportExceptionInside(e);
-
-            // Get the events gathered
-            MissingClassEvents events = MissingClassTelemetry.getEvents();
-            ConcurrentHashMap<List<StackTraceElement>, MissingClassEvent> eventsGathered = events.getEventsAndClean();
-
-            // One event gathered
-            assertEquals(1, eventsGathered.size());
-
-            // the circular reference has been recorded in the log
-            assertThat(logging, LoggerRule.recorded(containsString(MissingClassTelemetry.CIRCULAR_REFERENCE)));
+            extractedMethod67289(e);
         }
+    }
+
+    private void extractedMethod67289(final Exception e) {
+        MissingClassTelemetry.reportExceptionInside(e);
+        
+        // Get the events gathered
+        MissingClassEvents events = MissingClassTelemetry.getEvents();
+        ConcurrentHashMap<List<StackTraceElement>, MissingClassEvent> eventsGathered = events.getEventsAndClean();
+        
+        // One event gathered
+        assertEquals(1, eventsGathered.size());
+        
+        // the circular reference has been recorded in the log
+        assertThat(logging, LoggerRule.recorded(containsString(MissingClassTelemetry.CIRCULAR_REFERENCE)));
     }
 
     @Test
