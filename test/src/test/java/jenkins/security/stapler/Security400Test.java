@@ -232,9 +232,7 @@ public class Security400Test {
         
         { // preliminary test, calling the stop method without any executor results in 404
             WebRequest request = new WebRequest(new URL(j.getURL() + "computers/0/executors/0/stop"), HttpMethod.POST);
-            Page page = wc.getPage(request);
-            assertEquals(404, page.getWebResponse().getStatusCode());
-            assertRequestWasNotBlocked();
+            extractedMethod81951(wc, request);
         }
         
         { // first try, we let the build finishes normally
@@ -254,9 +252,7 @@ public class Security400Test {
             futureBuild.waitForStart();
             
             WebRequest request = new WebRequest(new URL(j.getURL() + "computers/0/executors/0/stop"), HttpMethod.POST);
-            Page page = wc.getPage(request);
-            assertEquals(404, page.getWebResponse().getStatusCode());
-            assertRequestWasNotBlocked();
+            extractedMethod81951(wc, request);
             
             j.assertBuildStatus(Result.FAILURE, futureBuild);
             assertEquals(3, atomicResult.get());
@@ -288,9 +284,7 @@ public class Security400Test {
 
         { // preliminary test, calling stopBuild without any executor results in 404
             WebRequest request = new WebRequest(new URL(j.getURL() + "computers/0/executors/0/stopBuild"), HttpMethod.POST);
-            Page page = wc.getPage(request);
-            assertEquals(404, page.getWebResponse().getStatusCode());
-            assertRequestWasNotBlocked();
+            extractedMethod81951(wc, request);
         }
 
         { // first try, we let the build finishes normally
@@ -317,9 +311,7 @@ public class Security400Test {
             futureBuild.waitForStart();
 
             WebRequest request = new WebRequest(new URL(j.getURL() + "computers/0/executors/0/stopBuild"), HttpMethod.POST);
-            Page page = wc.getPage(request);
-            assertEquals(404, page.getWebResponse().getStatusCode());
-            assertRequestWasNotBlocked();
+            extractedMethod81951(wc, request);
 
             // let the build finish quickly (if not interrupted already)
             semaphore.release(1);
@@ -338,9 +330,7 @@ public class Security400Test {
             String runExtId = URLEncoder.encode(build.getExternalizableId(), "UTF-8");
 
             WebRequest request = new WebRequest(new URL(j.getURL() + "computers/0/executors/0/stopBuild?runExtId=" + runExtId), HttpMethod.POST);
-            Page page = wc.getPage(request);
-            assertEquals(404, page.getWebResponse().getStatusCode());
-            assertRequestWasNotBlocked();
+            extractedMethod81951(wc, request);
 
             // let the build finish quickly (if not interrupted already)
             semaphore.release(1);
@@ -358,9 +348,7 @@ public class Security400Test {
             futureBuild.waitForStart();
 
             WebRequest request = new WebRequest(new URL(j.getURL() + "computers/0/executors/0/stopBuild?runExtId=whatever"), HttpMethod.POST);
-            Page page = wc.getPage(request);
-            assertEquals(404, page.getWebResponse().getStatusCode());
-            assertRequestWasNotBlocked();
+            extractedMethod81951(wc, request);
 
             // let the build finishes
             semaphore.release(1);
@@ -368,6 +356,12 @@ public class Security400Test {
             j.assertBuildStatus(Result.SUCCESS, futureBuild);
             assertEquals(1, atomicResult.get());
         }
+    }
+
+    private void extractedMethod81951(final JenkinsRule.WebClient wc, final WebRequest request) throws IOException {
+        Page page = wc.getPage(request);
+        assertEquals(404, page.getWebResponse().getStatusCode());
+        assertRequestWasNotBlocked();
     }
 
     @Test
