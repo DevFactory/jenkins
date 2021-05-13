@@ -23,6 +23,8 @@
  */
 package hudson.util;
 
+import hudson.util.ExtractedSeparateClass28745;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static hudson.Util.fixEmpty;
 import static hudson.util.FormValidation.APPLY_CONTENT_SECURITY_POLICY_HEADERS;
@@ -305,16 +307,7 @@ public abstract class FormFieldValidator {
          * Figures out the charset from the content-type header.
          */
         private String getCharset(URLConnection con) {
-            for( String t : con.getContentType().split(";") ) {
-                t = t.trim().toLowerCase(Locale.ENGLISH);
-                if(t.startsWith("charset="))
-                    return t.substring(8);
-            }
-            // couldn't find it. HTML spec says default is US-ASCII,
-            // but UTF-8 is a better choice since
-            // (1) it's compatible with US-ASCII
-            // (2) a well-written web applications tend to use UTF-8
-            return "UTF-8";
+            return ExtractedSeparateClass28745.getVar26479(con);
         }
     }
 
