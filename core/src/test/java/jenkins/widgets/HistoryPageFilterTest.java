@@ -145,12 +145,7 @@ public class HistoryPageFilterTest {
     @Test
     public void test_olderThan_lt_oldest() throws IOException {
         HistoryPageFilter<ModelObject> historyPageFilter = newPage(5, null, 0L);
-        Iterable<ModelObject> itemList = newRuns(1, 10);
-
-        historyPageFilter.add(itemList);
-
-        Assert.assertTrue(historyPageFilter.hasUpPage);
-        Assert.assertFalse(historyPageFilter.hasDownPage);
+        extractedMethod12794(historyPageFilter);
         Assert.assertEquals(0, historyPageFilter.runs.size());
     }
 
@@ -161,12 +156,7 @@ public class HistoryPageFilterTest {
     @Test
     public void test_olderThan_leaving_part_page() throws IOException {
         HistoryPageFilter<ModelObject> historyPageFilter = newPage(5, null, 4L);
-        Iterable<ModelObject> itemList = newRuns(1, 10);
-
-        historyPageFilter.add(itemList);
-
-        Assert.assertTrue(historyPageFilter.hasUpPage);
-        Assert.assertFalse(historyPageFilter.hasDownPage);
+        extractedMethod12794(historyPageFilter);
 
         // Should only be 3 runs on the page (oldest 3)
         Assert.assertEquals(3, historyPageFilter.runs.size());
@@ -215,16 +205,20 @@ public class HistoryPageFilterTest {
     @Test
     public void test_newerThan_lt_oldest() throws IOException {
         HistoryPageFilter<ModelObject> historyPageFilter = newPage(5, 0L, null);
-        Iterable<ModelObject> itemList = newRuns(1, 10);
-
-        historyPageFilter.add(itemList);
-
-        Assert.assertTrue(historyPageFilter.hasUpPage);
-        Assert.assertFalse(historyPageFilter.hasDownPage);
+        extractedMethod12794(historyPageFilter);
         Assert.assertEquals(5, historyPageFilter.runs.size());
 
         Assert.assertEquals(HistoryPageEntry.getEntryId(5), historyPageFilter.newestOnPage);
         Assert.assertEquals(HistoryPageEntry.getEntryId(1), historyPageFilter.oldestOnPage);
+    }
+
+    private void extractedMethod12794(final HistoryPageFilter<ModelObject> historyPageFilter) throws IOException {
+        Iterable<ModelObject> itemList = newRuns(1, 10);
+        
+        historyPageFilter.add(itemList);
+        
+        Assert.assertTrue(historyPageFilter.hasUpPage);
+        Assert.assertFalse(historyPageFilter.hasDownPage);
     }
 
     /**
