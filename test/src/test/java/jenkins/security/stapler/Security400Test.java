@@ -295,10 +295,7 @@ public class Security400Test {
 
         { // first try, we let the build finishes normally
             // reset semaphore and result code
-            semaphore.drainPermits();
-            atomicResult.set(0);
-
-            QueueTaskFuture<FreeStyleBuild> futureBuild = p.scheduleBuild2(0);
+            QueueTaskFuture<FreeStyleBuild> futureBuild = getFutureBuild29241(semaphore, atomicResult, p);
             futureBuild.waitForStart();
 
             // let the build finishes
@@ -310,10 +307,7 @@ public class Security400Test {
 
         { // second try, calling stopBuild without parameter interrupts the build (same as calling stop)
             // reset semaphore and result code
-            semaphore.drainPermits();
-            atomicResult.set(0);
-
-            QueueTaskFuture<FreeStyleBuild> futureBuild = p.scheduleBuild2(0);
+            QueueTaskFuture<FreeStyleBuild> futureBuild = getFutureBuild29241(semaphore, atomicResult, p);
             futureBuild.waitForStart();
 
             WebRequest request = new WebRequest(new URL(j.getURL() + "computers/0/executors/0/stopBuild"), HttpMethod.POST);
@@ -330,10 +324,7 @@ public class Security400Test {
 
         { // third try, calling stopBuild with the right parameter interrupts the build
             // reset semaphore and result code
-            semaphore.drainPermits();
-            atomicResult.set(0);
-
-            QueueTaskFuture<FreeStyleBuild> futureBuild = p.scheduleBuild2(0);
+            QueueTaskFuture<FreeStyleBuild> futureBuild = getFutureBuild29241(semaphore, atomicResult, p);
             FreeStyleBuild build = futureBuild.waitForStart();
             String runExtId = URLEncoder.encode(build.getExternalizableId(), "UTF-8");
 
@@ -351,10 +342,7 @@ public class Security400Test {
 
         { // fourth try, calling stopBuild with a parameter not matching build id doesn't interrupt the build
             // reset semaphore and result code
-            semaphore.drainPermits();
-            atomicResult.set(0);
-
-            QueueTaskFuture<FreeStyleBuild> futureBuild = p.scheduleBuild2(0);
+            QueueTaskFuture<FreeStyleBuild> futureBuild = getFutureBuild29241(semaphore, atomicResult, p);
             futureBuild.waitForStart();
 
             WebRequest request = new WebRequest(new URL(j.getURL() + "computers/0/executors/0/stopBuild?runExtId=whatever"), HttpMethod.POST);
@@ -368,6 +356,14 @@ public class Security400Test {
             j.assertBuildStatus(Result.SUCCESS, futureBuild);
             assertEquals(1, atomicResult.get());
         }
+    }
+
+    private QueueTaskFuture<FreeStyleBuild> getFutureBuild29241(final Semaphore semaphore, final AtomicInteger atomicResult, final FreeStyleProject p) {
+        semaphore.drainPermits();
+        atomicResult.set(0);
+        
+        QueueTaskFuture<FreeStyleBuild> futureBuild = p.scheduleBuild2(0);
+        return futureBuild;
     }
 
     @Test
