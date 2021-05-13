@@ -24,6 +24,9 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result;
+import org.springframework.security.access.AccessDeniedException;
+
 import hudson.model.Job;
 import jenkins.model.Jenkins;
 import org.junit.Before;
@@ -128,14 +131,7 @@ public class DeleteJobCommandTest {
                 .authorizedTo(Job.READ, Job.DELETE, Jenkins.READ)
                 .invokeWithArgs("never_created", "aProject1", "aProject2");
 
-        assertThat(result, failedWith(5));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("never_created: No such job 'never_created'"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(j.jenkins.getItem("aProject1"), nullValue());
-        assertThat(j.jenkins.getItem("aProject2"), nullValue());
-        assertThat(j.jenkins.getItem("never_created"), nullValue());
+        extractedMethod88740(result);
     }
 
     @Test public void deleteJobManyShouldFailIfMiddleJobDoesNotExist() throws Exception {
@@ -147,14 +143,7 @@ public class DeleteJobCommandTest {
                 .authorizedTo(Job.READ, Job.DELETE, Jenkins.READ)
                 .invokeWithArgs("aProject1","never_created", "aProject2");
 
-        assertThat(result, failedWith(5));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("never_created: No such job 'never_created'"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(j.jenkins.getItem("aProject1"), nullValue());
-        assertThat(j.jenkins.getItem("aProject2"), nullValue());
-        assertThat(j.jenkins.getItem("never_created"), nullValue());
+        extractedMethod88740(result);
     }
 
     @Test public void deleteJobManyShouldFailIfLastJobDoesNotExist() throws Exception {
@@ -166,11 +155,15 @@ public class DeleteJobCommandTest {
                 .authorizedTo(Job.READ, Job.DELETE, Jenkins.READ)
                 .invokeWithArgs("aProject1", "aProject2", "never_created");
 
+        extractedMethod88740(result);
+    }
+
+    private void extractedMethod88740(final CLICommandInvoker.Result result) throws AccessDeniedException {
         assertThat(result, failedWith(5));
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created: No such job 'never_created'"));
         assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
+        
         assertThat(j.jenkins.getItem("aProject1"), nullValue());
         assertThat(j.jenkins.getItem("aProject2"), nullValue());
         assertThat(j.jenkins.getItem("never_created"), nullValue());
