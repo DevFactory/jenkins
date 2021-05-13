@@ -150,14 +150,7 @@ public class Security400Test {
     @Test
     @Issue("SECURITY-404")
     public void avoidDangerousAccessToSession() throws Exception {
-        j.jenkins.setCrumbIssuer(null);
-    
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
-        j.jenkins.setAuthorizationStrategy(
-                new MockAuthorizationStrategy()
-                        .grant(Jenkins.ADMINISTER).everywhere().to("admin")
-                        .grant(Jenkins.READ).everywhere().to("user")
-        );
+        extractedMethod5009();
     
         JenkinsRule.WebClient wc = j.createWebClient();
         wc.getOptions().setThrowExceptionOnFailingStatusCode(false);
@@ -540,14 +533,7 @@ public class Security400Test {
     @Test
     @Issue("SECURITY-471")
     public void ensureLogRecordManagerAccessibleOnlyByAdmin() throws Exception {
-        j.jenkins.setCrumbIssuer(null);
-        
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
-        j.jenkins.setAuthorizationStrategy(
-                new MockAuthorizationStrategy()
-                        .grant(Jenkins.ADMINISTER).everywhere().to("admin")
-                        .grant(Jenkins.READ).everywhere().to("user")
-        );
+        extractedMethod5009();
         
         String logNameForAdmin = "testLoggerAdmin";
         String logNameForUser = "testLoggerUser";
@@ -607,6 +593,17 @@ public class Security400Test {
             assertEquals(404, wc.goTo("log/" + logNameForUser + "/autoCompleteLoggerName/?value=a", null).getWebResponse().getStatusCode());
             assertRequestWasNotBlocked();
         }
+    }
+
+    private void extractedMethod5009() {
+        j.jenkins.setCrumbIssuer(null);
+        
+        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
+        j.jenkins.setAuthorizationStrategy(
+                new MockAuthorizationStrategy()
+                        .grant(Jenkins.ADMINISTER).everywhere().to("admin")
+                        .grant(Jenkins.READ).everywhere().to("user")
+        );
     }
     
     @Test
