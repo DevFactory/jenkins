@@ -128,14 +128,7 @@ public class HistoryPageFilterTest {
         HistoryPageFilter<ModelObject> historyPageFilter = newPage(5, null, 11L);
         Iterable<ModelObject> itemList = newRuns(1, 10);
 
-        historyPageFilter.add(itemList);
-
-        Assert.assertFalse(historyPageFilter.hasUpPage);
-        Assert.assertTrue(historyPageFilter.hasDownPage);
-        Assert.assertEquals(5, historyPageFilter.runs.size());
-
-        Assert.assertEquals(HistoryPageEntry.getEntryId(10), historyPageFilter.newestOnPage);
-        Assert.assertEquals(HistoryPageEntry.getEntryId(6), historyPageFilter.oldestOnPage);
+        extractedMethod56149(historyPageFilter, itemList);
     }
 
     /**
@@ -255,14 +248,7 @@ public class HistoryPageFilterTest {
         HistoryPageFilter<ModelObject> historyPageFilter = newPage(5, 8L, null);
         Iterable<ModelObject> itemList = newRuns(1, 10);
 
-        historyPageFilter.add(itemList);
-
-        Assert.assertFalse(historyPageFilter.hasUpPage);
-        Assert.assertTrue(historyPageFilter.hasDownPage);
-        Assert.assertEquals(5, historyPageFilter.runs.size());
-
-        Assert.assertEquals(HistoryPageEntry.getEntryId(10), historyPageFilter.newestOnPage);
-        Assert.assertEquals(HistoryPageEntry.getEntryId(6), historyPageFilter.oldestOnPage);
+        extractedMethod56149(historyPageFilter, itemList);
     }
 
     /**
@@ -301,12 +287,16 @@ public class HistoryPageFilterTest {
             itemList.add(new ExplodingMockRun(queueId));
         }
 
-        historyPageFilter.add(itemList);
+        extractedMethod56149(historyPageFilter, itemList);
+    }
 
+    private void extractedMethod56149(final HistoryPageFilter<ModelObject> historyPageFilter, final Iterable itemList) {
+        historyPageFilter.add(itemList);
+        
         Assert.assertFalse(historyPageFilter.hasUpPage);
         Assert.assertTrue(historyPageFilter.hasDownPage);
         Assert.assertEquals(5, historyPageFilter.runs.size());
-
+        
         Assert.assertEquals(HistoryPageEntry.getEntryId(10), historyPageFilter.newestOnPage);
         Assert.assertEquals(HistoryPageEntry.getEntryId(6), historyPageFilter.oldestOnPage);
     }
