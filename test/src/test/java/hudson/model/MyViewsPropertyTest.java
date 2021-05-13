@@ -111,10 +111,7 @@ public class MyViewsPropertyTest {
     @Test
     public void testGetPrimaryView() throws IOException {
         User user = User.getOrCreateByIdOrFullName("User");
-        MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
-        property.readResolve();
-        property.setUser(user);
-        user.addProperty(property);
+        MyViewsProperty property = getProperty76921(user);
         assertEquals("Property should have primary view " + AllView.DEFAULT_VIEW_NAME + " instead of " + property.getPrimaryView(). name,property.getView(AllView.DEFAULT_VIEW_NAME), property.getPrimaryView());
         View view = new ListView("foo", property);
         property.addView(view);
@@ -125,10 +122,7 @@ public class MyViewsPropertyTest {
     @Test
     public void testCanDelete() throws IOException {
         User user = User.getOrCreateByIdOrFullName("User");
-        MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
-        property.readResolve();
-        property.setUser(user);
-        user.addProperty(property);
+        MyViewsProperty property = getProperty76921(user);
         assertFalse("Property should not enable to delete view " + AllView.DEFAULT_VIEW_NAME, property.canDelete(property.getView(AllView.DEFAULT_VIEW_NAME)));
         View view = new ListView("foo", property);
         property.addView(view);
@@ -141,10 +135,7 @@ public class MyViewsPropertyTest {
     @Test
     public void testDeleteView() throws IOException {
         User user = User.getOrCreateByIdOrFullName("User");
-        MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
-        property.readResolve();
-        property.setUser(user);
-        user.addProperty(property);
+        MyViewsProperty property = getProperty76921(user);
         boolean ex = false;
         try{
             property.deleteView(property.getView(AllView.DEFAULT_VIEW_NAME));
@@ -174,10 +165,7 @@ public class MyViewsPropertyTest {
     @Test
     public void testOnViewRenamed() throws IOException, Failure, FormException {
         User user = User.getOrCreateByIdOrFullName("User");
-        MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
-        property.readResolve();
-        property.setUser(user);
-        user.addProperty(property);
+        MyViewsProperty property = getProperty76921(user);
         View view = new ListView("foo", property);
         property.addView(view);
         property.setPrimaryViewName(view.name);
@@ -189,10 +177,7 @@ public class MyViewsPropertyTest {
     public void testAddView() throws Exception {
         {
         User user = User.getOrCreateByIdOrFullName("User");
-        MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
-        property.readResolve();
-        property.setUser(user);
-        user.addProperty(property);
+        MyViewsProperty property = getProperty76921(user);
         View view = new ListView("foo", property);
         property.addView(view);
         assertTrue("Property should contain view " + view.name, property.getViews().contains(view));
@@ -209,10 +194,7 @@ public class MyViewsPropertyTest {
     public void testDoCreateView() throws Exception {
         {
         User user = User.getOrCreateByIdOrFullName("User");
-        MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
-        property.readResolve();
-        property.setUser(user);
-        user.addProperty(property);
+        MyViewsProperty property = getProperty76921(user);
         HtmlForm form = rule.createWebClient().goTo(property.getUrl() + "/newView").getFormByName("createItem");
         form.getInputByName("name").setValueAttribute("foo");
         form.getRadioButtonsByName("mode").get(0).setChecked(true);
@@ -229,13 +211,18 @@ public class MyViewsPropertyTest {
     @Test
     public void testGetACL() throws IOException {
         User user = User.getOrCreateByIdOrFullName("User");
+        MyViewsProperty property = getProperty76921(user);
+        for(Permission p : Permission.getAll()){
+            assertEquals("Property should have the same ACL as its user", property.getACL().hasPermission(p), user.getACL().hasPermission(p));
+        }
+    }
+
+    private MyViewsProperty getProperty76921(final User user) throws IOException {
         MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
         property.readResolve();
         property.setUser(user);
         user.addProperty(property);
-        for(Permission p : Permission.getAll()){
-            assertEquals("Property should have the same ACL as its user", property.getACL().hasPermission(p), user.getACL().hasPermission(p));
-        }
+        return property;
     }
 
     @Test
