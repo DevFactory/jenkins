@@ -24,6 +24,8 @@
 
 package hudson.model;
 
+import java.util.concurrent.ExecutionException;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -76,11 +78,7 @@ public class RunTest {
                 }).get();
                 TimeZone.setDefault(TimeZone.getTimeZone("America/Los_Angeles"));
                 id = r.getId();
-                assertEquals(id, svc.submit(new Callable<String>() {
-                    @Override public String call() throws Exception {
-                        return r.getId();
-                    }
-                }).get());
+                extractedMethod82296(id, svc, r);
             } finally {
                 svc.shutdown();
             }
@@ -88,18 +86,22 @@ public class RunTest {
             svc = Executors.newSingleThreadExecutor();
             try {
                 assertEquals(id, r.getId());
-                assertEquals(id, svc.submit(new Callable<String>() {
-                    @Override
-                    public String call() throws Exception {
-                        return r.getId();
-                    }
-                }).get());
+                extractedMethod82296(id, svc, r);
             } finally {
                 svc.shutdown();
             }
         } finally {
             TimeZone.setDefault(origTZ);
         }
+    }
+
+    private void extractedMethod82296(final String id, final ExecutorService svc, final Run r) throws ExecutionException, InterruptedException {
+        assertEquals(id, svc.submit(new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return r.getId();
+            }
+        }).get());
     }
 
 
