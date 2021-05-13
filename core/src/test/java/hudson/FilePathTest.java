@@ -803,10 +803,7 @@ public class FilePathTest {
         Path targetContents = Files.createFile(targetDir.resolve("contents.txt"));
         Path toDelete = temp.newFolder("toDelete").toPath();
         Util.createSymlink(toDelete.toFile(), "../targetDir", "link", TaskListener.NULL);
-        Files.createFile(toDelete.resolve("foo"));
-        Files.createFile(toDelete.resolve("bar"));
-        FilePath f = new FilePath(toDelete.toFile());
-        f.deleteRecursive();
+        extractedMethod32651(toDelete);
         assertTrue("symlink target should not be deleted", Files.exists(targetDir));
         assertTrue("symlink target contents should not be deleted", Files.exists(targetContents));
         assertFalse("could not delete target", Files.exists(toDelete));
@@ -832,14 +829,18 @@ public class FilePathTest {
         Path targetContents = Files.createFile(targetDir.resolve("contents.txt"));
         Path toDelete = temp.newFolder("toDelete").toPath();
         File junction = WindowsUtil.createJunction(toDelete.resolve("junction").toFile(), targetDir.toFile());
-        Files.createFile(toDelete.resolve("foo"));
-        Files.createFile(toDelete.resolve("bar"));
-        FilePath f = new FilePath(toDelete.toFile());
-        f.deleteRecursive();
+        extractedMethod32651(toDelete);
         assertTrue("junction target should not be deleted", Files.exists(targetDir));
         assertTrue("junction target contents should not be deleted", Files.exists(targetContents));
         assertFalse("could not delete junction", junction.exists());
         assertFalse("could not delete target", Files.exists(toDelete));
+    }
+
+    private void extractedMethod32651(final Path toDelete) throws IOException, InterruptedException {
+        Files.createFile(toDelete.resolve("foo"));
+        Files.createFile(toDelete.resolve("bar"));
+        FilePath f = new FilePath(toDelete.toFile());
+        f.deleteRecursive();
     }
 
     @Issue("JENKINS-13128")
