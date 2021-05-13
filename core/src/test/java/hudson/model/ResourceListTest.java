@@ -154,13 +154,7 @@ public class ResourceListTest {
 
     @Test
     public void parentChildW() {
-        x.w(a1);
-        x.w(a2);
-        y.w(a3);
-        y.w(a4);
-        z.w(a);
-        assertFalse("Sibling resources should not conflict", x.isCollidingWith(y));
-        assertFalse("Sibling resources should not conflict", y.isCollidingWith(x));
+        extractedMethod79894(a1, a2, a3, a4, a);
         assertTrue("Taking parent resource assumes all children are taken too", x.isCollidingWith(z));
         assertTrue("Taking parent resource assumes all children are taken too", z.isCollidingWith(x));
         assertTrue("Taking parent resource assumes all children are taken too", z.isCollidingWith(y));
@@ -184,13 +178,7 @@ public class ResourceListTest {
 
     @Test
     public void parentChildW3() {
-        x.w(c1);
-        x.w(c2);
-        y.w(c3);
-        y.w(c4);
-        z.w(c);
-        assertFalse("Sibling resources should not conflict", x.isCollidingWith(y));
-        assertFalse("Sibling resources should not conflict", y.isCollidingWith(x));
+        extractedMethod79894(c1, c2, c3, c4, c);
         assertFalse("Using less than the limit of child resources should not be a problem", x.isCollidingWith(z));
         assertFalse("Using less than the limit of child resources should not be a problem", z.isCollidingWith(x));
         assertFalse("Using less than the limit of child resources should not be a problem", z.isCollidingWith(y));
@@ -211,6 +199,16 @@ public class ResourceListTest {
         v = ResourceList.union(v,x);  // write count is three
         assertTrue("Total count = 4, limit is 3", v.isCollidingWith(x));
         assertTrue("Total count = 4, limit is 3", x.isCollidingWith(v));
+    }
+
+    private void extractedMethod79894(final Resource c1, final Resource c2, final Resource c3, final Resource c4, final Resource c) {
+        x.w(c1);
+        x.w(c2);
+        y.w(c3);
+        y.w(c4);
+        z.w(c);
+        assertFalse("Sibling resources should not conflict", x.isCollidingWith(y));
+        assertFalse("Sibling resources should not conflict", y.isCollidingWith(x));
     }
 
     @Test
