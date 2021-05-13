@@ -340,12 +340,7 @@ public class Security400Test {
             WebRequest request = new WebRequest(new URL(j.getURL() + "computers/0/executors/0/stopBuild?runExtId=whatever"), HttpMethod.POST);
             Page page = wc.getPage(request);
             assertEquals(404, page.getWebResponse().getStatusCode());
-            assertRequestWasNotBlocked();
-
-            // let the build finishes
-            semaphore.release(1);
-
-            j.assertBuildStatus(Result.SUCCESS, futureBuild);
+            extractedMethod63713(semaphore, futureBuild);
             assertEquals(1, atomicResult.get());
         }
     }
@@ -396,10 +391,7 @@ public class Security400Test {
             Page page = wc.goTo("computers/0/executors/0/currentExecutable/consoleText", null);
             assertEquals(200, page.getWebResponse().getStatusCode());
             assertThat(page.getWebResponse().getContentAsString(), containsString(SemaphoredBuilder.START_MESSAGE));
-            assertRequestWasNotBlocked();
-            
-            semaphore.release(1);
-            j.assertBuildStatus(Result.SUCCESS, futureBuild);
+            extractedMethod63713(semaphore, futureBuild);
         }
         
         { // as Anonymous, we start the build and try to get the console
@@ -412,10 +404,7 @@ public class Security400Test {
             Page page = wc.goTo("computers/0/executors/0/currentExecutable/consoleText", null);
             checkPageIsRedirectedToLogin(page);
             assertThat(page.getWebResponse().getContentAsString(), not(containsString(SemaphoredBuilder.START_MESSAGE)));
-            assertRequestWasNotBlocked();
-            
-            semaphore.release(1);
-            j.assertBuildStatus(Result.SUCCESS, futureBuild);
+            extractedMethod63713(semaphore, futureBuild);
         }
     }
     
@@ -454,10 +443,7 @@ public class Security400Test {
             Page page = wc.goTo("computers/0/executors/0/api/xml", null);
             assertEquals(200, page.getWebResponse().getStatusCode());
             assertThat(page.getWebResponse().getContentAsString(), containsString(p.getUrl()));
-            assertRequestWasNotBlocked();
-            
-            semaphore.release(1);
-            j.assertBuildStatus(Result.SUCCESS, futureBuild);
+            extractedMethod63713(semaphore, futureBuild);
             
             wc = j.createWebClient();
             wc.getOptions().setThrowExceptionOnFailingStatusCode(false);
@@ -470,11 +456,17 @@ public class Security400Test {
             Page page = wc.goTo("computers/0/executors/0/api/xml", null);
             checkPageIsRedirectedToLogin(page);
             assertThat(page.getWebResponse().getContentAsString(), not(containsString(p.getUrl())));
-            assertRequestWasNotBlocked();
-            
-            semaphore.release(1);
-            j.assertBuildStatus(Result.SUCCESS, futureBuild);
+            extractedMethod63713(semaphore, futureBuild);
         }
+    }
+
+    private void extractedMethod63713(final Semaphore semaphore, final QueueTaskFuture<FreeStyleBuild> futureBuild) throws Exception {
+        assertRequestWasNotBlocked();
+        
+        // let the build finishes
+        semaphore.release(1);
+        
+        j.assertBuildStatus(Result.SUCCESS, futureBuild);
     }
     
     @Test
