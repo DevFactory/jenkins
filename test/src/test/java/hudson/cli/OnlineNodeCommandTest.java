@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass65223;
+
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
@@ -69,14 +71,7 @@ public class OnlineNodeCommandTest {
     }
 
     @Test public void onlineNodeShouldFailWithoutComputerConnectPermission() throws Exception {
-        j.createSlave("aNode", "", null);
-
-        final CLICommandInvoker.Result result = command
-                .authorizedTo(Jenkins.READ)
-                .invokeWithArgs("aNode");
-        assertThat(result, failedWith(6));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: user is missing the Agent/Connect permission"));
+        final CLICommandInvoker.Result result = ExtractedSeparateClass65223.getResult68532(j, command);
     }
 
     @Test public void onlineNodeShouldFailIfNodeDoesNotExist() throws Exception {
