@@ -77,13 +77,15 @@ public class TriggerStartTest {
         xml = xml.replace("  <triggers/>\n", triggersSection());
         Source newXML = new StreamSource(new StringReader(xml));
         p.updateByXml(newXML);
-        MockTrigger t = p.getTrigger(MockTrigger.class);
-        assertNotNull(t);
-        assertEquals("[true]", t.calls.toString());
+        extractedMethod34164(p);
     }
 
     @Test public void createProjectFromXmlCallsStartTrue() throws Exception {
         FreeStyleProject p = (FreeStyleProject) j.jenkins.createProjectFromXML("whatever", new ByteArrayInputStream(("<project>\n  <builders/>\n  <publishers/>\n  <buildWrappers/>\n" + triggersSection() + "</project>").getBytes()));
+        extractedMethod34164(p);
+    }
+
+    private void extractedMethod34164(final FreeStyleProject p) {
         MockTrigger t = p.getTrigger(MockTrigger.class);
         assertNotNull(t);
         assertEquals("[true]", t.calls.toString());
