@@ -1,5 +1,7 @@
 package jenkins.model;
 
+import org.xml.sax.SAXException;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import com.gargoylesoftware.htmlunit.WebResponse;
@@ -126,12 +128,7 @@ public class JenkinsManagePermissionTest {
     @Test
     public void someGlobalConfigurationIsNotDisplayedWithManagePermission() throws Exception {
         //GIVEN a user with Jenkins.MANAGE permission
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
-        j.jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy()
-                .grant(Jenkins.MANAGE, Jenkins.READ).everywhere().toEveryone());
-
-        //WHEN the user goes to /configure page
-        HtmlForm form = j.createWebClient().goTo("configure").getFormByName("config");
+        HtmlForm form = getForm58731();
         String formText = form.asText();
         //THEN items restricted to ADMINISTER only should not be displayed.
         assertThat("Should be able to configure system message", formText, not(containsString("systemMessage")));
@@ -174,14 +171,20 @@ public class JenkinsManagePermissionTest {
     @Issue("JENKINS-60266")
     @Test
     public void globalConfigAllowedWithManagePermission() throws Exception {
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
-        j.jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy()
-                .grant(Jenkins.MANAGE, Jenkins.READ).everywhere().toEveryone());
-
-        HtmlForm form = j.createWebClient().goTo("configure").getFormByName("config");
+        HtmlForm form = getForm58731();
         HtmlPage updated = j.submit(form);
         assertThat("User with Jenkins.MANAGE permission should be able to update global configuration",
                 updated.getWebResponse(), hasResponseCode(HttpURLConnection.HTTP_OK));
+    }
+
+    private HtmlForm getForm58731() throws IOException, SAXException {
+        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
+        j.jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy()
+                .grant(Jenkins.MANAGE, Jenkins.READ).everywhere().toEveryone());
+        
+        //WHEN the user goes to /configure page
+        HtmlForm form = j.createWebClient().goTo("configure").getFormByName("config");
+        return form;
     }
 
     @Issue("JENKINS-61457")
