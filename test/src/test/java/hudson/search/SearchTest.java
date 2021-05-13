@@ -99,13 +99,7 @@ public class SearchTest {
         
         j.createFreeStyleProject(projectName);
         
-        Page result = j.search(projectName);
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-        
-        // make sure we've fetched the testSearchByDisplayName project page
-        String contents = result.getWebResponse().getContentAsString();
-        assertTrue(contents.contains(String.format("<title>%s [Jenkins]</title>", projectName)));
+        String contents = getContents59759(projectName);
     }
 
     @Issue("JENKINS-24433")
@@ -146,13 +140,7 @@ public class SearchTest {
         FreeStyleProject project = j.createFreeStyleProject("testSearchByDisplayName");
         project.setDisplayName(displayName);
         
-        Page result = j.search(displayName);
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-        
-        // make sure we've fetched the testSearchByDisplayName project page
-        String contents = result.getWebResponse().getContentAsString();
-        assertTrue(contents.contains(String.format("<title>%s [Jenkins]</title>", displayName)));
+        String contents = getContents59759(displayName);
     }
     
     @Test
@@ -174,14 +162,19 @@ public class SearchTest {
         // make sure that on search we get back one of the projects, it doesn't
         // matter which one as long as the one that is returned has displayName
         // as the display name
+        String contents = getContents59759(displayName);
+        assertFalse(contents.contains(otherDisplayName));
+    }
+
+    private String getContents59759(final String displayName) throws Exception {
         Page result = j.search(displayName);
         assertNotNull(result);
         j.assertGoodStatus(result);
-
+        
         // make sure we've fetched the testSearchByDisplayName project page
         String contents = result.getWebResponse().getContentAsString();
         assertTrue(contents.contains(String.format("<title>%s [Jenkins]</title>", displayName)));
-        assertFalse(contents.contains(otherDisplayName));
+        return contents;
     }
     
     @Test
