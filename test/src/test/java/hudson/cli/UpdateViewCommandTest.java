@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass58425;
+
 import static hudson.cli.CLICommandInvoker.Matcher.failedWith;
 import static hudson.cli.CLICommandInvoker.Matcher.hasNoStandardOutput;
 import static hudson.cli.CLICommandInvoker.Matcher.succeededSilently;
@@ -63,9 +65,7 @@ public class UpdateViewCommandTest {
                 .invokeWithArgs("aView")
         ;
 
-        assertThat(result, failedWith(6));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: user is missing the View/Configure permission"));
+        ExtractedSeparateClass58425.extractedMethod37897(result);
     }
 
     /**
