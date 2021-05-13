@@ -23,6 +23,9 @@
  */
 package jenkins.tasks.filters.impl;
 
+import java.io.IOException;
+import hudson.tasks.CommandInterpreter;
+
 import hudson.Functions;
 import hudson.model.Build;
 import hudson.model.Cause;
@@ -61,11 +64,7 @@ public class RetainVariablesLocalRuleTest {
 
         FreeStyleProject p = j.createFreeStyleProject();
         BatchFile batch = new BatchFile("echo \"begin %what% %who% end\"");
-        p.getBuildersList().add(batch);
-        p.addProperty(new ParametersDefinitionProperty(
-                new StringParameterDefinition("what", "Hello"),
-                new StringParameterDefinition("who", "World")
-        ));
+        extractedMethod74619(p, batch);
 
         {// the rule allows the user to retain only a subset of variable
             RetainVariablesLocalRule localRule = new RetainVariablesLocalRule();
@@ -222,11 +221,7 @@ public class RetainVariablesLocalRuleTest {
 
         FreeStyleProject p = j.createFreeStyleProject();
         Shell shell = new Shell("echo \"begin $what $who end\"");
-        p.getBuildersList().add(shell);
-        p.addProperty(new ParametersDefinitionProperty(
-                new StringParameterDefinition("what", "Hello"),
-                new StringParameterDefinition("who", "World")
-        ));
+        extractedMethod74619(p, shell);
 
         {// the rule allows the user to retain only a subset of variable
             RetainVariablesLocalRule localRule = new RetainVariablesLocalRule();
@@ -285,11 +280,7 @@ public class RetainVariablesLocalRuleTest {
         BatchFile batch1 = new BatchFile("echo \"Step1: %what% %who%\"");
         BatchFile batch2 = new BatchFile("echo \"Step2: %what% %who%\"");
         p.getBuildersList().add(batch1);
-        p.getBuildersList().add(batch2);
-        p.addProperty(new ParametersDefinitionProperty(
-                new StringParameterDefinition("what", "Hello"),
-                new StringParameterDefinition("who", "World")
-        ));
+        extractedMethod74619(p, batch2);
 
         {// two steps with a specified local rule on each, there is not interaction
             RetainVariablesLocalRule localRule1 = new RetainVariablesLocalRule();
@@ -322,11 +313,7 @@ public class RetainVariablesLocalRuleTest {
         Shell batch1 = new Shell("echo \"Step1: $what $who\"");
         Shell batch2 = new Shell("echo \"Step2: $what $who\"");
         p.getBuildersList().add(batch1);
-        p.getBuildersList().add(batch2);
-        p.addProperty(new ParametersDefinitionProperty(
-                new StringParameterDefinition("what", "Hello"),
-                new StringParameterDefinition("who", "World")
-        ));
+        extractedMethod74619(p, batch2);
 
         {// two steps with a specified local rule on each, there is not interaction
             RetainVariablesLocalRule localRule1 = new RetainVariablesLocalRule();
@@ -349,6 +336,14 @@ public class RetainVariablesLocalRuleTest {
             assertDoesNotContainsSequentially(build, "world", "Step2:", "world");
             assertContainsSequentially(build, "Step2:  world");
         }
+    }
+
+    private void extractedMethod74619(final FreeStyleProject p, final CommandInterpreter batch2) throws IOException {
+        p.getBuildersList().add(batch2);
+        p.addProperty(new ParametersDefinitionProperty(
+                new StringParameterDefinition("what", "Hello"),
+                new StringParameterDefinition("who", "World")
+        ));
     }
 
     private void assertContainsSequentially(Build<?, ?> build, String... values) throws Exception {
