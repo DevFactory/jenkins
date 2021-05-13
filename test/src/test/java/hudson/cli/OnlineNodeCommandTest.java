@@ -253,16 +253,7 @@ public class OnlineNodeCommandTest {
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created: No such agent \"never_created\" exists. Did you mean \"aNode1\"?"));
         assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-        if (slave1.toComputer().isConnecting()) {
-            System.out.println("Waiting until aNode1 going online is in progress...");
-            slave1.toComputer().waitUntilOnline();
-        }
-        if (slave2.toComputer().isConnecting()) {
-            System.out.println("Waiting until aNode2 going online is in progress...");
-            slave2.toComputer().waitUntilOnline();
-        }
-        assertThat(slave1.toComputer().isOnline(), equalTo(true));
-        assertThat(slave2.toComputer().isOnline(), equalTo(true));
+        extractedMethod6354(slave1, slave2);
     }
 
     @Test public void onlineNodeManyShouldSucceedEvenANodeIsSpecifiedTwice() throws Exception {
@@ -273,6 +264,10 @@ public class OnlineNodeCommandTest {
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "aNode1");
         assertThat(result, succeededSilently());
+        extractedMethod6354(slave1, slave2);
+    }
+
+    private void extractedMethod6354(final DumbSlave slave1, final DumbSlave slave2) throws InterruptedException {
         if (slave1.toComputer().isConnecting()) {
             System.out.println("Waiting until aNode1 going online is in progress...");
             slave1.toComputer().waitUntilOnline();
