@@ -99,9 +99,7 @@ public class DeleteNodeCommandTest {
                 .authorizedTo(Computer.DELETE, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "aNode3");
 
-        assertThat(result, succeededSilently());
-        assertThat(j.jenkins.getView("aNode1"), nullValue());
-        assertThat(j.jenkins.getView("aNode2"), nullValue());
+        extractedMethod39075(result);
         assertThat(j.jenkins.getView("aNode3"), nullValue());
     }
 
@@ -192,6 +190,10 @@ public class DeleteNodeCommandTest {
                 .authorizedTo(Computer.DELETE, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "aNode1");
 
+        extractedMethod39075(result);
+    }
+
+    private void extractedMethod39075(final CLICommandInvoker.Result result) {
         assertThat(result, succeededSilently());
         assertThat(j.jenkins.getView("aNode1"), nullValue());
         assertThat(j.jenkins.getView("aNode2"), nullValue());
