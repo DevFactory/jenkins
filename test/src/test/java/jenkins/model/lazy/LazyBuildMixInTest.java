@@ -48,13 +48,7 @@ public class LazyBuildMixInTest {
         FreeStyleProject p = r.createFreeStyleProject();
         FreeStyleBuild b1 = r.buildAndAssertSuccess(p);
         FreeStyleBuild b2 = r.buildAndAssertSuccess(p);
-        FreeStyleBuild b3 = r.buildAndAssertSuccess(p);
-        assertEquals(b2, b1.getNextBuild());
-        assertEquals(b3, b2.getNextBuild());
-        assertNull(b3.getNextBuild());
-        assertNull(b1.getPreviousBuild());
-        assertEquals(b1, b2.getPreviousBuild());
-        assertEquals(b2, b3.getPreviousBuild());
+        FreeStyleBuild b3 = getB352263(p, b2, b1);
         b1.getRunMixIn().createReference().clear();
         b2.delete();
         FreeStyleBuild b1a = b2.getPreviousBuild();
@@ -70,6 +64,16 @@ public class LazyBuildMixInTest {
         FreeStyleProject p = r.createFreeStyleProject();
         FreeStyleBuild b1 = r.buildAndAssertSuccess(p);
         FreeStyleBuild b2 = r.buildAndAssertSuccess(p);
+        FreeStyleBuild b3 = getB352263(p, b2, b1);
+        b2.delete();
+        b1.getRunMixIn().createReference().clear();
+        FreeStyleBuild b1a = b2.getPreviousBuild();
+        assertNotSame(b1, b1a);
+        assertEquals(1, b1a.getNumber());
+        assertEquals(b3, b1a.getNextBuild());
+    }
+
+    private FreeStyleBuild getB352263(final FreeStyleProject p, final FreeStyleBuild b2, final FreeStyleBuild b1) throws Exception {
         FreeStyleBuild b3 = r.buildAndAssertSuccess(p);
         assertEquals(b2, b1.getNextBuild());
         assertEquals(b3, b2.getNextBuild());
@@ -77,12 +81,7 @@ public class LazyBuildMixInTest {
         assertNull(b1.getPreviousBuild());
         assertEquals(b1, b2.getPreviousBuild());
         assertEquals(b2, b3.getPreviousBuild());
-        b2.delete();
-        b1.getRunMixIn().createReference().clear();
-        FreeStyleBuild b1a = b2.getPreviousBuild();
-        assertNotSame(b1, b1a);
-        assertEquals(1, b1a.getNumber());
-        assertEquals(b3, b1a.getNextBuild());
+        return b3;
     }
 
     @Issue("JENKINS-20662")
