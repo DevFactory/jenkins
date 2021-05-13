@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import hudson.model.ExtractedSeparateClass74585;
+
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import hudson.FilePath;
@@ -403,11 +405,7 @@ public class FileParameterValueTest {
                 assertFalse("Header not set: " + header, page.getWebResponse().getResponseHeaders().contains(header));
             }
         } finally {
-            if (initialValue == null) {
-                System.clearProperty(DirectoryBrowserSupport.class.getName() + ".CSP");
-            } else {
-                System.setProperty(DirectoryBrowserSupport.class.getName() + ".CSP", initialValue);
-            }
+            ExtractedSeparateClass74585.extractedMethod90471(initialValue);
         }
     }
 }
