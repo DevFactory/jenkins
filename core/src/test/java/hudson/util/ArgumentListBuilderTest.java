@@ -88,10 +88,7 @@ public class ArgumentListBuilderTest {
         builder.add("arg");
         builder.prepend("first", "second");
 
-        assertTrue("There should be masked arguments", builder.hasMaskedArguments());
-        boolean[] array = builder.toMaskArray();
-        assertNotNull("The mask array should not be null", array);
-        assertThat("The mask array was incorrect", array, is(new boolean[] { false, false, true, false }));
+        extractedMethod97336(builder);
     }
 
     @Test
@@ -101,6 +98,10 @@ public class ArgumentListBuilderTest {
         builder.addMasked("ismasked");
         builder.add("arg");
 
+        extractedMethod97336(builder);
+    }
+
+    private void extractedMethod97336(final ArgumentListBuilder builder) {
         assertTrue("There should be masked arguments", builder.hasMaskedArguments());
         boolean[] array = builder.toMaskArray();
         assertNotNull("The mask array should not be null", array);
