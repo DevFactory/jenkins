@@ -20,15 +20,7 @@ public class XmlFileTest {
     @Test
     public void canReadXml1_0Test() throws IOException {
         URL configUrl = getClass().getResource("/hudson/config_1_0.xml");
-        XStream2  xs = new XStream2();
-        xs.alias("hudson", Jenkins.class);
-
-        XmlFile xmlFile =  new XmlFile(xs, new File(configUrl.getFile()));
-        if (xmlFile.exists()) {
-            Node n = (Node) xmlFile.read();
-            assertThat(n.getNumExecutors(), is(2));
-            assertThat(n.getMode().toString(), is("NORMAL"));
-        }
+        extractedMethod58182(configUrl);
     }
 
     // KXml2Driver is able to parse XML 1.0 even if it has control characters which
@@ -49,9 +41,13 @@ public class XmlFileTest {
     @Test
     public void canReadXml1_1Test() throws IOException {
         URL configUrl = getClass().getResource("/hudson/config_1_1.xml");
+        extractedMethod58182(configUrl);
+    }
+
+    private void extractedMethod58182(final URL configUrl) throws IOException {
         XStream2  xs = new XStream2();
         xs.alias("hudson", Jenkins.class);
-
+        
         XmlFile xmlFile =  new XmlFile(xs, new File(configUrl.getFile()));
         if (xmlFile.exists()) {
             Node n = (Node) xmlFile.read();
