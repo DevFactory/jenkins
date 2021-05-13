@@ -232,24 +232,7 @@ public class QuietDownCommandTest {
                 return null;
             }
         });
-        try {
-            threadPool.submit(exec_task);
-            beforeCli.block();
-            assertJenkinsInQuietMode();
-            exec_task.get(10, TimeUnit.SECONDS);
-        } catch (TimeoutException e) {
-            timeoutOccurred = true;
-        }
-        if(!timeoutOccurred)
-            fail("Missing timeout for CLI call");
-
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
-        exec_task.cancel(true);
-        assertJenkinsInQuietMode();
+        extractedMethod15546(threadPool, exec_task, beforeCli, timeoutOccurred, finish, build, project);
     }
 
     //
@@ -277,6 +260,10 @@ public class QuietDownCommandTest {
                 return null;
             }
         });
+        extractedMethod15546(threadPool, exec_task, beforeCli, timeoutOccurred, finish, build, project);
+    }
+
+    private void extractedMethod15546(final ExecutorService threadPool, final FutureTask exec_task, final OneShotEvent beforeCli, boolean timeoutOccurred, final OneShotEvent finish, final Future<FreeStyleBuild> build, final FreeStyleProject project) throws Exception {
         try {
             threadPool.submit(exec_task);
             beforeCli.block();
@@ -287,7 +274,7 @@ public class QuietDownCommandTest {
         }
         if(!timeoutOccurred)
             fail("Missing timeout for CLI call");
-
+        
         finish.signal();
         build.get();
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
