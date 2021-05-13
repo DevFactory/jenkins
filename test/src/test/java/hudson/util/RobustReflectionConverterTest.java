@@ -24,6 +24,8 @@
 
 package hudson.util;
 
+import java.io.IOException;
+
 import com.gargoylesoftware.htmlunit.Page;
 import hudson.cli.CLICommandInvoker;
 import hudson.diagnosis.OldDataMonitor;
@@ -201,15 +203,7 @@ public class RobustReflectionConverterTest {
 
         // without addCriticalField. This is accepted.
         {
-            FreeStyleProject p = r.createFreeStyleProject();
-            p.addProperty(new KeywordProperty(
-                    new AcceptOnlySpecificKeyword(AcceptOnlySpecificKeyword.ACCEPT_KEYWORD),
-                    new AcceptOnlySpecificKeyword(AcceptOnlySpecificKeyword.ACCEPT_KEYWORD)
-            ));
-            p.save();
-            
-            // Configure a bad keyword via REST.
-            r.jenkins.setSecurityRealm(r.createDummySecurityRealm());
+            FreeStyleProject p = getP5762();
             WebClient wc = r.createWebClient();
             wc.withBasicApiToken(test);
             WebRequest req = new WebRequest(new URL(wc.getContextPath() + String.format("%s/config.xml", p.getUrl())), HttpMethod.POST);
@@ -231,15 +225,7 @@ public class RobustReflectionConverterTest {
         
         // with addCriticalField. This is not accepted.
         {
-            FreeStyleProject p = r.createFreeStyleProject();
-            p.addProperty(new KeywordProperty(
-                    new AcceptOnlySpecificKeyword(AcceptOnlySpecificKeyword.ACCEPT_KEYWORD),
-                    new AcceptOnlySpecificKeyword(AcceptOnlySpecificKeyword.ACCEPT_KEYWORD)
-            ));
-            p.save();
-            
-            // Configure a bad keyword via REST.
-            r.jenkins.setSecurityRealm(r.createDummySecurityRealm());
+            FreeStyleProject p = getP5762();
             WebClient wc = r.createWebClient()
                     .withThrowExceptionOnFailingStatusCode(false);
             wc.withBasicApiToken(test);
@@ -269,15 +255,7 @@ public class RobustReflectionConverterTest {
         
         // without addCriticalField. This is accepted.
         {
-            FreeStyleProject p = r.createFreeStyleProject();
-            p.addProperty(new KeywordProperty(
-                    new AcceptOnlySpecificKeyword(AcceptOnlySpecificKeyword.ACCEPT_KEYWORD),
-                    new AcceptOnlySpecificKeyword(AcceptOnlySpecificKeyword.ACCEPT_KEYWORD)
-            ));
-            p.save();
-            
-            // Configure a bad keyword via CLI.
-            r.jenkins.setSecurityRealm(r.createDummySecurityRealm());
+            FreeStyleProject p = getP5762();
             
             CLICommandInvoker.Result ret = new CLICommandInvoker(r, "update-job")
                     .asUser("test")
@@ -302,15 +280,7 @@ public class RobustReflectionConverterTest {
         
         // with addCriticalField. This is not accepted.
         {
-            FreeStyleProject p = r.createFreeStyleProject();
-            p.addProperty(new KeywordProperty(
-                    new AcceptOnlySpecificKeyword(AcceptOnlySpecificKeyword.ACCEPT_KEYWORD),
-                    new AcceptOnlySpecificKeyword(AcceptOnlySpecificKeyword.ACCEPT_KEYWORD)
-            ));
-            p.save();
-            
-            // Configure a bad keyword via CLI.
-            r.jenkins.setSecurityRealm(r.createDummySecurityRealm());
+            FreeStyleProject p = getP5762();
             CLICommandInvoker.Result ret = new CLICommandInvoker(r, "update-job")
                     .asUser("test")
                     .withStdin(new ByteArrayInputStream(String.format(CONFIGURATION_TEMPLATE, AcceptOnlySpecificKeyword.ACCEPT_KEYWORD, "badvalue").getBytes()))
@@ -329,5 +299,18 @@ public class RobustReflectionConverterTest {
             p = r.jenkins.getItemByFullName(p.getFullName(), FreeStyleProject.class);
             assertNotEquals("badvalue", p.getProperty(KeywordProperty.class).getCriticalField().getKeyword());
         }
+    }
+
+    private FreeStyleProject getP5762() throws IOException {
+        FreeStyleProject p = r.createFreeStyleProject();
+        p.addProperty(new KeywordProperty(
+                new AcceptOnlySpecificKeyword(AcceptOnlySpecificKeyword.ACCEPT_KEYWORD),
+                new AcceptOnlySpecificKeyword(AcceptOnlySpecificKeyword.ACCEPT_KEYWORD)
+        ));
+        p.save();
+        
+        // Configure a bad keyword via REST.
+        r.jenkins.setSecurityRealm(r.createDummySecurityRealm());
+        return p;
     }
 }
