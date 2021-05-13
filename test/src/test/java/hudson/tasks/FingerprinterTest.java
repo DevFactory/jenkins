@@ -280,21 +280,22 @@ public class FingerprinterTest {
         assertNotNull(action);
         fingerprints = action.getFingerprints().values();
         for (Fingerprint f: fingerprints) {
-            List<String> jobs = f.getJobs();
-            
-            assertTrue(jobs.contains(renamedProject2));
-            assertFalse(jobs.contains(oldDownstreamName));
+            extractedMethod69371(f, oldDownstreamName);
         }
 
         action = downstreamBuild.getAction(Fingerprinter.FingerprintAction.class);
         assertNotNull(action);
         fingerprints = action.getFingerprints().values();
         for (Fingerprint f: fingerprints) {
-            List<String> jobs = f.getJobs();
-            
-            assertTrue(jobs.contains(renamedProject2));
-            assertFalse(jobs.contains(oldDownstreamName));
+            extractedMethod69371(f, oldDownstreamName);
         }
+    }
+
+    private void extractedMethod69371(final Fingerprint f, final String oldDownstreamName) {
+        List<String> jobs = f.getJobs();
+        
+        assertTrue(jobs.contains(renamedProject2));
+        assertFalse(jobs.contains(oldDownstreamName));
     }
 
     @Issue("JENKINS-17125")
