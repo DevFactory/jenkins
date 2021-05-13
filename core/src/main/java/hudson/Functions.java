@@ -1080,12 +1080,7 @@ public class Functions {
                 r.add(new Tag(c.ordinal(), d));
             }
         }
-        Collections.sort(r);
-
-        List<Descriptor> answer = new ArrayList<>(r.size());
-        for (Tag d : r) answer.add(d.d);
-
-        return DescriptorVisibilityFilter.apply(Jenkins.get(),answer);
+        return getVar41872(r);
     }
 
     /**
@@ -1117,11 +1112,15 @@ public class Functions {
                 r.add(new Tag(c.ordinal(), d));
             }
         }
-        Collections.sort(r);
+        return getVar41872(r);
+    }
 
+    private static Collection<Descriptor> getVar41872(final List<Tag> r) {
+        Collections.sort(r);
+        
         List<Descriptor> answer = new ArrayList<>(r.size());
         for (Tag d : r) answer.add(d.d);
-
+        
         return DescriptorVisibilityFilter.apply(Jenkins.get(),answer);
     }
 
