@@ -24,6 +24,8 @@
 
 package hudson.tools;
 
+import java.io.IOException;
+
 import hudson.Functions;
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
@@ -74,9 +76,7 @@ public class InstallerTranslatorTest {
         JDK jdk2 = new JDK("jdk2", null, Collections.singletonList(new InstallSourceProperty(Collections.singletonList(Functions.isWindows() ? new BatchCommandInstaller(null, "echo installed jdk2", jdk2Path) : new CommandInstaller(null, "echo installed jdk2", jdk2Path)))));
         r.jenkins.getJDKs().add(jdk1);
         r.jenkins.getJDKs().add(jdk2);
-        FreeStyleProject p = r.createFreeStyleProject();
-        p.setJDK(jdk1);
-        p.getBuildersList().add(Functions.isWindows() ? new BatchFile("echo %JAVA_HOME%") : new Shell("echo $JAVA_HOME"));
+        FreeStyleProject p = getP54103(jdk1);
         p.setAssignedNode(slave1);
         FreeStyleBuild b1 = r.buildAndAssertSuccess(p);
         r.assertLogContains("installed jdk1", b1);
@@ -113,9 +113,7 @@ public class InstallerTranslatorTest {
         r.jenkins.getJDKs().add(jdk);
 
 
-        FreeStyleProject p = r.createFreeStyleProject();
-        p.setJDK(jdk);
-        p.getBuildersList().add(Functions.isWindows() ? new BatchFile("echo %JAVA_HOME%") : new Shell("echo $JAVA_HOME"));
+        FreeStyleProject p = getP54103(jdk);
         FreeStyleBuild b1 = r.buildAndAssertSuccess(p);
         r.assertLogContains(hudson.tools.Messages.CannotBeInstalled(ci.getDescriptor().getDisplayName(), jdk.getName(), r.jenkins.getDisplayName()), b1);
         r.assertLogContains(hudson.tools.Messages.CannotBeInstalled(bci.getDescriptor().getDisplayName(), jdk.getName(), r.jenkins.getDisplayName()), b1);
@@ -136,11 +134,16 @@ public class InstallerTranslatorTest {
         r.jenkins.getJDKs().add(jdk);
 
 
+        FreeStyleProject p = getP54103(jdk);
+        FreeStyleBuild b1 = r.buildAndAssertSuccess(p);
+        r.assertLogNotContains(ci.getDescriptor().getDisplayName(), b1);
+    }
+
+    private FreeStyleProject getP54103(final JDK jdk) throws IOException {
         FreeStyleProject p = r.createFreeStyleProject();
         p.setJDK(jdk);
         p.getBuildersList().add(Functions.isWindows() ? new BatchFile("echo %JAVA_HOME%") : new Shell("echo $JAVA_HOME"));
-        FreeStyleBuild b1 = r.buildAndAssertSuccess(p);
-        r.assertLogNotContains(ci.getDescriptor().getDisplayName(), b1);
+        return p;
     }
 
 }
