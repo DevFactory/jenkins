@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import hudson.model.ExtractedSeparateClass34761;
+
 import java.util.concurrent.TimeUnit;
 import hudson.util.NoOverlapCategoryAxis;
 import hudson.util.ChartUtil;
@@ -266,12 +268,7 @@ public class MultiStageTimeSeries implements Serializable {
         }
 
         protected CategoryAxis configureDomainAxis(CategoryPlot plot) {
-            final CategoryAxis domainAxis = new NoOverlapCategoryAxis(null);
-            plot.setDomainAxis(domainAxis);
-            domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_90);
-            domainAxis.setLowerMargin(0.0);
-            domainAxis.setUpperMargin(0.0);
-            domainAxis.setCategoryMargin(0.0);
+            final CategoryAxis domainAxis = ExtractedSeparateClass34761.getDomainAxis86582(plot);
             domainAxis.setLabelFont(CHART_FONT);
             domainAxis.setTickLabelFont(CHART_FONT);
             return domainAxis;
