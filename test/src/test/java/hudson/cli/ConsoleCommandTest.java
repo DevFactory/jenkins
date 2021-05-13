@@ -24,6 +24,9 @@
 
 package hudson.cli;
 
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+
 import hudson.Functions;
 import hudson.model.FreeStyleProject;
 import hudson.model.Item;
@@ -79,13 +82,7 @@ public class ConsoleCommandTest {
     
     @Issue("JENKINS-52181")
     @Test public void consoleShouldBeAccessibleForUserWithRead() throws Exception {	
-        FreeStyleProject project = j.createFreeStyleProject("aProject");	
-        if (Functions.isWindows()) {
-            project.getBuildersList().add(new BatchFile("echo 1"));
-        } else {
-            project.getBuildersList().add(new Shell("echo 1"));
-        }
-        assertThat(project.scheduleBuild2(0).get().getLog(), containsString("echo 1"));
+        extractedMethod12438();
         
         final CLICommandInvoker.Result result = command	
                 .authorizedTo(Jenkins.READ, Job.READ)	
@@ -158,13 +155,7 @@ public class ConsoleCommandTest {
 
     @Test public void consoleShouldSuccessWithLastBuild() throws Exception {
 
-        FreeStyleProject project = j.createFreeStyleProject("aProject");
-        if (Functions.isWindows()) {
-            project.getBuildersList().add(new BatchFile("echo 1"));
-        } else {
-            project.getBuildersList().add(new Shell("echo 1"));
-        }
-        assertThat(project.scheduleBuild2(0).get().getLog(), containsString("echo 1"));
+        extractedMethod12438();
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, Job.READ, Item.BUILD)
@@ -172,6 +163,16 @@ public class ConsoleCommandTest {
 
         assertThat(result, succeeded());
         assertThat(result.stdout(), containsString("echo 1"));
+    }
+
+    private void extractedMethod12438() throws ExecutionException, IOException, InterruptedException {
+        FreeStyleProject project = j.createFreeStyleProject("aProject");
+        if (Functions.isWindows()) {
+            project.getBuildersList().add(new BatchFile("echo 1"));
+        } else {
+            project.getBuildersList().add(new Shell("echo 1"));
+        }
+        assertThat(project.scheduleBuild2(0).get().getLog(), containsString("echo 1"));
     }
 
     @Test public void consoleShouldSuccessWithSpecifiedBuildNumber() throws Exception {
