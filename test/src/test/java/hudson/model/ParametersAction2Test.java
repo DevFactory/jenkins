@@ -33,11 +33,7 @@ public class ParametersAction2Test {
     @Test
     @Issue("SECURITY-170")
     public void undefinedParameters() throws Exception {
-        FreeStyleProject p = j.createFreeStyleProject();
-        p.addProperty(new ParametersDefinitionProperty(Arrays.asList(new ParameterDefinition[]{
-                new StringParameterDefinition("foo", "foo"),
-                new StringParameterDefinition("bar", "bar")
-        })));
+        FreeStyleProject p = getP36010();
         ParametersCheckBuilder b = new ParametersCheckBuilder(false);
         p.getBuildersList().add(b);
         p.save();
@@ -51,11 +47,7 @@ public class ParametersAction2Test {
     @Test
     @Issue("SECURITY-170")
     public void undefinedParametersOverride() throws Exception {
-        FreeStyleProject p = j.createFreeStyleProject();
-        p.addProperty(new ParametersDefinitionProperty(Arrays.asList(new ParameterDefinition[]{
-                new StringParameterDefinition("foo", "foo"),
-                new StringParameterDefinition("bar", "bar")
-        })));
+        FreeStyleProject p = getP36010();
         ParametersCheckBuilder b = new ParametersCheckBuilder(true);
         p.getBuildersList().add(b);
         p.save();
@@ -69,6 +61,15 @@ public class ParametersAction2Test {
         } finally {
             System.clearProperty(ParametersAction.KEEP_UNDEFINED_PARAMETERS_SYSTEM_PROPERTY_NAME);
         }
+    }
+
+    private FreeStyleProject getP36010() throws IOException {
+        FreeStyleProject p = j.createFreeStyleProject();
+        p.addProperty(new ParametersDefinitionProperty(Arrays.asList(new ParameterDefinition[]{
+                new StringParameterDefinition("foo", "foo"),
+                new StringParameterDefinition("bar", "bar")
+        })));
+        return p;
     }
 
     @Test
