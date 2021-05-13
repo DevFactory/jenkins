@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass95734;
+
 import hudson.model.Computer;
 import hudson.slaves.DumbSlave;
 import jenkins.model.Jenkins;
@@ -90,10 +92,7 @@ public class ConnectNodeCommandTest {
         assertThat(result, succeededSilently());
         assertThat(slave.toComputer().isOnline(), equalTo(true));
 
-        slave.toComputer().disconnect();
-        slave.toComputer().waitUntilOffline();
-        assertThat(slave.toComputer().isOnline(), equalTo(false));
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
+        ExtractedSeparateClass95734.extractedMethod83068(slave);
 
         result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
@@ -118,10 +117,7 @@ public class ConnectNodeCommandTest {
         assertThat(result, succeededSilently());
         assertThat(slave.toComputer().isOnline(), equalTo(true));
 
-        slave.toComputer().disconnect();
-        slave.toComputer().waitUntilOffline();
-        assertThat(slave.toComputer().isOnline(), equalTo(false));
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
+        ExtractedSeparateClass95734.extractedMethod83068(slave);
 
         result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)

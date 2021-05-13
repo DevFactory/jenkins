@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass95734;
+
 import hudson.model.Computer;
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
@@ -144,10 +146,7 @@ public class OfflineNodeCommandTest {
         slave.toComputer().waitUntilOnline();
         assertThat(slave.toComputer().isOnline(), equalTo(true));
         assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
-        slave.toComputer().disconnect();
-        slave.toComputer().waitUntilOffline();
-        assertThat(slave.toComputer().isOnline(), equalTo(false));
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
+        ExtractedSeparateClass95734.extractedMethod83068(slave);
         assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(false));
 
         final CLICommandInvoker.Result result = command
@@ -218,10 +217,7 @@ public class OfflineNodeCommandTest {
         slave.toComputer().waitUntilOnline();
         assertThat(slave.toComputer().isOnline(), equalTo(true));
         assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
-        slave.toComputer().disconnect();
-        slave.toComputer().waitUntilOffline();
-        assertThat(slave.toComputer().isOnline(), equalTo(false));
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
+        ExtractedSeparateClass95734.extractedMethod83068(slave);
         assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(false));
 
         final CLICommandInvoker.Result result = command
