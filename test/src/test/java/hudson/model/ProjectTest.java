@@ -218,9 +218,7 @@ public class ProjectTest {
     @Test public void workspaceBrowsing() throws Exception {
         FreeStyleProject p = j.createFreeStyleProject("project");
         String cmd = "echo ahoj > some.log";
-        p.getBuildersList().add(Functions.isWindows() ? new BatchFile(cmd) : new Shell(cmd));
-        j.buildAndAssertSuccess(p);
-        JenkinsRule.WebClient wc = j.createWebClient();
+        JenkinsRule.WebClient wc = getWc65191(p, cmd);
         wc.goTo("job/project/ws/some.log", "text/plain");
         wc.assertFails("job/project/ws/other.log", 404);
         p.doDoWipeOutWorkspace();
@@ -615,10 +613,7 @@ public class ProjectTest {
         Slave slave = j.createOnlineSlave();
         project.setAssignedLabel(slave.getSelfLabel());
         String cmd = "echo hello > change.log";
-        project.getBuildersList().add(Functions.isWindows()? new BatchFile(cmd) : new Shell(cmd));
-        j.buildAndAssertSuccess(project);
-
-        JenkinsRule.WebClient wc = j.createWebClient();
+        JenkinsRule.WebClient wc = getWc65191(project, cmd);
         wc.withBasicCredentials(user.getId(), "password");
         WebRequest request = new WebRequest(new URL(wc.getContextPath() + project.getUrl() + "doWipeOutWorkspace"), HttpMethod.POST);
         HtmlPage p = wc.getPage(request);
@@ -626,6 +621,14 @@ public class ProjectTest {
 
         Thread.sleep(500);
         assertFalse("Workspace should not exist.", project.getSomeWorkspace().exists());
+    }
+
+    private JenkinsRule.WebClient getWc65191(final FreeStyleProject project, final String cmd) throws Exception {
+        project.getBuildersList().add(Functions.isWindows()? new BatchFile(cmd) : new Shell(cmd));
+        j.buildAndAssertSuccess(project);
+        
+        JenkinsRule.WebClient wc = j.createWebClient();
+        return wc;
     }
     
     @Test
