@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import hudson.ExtractedSeparateClass35216;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.emptyOrNullString;
@@ -163,9 +165,7 @@ public class ComputerConfigDotXmlTest {
 
         computer.doConfigDotXml(req, rsp);
 
-        final Node updatedSlave = rule.jenkins.getNode("SlaveFromXML");
-        assertThat(updatedSlave.getNodeName(), equalTo("SlaveFromXML"));
-        assertThat(updatedSlave.getNumExecutors(), equalTo(42));
+        ExtractedSeparateClass35216.extractedMethod43023(rule);
     }
 
     @Test
