@@ -24,6 +24,8 @@
 
 package jenkins.security;
 
+import jenkins.security.ExtractedSeparateClass69007;
+
 import hudson.security.ACL;
 import hudson.security.ACLContext;
 import java.util.concurrent.Callable;
@@ -60,14 +62,7 @@ public final class ImpersonatingScheduledExecutorService extends InterceptingSch
 
     @Override
     protected Runnable wrap(final Runnable r) {
-        return new Runnable() {
-            @Override
-            public void run() {
-                try (ACLContext ctxt = ACL.as2(authentication)) {
-                    r.run();
-                }
-            }
-        };
+        return ExtractedSeparateClass69007.getVar33747(r);
     }
 
     @Override
