@@ -196,16 +196,7 @@ public class LegacyApiTokenAdministrativeMonitorTest {
     
     @Test
     public void monitorManagePageFilterAreWorking() throws Exception {
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
-        
-        ApiTokenPropertyConfiguration config = ApiTokenPropertyConfiguration.get();
-        config.setCreationOfLegacyTokenEnabled(true);
-        config.setTokenGenerationOnCreationEnabled(false);
-        
-        // create 1 user with legacy, 2 with fresh, 3 with recent and 4 with fresh+recent
-        prepareUsersForFilters();
-        
-        LegacyApiTokenAdministrativeMonitor monitor = j.jenkins.getExtensionList(AdministrativeMonitor.class).get(LegacyApiTokenAdministrativeMonitor.class);
+        LegacyApiTokenAdministrativeMonitor monitor = getMonitor28781();
         JenkinsRule.WebClient wc = j.createWebClient();
         
         HtmlPage page = wc.goTo(monitor.getUrl() + "/manage");
@@ -283,16 +274,7 @@ public class LegacyApiTokenAdministrativeMonitorTest {
     
     @Test
     public void monitorManagePageCanRevokeToken() throws Exception {
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
-        
-        ApiTokenPropertyConfiguration config = ApiTokenPropertyConfiguration.get();
-        config.setCreationOfLegacyTokenEnabled(true);
-        config.setTokenGenerationOnCreationEnabled(false);
-        
-        // create 1 user with legacy, 2 with fresh, 3 with recent and 4 with fresh+recent
-        prepareUsersForFilters();
-        
-        LegacyApiTokenAdministrativeMonitor monitor = j.jenkins.getExtensionList(AdministrativeMonitor.class).get(LegacyApiTokenAdministrativeMonitor.class);
+        LegacyApiTokenAdministrativeMonitor monitor = getMonitor28781();
         assertTrue(monitor.isActivated());
         
         JenkinsRule.WebClient wc = j.createWebClient();
@@ -320,6 +302,20 @@ public class LegacyApiTokenAdministrativeMonitorTest {
         HtmlElementUtil.click(revokeSelected);
         checkUserWithLegacyTokenListHasSizeOf(wc, monitor, 0, 0, 0);
         assertFalse(monitor.isActivated());
+    }
+
+    private LegacyApiTokenAdministrativeMonitor getMonitor28781() throws Exception {
+        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
+        
+        ApiTokenPropertyConfiguration config = ApiTokenPropertyConfiguration.get();
+        config.setCreationOfLegacyTokenEnabled(true);
+        config.setTokenGenerationOnCreationEnabled(false);
+        
+        // create 1 user with legacy, 2 with fresh, 3 with recent and 4 with fresh+recent
+        prepareUsersForFilters();
+        
+        LegacyApiTokenAdministrativeMonitor monitor = j.jenkins.getExtensionList(AdministrativeMonitor.class).get(LegacyApiTokenAdministrativeMonitor.class);
+        return monitor;
     }
     
     private HtmlAnchor getFilterByIndex(HtmlPage page, SelectFilter selectFilter) {
