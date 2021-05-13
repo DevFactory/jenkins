@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass86636;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
@@ -97,9 +99,7 @@ public class UpdateNodeCommandTest {
                 .invokeWithArgs("MySlave")
         ;
 
-        assertThat(result.stderr(), containsString("ERROR: No such node 'MySlave'"));
-        assertThat(result, failedWith(3));
-        assertThat(result, hasNoStandardOutput());
+        ExtractedSeparateClass86636.extractedMethod90304(result);
     }
 
     @Issue("SECURITY-281")

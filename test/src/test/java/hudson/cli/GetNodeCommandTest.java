@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass86636;
+
 import static hudson.cli.CLICommandInvoker.Matcher.failedWith;
 import static hudson.cli.CLICommandInvoker.Matcher.hasNoStandardOutput;
 import static hudson.cli.CLICommandInvoker.Matcher.hasNoErrorOutput;
@@ -87,9 +89,7 @@ public class GetNodeCommandTest {
                 .invokeWithArgs("MySlave")
         ;
 
-        assertThat(result.stderr(), containsString("ERROR: No such node 'MySlave'"));
-        assertThat(result, failedWith(3));
-        assertThat(result, hasNoStandardOutput());
+        ExtractedSeparateClass86636.extractedMethod90304(result);
     }
 
     @Issue("SECURITY-281")
