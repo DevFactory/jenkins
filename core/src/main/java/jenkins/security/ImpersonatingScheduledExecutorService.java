@@ -24,6 +24,8 @@
 
 package jenkins.security;
 
+import jenkins.security.ExtractedSeparateClass53431;
+
 import hudson.security.ACL;
 import hudson.security.ACLContext;
 import java.util.concurrent.Callable;
@@ -72,14 +74,7 @@ public final class ImpersonatingScheduledExecutorService extends InterceptingSch
 
     @Override
     protected <V> Callable<V> wrap(final Callable<V> r) {
-        return new Callable<V>() {
-            @Override
-            public V call() throws Exception {
-                try (ACLContext ctxt = ACL.as2(authentication)) {
-                    return r.call();
-                }
-            }
-        };
+        return ExtractedSeparateClass53431.getVar57648(r);
     }
 
 }
