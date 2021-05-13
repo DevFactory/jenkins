@@ -23,6 +23,8 @@
  */
 package hudson.security;
 
+import hudson.security.ExtractedSeparateClass60172;
+
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Extension;
@@ -268,11 +270,7 @@ public class HudsonPrivateSecurityRealm extends AbstractPasswordBasedSecurityRea
      */
     @SuppressWarnings("ACL.impersonate")
     private void loginAndTakeBack(StaplerRequest req, StaplerResponse rsp, User u) throws ServletException, IOException {
-        HttpSession session = req.getSession(false);
-        if (session != null) {
-            // avoid session fixation
-            session.invalidate();
-        }
+        ExtractedSeparateClass60172.extractedMethod64838(req);
         req.getSession(true);
         
         // ... and let him login
