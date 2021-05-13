@@ -23,6 +23,8 @@
  */
 package hudson.util;
 
+import hudson.ExtractedSeparateClass1365;
+
 import com.gargoylesoftware.htmlunit.WebResponse;
 import hudson.model.Messages;
 import org.junit.Rule;
@@ -43,8 +45,6 @@ public class FormValidationSecurity1893Test {
         final WebResponse response = wc.goTo("descriptorByName/hudson.model.FreeStyleProject/checkCustomWorkspace").getWebResponse();
         assertEquals(200, response.getStatusCode());
         assertThat(response.getContentAsString(), containsString(Messages.AbstractProject_CustomWorkspaceEmpty()));
-        assertThat(response.getResponseHeaderValue("Content-Security-Policy"), containsString("default-src 'none';"));
-        assertThat(response.getResponseHeaderValue("X-Content-Security-Policy"), containsString("default-src 'none';"));
-        assertThat(response.getResponseHeaderValue("X-WebKit-CSP"), containsString("default-src 'none';"));
+        ExtractedSeparateClass1365.extractedMethod93096(response);
     }
 }

@@ -23,6 +23,8 @@
  */
 package hudson.markup;
 
+import hudson.ExtractedSeparateClass1365;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
@@ -107,8 +109,6 @@ public class MarkupFormatterTest {
         final WebResponse response = htmlPage.getWebResponse();
         assertEquals(200, response.getStatusCode());
         assertThat(response.getContentAsString(), containsString("lolwut"));
-        assertThat(response.getResponseHeaderValue("Content-Security-Policy"), containsString("default-src 'none';"));
-        assertThat(response.getResponseHeaderValue("X-Content-Security-Policy"), containsString("default-src 'none';"));
-        assertThat(response.getResponseHeaderValue("X-WebKit-CSP"), containsString("default-src 'none';"));
+        ExtractedSeparateClass1365.extractedMethod93096(response);
     }
 }
