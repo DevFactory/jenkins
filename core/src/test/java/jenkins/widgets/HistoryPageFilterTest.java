@@ -145,11 +145,7 @@ public class HistoryPageFilterTest {
     @Test
     public void test_olderThan_lt_oldest() throws IOException {
         HistoryPageFilter<ModelObject> historyPageFilter = newPage(5, null, 0L);
-        Iterable<ModelObject> itemList = newRuns(1, 10);
-
-        historyPageFilter.add(itemList);
-
-        Assert.assertTrue(historyPageFilter.hasUpPage);
+        extractedMethod77520(historyPageFilter);
         Assert.assertFalse(historyPageFilter.hasDownPage);
         Assert.assertEquals(0, historyPageFilter.runs.size());
     }
@@ -161,11 +157,7 @@ public class HistoryPageFilterTest {
     @Test
     public void test_olderThan_leaving_part_page() throws IOException {
         HistoryPageFilter<ModelObject> historyPageFilter = newPage(5, null, 4L);
-        Iterable<ModelObject> itemList = newRuns(1, 10);
-
-        historyPageFilter.add(itemList);
-
-        Assert.assertTrue(historyPageFilter.hasUpPage);
+        extractedMethod77520(historyPageFilter);
         Assert.assertFalse(historyPageFilter.hasDownPage);
 
         // Should only be 3 runs on the page (oldest 3)
@@ -181,11 +173,7 @@ public class HistoryPageFilterTest {
     @Test
     public void test_olderThan_mid_page() throws IOException {
         HistoryPageFilter<ModelObject> historyPageFilter = newPage(5, null, 8L);
-        Iterable<ModelObject> itemList = newRuns(1, 10);
-
-        historyPageFilter.add(itemList);
-
-        Assert.assertTrue(historyPageFilter.hasUpPage);
+        extractedMethod77520(historyPageFilter);
         Assert.assertTrue(historyPageFilter.hasDownPage);
         Assert.assertEquals(5, historyPageFilter.runs.size());
 
@@ -215,11 +203,7 @@ public class HistoryPageFilterTest {
     @Test
     public void test_newerThan_lt_oldest() throws IOException {
         HistoryPageFilter<ModelObject> historyPageFilter = newPage(5, 0L, null);
-        Iterable<ModelObject> itemList = newRuns(1, 10);
-
-        historyPageFilter.add(itemList);
-
-        Assert.assertTrue(historyPageFilter.hasUpPage);
+        extractedMethod77520(historyPageFilter);
         Assert.assertFalse(historyPageFilter.hasDownPage);
         Assert.assertEquals(5, historyPageFilter.runs.size());
 
@@ -233,16 +217,20 @@ public class HistoryPageFilterTest {
     @Test
     public void test_newerThan_near_oldest() throws IOException {
         HistoryPageFilter<ModelObject> historyPageFilter = newPage(5, 3L, null);
-        Iterable<ModelObject> itemList = newRuns(1, 10);
-
-        historyPageFilter.add(itemList);
-
-        Assert.assertTrue(historyPageFilter.hasUpPage);
+        extractedMethod77520(historyPageFilter);
         Assert.assertTrue(historyPageFilter.hasDownPage);
         Assert.assertEquals(5, historyPageFilter.runs.size());
 
         Assert.assertEquals(HistoryPageEntry.getEntryId(8), historyPageFilter.newestOnPage);
         Assert.assertEquals(HistoryPageEntry.getEntryId(4), historyPageFilter.oldestOnPage);
+    }
+
+    private void extractedMethod77520(final HistoryPageFilter<ModelObject> historyPageFilter) throws IOException {
+        Iterable<ModelObject> itemList = newRuns(1, 10);
+        
+        historyPageFilter.add(itemList);
+        
+        Assert.assertTrue(historyPageFilter.hasUpPage);
     }
 
     /**
