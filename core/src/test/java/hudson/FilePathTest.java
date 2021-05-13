@@ -959,13 +959,7 @@ public class FilePathTest {
         workspaceFolder.child("_nonexistentUp").symlinkTo("../nonexistent", null);
         workspaceFolder.child("_secrettxt").symlinkTo("../protected/secret.txt", null);
 
-        FilePath secretFile = protectedFolder.child("secret.txt");
-        secretFile.write("secrets", StandardCharsets.UTF_8.name());
-
-        assertTrue(workspaceFolder.isDescendant("regular.txt"));
-        assertTrue(workspaceFolder.isDescendant("_nonexistent"));
-        assertTrue(workspaceFolder.isDescendant("a"));
-        assertTrue(workspaceFolder.isDescendant("a/a.txt"));
+        extractedMethod18817(protectedFolder, workspaceFolder);
         assertTrue(workspaceFolder.isDescendant("a/../a/a.txt"));
         assertTrue(workspaceFolder.isDescendant("b/../a/a.txt"));
         assertTrue(workspaceFolder.isDescendant("b"));
@@ -1122,13 +1116,7 @@ public class FilePathTest {
         FilePath symbolicWorkspace = wFolder.child("_w");
         symbolicWorkspace.symlinkTo("../workspace", null);
 
-        FilePath secretFile = protectedFolder.child("secret.txt");
-        secretFile.write("secrets", StandardCharsets.UTF_8.name());
-
-        assertTrue(symbolicWorkspace.isDescendant("regular.txt"));
-        assertTrue(symbolicWorkspace.isDescendant("_nonexistent"));
-        assertTrue(symbolicWorkspace.isDescendant("a"));
-        assertTrue(symbolicWorkspace.isDescendant("a/a.txt"));
+        extractedMethod18817(protectedFolder, symbolicWorkspace);
         assertTrue(symbolicWorkspace.isDescendant("b"));
         assertTrue(symbolicWorkspace.isDescendant("b/_a/a.txt"));
         assertTrue(symbolicWorkspace.isDescendant("b/_atxt"));
@@ -1145,5 +1133,15 @@ public class FilePathTest {
         assertFalse(symbolicWorkspace.isDescendant("_secrettxt"));
         assertFalse(symbolicWorkspace.isDescendant("./_secrettxt"));
         assertFalse(symbolicWorkspace.isDescendant("_secrettxt2"));
+    }
+
+    private void extractedMethod18817(final FilePath protectedFolder, final FilePath symbolicWorkspace) throws IOException, InterruptedException {
+        FilePath secretFile = protectedFolder.child("secret.txt");
+        secretFile.write("secrets", StandardCharsets.UTF_8.name());
+        
+        assertTrue(symbolicWorkspace.isDescendant("regular.txt"));
+        assertTrue(symbolicWorkspace.isDescendant("_nonexistent"));
+        assertTrue(symbolicWorkspace.isDescendant("a"));
+        assertTrue(symbolicWorkspace.isDescendant("a/a.txt"));
     }
 }
