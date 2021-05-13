@@ -100,11 +100,7 @@ public class SearchTest {
         j.createFreeStyleProject(projectName);
         
         Page result = j.search(projectName);
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-        
-        // make sure we've fetched the testSearchByDisplayName project page
-        String contents = result.getWebResponse().getContentAsString();
+        String contents = getContents15404(result);
         assertTrue(contents.contains(String.format("<title>%s [Jenkins]</title>", projectName)));
     }
 
@@ -147,11 +143,7 @@ public class SearchTest {
         project.setDisplayName(displayName);
         
         Page result = j.search(displayName);
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-        
-        // make sure we've fetched the testSearchByDisplayName project page
-        String contents = result.getWebResponse().getContentAsString();
+        String contents = getContents15404(result);
         assertTrue(contents.contains(String.format("<title>%s [Jenkins]</title>", displayName)));
     }
     
@@ -175,11 +167,7 @@ public class SearchTest {
         // matter which one as long as the one that is returned has displayName
         // as the display name
         Page result = j.search(displayName);
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-
-        // make sure we've fetched the testSearchByDisplayName project page
-        String contents = result.getWebResponse().getContentAsString();
+        String contents = getContents15404(result);
         assertTrue(contents.contains(String.format("<title>%s [Jenkins]</title>", displayName)));
         assertFalse(contents.contains(otherDisplayName));
     }
@@ -207,11 +195,7 @@ public class SearchTest {
         
         // search for foo
         Page result = j.search(project1Name);
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-        
-        // make sure we get the project with the name foo
-        String contents = result.getWebResponse().getContentAsString();
+        String contents = getContents15404(result);
         assertTrue(contents.contains(String.format("<title>%s [Jenkins]</title>", project1DisplayName)));
         // make sure projects 2 and 3 were not picked up
         assertFalse(contents.contains(project2Name));
@@ -229,10 +213,7 @@ public class SearchTest {
         
         WebClient wc = j.createWebClient();
         Page result = wc.goTo("search/suggest?query=name", "application/json");
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-        
-        String content = result.getWebResponse().getContentAsString();
+        String content = getContents15404(result);
         System.out.println(content);
         JSONObject jsonContent = (JSONObject)JSONSerializer.toJSON(content);
         assertNotNull(jsonContent);
@@ -278,10 +259,7 @@ public class SearchTest {
 
         WebClient wc = j.createWebClient();
         Page result = wc.goTo(myMockFolder.getUrl() + "search/suggest?query=" + projectName1, "application/json");
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-
-        String content = result.getWebResponse().getContentAsString();
+        String content = getContents15404(result);
         JSONObject jsonContent = (JSONObject)JSONSerializer.toJSON(content);
         assertNotNull(jsonContent);
         JSONArray jsonArray = jsonContent.getJSONArray("suggestions");
@@ -321,10 +299,7 @@ public class SearchTest {
 
         WebClient wc = j.createWebClient();
         Page result = wc.goTo(myMockFolder.getUrl() + "search/suggest?query=" + projectName2, "application/json");
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-
-        String content = result.getWebResponse().getContentAsString();
+        String content = getContents15404(result);
         JSONObject jsonContent = (JSONObject)JSONSerializer.toJSON(content);
         assertNotNull(jsonContent);
         JSONArray jsonArray = jsonContent.getJSONArray("suggestions");
@@ -465,10 +440,7 @@ public class SearchTest {
         WebClient wc = j.createWebClient();
         Page result = wc.goTo("search/suggest?query=" + freeStyleProject.getName(), "application/json");
 
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-
-        String content = result.getWebResponse().getContentAsString();
+        String content = getContents15404(result);
         JSONObject jsonContent = (JSONObject)JSONSerializer.toJSON(content);
         assertNotNull(jsonContent);
         JSONArray jsonArray = jsonContent.getJSONArray("suggestions");
@@ -483,5 +455,14 @@ public class SearchTest {
 
         URL resultUrl = searchResult.getUrl();
         assertEquals(j.getInstance().getRootUrl() + freeStyleProject.getUrl(), resultUrl.toString());
+    }
+
+    private String getContents15404(final Page result) {
+        assertNotNull(result);
+        j.assertGoodStatus(result);
+        
+        // make sure we've fetched the testSearchByDisplayName project page
+        String contents = result.getWebResponse().getContentAsString();
+        return contents;
     }
 }
