@@ -285,10 +285,7 @@ public class ViewTest {
         String xml = wc.goToXml("view/v/config.xml").getWebResponse().getContentAsString();
         assertTrue(xml, xml.contains("<description>one</description>"));
         xml = xml.replace("<description>one</description>", "<description>two</description>");
-        WebRequest req = new WebRequest(wc.createCrumbedUrl("view/v/config.xml"), HttpMethod.POST);
-        req.setRequestBody(xml);
-        req.setEncodingType(null);
-        wc.getPage(req);
+        extractedMethod54262(wc, xml);
         assertEquals("two", view.getDescription());
         xml = new XmlFile(Jenkins.XSTREAM, new File(j.jenkins.getRootDir(), "config.xml")).asString();
         assertTrue(xml, xml.contains("<description>two</description>"));
@@ -302,14 +299,18 @@ public class ViewTest {
         String xml = wc.goToXml("view/v/config.xml").getWebResponse().getContentAsString();
         assertThat(xml, containsString("<description>one</description>"));
         xml = xml.replace("<description>one</description>", "");
-        WebRequest req = new WebRequest(wc.createCrumbedUrl("view/v/config.xml"), HttpMethod.POST);
-        req.setRequestBody(xml);
-        req.setEncodingType(null);
-        wc.getPage(req);
+        extractedMethod54262(wc, xml);
         assertNull(view.getDescription()); // did not work
         xml = new XmlFile(Jenkins.XSTREAM, new File(j.jenkins.getRootDir(), "config.xml")).asString();
         assertThat(xml, not(containsString("<description>"))); // did not work
         assertEquals(j.jenkins, view.getOwner());
+    }
+
+    private void extractedMethod54262(final WebClient wc, final String xml) throws IOException {
+        WebRequest req = new WebRequest(wc.createCrumbedUrl("view/v/config.xml"), HttpMethod.POST);
+        req.setRequestBody(xml);
+        req.setEncodingType(null);
+        wc.getPage(req);
     }
 
     @Test
