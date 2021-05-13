@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result;
+
 import hudson.model.Computer;
 import jenkins.model.Jenkins;
 import org.junit.Before;
@@ -99,9 +101,7 @@ public class DeleteNodeCommandTest {
                 .authorizedTo(Computer.DELETE, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "aNode3");
 
-        assertThat(result, succeededSilently());
-        assertThat(j.jenkins.getView("aNode1"), nullValue());
-        assertThat(j.jenkins.getView("aNode2"), nullValue());
+        extractedMethod44360(result);
         assertThat(j.jenkins.getView("aNode3"), nullValue());
     }
 
@@ -192,6 +192,10 @@ public class DeleteNodeCommandTest {
                 .authorizedTo(Computer.DELETE, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "aNode1");
 
+        extractedMethod44360(result);
+    }
+
+    private void extractedMethod44360(final CLICommandInvoker.Result result) {
         assertThat(result, succeededSilently());
         assertThat(j.jenkins.getView("aNode1"), nullValue());
         assertThat(j.jenkins.getView("aNode2"), nullValue());
