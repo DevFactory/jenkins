@@ -303,11 +303,7 @@ public class HudsonPrivateSecurityRealmTest {
     @Issue("JENKINS-55307")
     @Test
     public void userCreationFromRealm() throws Exception {
-        HudsonPrivateSecurityRealm securityRealm = new HudsonPrivateSecurityRealm(false, false, null);
-        j.jenkins.setSecurityRealm(securityRealm);
-
-        spySecurityListener.createdUsers.clear();
-        assertTrue(spySecurityListener.createdUsers.isEmpty());
+        HudsonPrivateSecurityRealm securityRealm = getSecurityRealm60981();
 
         User u1 = securityRealm.createAccount("alice", "alicePassword");
         u1.setFullName("Alice User");
@@ -324,15 +320,20 @@ public class HudsonPrivateSecurityRealmTest {
     @Issue("JENKINS-55307")
     @Test
     public void userCreationWithHashedPasswords() throws Exception {
-        HudsonPrivateSecurityRealm securityRealm = new HudsonPrivateSecurityRealm(false, false, null);
-        j.jenkins.setSecurityRealm(securityRealm);
-
-        spySecurityListener.createdUsers.clear();
-        assertTrue(spySecurityListener.createdUsers.isEmpty());
+        HudsonPrivateSecurityRealm securityRealm = getSecurityRealm60981();
 
         securityRealm.createAccountWithHashedPassword("charlie_hashed", "#jbcrypt:" + BCrypt.hashpw("charliePassword", BCrypt.gensalt()));
 
         assertEquals("charlie_hashed", spySecurityListener.createdUsers.get(0));
+    }
+
+    private HudsonPrivateSecurityRealm getSecurityRealm60981() {
+        HudsonPrivateSecurityRealm securityRealm = new HudsonPrivateSecurityRealm(false, false, null);
+        j.jenkins.setSecurityRealm(securityRealm);
+        
+        spySecurityListener.createdUsers.clear();
+        assertTrue(spySecurityListener.createdUsers.isEmpty());
+        return securityRealm;
     }
 
     private void createFirstAccount(String login) throws Exception {
