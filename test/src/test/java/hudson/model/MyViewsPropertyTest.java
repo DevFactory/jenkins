@@ -175,11 +175,7 @@ public class MyViewsPropertyTest {
     public void testOnViewRenamed() throws IOException, Failure, FormException {
         User user = User.getOrCreateByIdOrFullName("User");
         MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
-        property.readResolve();
-        property.setUser(user);
-        user.addProperty(property);
-        View view = new ListView("foo", property);
-        property.addView(view);
+        View view = getView6655(property, user);
         property.setPrimaryViewName(view.name);
         view.rename("primary-renamed");       
         assertEquals("Property should rename its primary view ", "primary-renamed", property.getPrimaryViewName());        
@@ -190,11 +186,7 @@ public class MyViewsPropertyTest {
         {
         User user = User.getOrCreateByIdOrFullName("User");
         MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
-        property.readResolve();
-        property.setUser(user);
-        user.addProperty(property);
-        View view = new ListView("foo", property);
-        property.addView(view);
+        View view = getView6655(property, user);
         assertTrue("Property should contain view " + view.name, property.getViews().contains(view));
         }
         rule.jenkins.reload();
@@ -203,6 +195,15 @@ public class MyViewsPropertyTest {
         MyViewsProperty property = user.getProperty(MyViewsProperty.class);
         assertTrue("Property should save changes.", property.getViews().contains(property.getView("foo")));
         }
+    }
+
+    private View getView6655(final MyViewsProperty property, final User user) throws IOException {
+        property.readResolve();
+        property.setUser(user);
+        user.addProperty(property);
+        View view = new ListView("foo", property);
+        property.addView(view);
+        return view;
     }
 
     @Test
