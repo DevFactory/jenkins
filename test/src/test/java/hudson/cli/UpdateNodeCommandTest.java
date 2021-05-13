@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.ExtractedSeparateClass35216;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
@@ -84,9 +86,7 @@ public class UpdateNodeCommandTest {
 
         assertThat("An agent with old name should not exist", j.jenkins.getNode("MySlave"), nullValue());
 
-        final Node updatedSlave = j.jenkins.getNode("SlaveFromXML");
-        assertThat(updatedSlave.getNodeName(), equalTo("SlaveFromXML"));
-        assertThat(updatedSlave.getNumExecutors(), equalTo(42));
+        ExtractedSeparateClass35216.extractedMethod43023(j);
     }
 
     @Test public void updateNodeShouldFailIfNodeDoesNotExist() throws Exception {
