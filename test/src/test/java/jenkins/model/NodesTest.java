@@ -24,6 +24,8 @@
 
 package jenkins.model;
 
+import java.net.URISyntaxException;
+
 import hudson.ExtensionList;
 import hudson.model.Descriptor;
 import hudson.model.Node;
@@ -53,15 +55,7 @@ public class NodesTest {
     @Test
     @Issue("JENKINS-50599")
     public void addNodeShouldFailAtomically() throws Exception {
-        InvalidNode node = new InvalidNode("foo", "temp", r.createComputerLauncher(null));
-        try {
-            r.jenkins.addNode(node);
-            fail("Adding the node should have thrown an exception during serialization");
-        } catch (IOException e) {
-            String className = InvalidNode.class.getName();
-            assertThat("The exception should be from failing to serialize the node",
-                    e.getMessage(), containsString("Failed to serialize " + className + "#cl for class " + className));
-        }
+        extractedMethod48985();
         assertThat("The node should not exist since #addNode threw an exception",
                 r.jenkins.getNode("foo"), nullValue());
     }
@@ -71,6 +65,12 @@ public class NodesTest {
     public void addNodeShouldFailAtomicallyWhenReplacingNode() throws Exception {
         Node oldNode = r.createSlave("foo", "", null);
         r.jenkins.addNode(oldNode);
+        extractedMethod48985();
+        assertThat("The old node should still exist since #addNode threw an exception",
+                r.jenkins.getNode("foo"), sameInstance(oldNode));
+    }
+
+    private void extractedMethod48985() throws FormException, IOException, URISyntaxException {
         InvalidNode newNode = new InvalidNode("foo", "temp", r.createComputerLauncher(null));
         try {
             r.jenkins.addNode(newNode);
@@ -80,8 +80,6 @@ public class NodesTest {
             assertThat("The exception should be from failing to serialize the node",
                     e.getMessage(), containsString("Failed to serialize " + className + "#cl for class " + className));
         }
-        assertThat("The old node should still exist since #addNode threw an exception",
-                r.jenkins.getNode("foo"), sameInstance(oldNode));
     }
 
     @Test
