@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass66855;
+
 import hudson.PluginManager;
 import hudson.PluginWrapper;
 import org.junit.Assume;
@@ -64,9 +66,7 @@ public class EnablePluginCommandTest {
     }
 
     private void disablePlugin(String name) throws IOException {
-        PluginWrapper plugin = j.getPluginManager().getPlugin(name);
-        assertThat(plugin, is(notNullValue()));
-        plugin.disable();
+        ExtractedSeparateClass66855.extractedMethod62121(j, name);
     }
 
     private void assertPluginDisabled(String name) {
