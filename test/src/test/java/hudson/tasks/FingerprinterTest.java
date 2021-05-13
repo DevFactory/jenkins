@@ -196,10 +196,7 @@ public class FingerprinterTest {
         Jenkins.get().rebuildDependencyGraph();
 
         List<AbstractProject> upstreamProjects = downstream.getUpstreamProjects();
-        List<AbstractProject> downstreamProjects = upstream.getDownstreamProjects();
-
-        assertEquals(0, upstreamProjects.size());
-        assertEquals(0, downstreamProjects.size());
+        extractedMethod18736(upstream, upstreamProjects);
     }
 
     @Test public void circularDependency() throws Exception {
@@ -211,6 +208,10 @@ public class FingerprinterTest {
         Jenkins.get().rebuildDependencyGraph();
 
         List<AbstractProject> upstreamProjects = p.getUpstreamProjects();
+        extractedMethod18736(p, upstreamProjects);
+    }
+
+    private void extractedMethod18736(final FreeStyleProject p, final List<AbstractProject> upstreamProjects) {
         List<AbstractProject> downstreamProjects = p.getDownstreamProjects();
         
         assertEquals(0, upstreamProjects.size());
