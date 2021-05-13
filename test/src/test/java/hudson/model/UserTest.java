@@ -24,6 +24,8 @@
  */
 package hudson.model;
 
+import hudson.model.ExtractedSeparateClass90924;
+
 import com.gargoylesoftware.htmlunit.WebAssert;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.WebResponse;
@@ -389,10 +391,7 @@ public class UserTest {
     @Test
     public void testDoConfigSubmit() throws Exception {
         GlobalMatrixAuthorizationStrategy auth = new GlobalMatrixAuthorizationStrategy();
-        j.jenkins.setAuthorizationStrategy(auth);
-        j.jenkins.setCrumbIssuer(null);
-        HudsonPrivateSecurityRealm realm = new HudsonPrivateSecurityRealm(false);
-        j.jenkins.setSecurityRealm(realm);
+        HudsonPrivateSecurityRealm realm = ExtractedSeparateClass90924.getRealm6141(j, auth);
         User user = realm.createAccount("John Smith", "password");
         User user2 = realm.createAccount("John Smith2", "password");
         user2.save();
@@ -471,10 +470,7 @@ public class UserTest {
     @Test
     public void testHasPermission() throws IOException {
         GlobalMatrixAuthorizationStrategy auth = new GlobalMatrixAuthorizationStrategy();
-        j.jenkins.setAuthorizationStrategy(auth);
-        j.jenkins.setCrumbIssuer(null);
-        HudsonPrivateSecurityRealm realm = new HudsonPrivateSecurityRealm(false);
-        j.jenkins.setSecurityRealm(realm);
+        HudsonPrivateSecurityRealm realm = ExtractedSeparateClass90924.getRealm6141(j, auth);
         User user = realm.createAccount("John Smith","password");
         User user2 = realm.createAccount("John Smith2", "password");
         SecurityContextHolder.getContext().setAuthentication(user.impersonate2());
@@ -490,10 +486,7 @@ public class UserTest {
     @Test
     public void testCanDelete() throws IOException {
         GlobalMatrixAuthorizationStrategy auth = new GlobalMatrixAuthorizationStrategy();
-        j.jenkins.setAuthorizationStrategy(auth);
-        j.jenkins.setCrumbIssuer(null);
-        HudsonPrivateSecurityRealm realm = new HudsonPrivateSecurityRealm(false);
-        j.jenkins.setSecurityRealm(realm);
+        HudsonPrivateSecurityRealm realm = ExtractedSeparateClass90924.getRealm6141(j, auth);
         User user = realm.createAccount("John Smith","password");
         User user2 = realm.createAccount("John Smith2","password");
         user2.save();

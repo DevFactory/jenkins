@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import hudson.model.ExtractedSeparateClass90924;
+
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.javascript.host.event.Event;
@@ -538,10 +540,8 @@ public class ProjectTest {
     public void testDoCancelQueue() throws Exception{
         FreeStyleProject project = j.createFreeStyleProject("project");
         GlobalMatrixAuthorizationStrategy auth = new GlobalMatrixAuthorizationStrategy();   
-        j.jenkins.setAuthorizationStrategy(auth);
-        j.jenkins.setCrumbIssuer(null);
-        HudsonPrivateSecurityRealm realm = new HudsonPrivateSecurityRealm(false);
-        j.jenkins.setSecurityRealm(realm); 
+        HudsonPrivateSecurityRealm realm = ExtractedSeparateClass90924.getRealm6141(j, auth);
+         
         User user = realm.createAccount("John Smith", "password");
         try (ACLContext as = ACL.as(user)) {
             project.doCancelQueue(null, null);
@@ -594,10 +594,8 @@ public class ProjectTest {
     public void testDoDoWipeOutWorkspace() throws Exception{
         FreeStyleProject project = j.createFreeStyleProject("project");
         GlobalMatrixAuthorizationStrategy auth = new GlobalMatrixAuthorizationStrategy();   
-        j.jenkins.setAuthorizationStrategy(auth);
-        j.jenkins.setCrumbIssuer(null);
-        HudsonPrivateSecurityRealm realm = new HudsonPrivateSecurityRealm(false);
-        j.jenkins.setSecurityRealm(realm); 
+        HudsonPrivateSecurityRealm realm = ExtractedSeparateClass90924.getRealm6141(j, auth);
+         
         User user = realm.createAccount("John Smith", "password");
         try (ACLContext as = ACL.as(user)) {
             project.doDoWipeOutWorkspace();
@@ -632,10 +630,8 @@ public class ProjectTest {
     public void testDoDisable() throws Exception{
         FreeStyleProject project = j.createFreeStyleProject("project");
         GlobalMatrixAuthorizationStrategy auth = new GlobalMatrixAuthorizationStrategy();   
-        j.jenkins.setAuthorizationStrategy(auth);
-        j.jenkins.setCrumbIssuer(null);
-        HudsonPrivateSecurityRealm realm = new HudsonPrivateSecurityRealm(false);
-        j.jenkins.setSecurityRealm(realm); 
+        HudsonPrivateSecurityRealm realm = ExtractedSeparateClass90924.getRealm6141(j, auth);
+         
         User user = realm.createAccount("John Smith", "password");
         try (ACLContext as = ACL.as(user)) {
             project.doDisable();
@@ -667,10 +663,7 @@ public class ProjectTest {
     public void testDoEnable() throws Exception{
         FreeStyleProject project = j.createFreeStyleProject("project");
         GlobalMatrixAuthorizationStrategy auth = new GlobalMatrixAuthorizationStrategy();   
-        j.jenkins.setAuthorizationStrategy(auth);
-        j.jenkins.setCrumbIssuer(null);
-        HudsonPrivateSecurityRealm realm = new HudsonPrivateSecurityRealm(false);
-        j.jenkins.setSecurityRealm(realm);
+        HudsonPrivateSecurityRealm realm = ExtractedSeparateClass90924.getRealm6141(j, auth);
         User user = realm.createAccount("John Smith", "password");
         try (ACLContext as = ACL.as(user)) {
             project.disable();

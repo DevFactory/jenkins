@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import hudson.model.ExtractedSeparateClass90924;
+
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.WebRequest;
@@ -215,10 +217,7 @@ public class NodeTest {
         assertTrue("Cause of blockage should be busy label.", node.canTake(item) instanceof CauseOfBlockage.BecauseLabelIsBusy);
         User user = User.get("John");
         GlobalMatrixAuthorizationStrategy auth = new GlobalMatrixAuthorizationStrategy();
-        j.jenkins.setAuthorizationStrategy(auth);
-        j.jenkins.setCrumbIssuer(null);
-        HudsonPrivateSecurityRealm realm = new HudsonPrivateSecurityRealm(false);
-        j.jenkins.setSecurityRealm(realm);
+        HudsonPrivateSecurityRealm realm = ExtractedSeparateClass90924.getRealm6141(j, auth);
         realm.createAccount("John", "");
         notTake = false;
         QueueItemAuthenticatorConfiguration.get().getAuthenticators().add(new MockQueueItemAuthenticator(Collections.singletonMap(project.getFullName(), user.impersonate())));
@@ -244,10 +243,7 @@ public class NodeTest {
     public void testHasPermission() throws Exception {
         Node node = j.createOnlineSlave();
         GlobalMatrixAuthorizationStrategy auth = new GlobalMatrixAuthorizationStrategy();
-        j.jenkins.setAuthorizationStrategy(auth);
-        j.jenkins.setCrumbIssuer(null);
-        HudsonPrivateSecurityRealm realm = new HudsonPrivateSecurityRealm(false);
-        j.jenkins.setSecurityRealm(realm);
+        HudsonPrivateSecurityRealm realm = ExtractedSeparateClass90924.getRealm6141(j, auth);
         User user = realm.createAccount("John Smith","abcdef");
         SecurityContextHolder.getContext().setAuthentication(user.impersonate2());
         assertFalse("Current user should not have permission read.", node.hasPermission(Permission.READ));
