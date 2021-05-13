@@ -177,13 +177,7 @@ public class RedactSecretJsonInErrorMessageSanitizerHtmlTest {
                 not(containsString(secret))
         ));
         
-        StringWriter buffer = new StringWriter();
-        thrown.printStackTrace(new PrintWriter(buffer));
-        String fullStack = buffer.getBuffer().toString();
-        assertThat(fullStack, allOf(
-                containsString(RedactSecretJsonInErrorMessageSanitizer.REDACT_VALUE),
-                not(containsString(secret))
-        ));
+        extractedMethod22225(thrown, secret);
     }
     
     @Test
@@ -214,6 +208,10 @@ public class RedactSecretJsonInErrorMessageSanitizerHtmlTest {
                 not(containsString(secret))
         ));
         
+        extractedMethod22225(thrown, secret);
+    }
+
+    private void extractedMethod22225(final Throwable thrown, final String secret) {
         StringWriter buffer = new StringWriter();
         thrown.printStackTrace(new PrintWriter(buffer));
         String fullStack = buffer.getBuffer().toString();
