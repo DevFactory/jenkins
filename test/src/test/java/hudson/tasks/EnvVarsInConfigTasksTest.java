@@ -1,5 +1,8 @@
 package hudson.tasks;
 
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+
 import hudson.EnvVars;
 import hudson.model.labels.LabelAtom;
 import hudson.model.AbstractBuild;
@@ -77,9 +80,7 @@ public class EnvVarsInConfigTasksTest extends HudsonTestCase {
 				"/simple-projects.zip")));
 
 		// test the regular agent - variable not expanded
-		project.setAssignedLabel(slaveRegular.getSelfLabel());
-		FreeStyleBuild build = project.scheduleBuild2(0).get();
-		System.out.println(build.getDisplayName() + " completed");
+		FreeStyleBuild build = getBuild57871(project);
 
 		assertBuildStatusSuccess(build);
 
@@ -118,9 +119,7 @@ public class EnvVarsInConfigTasksTest extends HudsonTestCase {
 						+ "}rect", "varAnt", "", buildFile, ""));
 
 		// test the regular agent - variable not expanded
-		project.setAssignedLabel(slaveRegular.getSelfLabel());
-		FreeStyleBuild build = project.scheduleBuild2(0).get();
-		System.out.println(build.getDisplayName() + " completed");
+		FreeStyleBuild build = getBuild57871(project);
 
 		assertBuildStatus(Result.FAILURE, build);
 
@@ -157,9 +156,7 @@ public class EnvVarsInConfigTasksTest extends HudsonTestCase {
 							false));
 
 		// test the regular agent - variable not expanded
-		project.setAssignedLabel(slaveRegular.getSelfLabel());
-		FreeStyleBuild build = project.scheduleBuild2(0).get();
-		System.out.println(build.getDisplayName() + " completed");
+		FreeStyleBuild build = getBuild57871(project);
 
 		assertBuildStatus(Result.FAILURE, build);
 
@@ -178,6 +175,13 @@ public class EnvVarsInConfigTasksTest extends HudsonTestCase {
 		String buildLogEnv = getBuildLog(build);
 		System.out.println(buildLogEnv);
 		assertFalse(buildLogEnv.contains(DUMMY_LOCATION_VARNAME));
+	}
+
+	private FreeStyleBuild getBuild57871(final FreeStyleProject project) throws ExecutionException, IOException, InterruptedException {
+	    project.setAssignedLabel(slaveRegular.getSelfLabel());
+	    FreeStyleBuild build = project.scheduleBuild2(0).get();
+	    System.out.println(build.getDisplayName() + " completed");
+	    return build;
 	}
 
     @SuppressWarnings("deprecation") // it's  okay to use it in tests
