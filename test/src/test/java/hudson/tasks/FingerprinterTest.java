@@ -103,10 +103,7 @@ public class FingerprinterTest {
         FreeStyleProject upstream = createFreeStyleProjectWithFingerprints(singleContents, singleFiles);
         FreeStyleProject downstream = createFreeStyleProjectWithFingerprints(singleContents, singleFiles);
 
-        j.assertBuildStatusSuccess(upstream.scheduleBuild2(0).get());
-        j.assertBuildStatusSuccess(downstream.scheduleBuild2(0).get());
-
-        j.jenkins.rebuildDependencyGraph();
+        extractedMethod326(upstream, downstream);
 
         List<AbstractProject> downstreamProjects = upstream.getDownstreamProjects();
         List<AbstractProject> upstreamProjects = downstream.getUpstreamProjects();
@@ -166,10 +163,7 @@ public class FingerprinterTest {
         FreeStyleProject downstream2 = createFreeStyleProjectWithFingerprints(singleContents2, singleFiles2);
 
         j.assertBuildStatusSuccess(upstream.scheduleBuild2(0).get());
-        j.assertBuildStatusSuccess(downstream.scheduleBuild2(0).get());
-        j.assertBuildStatusSuccess(downstream2.scheduleBuild2(0).get());
-
-        j.jenkins.rebuildDependencyGraph();
+        extractedMethod326(downstream, downstream2);
 
         List<AbstractProject> downstreamProjects = upstream.getDownstreamProjects();
         List<AbstractProject> upstreamProjects = downstream.getUpstreamProjects();
@@ -182,6 +176,13 @@ public class FingerprinterTest {
         assertTrue(upstreamProjects2.contains(upstream));
         assertTrue(downstreamProjects.contains(downstream));
         assertTrue(downstreamProjects.contains(downstream2));
+    }
+
+    private void extractedMethod326(final FreeStyleProject downstream, final FreeStyleProject downstream2) throws Exception {
+        j.assertBuildStatusSuccess(downstream.scheduleBuild2(0).get());
+        j.assertBuildStatusSuccess(downstream2.scheduleBuild2(0).get());
+        
+        j.jenkins.rebuildDependencyGraph();
     }
 
     @Test public void dependencyExclusion() throws Exception {
