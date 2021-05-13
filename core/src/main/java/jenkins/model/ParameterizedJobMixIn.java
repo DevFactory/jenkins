@@ -24,6 +24,8 @@
 
 package jenkins.model;
 
+import jenkins.model.ExtractedSeparateClass34846;
+
 import hudson.Util;
 import hudson.cli.declarative.CLIMethod;
 import hudson.cli.declarative.CLIResolver;
@@ -214,11 +216,7 @@ public abstract class ParameterizedJobMixIn<JobT extends Job<JobT, RunT> & Param
 
 
         Queue.Item item = Jenkins.get().getQueue().schedule2(asJob(), delay.getTimeInSeconds(), getBuildCause(asJob(), req)).getItem();
-        if (item != null) {
-            rsp.sendRedirect(SC_CREATED, req.getContextPath() + '/' + item.getUrl());
-        } else {
-            rsp.sendRedirect(".");
-        }
+        ExtractedSeparateClass34846.extractedMethod63436(item, rsp, req, SC_CREATED);
     }
 
     /**
