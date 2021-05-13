@@ -105,21 +105,20 @@ public class UpdateCenterConnectionStatusTest {
     @Test
     public void test_states_uc_failed_timeout() {
         UpdateCenter updateCenter = new UpdateCenter(new TestConfig().failUCConnect());
-        UpdateCenter.ConnectionCheckJob job = updateCenter.newConnectionCheckJob(updateSite);
-
-        job.run();
-
-        Assert.assertEquals(ConnectionStatus.OK, job.connectionStates.get(ConnectionStatus.INTERNET));
-        Assert.assertEquals(ConnectionStatus.FAILED, job.connectionStates.get(ConnectionStatus.UPDATE_SITE));
+        extractedMethod93122(updateCenter);
     }
 
     @Test
     public void test_states_uc_failed_UnknownHost() {
         UpdateCenter updateCenter = new UpdateCenter(new TestConfig().failUCResolve());
+        extractedMethod93122(updateCenter);
+    }
+
+    private void extractedMethod93122(final UpdateCenter updateCenter) {
         UpdateCenter.ConnectionCheckJob job = updateCenter.newConnectionCheckJob(updateSite);
-
+        
         job.run();
-
+        
         Assert.assertEquals(ConnectionStatus.OK, job.connectionStates.get(ConnectionStatus.INTERNET));
         Assert.assertEquals(ConnectionStatus.FAILED, job.connectionStates.get(ConnectionStatus.UPDATE_SITE));
     }
