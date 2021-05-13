@@ -151,10 +151,7 @@ public class UserSeedPropertyTest {
         // even after the security realm deleted the user, they can still connect, until session invalidation
         assertUserConnected(wc, ALICE);
 
-        requestRenewSeedForUser(alice);
-
-        assertUserNotConnected(wc, ALICE);
-        assertUserConnected(wc, "anonymous");
+        extractedMethod88547(alice, wc, ALICE);
 
         try {
             wc.login(ALICE);
@@ -243,13 +240,17 @@ public class UserSeedPropertyTest {
 
         assertUserConnected(wc, ALICE);
 
-        requestRenewSeedForUser(alice);
-
-        assertUserNotConnected(wc, ALICE);
-        assertUserConnected(wc, "anonymous");
+        extractedMethod88547(alice, wc, ALICE);
 
         wc.login(ALICE);
         assertUserConnected(wc, ALICE);
+    }
+
+    private void extractedMethod88547(final User alice, final JenkinsRule.WebClient wc, final String ALICE) throws Exception {
+        requestRenewSeedForUser(alice);
+        
+        assertUserNotConnected(wc, ALICE);
+        assertUserConnected(wc, "anonymous");
     }
 
     @Test
