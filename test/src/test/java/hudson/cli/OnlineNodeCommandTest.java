@@ -140,13 +140,7 @@ public class OnlineNodeCommandTest {
     }
 
     @Test public void onlineNodeShouldSucceedOnDisconnectedNode() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        if (slave.toComputer().isConnecting()) {
-            System.out.println("Waiting until going online is in progress...");
-            slave.toComputer().waitUntilOnline();
-        }
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
-        slave.toComputer().disconnect();
+        DumbSlave slave = getSlave22458();
         slave.toComputer().waitUntilOffline();
         assertThat(slave.toComputer().isOffline(), equalTo(true));
 
@@ -162,13 +156,7 @@ public class OnlineNodeCommandTest {
     }
 
     @Test public void onlineNodeShouldSucceedOnDisconnectingNode() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        if (slave.toComputer().isConnecting()) {
-            System.out.println("Waiting until going online is in progress...");
-            slave.toComputer().waitUntilOnline();
-        }
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
-        slave.toComputer().disconnect();
+        DumbSlave slave = getSlave22458();
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
@@ -179,6 +167,17 @@ public class OnlineNodeCommandTest {
             slave.toComputer().waitUntilOnline();
         }
         assertThat(slave.toComputer().isOnline(), equalTo(false));
+    }
+
+    private DumbSlave getSlave22458() throws Exception {
+        DumbSlave slave = j.createSlave("aNode", "", null);
+        if (slave.toComputer().isConnecting()) {
+            System.out.println("Waiting until going online is in progress...");
+            slave.toComputer().waitUntilOnline();
+        }
+        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        slave.toComputer().disconnect();
+        return slave;
     }
 
     @Test public void onlineNodeShouldSucceedOnBuildingOfflineNode() throws Exception {
