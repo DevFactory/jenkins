@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result;
+
 import hudson.model.Computer;
 import jenkins.model.Jenkins;
 import org.junit.Before;
@@ -117,10 +119,7 @@ public class DeleteNodeCommandTest {
         assertThat(result, failedWith(5));
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created: No such node 'never_created'"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(j.jenkins.getView("aNode1"), nullValue());
-        assertThat(j.jenkins.getView("aNode2"), nullValue());
+        extractedMethod91774(result);
         assertThat(j.jenkins.getView("never_created"), nullValue());
     }
 
@@ -136,10 +135,7 @@ public class DeleteNodeCommandTest {
         assertThat(result, failedWith(5));
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created: No such node 'never_created'"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(j.jenkins.getView("aNode1"), nullValue());
-        assertThat(j.jenkins.getView("aNode2"), nullValue());
+        extractedMethod91774(result);
         assertThat(j.jenkins.getView("never_created"), nullValue());
     }
 
@@ -155,10 +151,7 @@ public class DeleteNodeCommandTest {
         assertThat(result, failedWith(5));
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created: No such node 'never_created'"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(j.jenkins.getView("aNode1"), nullValue());
-        assertThat(j.jenkins.getView("aNode2"), nullValue());
+        extractedMethod91774(result);
         assertThat(j.jenkins.getView("never_created"), nullValue());
     }
 
@@ -175,12 +168,16 @@ public class DeleteNodeCommandTest {
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created1: No such node 'never_created1'"));
         assertThat(result.stderr(), containsString("never_created2: No such node 'never_created2'"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(j.jenkins.getView("aNode1"), nullValue());
-        assertThat(j.jenkins.getView("aNode2"), nullValue());
+        extractedMethod91774(result);
         assertThat(j.jenkins.getView("never_created1"), nullValue());
         assertThat(j.jenkins.getView("never_created2"), nullValue());
+    }
+
+    private void extractedMethod91774(final CLICommandInvoker.Result result) {
+        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
+        
+        assertThat(j.jenkins.getView("aNode1"), nullValue());
+        assertThat(j.jenkins.getView("aNode2"), nullValue());
     }
 
     @Test public void deleteNodeManyShouldSucceedEvenANodeIsSpecifiedTwice() throws Exception {
