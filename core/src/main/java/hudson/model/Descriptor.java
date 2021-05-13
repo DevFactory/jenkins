@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import hudson.ExtractedSeparateClass16038;
+
 import hudson.DescriptorExtensionList;
 import hudson.PluginWrapper;
 import hudson.RelativePath;
@@ -434,11 +436,7 @@ public abstract class Descriptor<T extends Describable<T>> implements Saveable, 
                 if (name==null || name.length()==0)
                     continue;   // unknown parameter name. we'll report the error when the form is submitted.
 
-                RelativePath rp = p.annotation(RelativePath.class);
-                if (rp!=null)
-                    name = rp.value()+'/'+name;
-
-                depends.add(name);
+                ExtractedSeparateClass16038.extractedMethod51454(p, name, depends);
                 continue;
             }
 
