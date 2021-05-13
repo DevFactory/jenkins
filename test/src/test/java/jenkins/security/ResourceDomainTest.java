@@ -1,5 +1,7 @@
 package jenkins.security;
 
+import java.io.IOException;
+
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import hudson.ExtensionList;
@@ -188,12 +190,7 @@ public class ResourceDomainTest {
     public void missingPermissionsCause403() throws Exception {
         // setup: A job that creates a file in its workspace
         FreeStyleProject project = j.createFreeStyleProject();
-        project.getBuildersList().add(new CreateFileBuilder("file.html", "<html><body>the content</body></html>"));
-        project.save();
-
-        // setup: Everyone has permission to Jenkins and the job
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
-        MockAuthorizationStrategy a = new MockAuthorizationStrategy();
+        MockAuthorizationStrategy a = getA75622(project);
         a.grant(Jenkins.READ).everywhere().toEveryone();
         a.grant(Item.READ, Item.WORKSPACE).onItems(project).toEveryone();
         j.jenkins.setAuthorizationStrategy(a);
@@ -239,12 +236,7 @@ public class ResourceDomainTest {
     public void projectWasRenamedCauses404() throws Exception {
         // setup: A job that creates a file in its workspace
         FreeStyleProject project = j.createFreeStyleProject();
-        project.getBuildersList().add(new CreateFileBuilder("file.html", "<html><body>the content</body></html>"));
-        project.save();
-
-        // setup: Everyone has permission to Jenkins and the job
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
-        MockAuthorizationStrategy a = new MockAuthorizationStrategy();
+        MockAuthorizationStrategy a = getA75622(project);
         a.grant(Jenkins.READ, Item.READ, Item.WORKSPACE).everywhere().toEveryone();
         j.jenkins.setAuthorizationStrategy(a);
 
@@ -266,6 +258,16 @@ public class ResourceDomainTest {
         Page failedPage = webClient.getPage(url);
         Assert.assertEquals("page is not found", 404, failedPage.getWebResponse().getStatusCode());
         Assert.assertEquals("page is not found", "Not Found", failedPage.getWebResponse().getStatusMessage()); // TODO Is this not done through our exception handler?
+    }
+
+    private MockAuthorizationStrategy getA75622(final FreeStyleProject project) throws IOException {
+        project.getBuildersList().add(new CreateFileBuilder("file.html", "<html><body>the content</body></html>"));
+        project.save();
+        
+        // setup: Everyone has permission to Jenkins and the job
+        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
+        MockAuthorizationStrategy a = new MockAuthorizationStrategy();
+        return a;
     }
 
 //    @Test
