@@ -240,14 +240,7 @@ public class QuietDownCommandTest {
         } catch (TimeoutException e) {
             timeoutOccurred = true;
         }
-        if(!timeoutOccurred)
-            fail("Missing timeout for CLI call");
-
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
+        extractedMethod521(timeoutOccurred, finish, build, project);
         exec_task.cancel(true);
         assertJenkinsInQuietMode();
     }
@@ -285,14 +278,7 @@ public class QuietDownCommandTest {
         } catch (TimeoutException e) {
             timeoutOccurred = true;
         }
-        if(!timeoutOccurred)
-            fail("Missing timeout for CLI call");
-
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
+        extractedMethod521(timeoutOccurred, finish, build, project);
         exec_task.cancel(true);
         assertJenkinsInQuietMode();
     }
@@ -377,15 +363,19 @@ public class QuietDownCommandTest {
         } catch (TimeoutException e) {
             timeoutOccurred = true;
         }
+        extractedMethod521(timeoutOccurred, finish, build, project);
+        assertJenkinsInQuietMode();
+    }
+
+    private void extractedMethod521(final boolean timeoutOccurred, final OneShotEvent finish, final Future<FreeStyleBuild> build, final FreeStyleProject project) throws Exception {
         if(!timeoutOccurred)
             fail("Missing timeout for CLI call");
-
+        
         finish.signal();
         build.get();
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
         assertThat(project.isBuilding(), equalTo(false));
         j.assertBuildStatusSuccess(build);
-        assertJenkinsInQuietMode();
     }
 
     //
