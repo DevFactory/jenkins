@@ -167,9 +167,7 @@ public class JNLPLauncherTest {
 
         ComputerLauncher launcher = new JNLPLauncher("", "", new RemotingWorkDirSettings(false, workDir.getAbsolutePath(), "internalDir", false));
         launcher = new DelegatingComputerLauncherImpl(launcher);
-        Computer c = addTestAgent(launcher);
-        launchJnlpAndVerify(c, buildJnlpArgs(c));
-        assertTrue("Remoting work dir should have been created", new File(workDir, "internalDir").exists());
+        extractedMethod37056(launcher, workDir);
     }
 
     @Test
@@ -180,6 +178,10 @@ public class JNLPLauncherTest {
 
         ComputerLauncher launcher = new JNLPLauncher("", "", new RemotingWorkDirSettings(false, workDir.getAbsolutePath(), "internalDir", false));
         launcher = new ComputerLauncherFilterImpl(launcher);
+        extractedMethod37056(launcher, workDir);
+    }
+
+    private void extractedMethod37056(final ComputerLauncher launcher, final File workDir) throws Exception {
         Computer c = addTestAgent(launcher);
         launchJnlpAndVerify(c, buildJnlpArgs(c));
         assertTrue("Remoting work dir should have been created", new File(workDir, "internalDir").exists());
