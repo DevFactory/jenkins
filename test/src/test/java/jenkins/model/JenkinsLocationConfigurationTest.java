@@ -145,11 +145,7 @@ public class JenkinsLocationConfigurationTest {
                 .findFirst().orElseThrow(AssertionFailedError::new);
 
         // last verification
-        assertFalse(alertAppeared.get());
-
-        HtmlElementUtil.click(newViewLink);
-
-        assertFalse(alertAppeared.get());
+        extractedMethod70755(alertAppeared, newViewLink);
     }
 
     @Test
@@ -176,15 +172,21 @@ public class JenkinsLocationConfigurationTest {
                 .filter(a -> a.getHrefAttribute().contains("/label/"))
                 .findFirst().orElseThrow(AssertionFailedError::new);
 
-        assertFalse(alertAppeared.get());
-        HtmlElementUtil.click(labelAnchor);
-        assertFalse(alertAppeared.get());
+        extractedMethod70755(alertAppeared, labelAnchor);
 
         String labelHref = labelAnchor.getHrefAttribute();
         assertThat(labelHref, not(containsString("javascript:alert(123)")));
 
         String responseContent = projectConfigurePage.getWebResponse().getContentAsString();
         assertThat(responseContent, not(containsString("javascript:alert(123)")));
+    }
+
+    private void extractedMethod70755(final AtomicReference<Boolean> alertAppeared, final HtmlAnchor newViewLink) throws IOException {
+        assertFalse(alertAppeared.get());
+        
+        HtmlElementUtil.click(newViewLink);
+        
+        assertFalse(alertAppeared.get());
     }
 
     private void settingRootURL(String desiredRootUrl) throws Exception {
