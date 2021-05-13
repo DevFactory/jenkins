@@ -149,10 +149,7 @@ public class BuildStatusSummaryTest {
         when(this.build.getResult()).thenReturn(Result.UNSTABLE);
         when(this.prevBuild.getResult()).thenReturn(Result.FAILURE);
         
-        Summary summary = this.build.getBuildStatusSummary();
-        
-        assertFalse(summary.isWorse);
-        assertEquals(Messages.Run_Summary_Unstable(), summary.message);
+        extractedMethod78577();
     }
 
     @Test
@@ -160,6 +157,10 @@ public class BuildStatusSummaryTest {
         when(this.build.getResult()).thenReturn(Result.UNSTABLE);
         when(this.prevBuild.getResult()).thenReturn(Result.UNSTABLE);
         
+        extractedMethod78577();
+    }
+
+    private void extractedMethod78577() {
         Summary summary = this.build.getBuildStatusSummary();
         
         assertFalse(summary.isWorse);
