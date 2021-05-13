@@ -23,6 +23,8 @@
  */
 package jenkins.telemetry;
 
+import jenkins.telemetry.ExtractedSeparateClass81766;
+
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import hudson.ExtensionList;
 import hudson.model.UnprotectedRootAction;
@@ -113,12 +115,7 @@ public class MissingClassTelemetryTest {
     public static class NoCrumb extends CrumbExclusion {
         @Override
         public boolean process(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-            String pathInfo = request.getPathInfo();
-            if (pathInfo != null && pathInfo.startsWith("/uplink")) {
-                chain.doFilter(request, response);
-                return true;
-            }
-            return false;
+            return ExtractedSeparateClass81766.isVar37973(request, chain, response);
         }
     }
 

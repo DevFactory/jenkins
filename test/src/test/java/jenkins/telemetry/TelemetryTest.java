@@ -1,5 +1,7 @@
 package jenkins.telemetry;
 
+import jenkins.telemetry.ExtractedSeparateClass81766;
+
 import hudson.ExtensionList;
 import hudson.model.UnprotectedRootAction;
 import static org.hamcrest.CoreMatchers.*;
@@ -232,12 +234,7 @@ public class TelemetryTest {
     public static class NoCrumb extends CrumbExclusion {
         @Override
         public boolean process(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-            String pathInfo = request.getPathInfo();
-            if (pathInfo != null && pathInfo.startsWith("/uplink")) {
-                chain.doFilter(request, response);
-                return true;
-            }
-            return false;
+            return ExtractedSeparateClass81766.isVar37973(request, chain, response);
         }
     }
 
