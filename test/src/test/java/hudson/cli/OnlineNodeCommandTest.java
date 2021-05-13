@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass26107;
+
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
@@ -249,10 +251,7 @@ public class OnlineNodeCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "never_created");
-        assertThat(result, failedWith(5));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("never_created: No such agent \"never_created\" exists. Did you mean \"aNode1\"?"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
+        ExtractedSeparateClass26107.extractedMethod76075(result);
         if (slave1.toComputer().isConnecting()) {
             System.out.println("Waiting until aNode1 going online is in progress...");
             slave1.toComputer().waitUntilOnline();
