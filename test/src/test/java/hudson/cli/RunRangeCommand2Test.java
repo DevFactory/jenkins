@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass2179;
+
 import hudson.Functions;
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
@@ -104,15 +106,7 @@ public class RunRangeCommand2Test {
     }
 
     @Test public void dummyRangeShouldSuccessEvenTheBuildIsStuckInTheQueue() throws Exception {
-        FreeStyleProject project = j.createFreeStyleProject("aProject");
-        project.getBuildersList().add(new Shell("echo 1\nsleep 10s"));
-        project.setAssignedLabel(new LabelAtom("never_created"));
-        assertThat("Job wasn't scheduled properly", project.scheduleBuild(0), equalTo(true));
-        Thread.sleep(1000);
-        assertThat("Job wasn't scheduled properly - it isn't in the queue",
-                project.isInQueue(), equalTo(true));
-        assertThat("Job wasn't scheduled properly - it is running on non-exist node",
-                project.isBuilding(), equalTo(false));
+        ExtractedSeparateClass2179.extractedMethod28093(j);
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, Job.READ)
