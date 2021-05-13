@@ -1,5 +1,7 @@
 package hudson.security;
 
+import hudson.security.ExtractedSeparateClass22399;
+
 import com.gargoylesoftware.htmlunit.CookieManager;
 import com.gargoylesoftware.htmlunit.util.Cookie;
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
@@ -145,10 +147,7 @@ public class TokenBasedRememberMeServices2Test {
     @Issue("SECURITY-868")
     @For(UserSeedProperty.class)
     public void rememberMeToken_invalid_afterUserSeedReset() throws Exception {
-        j.jenkins.setDisableRememberMe(false);
-
-        HudsonPrivateSecurityRealm realm = new HudsonPrivateSecurityRealm(false, false, null);
-        j.jenkins.setSecurityRealm(realm);
+        HudsonPrivateSecurityRealm realm = ExtractedSeparateClass22399.getSecurityRealm58136(j);
 
         String username = "alice";
         hudson.model.User alice = realm.createAccount(username, username);
@@ -175,10 +174,7 @@ public class TokenBasedRememberMeServices2Test {
         try {
             UserSeedProperty.DISABLE_USER_SEED = true;
 
-            j.jenkins.setDisableRememberMe(false);
-
-            HudsonPrivateSecurityRealm realm = new HudsonPrivateSecurityRealm(false, false, null);
-            j.jenkins.setSecurityRealm(realm);
+            HudsonPrivateSecurityRealm realm = ExtractedSeparateClass22399.getSecurityRealm58136(j);
 
             String username = "alice";
             hudson.model.User alice = realm.createAccount(username, username);

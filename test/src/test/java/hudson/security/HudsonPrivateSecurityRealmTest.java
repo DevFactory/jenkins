@@ -24,6 +24,8 @@
 
 package hudson.security;
 
+import hudson.security.ExtractedSeparateClass22399;
+
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.util.Cookie;
@@ -720,9 +722,7 @@ public class HudsonPrivateSecurityRealmTest {
     }
 
     private User prepareRealmAndAlice() throws Exception {
-        j.jenkins.setDisableRememberMe(false);
-        HudsonPrivateSecurityRealm securityRealm = new HudsonPrivateSecurityRealm(false, false, null);
-        j.jenkins.setSecurityRealm(securityRealm);
+        HudsonPrivateSecurityRealm securityRealm = ExtractedSeparateClass22399.getSecurityRealm58136(j);
 
         return securityRealm.createAccount("alice", "alice");
     }
