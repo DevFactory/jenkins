@@ -23,6 +23,8 @@
  */
 package hudson.util;
 
+import hudson.util.ExtractedSeparateClass58296;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static hudson.Util.fixEmpty;
 import static hudson.util.FormValidation.APPLY_CONTENT_SECURITY_POLICY_HEADERS;
@@ -278,11 +280,7 @@ public abstract class FormFieldValidator {
          *      true if found, false otherwise.
          */
         protected boolean findText(BufferedReader in, String literal) throws IOException {
-            String line;
-            while((line=in.readLine())!=null)
-                if(line.contains(literal))
-                    return true;
-            return false;
+            return ExtractedSeparateClass58296.isVar87845(in, literal);
         }
 
         /**
