@@ -24,6 +24,9 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result;
+import org.springframework.security.access.AccessDeniedException;
+
 import hudson.model.Job;
 import jenkins.model.Jenkins;
 import org.junit.Before;
@@ -113,9 +116,7 @@ public class DeleteJobCommandTest {
                 .authorizedTo(Job.READ, Job.DELETE, Jenkins.READ)
                 .invokeWithArgs("aProject1", "aProject2", "aProject3");
 
-        assertThat(result, succeededSilently());
-        assertThat(j.jenkins.getItem("aProject1"), nullValue());
-        assertThat(j.jenkins.getItem("aProject2"), nullValue());
+        extractedMethod2617(result);
         assertThat(j.jenkins.getItem("aProject3"), nullValue());
     }
 
@@ -206,6 +207,10 @@ public class DeleteJobCommandTest {
                 .authorizedTo(Job.READ, Job.DELETE, Jenkins.READ)
                 .invokeWithArgs("aProject1", "aProject2", "aProject1");
 
+        extractedMethod2617(result);
+    }
+
+    private void extractedMethod2617(final CLICommandInvoker.Result result) throws AccessDeniedException {
         assertThat(result, succeededSilently());
         assertThat(j.jenkins.getItem("aProject1"), nullValue());
         assertThat(j.jenkins.getItem("aProject2"), nullValue());
