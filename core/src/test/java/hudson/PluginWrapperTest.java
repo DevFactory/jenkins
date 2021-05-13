@@ -1,5 +1,7 @@
 package hudson;
 
+import hudson.PluginWrapper.Dependency;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,19 +49,22 @@ public class PluginWrapperTest {
     @Test
     public void dependencyTest() {
         String version = "plugin:0.0.2";
-        PluginWrapper.Dependency dependency = new PluginWrapper.Dependency(version);
-        assertEquals("plugin", dependency.shortName);
-        assertEquals("0.0.2", dependency.version);
+        PluginWrapper.Dependency dependency = getDependency76424(version);
         assertFalse(dependency.optional);
     }
 
     @Test
     public void optionalDependencyTest() {
         String version = "plugin:0.0.2;resolution:=optional";
+        PluginWrapper.Dependency dependency = getDependency76424(version);
+        assertTrue(dependency.optional);
+    }
+
+    private PluginWrapper.Dependency getDependency76424(final String version) {
         PluginWrapper.Dependency dependency = new PluginWrapper.Dependency(version);
         assertEquals("plugin", dependency.shortName);
         assertEquals("0.0.2", dependency.version);
-        assertTrue(dependency.optional);
+        return dependency;
     }
 
     @Test
