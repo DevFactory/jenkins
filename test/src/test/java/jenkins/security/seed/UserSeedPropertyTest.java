@@ -129,12 +129,7 @@ public class UserSeedPropertyTest {
     @Issue("SECURITY-901")
     public void userCreatedInThirdPartyRealm_cannotReconnect_afterSessionInvalidation_andRealmDeletion() throws Exception {
         InMemorySecurityRealm realm = new InMemorySecurityRealm();
-        j.jenkins.setSecurityRealm(realm);
-        j.jenkins.setCrumbIssuer(null);
-
-        String ALICE = "alice";
-
-        realm.createAccount(ALICE);
+        String ALICE = getALICE86319(realm);
 
         JenkinsRule.WebClient wc = j.createWebClient();
         wc.login(ALICE);
@@ -172,12 +167,7 @@ public class UserSeedPropertyTest {
             UserSeedProperty.DISABLE_USER_SEED = true;
 
             InMemorySecurityRealm realm = new InMemorySecurityRealm();
-            j.jenkins.setSecurityRealm(realm);
-            j.jenkins.setCrumbIssuer(null);
-
-            String ALICE = "alice";
-
-            realm.createAccount(ALICE);
+            String ALICE = getALICE86319(realm);
 
             JenkinsRule.WebClient wc = j.createWebClient();
             wc.login(ALICE);
@@ -226,12 +216,7 @@ public class UserSeedPropertyTest {
     @Issue("SECURITY-901")
     public void userCreatedInThirdPartyRealm_canReconnect_afterSessionInvalidation() throws Exception {
         InMemorySecurityRealm realm = new InMemorySecurityRealm();
-        j.jenkins.setSecurityRealm(realm);
-        j.jenkins.setCrumbIssuer(null);
-
-        String ALICE = "alice";
-
-        realm.createAccount(ALICE);
+        String ALICE = getALICE86319(realm);
 
         JenkinsRule.WebClient wc = j.createWebClient();
         wc.login(ALICE);
@@ -255,12 +240,7 @@ public class UserSeedPropertyTest {
     @Test
     public void userSeedSection_isCorrectlyDisplayed() throws Exception {
         InMemorySecurityRealm realm = new InMemorySecurityRealm();
-        j.jenkins.setSecurityRealm(realm);
-        j.jenkins.setCrumbIssuer(null);
-
-        String ALICE = "alice";
-
-        realm.createAccount(ALICE);
+        String ALICE = getALICE86319(realm);
 
         JenkinsRule.WebClient wc = j.createWebClient();
         wc.login(ALICE);
@@ -279,12 +259,7 @@ public class UserSeedPropertyTest {
             UserSeedProperty.HIDE_USER_SEED_SECTION = true;
 
             InMemorySecurityRealm realm = new InMemorySecurityRealm();
-            j.jenkins.setSecurityRealm(realm);
-            j.jenkins.setCrumbIssuer(null);
-
-            String ALICE = "alice";
-
-            realm.createAccount(ALICE);
+            String ALICE = getALICE86319(realm);
 
             JenkinsRule.WebClient wc = j.createWebClient();
             wc.login(ALICE);
@@ -302,6 +277,16 @@ public class UserSeedPropertyTest {
         finally {
             UserSeedProperty.HIDE_USER_SEED_SECTION = currentStatus;
         }
+    }
+
+    private String getALICE86319(final InMemorySecurityRealm realm) {
+        j.jenkins.setSecurityRealm(realm);
+        j.jenkins.setCrumbIssuer(null);
+        
+        String ALICE = "alice";
+        
+        realm.createAccount(ALICE);
+        return ALICE;
     }
     
     private void assertUserConnected(JenkinsRule.WebClient wc, String expectedUsername) throws Exception {
