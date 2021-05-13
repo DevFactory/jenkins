@@ -24,6 +24,9 @@
 
 package hudson.security;
 
+import java.io.IOException;
+import org.xml.sax.SAXException;
+
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.util.Cookie;
@@ -119,13 +122,7 @@ public class HudsonPrivateSecurityRealmTest {
         
         // Check both users can use their token
         XmlPage w1 = (XmlPage) wc1.goTo("whoAmI/api/xml", "application/xml");
-        assertThat(w1, hasXPath("//name", is("user1")));
-        
-        XmlPage w2 = (XmlPage) wc2.goTo("whoAmI/api/xml", "application/xml");
-        assertThat(w2, hasXPath("//name", is("user2")));
-
-        u1.setFullName("user2");
-        u1.save();
+        XmlPage w2 = getW247190(w1, wc2, u1);
         
         // check the tokens still work
         wc1 = j.createWebClient();
@@ -171,20 +168,25 @@ public class HudsonPrivateSecurityRealmTest {
         
         // Check both users can use their token
         XmlPage w1 = (XmlPage) wc1.goTo("whoAmI/api/xml", "application/xml");
-        assertThat(w1, hasXPath("//name", is("user1")));
-        
-        XmlPage w2 = (XmlPage) wc2.goTo("whoAmI/api/xml", "application/xml");
-        assertThat(w2, hasXPath("//name", is("user2")));
-
-
-        u1.setFullName("user2");
-        u1.save();
+        XmlPage w2 = getW247190(w1, wc2, u1);
         // check the tokens still work
         w1 = (XmlPage) wc1.goTo("whoAmI/api/xml", "application/xml");
         assertThat(w1, hasXPath("//name", is("user1")));
         
         w2 = (XmlPage) wc2.goTo("whoAmI/api/xml", "application/xml");
         assertThat(w2, hasXPath("//name", is("user2")));
+    }
+
+    private XmlPage getW247190(final XmlPage w1, final WebClient wc2, final User u1) throws IOException, SAXException {
+        assertThat(w1, hasXPath("//name", is("user1")));
+        
+        XmlPage w2 = (XmlPage) wc2.goTo("whoAmI/api/xml", "application/xml");
+        assertThat(w2, hasXPath("//name", is("user2")));
+        
+        
+        u1.setFullName("user2");
+        u1.save();
+        return w2;
     }
 
 
