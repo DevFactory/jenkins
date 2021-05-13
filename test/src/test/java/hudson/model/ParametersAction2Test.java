@@ -38,10 +38,7 @@ public class ParametersAction2Test {
         p.getBuildersList().add(b);
         p.save();
 
-        j.assertBuildStatusSuccess(p.scheduleBuild2(0, new Cause.UserIdCause(), new ParametersAction(
-                new StringParameterValue("foo", "baz"),
-                new StringParameterValue("undef", "undef")
-        )));
+        extractedMethod32189(p);
     }
 
     @Test
@@ -54,10 +51,7 @@ public class ParametersAction2Test {
         try {
             System.setProperty(ParametersAction.KEEP_UNDEFINED_PARAMETERS_SYSTEM_PROPERTY_NAME, "true");
 
-            j.assertBuildStatusSuccess(p.scheduleBuild2(0, new Cause.UserIdCause(), new ParametersAction(
-                    new StringParameterValue("foo", "baz"),
-                    new StringParameterValue("undef", "undef")
-            )));
+            extractedMethod32189(p);
         } finally {
             System.clearProperty(ParametersAction.KEEP_UNDEFINED_PARAMETERS_SYSTEM_PROPERTY_NAME);
         }
@@ -92,6 +86,10 @@ public class ParametersAction2Test {
         p.getBuildersList().add(b);
         p.save();
 
+        extractedMethod32189(p);
+    }
+
+    private void extractedMethod32189(final FreeStyleProject p) throws Exception {
         j.assertBuildStatusSuccess(p.scheduleBuild2(0, new Cause.UserIdCause(), new ParametersAction(
                 new StringParameterValue("foo", "baz"),
                 new StringParameterValue("undef", "undef")
