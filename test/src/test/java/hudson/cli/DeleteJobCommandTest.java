@@ -24,6 +24,9 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result;
+import org.springframework.security.access.AccessDeniedException;
+
 import hudson.model.Job;
 import jenkins.model.Jenkins;
 import org.junit.Before;
@@ -131,10 +134,7 @@ public class DeleteJobCommandTest {
         assertThat(result, failedWith(5));
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created: No such job 'never_created'"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(j.jenkins.getItem("aProject1"), nullValue());
-        assertThat(j.jenkins.getItem("aProject2"), nullValue());
+        extractedMethod52394(result);
         assertThat(j.jenkins.getItem("never_created"), nullValue());
     }
 
@@ -150,10 +150,7 @@ public class DeleteJobCommandTest {
         assertThat(result, failedWith(5));
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created: No such job 'never_created'"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(j.jenkins.getItem("aProject1"), nullValue());
-        assertThat(j.jenkins.getItem("aProject2"), nullValue());
+        extractedMethod52394(result);
         assertThat(j.jenkins.getItem("never_created"), nullValue());
     }
 
@@ -169,10 +166,7 @@ public class DeleteJobCommandTest {
         assertThat(result, failedWith(5));
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created: No such job 'never_created'"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(j.jenkins.getItem("aProject1"), nullValue());
-        assertThat(j.jenkins.getItem("aProject2"), nullValue());
+        extractedMethod52394(result);
         assertThat(j.jenkins.getItem("never_created"), nullValue());
     }
 
@@ -189,12 +183,16 @@ public class DeleteJobCommandTest {
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created1: No such job 'never_created1'"));
         assertThat(result.stderr(), containsString("never_created2: No such job 'never_created2'"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(j.jenkins.getItem("aProject1"), nullValue());
-        assertThat(j.jenkins.getItem("aProject2"), nullValue());
+        extractedMethod52394(result);
         assertThat(j.jenkins.getItem("never_created1"), nullValue());
         assertThat(j.jenkins.getItem("never_created2"), nullValue());
+    }
+
+    private void extractedMethod52394(final CLICommandInvoker.Result result) throws AccessDeniedException {
+        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
+        
+        assertThat(j.jenkins.getItem("aProject1"), nullValue());
+        assertThat(j.jenkins.getItem("aProject2"), nullValue());
     }
 
     @Test public void deleteJobManyShouldSucceedEvenAJobIsSpecifiedTwice() throws Exception {
