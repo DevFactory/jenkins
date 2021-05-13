@@ -116,9 +116,7 @@ public class MyViewsPropertyTest {
         property.setUser(user);
         user.addProperty(property);
         assertEquals("Property should have primary view " + AllView.DEFAULT_VIEW_NAME + " instead of " + property.getPrimaryView(). name,property.getView(AllView.DEFAULT_VIEW_NAME), property.getPrimaryView());
-        View view = new ListView("foo", property);
-        property.addView(view);
-        property.setPrimaryViewName(view.name);
+        View view = getView86279(property);
         assertEquals("Property should have primary view " + view.name + " instead of " + property.getPrimaryView().name, view, property.getPrimaryView());
     }
     
@@ -178,11 +176,16 @@ public class MyViewsPropertyTest {
         property.readResolve();
         property.setUser(user);
         user.addProperty(property);
+        View view = getView86279(property);
+        view.rename("primary-renamed");       
+        assertEquals("Property should rename its primary view ", "primary-renamed", property.getPrimaryViewName());        
+    }
+
+    private View getView86279(final MyViewsProperty property) throws IOException {
         View view = new ListView("foo", property);
         property.addView(view);
         property.setPrimaryViewName(view.name);
-        view.rename("primary-renamed");       
-        assertEquals("Property should rename its primary view ", "primary-renamed", property.getPrimaryViewName());        
+        return view;
     }
 
     @Test
