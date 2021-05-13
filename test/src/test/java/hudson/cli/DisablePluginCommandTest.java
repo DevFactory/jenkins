@@ -25,6 +25,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass66855;
+
 import hudson.Functions;
 import hudson.PluginWrapper;
 import org.apache.commons.lang.StringUtils;
@@ -358,9 +360,7 @@ public class DisablePluginCommandTest {
      * @throws IOException if the disablement cannot be made.
      */
     private void disablePlugin(String name) throws IOException {
-        PluginWrapper plugin = j.getPluginManager().getPlugin(name);
-        assertThat(plugin, is(notNullValue()));
-        plugin.disable();
+        ExtractedSeparateClass66855.extractedMethod62121(j, name);
     }
 
     /**
