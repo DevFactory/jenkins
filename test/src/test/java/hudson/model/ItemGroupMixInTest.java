@@ -24,6 +24,8 @@
 
 package hudson.model;
 
+import hudson.model.ExtractedSeparateClass38745;
+
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.WebRequest;
@@ -285,29 +287,7 @@ public class ItemGroupMixInTest {
     JenkinsRule.WebClient wc = r.createWebClient();
     wc.login(CREATOR);
     WebRequest req = new WebRequest(wc.createCrumbedUrl("createItem?name=testProject"), HttpMethod.POST);
-    req.setAdditionalHeader("Content-Type", "application/xml");
-    req.setRequestBody(VALID_XML_BAD_FIELD_USER_XML);
-
-    try {
-      wc.getPage(req);
-      fail("Should have returned failure.");
-    } catch (FailingHttpStatusCodeException e) {
-      // This really shouldn't return 500, but that's what it does now.
-      assertThat(e.getStatusCode(), equalTo(500));
-    }
-
-    OldDataMonitor odm = ExtensionList.lookupSingleton(OldDataMonitor.class);
-    Map<Saveable, OldDataMonitor.VersionRange> data = odm.getData();
-
-    assertThat(data.size(), equalTo(0));
-
-    odm.doDiscard(null, null);
-
-    User.AllUsers.scanAll();
-    boolean createUser = false;
-    User badUser = User.getById("foo", createUser);
-
-    assertNull("Should not have created user.", badUser);
+    ExtractedSeparateClass38745.extractedMethod70223(req, VALID_XML_BAD_FIELD_USER_XML, wc);
   }
 
   private static final String VALID_XML_BAD_FIELD_USER_XML =
