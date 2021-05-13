@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import jenkins.model.ExtractedSeparateClass81877;
+
 import hudson.Functions;
 import hudson.model.ExecutorTest;
 import hudson.model.FreeStyleProject;
@@ -177,11 +179,7 @@ public class DeleteBuildsCommandTest {
 
     @Test public void deleteBuildsManyShouldSuccess() throws Exception {
         FreeStyleProject project = j.createFreeStyleProject("aProject");
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
+        ExtractedSeparateClass81877.extractedMethod9883(j, project);
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(5));
 
         CLICommandInvoker.Result result = command
@@ -243,11 +241,7 @@ public class DeleteBuildsCommandTest {
 
     @Test public void deleteBuildsManyShouldSuccessEvenMiddleBuildDoesNotExist() throws Exception {
         FreeStyleProject project = j.createFreeStyleProject("aProject");
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
+        ExtractedSeparateClass81877.extractedMethod9883(j, project);
         j.buildAndAssertSuccess(project);
         project.getBuildByNumber(2).delete();
         project.getBuildByNumber(5).delete();
@@ -293,11 +287,7 @@ public class DeleteBuildsCommandTest {
 
     @Test public void deleteBuildsManyShouldSuccessEvenTheFirstAndLastBuildDoesNotExist() throws Exception {
         FreeStyleProject project = j.createFreeStyleProject("aProject");
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
+        ExtractedSeparateClass81877.extractedMethod9883(j, project);
         project.getBuildByNumber(1).delete();
         project.getBuildByNumber(3).delete();
         project.getBuildByNumber(5).delete();
