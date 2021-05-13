@@ -24,6 +24,8 @@
 
 package hudson.security;
 
+import java.io.IOException;
+
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.util.Cookie;
@@ -106,9 +108,7 @@ public class HudsonPrivateSecurityRealmTest {
         u1.setFullName("User One");
         u1.save();
 
-        User u2 = securityRealm.createAccount("user2", "password2");
-        u2.setFullName("User Two");
-        u2.save();
+        User u2 = getU226200(securityRealm);
 
         WebClient wc1 = j.createWebClient();
         wc1.login("user1", "password1");
@@ -156,9 +156,7 @@ public class HudsonPrivateSecurityRealmTest {
         u1.save();
         String u1Token = u1.getProperty(ApiTokenProperty.class).getApiToken();
 
-        User u2 = securityRealm.createAccount("user2", "password2");
-        u2.setFullName("User Two");
-        u2.save();
+        User u2 = getU226200(securityRealm);
         String u2Token = u2.getProperty(ApiTokenProperty.class).getApiToken();
 
         WebClient wc1 = j.createWebClient();
@@ -185,6 +183,13 @@ public class HudsonPrivateSecurityRealmTest {
         
         w2 = (XmlPage) wc2.goTo("whoAmI/api/xml", "application/xml");
         assertThat(w2, hasXPath("//name", is("user2")));
+    }
+
+    private User getU226200(final HudsonPrivateSecurityRealm securityRealm) throws IOException {
+        User u2 = securityRealm.createAccount("user2", "password2");
+        u2.setFullName("User Two");
+        u2.save();
+        return u2;
     }
 
 
