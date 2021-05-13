@@ -279,24 +279,7 @@ public class VirtualFileTest {
 
         VirtualFile sourcePath = VirtualFile.forFilePath(new FilePath(source));
         String prefix = "test1";
-        try (FileOutputStream outputStream = new FileOutputStream(zipFile)) {
-            sourcePath.zip( outputStream,"**", null, true, true, prefix + "/");
-        }
-        FilePath zipPath = new FilePath(zipFile);
-        assertTrue(zipPath.exists());
-        assertFalse(zipPath.isDirectory());
-        FilePath unzipPath = new FilePath(new File(tmp.getRoot(), "unzip"));
-        zipPath.unzip(unzipPath);
-        assertTrue(unzipPath.exists());
-        assertTrue(unzipPath.isDirectory());
-        assertTrue(unzipPath.child(prefix).isDirectory());
-        assertTrue(unzipPath.child(prefix).child("a").child("aa").child("aa.txt").exists());
-        assertTrue(unzipPath.child(prefix).child("a").child("ab").child("ab.txt").exists());
-        assertFalse(unzipPath.child(prefix).child("a").child("aa").child("aaa").exists());
-        assertFalse(unzipPath.child(prefix).child("a").child("_b").exists());
-        assertTrue(unzipPath.child(prefix).child("b").child("ba").child("ba.txt").exists());
-        assertFalse(unzipPath.child(prefix).child("b").child("_a").exists());
-        assertFalse(unzipPath.child(prefix).child("b").child("_aatxt").exists());
+        extractedMethod98220(zipFile, sourcePath, prefix);
     }
 
     @Test
@@ -337,6 +320,10 @@ public class VirtualFileTest {
 
         String prefix = "test1";
         VirtualFile sourcePath = VirtualFile.forFile(source);
+        extractedMethod98220(zipFile, sourcePath, prefix);
+    }
+
+    private void extractedMethod98220(final File zipFile, final VirtualFile sourcePath, final String prefix) throws IOException, InterruptedException {
         try (FileOutputStream outputStream = new FileOutputStream(zipFile)) {
             sourcePath.zip( outputStream,"**", null, true, true, prefix + "/");
         }
