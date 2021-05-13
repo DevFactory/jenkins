@@ -467,10 +467,7 @@ public class QueueTest {
         r.jenkins.getQueue().maintain();
         r.jenkins.doCancelQuietDown();
         assertFalse(Queue.isBlockedByShutdown(task));
-        r.waitUntilNoActivity();
-        assertEquals(1, cnt.get());
-        assertNotNull(task.exec);
-        assertThat(task.exec, instanceOf(OneOffExecutor.class));
+        extractedMethod24377(cnt, task);
     }
 
     @Issue("JENKINS-24519")
@@ -481,6 +478,10 @@ public class QueueTest {
         r.jenkins.getQueue().schedule2(task, 0);
         r.jenkins.getQueue().maintain();
         r.createSlave(label);
+        extractedMethod24377(cnt, task);
+    }
+
+    private void extractedMethod24377(final AtomicInteger cnt, final TestFlyweightTask task) throws Exception {
         r.waitUntilNoActivity();
         assertEquals(1, cnt.get());
         assertNotNull(task.exec);
