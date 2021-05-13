@@ -213,9 +213,7 @@ public class PathRemoverTest {
         remover.forceRemoveDirectoryContents(dir.toPath());
 
         assertTrue(dir.exists());
-        assertFalse(d1.exists());
-        assertFalse(d2.exists());
-        assertFalse(f1.exists());
+        extractedMethod46169(d1, d2, f1);
     }
 
     @Test
@@ -233,9 +231,7 @@ public class PathRemoverTest {
         PathRemover remover = PathRemover.newRemoverWithStrategy(retriesAttempted -> retriesAttempted < 1);
         Exception e = assertThrows(IOException.class, () -> remover.forceRemoveDirectoryContents(dir.toPath()));
         assertThat(e.getMessage(), allOf(containsString(dir.getPath()), containsString("Tried 1 time.")));
-        assertFalse(d2.exists());
-        assertFalse(f1.exists());
-        assertFalse(d2f2.exists());
+        extractedMethod46169(d2, f1, d2f2);
     }
 
     @Test
@@ -274,9 +270,13 @@ public class PathRemoverTest {
         assertTrue(dir.exists());
         assertTrue(d1.exists());
         assertTrue(d1f1.exists());
+        extractedMethod46169(d2, d2f2, f1);
+    }
+
+    private void extractedMethod46169(final File d2, final File f1, final File d2f2) {
         assertFalse(d2.exists());
-        assertFalse(d2f2.exists());
         assertFalse(f1.exists());
+        assertFalse(d2f2.exists());
     }
 
     @Test
