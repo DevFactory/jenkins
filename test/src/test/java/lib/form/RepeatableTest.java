@@ -100,9 +100,8 @@ public class RepeatableTest extends HudsonTestCase {
         getHtmlButton(f, buttonCaption, true).click(); // click Add button
         waitForJavaScript(p);
         assertEquals(1, getButtonsList(f, buttonCaption).size()); // check that second Add button is not present
-        getHtmlButton(f, "Delete", true).click(); // click Delete button
-        waitForJavaScript(p);
-        assertEquals(1, getButtonsList(f, buttonCaption).size()); // check that only one Add button is in form
+        extractedMethod64920(f, p, buttonCaption);
+         // check that only one Add button is in form
     }
     
     /**
@@ -118,9 +117,14 @@ public class RepeatableTest extends HudsonTestCase {
         getHtmlButton(f, buttonCaption, true).click(); // click Add button
         waitForJavaScript(p);
         assertEquals(2, getButtonsList(f, buttonCaption).size()); // check that second Add button was added into form
+        extractedMethod64920(f, p, buttonCaption);
+         // check that only one Add button is in form
+    }
+
+    private void extractedMethod64920(final HtmlForm f, final HtmlPage p, final String buttonCaption) throws IOException {
         getHtmlButton(f, "Delete", true).click(); // click Delete button
         waitForJavaScript(p);
-        assertEquals(1, getButtonsList(f, buttonCaption).size()); // check that only one Add button is in form
+        assertEquals(1, getButtonsList(f, buttonCaption).size());
     }
 
     // ========================================================================
