@@ -49,10 +49,7 @@ public class ArgumentListBuilderTest {
         builder.add("arg");
         builder.add("other", "arguments");
 
-        assertFalse("There should not be any masked arguments", builder.hasMaskedArguments());
-        boolean[] array = builder.toMaskArray();
-        assertNotNull("The mask array should not be null", array);
-        assertThat("The mask array was incorrect", array, is(new boolean[] { false, false, false }));
+        extractedMethod50827(builder);
     }
 
     @Test
@@ -197,6 +194,10 @@ public class ArgumentListBuilderTest {
         ArgumentListBuilder builder = new ArgumentListBuilder();
         builder.addKeyValuePairs(null, KEY_VALUES);
 
+        extractedMethod50827(builder);
+    }
+
+    private void extractedMethod50827(final ArgumentListBuilder builder) {
         assertFalse("There should not be any masked arguments", builder.hasMaskedArguments());
         boolean[] array = builder.toMaskArray();
         assertNotNull("The mask array should not be null", array);
