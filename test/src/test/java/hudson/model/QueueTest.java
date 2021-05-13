@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import hudson.ExtractedSeparateClass84999;
+
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.WebRequest;
@@ -895,12 +897,7 @@ public class QueueTest {
     @Test
     public void shouldBeAbleToBlockFlyweightTaskAtTheLastMinute() throws Exception {
         MatrixProject matrixProject = r.jenkins.createProject(MatrixProject.class, "downstream");
-        matrixProject.setDisplayName("downstream");
-        matrixProject.setAxes(new AxisList(
-                new Axis("axis", "a", "b")
-        ));
-
-        Label label = LabelExpression.get("aws-linux-dummy");
+        Label label = ExtractedSeparateClass84999.getLabel66766(matrixProject);
         DummyCloudImpl dummyCloud = new DummyCloudImpl(r, 0);
         dummyCloud.label = label;
         BlockDownstreamProjectExecution property = new BlockDownstreamProjectExecution();

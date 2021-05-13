@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.ExtractedSeparateClass84999;
+
 import hudson.matrix.Axis;
 import hudson.matrix.AxisList;
 import hudson.matrix.MatrixProject;
@@ -99,12 +101,7 @@ public class ListJobsCommandTest {
         FreeStyleProject job2 = folder.createProject(FreeStyleProject.class, "job2");
         MatrixProject matrixProject = folder.createProject(MatrixProject.class, "mp");
 
-        matrixProject.setDisplayName("downstream");
-        matrixProject.setAxes(new AxisList(
-                new Axis("axis", "a", "b")
-        ));
-
-        Label label = LabelExpression.get("aws-linux-dummy");
+        Label label = ExtractedSeparateClass84999.getLabel66766(matrixProject);
         matrixProject.setAssignedLabel(label);
 
         CLICommandInvoker.Result result = command.invokeWithArgs("Folder");
