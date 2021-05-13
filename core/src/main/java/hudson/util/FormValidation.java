@@ -23,6 +23,8 @@
  */
 package hudson.util;
 
+import hudson.util.ExtractedSeparateClass58296;
+
 import hudson.Functions;
 import hudson.Launcher;
 import hudson.ProxyConfiguration;
@@ -479,11 +481,7 @@ public abstract class FormValidation extends IOException implements HttpResponse
          *      true if found, false otherwise.
          */
         protected boolean findText(BufferedReader in, String literal) throws IOException {
-            String line;
-            while((line=in.readLine())!=null)
-                if(line.contains(literal))
-                    return true;
-            return false;
+            return ExtractedSeparateClass58296.isVar87845(in, literal);
         }
 
         /**
