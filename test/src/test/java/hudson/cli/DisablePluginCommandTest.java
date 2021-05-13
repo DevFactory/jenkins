@@ -194,9 +194,7 @@ public class DisablePluginCommandTest {
         assertThat(disablePluginsCLiCommand("-restart", "variant", "dependee", "depender", "plugin-first", "mandatory-depender"), failedWith(RETURN_CODE_NOT_DISABLED_DEPENDANTS));
         assertPluginDisabled("variant");
         assertPluginEnabled("dependee");
-        assertPluginDisabled("depender");
-        assertPluginDisabled("plugin-first");
-        assertPluginDisabled("mandatory-depender");
+        extractedMethod38101();
         assertJenkinsInQuietMode(); // some plugins were disabled, so it should be restarting
     }
 
@@ -213,6 +211,10 @@ public class DisablePluginCommandTest {
         assertThat(disablePluginsCLiCommand("-strategy", "all", "variant", "dependee", "plugin-first"), succeeded());
         assertPluginDisabled("variant");
         assertPluginDisabled("dependee");
+        extractedMethod38101();
+    }
+
+    private void extractedMethod38101() {
         assertPluginDisabled("depender");
         assertPluginDisabled("plugin-first");
         assertPluginDisabled("mandatory-depender");
