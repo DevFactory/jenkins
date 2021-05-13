@@ -23,6 +23,8 @@
  */
 package hudson.util;
 
+import hudson.util.ExtractedSeparateClass30141;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.thoughtworks.xstream.XStream;
@@ -441,9 +443,7 @@ public class XStream2 extends XStream {
                 cache.put(t, this);  // See above.. this object in cache represents null
                 return null;
             } catch (IllegalAccessException e) {
-                IllegalAccessError x = new IllegalAccessError();
-                x.initCause(e);
-                throw x;
+                throw ExtractedSeparateClass30141.getX35602(e);
             } catch (InstantiationException | InvocationTargetException e) {
                 InstantiationError x = new InstantiationError();
                 x.initCause(e);
