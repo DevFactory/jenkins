@@ -228,15 +228,7 @@ public class DefaultCrumbIssuerTest {
         boolean previousValue = DefaultCrumbIssuer.EXCLUDE_SESSION_ID;
 
         try {
-            r.jenkins.setSecurityRealm(r.createDummySecurityRealm());
-
-            // let anonymous user have read access
-            MockAuthorizationStrategy authorizationStrategy = new MockAuthorizationStrategy();
-            authorizationStrategy.grant(Jenkins.ADMINISTER).everywhere().toEveryone();
-            r.jenkins.setAuthorizationStrategy(authorizationStrategy);
-
-            DefaultCrumbIssuer issuer = new DefaultCrumbIssuer(true);
-            r.jenkins.setCrumbIssuer(issuer);
+            extractedMethod22612();
 
             DefaultCrumbIssuer.EXCLUDE_SESSION_ID = true;
             sameCrumbUsedOnDifferentAnonymousRequest_tokenAreEqual(true, "job_noSession");
@@ -311,17 +303,22 @@ public class DefaultCrumbIssuerTest {
 
     @Test
     public void anonCanStillPostRequestUsingBrowsers() throws Exception {
-        r.jenkins.setSecurityRealm(r.createDummySecurityRealm());
-
-        MockAuthorizationStrategy authorizationStrategy = new MockAuthorizationStrategy();
-        authorizationStrategy.grant(Jenkins.ADMINISTER).everywhere().toEveryone();
-        r.jenkins.setAuthorizationStrategy(authorizationStrategy);
-
-        DefaultCrumbIssuer issuer = new DefaultCrumbIssuer(true);
-        r.jenkins.setCrumbIssuer(issuer);
+        extractedMethod22612();
 
         HtmlPage p = r.createWebClient().goTo("configure");
         r.submit(p.getFormByName("config"));
+    }
+
+    private void extractedMethod22612() {
+        r.jenkins.setSecurityRealm(r.createDummySecurityRealm());
+        
+        // let anonymous user have read access
+        MockAuthorizationStrategy authorizationStrategy = new MockAuthorizationStrategy();
+        authorizationStrategy.grant(Jenkins.ADMINISTER).everywhere().toEveryone();
+        r.jenkins.setAuthorizationStrategy(authorizationStrategy);
+        
+        DefaultCrumbIssuer issuer = new DefaultCrumbIssuer(true);
+        r.jenkins.setCrumbIssuer(issuer);
     }
 
     @Test
