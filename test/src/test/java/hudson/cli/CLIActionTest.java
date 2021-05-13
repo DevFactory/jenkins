@@ -71,9 +71,7 @@ public class CLIActionTest {
         ApiTokenTestHelper.enableLegacyBehavior();
         
         logging.record(PlainCLIProtocol.class, Level.FINE);
-        File jar = tmp.newFile("jenkins-cli.jar");
-        FileUtils.copyURLToFile(j.jenkins.getJnlpJars("jenkins-cli.jar").getURL(), jar);
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
+        File jar = getJar65698();
         j.jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy().grant(Jenkins.ADMINISTER).everywhere().to(ADMIN));
         j.createFreeStyleProject("p");
         // CLICommand with @Argument:
@@ -172,9 +170,7 @@ public class CLIActionTest {
     @Issue("SECURITY-754")
     @Test
     public void noPreAuthOptionHandlerInfoLeak() throws Exception {
-        File jar = tmp.newFile("jenkins-cli.jar");
-        FileUtils.copyURLToFile(j.jenkins.getJnlpJars("jenkins-cli.jar").getURL(), jar);
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
+        File jar = getJar65698();
         j.jenkins.addView(new AllView("v1"));
         j.jenkins.addNode(j.createSlave("n1", null, null));
         j.jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy().grant(Jenkins.ADMINISTER).everywhere().to(ADMIN));
@@ -192,6 +188,13 @@ public class CLIActionTest {
         j.jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy().grant(Jenkins.ADMINISTER).everywhere().to(ADMIN).grant(Jenkins.READ, Item.READ).everywhere().toEveryone());
         assertExitCode(6, false, jar, "get-view", "v1");
         assertExitCode(6, false, jar, "get-view", "v2"); // Error code 3 before SECURITY-754
+    }
+
+    private File getJar65698() throws IOException {
+        File jar = tmp.newFile("jenkins-cli.jar");
+        FileUtils.copyURLToFile(j.jenkins.getJnlpJars("jenkins-cli.jar").getURL(), jar);
+        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
+        return jar;
     }
 
     @TestExtension("encodingAndLocale")
