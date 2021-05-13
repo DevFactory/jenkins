@@ -23,6 +23,8 @@
  */
 package jenkins.security.stapler;
 
+import jenkins.security.stapler.ExtractedSeparateClass75946;
+
 import com.gargoylesoftware.htmlunit.Page;
 import hudson.model.UnprotectedRootAction;
 import org.junit.Rule;
@@ -94,11 +96,7 @@ public class CustomRoutingDecisionProviderTest {
     }
     
     private static void replyOk() {
-        StaplerResponse resp = Stapler.getCurrentResponse();
-        try {
-            resp.getWriter().write("ok");
-            resp.flushBuffer();
-        } catch (IOException e) {}
+        ExtractedSeparateClass75946.extractedMethod63812();
     }
     
     @Test
