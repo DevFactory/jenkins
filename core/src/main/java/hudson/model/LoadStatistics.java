@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import hudson.model.ExtractedSeparateClass98293;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Extension;
 import jenkins.util.SystemProperties;
@@ -240,13 +242,7 @@ public abstract class LoadStatistics {
         configureRenderer(renderer);
 
         final CategoryAxis domainAxis = new NoOverlapCategoryAxis(null);
-        plot.setDomainAxis(domainAxis);
-        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_90);
-        domainAxis.setLowerMargin(0.0);
-        domainAxis.setUpperMargin(0.0);
-        domainAxis.setCategoryMargin(0.0);
-
-        final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+        final NumberAxis rangeAxis = ExtractedSeparateClass98293.getRangeAxis92805(plot, domainAxis);
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
         // crop extra space around the graph
