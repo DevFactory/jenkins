@@ -309,11 +309,7 @@ public class ArtifactArchiverTest {
         FreeStyleProject project = j.createFreeStyleProject();
 
         Publisher artifactArchiver = new ArtifactArchiver("**", "", false, false, true, true);
-        project.getPublishersList().replaceBy(Collections.singleton(artifactArchiver));
-        project.getBuildersList().replaceBy(Collections.singleton(new CreateDefaultExcludesArtifact()));
-
-        assertEquals(Result.SUCCESS, build(project)); // #1
-        VirtualFile artifacts = project.getBuildByNumber(1).getArtifactManager().root();
+        VirtualFile artifacts = getArtifacts92241(project, artifactArchiver);
         assertFalse(artifacts.child(".svn").child("file").exists());
         assertFalse(artifacts.child("dir").child(".svn").child("file").exists());
 
@@ -326,13 +322,18 @@ public class ArtifactArchiverTest {
 
         ArtifactArchiver artifactArchiver = new ArtifactArchiver("**");
         artifactArchiver.setDefaultExcludes(false);
-        project.getPublishersList().replaceBy(Collections.singleton(artifactArchiver));
-        project.getBuildersList().replaceBy(Collections.singleton(new CreateDefaultExcludesArtifact()));
-
-        assertEquals(Result.SUCCESS, build(project)); // #1
-        VirtualFile artifacts = project.getBuildByNumber(1).getArtifactManager().root();
+        VirtualFile artifacts = getArtifacts92241(project, artifactArchiver);
         assertTrue(artifacts.child(".svn").child("file").exists());
         assertTrue(artifacts.child("dir").child(".svn").child("file").exists());
+    }
+
+    private VirtualFile getArtifacts92241(final FreeStyleProject project, final Publisher artifactArchiver) throws Exception {
+        project.getPublishersList().replaceBy(Collections.singleton(artifactArchiver));
+        project.getBuildersList().replaceBy(Collections.singleton(new CreateDefaultExcludesArtifact()));
+        
+        assertEquals(Result.SUCCESS, build(project)); // #1
+        VirtualFile artifacts = project.getBuildByNumber(1).getArtifactManager().root();
+        return artifacts;
     }
 
     @LocalData
