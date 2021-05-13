@@ -52,10 +52,7 @@ public class DirectlyModifiableViewTest {
         FreeStyleProject projectA = j.createFreeStyleProject("projectA");
         FreeStyleProject projectB = j.createFreeStyleProject("projectB");
 
-        ListView view = new ListView("a_view", j.jenkins);
-        j.jenkins.addView(view);
-
-        assertFalse(view.contains(projectA));
+        ListView view = getView55542(projectA);
         assertFalse(view.contains(projectB));
 
         view.add(projectA);
@@ -80,10 +77,7 @@ public class DirectlyModifiableViewTest {
     @Test
     public void doAddJobToView() throws Exception {
         FreeStyleProject project = j.createFreeStyleProject("a_project");
-        ListView view = new ListView("a_view", j.jenkins);
-        j.jenkins.addView(view);
-
-        assertFalse(view.contains(project));
+        ListView view = getView55542(project);
 
         Page page = doPost(view, "addJobToView?name=a_project");
         j.assertGoodStatus(page);
@@ -92,6 +86,14 @@ public class DirectlyModifiableViewTest {
         page = doPost(view, "addJobToView?name=a_project");
         j.assertGoodStatus(page);
         assertTrue(view.contains(project));
+    }
+
+    private ListView getView55542(final FreeStyleProject project) throws IOException {
+        ListView view = new ListView("a_view", j.jenkins);
+        j.jenkins.addView(view);
+        
+        assertFalse(view.contains(project));
+        return view;
     }
 
     @Test
