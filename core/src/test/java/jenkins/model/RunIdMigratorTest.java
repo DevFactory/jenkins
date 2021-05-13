@@ -132,28 +132,24 @@ public class RunIdMigratorTest {
         assumeFalse("Symlinks don't work well on Windows", Functions.isWindows());
         File root = dir;
         dir = new File(dir, "jobs/someproject/modules/test$test/builds");
-        write("1/build.xml", "<?xml version='1.0' encoding='UTF-8'?>\n<run>\n  <stuff>ok</stuff>\n  <timestamp>1388649845000</timestamp>\n  <otherstuff>ok</otherstuff>\n</run>");
-        write("legacyIds", "");
-        assertEquals("{1={build.xml='<?xml version='1.0' encoding='UTF-8'?>\n<run>\n  <stuff>ok</stuff>\n  <timestamp>1388649845000</timestamp>\n  <otherstuff>ok</otherstuff>\n</run>'}, legacyIds=''}", summarize());
-        RunIdMigrator.main(root.getAbsolutePath());
-        assertEquals("{1=→2014-01-02_03-04-05, 2014-01-02_03-04-05={build.xml='<?xml version='1.0' encoding='UTF-8'?>\n<run>\n  <stuff>ok</stuff>\n  <number>1</number>\n  <otherstuff>ok</otherstuff>\n</run>'}}", summarize());
+        extractedMethod54482(root);
     }
 
     @Test public void reverseMatrixAfterNewBuilds() throws Exception {
         assumeFalse("Symlinks don't work well on Windows", Functions.isWindows());
         File root = dir;
         dir = new File(dir, "jobs/someproject/Environment=prod/builds");
-        write("1/build.xml", "<?xml version='1.0' encoding='UTF-8'?>\n<run>\n  <stuff>ok</stuff>\n  <timestamp>1388649845000</timestamp>\n  <otherstuff>ok</otherstuff>\n</run>");
-        write("legacyIds", "");
-        assertEquals("{1={build.xml='<?xml version='1.0' encoding='UTF-8'?>\n<run>\n  <stuff>ok</stuff>\n  <timestamp>1388649845000</timestamp>\n  <otherstuff>ok</otherstuff>\n</run>'}, legacyIds=''}", summarize());
-        RunIdMigrator.main(root.getAbsolutePath());
-        assertEquals("{1=→2014-01-02_03-04-05, 2014-01-02_03-04-05={build.xml='<?xml version='1.0' encoding='UTF-8'?>\n<run>\n  <stuff>ok</stuff>\n  <number>1</number>\n  <otherstuff>ok</otherstuff>\n</run>'}}", summarize());
+        extractedMethod54482(root);
     }
 
     @Test public void reverseMavenAfterNewBuilds() throws Exception {
         assumeFalse("Symlinks don't work well on Windows", Functions.isWindows());
         File root = dir;
         dir = new File(dir, "jobs/someproject/test$test/builds");
+        extractedMethod54482(root);
+    }
+
+    private void extractedMethod54482(final File root) throws Exception {
         write("1/build.xml", "<?xml version='1.0' encoding='UTF-8'?>\n<run>\n  <stuff>ok</stuff>\n  <timestamp>1388649845000</timestamp>\n  <otherstuff>ok</otherstuff>\n</run>");
         write("legacyIds", "");
         assertEquals("{1={build.xml='<?xml version='1.0' encoding='UTF-8'?>\n<run>\n  <stuff>ok</stuff>\n  <timestamp>1388649845000</timestamp>\n  <otherstuff>ok</otherstuff>\n</run>'}, legacyIds=''}", summarize());
