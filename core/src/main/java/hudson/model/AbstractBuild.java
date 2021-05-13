@@ -608,20 +608,21 @@ public abstract class AbstractBuild<P extends AbstractProject<P,R>,R extends Abs
             }
 
             for (NodeProperty nodeProperty: Jenkins.get().getGlobalNodeProperties()) {
-                Environment environment = nodeProperty.setUp(AbstractBuild.this, l, listener);
-                if (environment != null) {
-                    buildEnvironments.add(environment);
-                }
+                extractedMethod17170(nodeProperty, l, listener);
             }
 
             for (NodeProperty nodeProperty: currentNode.getNodeProperties()) {
-                Environment environment = nodeProperty.setUp(AbstractBuild.this, l, listener);
-                if (environment != null) {
-                    buildEnvironments.add(environment);
-                }
+                extractedMethod17170(nodeProperty, l, listener);
             }
 
             return l;
+        }
+
+        private void extractedMethod17170(final NodeProperty nodeProperty, final Launcher l, final BuildListener listener) throws IOException, InterruptedException {
+            Environment environment = nodeProperty.setUp(AbstractBuild.this, l, listener);
+            if (environment != null) {
+                buildEnvironments.add(environment);
+            }
         }
 
         public void defaultCheckout() throws IOException, InterruptedException {
