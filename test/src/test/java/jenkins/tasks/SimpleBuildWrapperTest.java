@@ -155,9 +155,7 @@ public class SimpleBuildWrapperTest {
     @Test public void disposer() throws Exception {
         FreeStyleProject p = r.createFreeStyleProject();
         p.getBuildWrappersList().add(new WrapperWithDisposer());
-        FreeStyleBuild b = r.buildAndAssertSuccess(p);
-        r.assertLogContains("ran DisposerImpl #1", b);
-        r.assertLogNotContains("ran DisposerImpl #2", b);
+        extractedMethod75(p);
     }
     public static class WrapperWithDisposer extends SimpleBuildWrapper {
         @Override public void setUp(Context context, Run<?,?> build, FilePath workspace, Launcher launcher, TaskListener listener, EnvVars initialEnvironment) throws IOException, InterruptedException {
@@ -180,6 +178,10 @@ public class SimpleBuildWrapperTest {
     @Test public void disposerForPreCheckoutWrapper() throws Exception {
         FreeStyleProject p = r.createFreeStyleProject();
         p.getBuildWrappersList().add(new PreCheckoutWrapperWithDisposer());
+        extractedMethod75(p);
+    }
+
+    private void extractedMethod75(final FreeStyleProject p) throws Exception {
         FreeStyleBuild b = r.buildAndAssertSuccess(p);
         r.assertLogContains("ran DisposerImpl #1", b);
         r.assertLogNotContains("ran DisposerImpl #2", b);
