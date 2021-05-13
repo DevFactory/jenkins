@@ -122,11 +122,7 @@ public class OfflineNodeCommandTest {
 
     @Test
     public void offlineNodeShouldSucceedOnOfflineNode() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        slave.toComputer().setTemporarilyOffline(true, null);
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
-        assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(true));
-        assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
+        DumbSlave slave = getSlave81407();
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
@@ -196,11 +192,7 @@ public class OfflineNodeCommandTest {
 
     @Test
     public void offlineNodeShouldSucceedOnOfflineNodeWithCause() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        slave.toComputer().setTemporarilyOffline(true, null);
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
-        assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(true));
-        assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
+        DumbSlave slave = getSlave81407();
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
@@ -210,6 +202,15 @@ public class OfflineNodeCommandTest {
         assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(true));
         assertThat(slave.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
         assertThat(((OfflineCause.ByCLI) slave.toComputer().getOfflineCause()).message, equalTo("aCause"));
+    }
+
+    private DumbSlave getSlave81407() throws Exception {
+        DumbSlave slave = j.createSlave("aNode", "", null);
+        slave.toComputer().setTemporarilyOffline(true, null);
+        assertThat(slave.toComputer().isOffline(), equalTo(true));
+        assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(true));
+        assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
+        return slave;
     }
 
     @Test
