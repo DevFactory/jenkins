@@ -1,5 +1,7 @@
 package jenkins.install;
 
+import hudson.security.ExtractedSeparateClass60172;
+
 import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.apache.commons.lang.StringUtils.defaultIfBlank;
 
@@ -380,11 +382,7 @@ public class SetupWizard extends PageDecorator {
             auth = securityRealm.getSecurityComponents().manager2.authenticate(auth);
             SecurityContextHolder.getContext().setAuthentication(auth);
             
-            HttpSession session = req.getSession(false);
-            if (session != null) {
-                // avoid session fixation
-                session.invalidate();
-            }
+            ExtractedSeparateClass60172.extractedMethod64838(req);
             HttpSession newSession = req.getSession(true);
 
             UserSeedProperty userSeed = newUser.getProperty(UserSeedProperty.class);
