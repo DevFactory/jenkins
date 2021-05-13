@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass94054;
+
 import hudson.model.Computer;
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
@@ -254,14 +256,7 @@ public class OfflineNodeCommandTest {
         assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(true));
         assertThat(slave.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
         assertThat(((OfflineCause.ByCLI) slave.toComputer().getOfflineCause()).message, equalTo(null));
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(true));
-
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
+        ExtractedSeparateClass94054.extractedMethod13406(j, project, finish, build);
     }
 
     @Test
@@ -283,14 +278,7 @@ public class OfflineNodeCommandTest {
         assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(true));
         assertThat(slave.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
         assertThat(((OfflineCause.ByCLI) slave.toComputer().getOfflineCause()).message, equalTo("aCause"));
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(true));
-
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
+        ExtractedSeparateClass94054.extractedMethod13406(j, project, finish, build);
     }
 
     @Test

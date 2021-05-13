@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass94054;
+
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
@@ -206,14 +208,7 @@ public class OnlineNodeCommandTest {
             slave.toComputer().waitUntilOnline();
         }
         assertThat(slave.toComputer().isOnline(), equalTo(true));
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(true));
-
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
+        ExtractedSeparateClass94054.extractedMethod13406(j, project, finish, build);
     }
 
     @Test public void onlineNodeManyShouldSucceed() throws Exception {
