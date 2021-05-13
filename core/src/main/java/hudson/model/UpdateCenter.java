@@ -406,22 +406,12 @@ public class UpdateCenter extends AbstractModelObject implements Saveable, OnMas
             }
             if (checkJob != null) {
                 boolean isOffline = false;
-                for (ConnectionStatus status : checkJob.connectionStates.values()) {
-                    if(ConnectionStatus.FAILED.equals(status)) {
-                        isOffline = true;
-                        break;
-                    }
-                }
+                isOffline = isIsOffline86365(checkJob, isOffline);
                 if (isOffline) {
                     // retry connection states if determined to be offline
                     checkJob.run();
                     isOffline = false;
-                    for (ConnectionStatus status : checkJob.connectionStates.values()) {
-                        if(ConnectionStatus.FAILED.equals(status)) {
-                            isOffline = true;
-                            break;
-                        }
-                    }
+                    isOffline = isIsOffline86365(checkJob, isOffline);
                     if(!isOffline) { // also need to download the metadata
                         updateAllSites();
                     }
@@ -434,6 +424,16 @@ public class UpdateCenter extends AbstractModelObject implements Saveable, OnMas
         } catch (Exception e) {
             return HttpResponses.errorJSON(String.format("ERROR: %s", e.getMessage()));
         }
+    }
+
+    private boolean isIsOffline86365(final ConnectionCheckJob checkJob, boolean isOffline) {
+        for (ConnectionStatus status : checkJob.connectionStates.values()) {
+            if(ConnectionStatus.FAILED.equals(status)) {
+                isOffline = true;
+                break;
+            }
+        }
+        return isOffline;
     }
 
     /**
