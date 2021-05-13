@@ -23,6 +23,9 @@
  */
 package hudson.model;
 
+import org.jvnet.hudson.test.JenkinsRule.WebClient;
+import org.xml.sax.SAXException;
+
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.UnexpectedPage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -501,10 +504,7 @@ public class DirectoryBrowserSupportTest {
             Page page = wc.goTo(p.getUrl() + "ws/intermediateFolder/to_secrets2/master.key", null);
             assertThat(page.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_NOT_FOUND));
         }
-        { // to_secrets_goal2 not reachable
-            Page page = wc.goTo(p.getUrl() + "ws/intermediateFolder/to_secrets_goal2/", null);
-            assertThat(page.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_NOT_FOUND));
-        }
+        extractedMethod44063(wc, p);
 
         // pattern search feature
         { // the pattern allow us to search inside the files / folders,
@@ -723,10 +723,7 @@ public class DirectoryBrowserSupportTest {
             Page page = wc.goTo(p.getUrl() + "ws/intermediateFolder/to_secrets2j/master.key", null);
             assertThat(page.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_NOT_FOUND));
         }
-        { // to_secrets_goal2 not reachable
-            Page page = wc.goTo(p.getUrl() + "ws/intermediateFolder/to_secrets_goal2/", null);
-            assertThat(page.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_NOT_FOUND));
-        }
+        extractedMethod44063(wc, p);
 
         // pattern search feature
         { // the pattern allow us to search inside the files / folders,
@@ -766,6 +763,13 @@ public class DirectoryBrowserSupportTest {
 
             List<String> entryNames = getListOfEntriesInDownloadedZip((UnexpectedPage) zipPage);
             assertThat(entryNames, contains("intermediateFolder/public2.key"));
+        }
+    }
+
+    private void extractedMethod44063(final JenkinsRule.WebClient wc, final FreeStyleProject p) throws IOException, SAXException {
+        { // to_secrets_goal2 not reachable
+            Page page = wc.goTo(p.getUrl() + "ws/intermediateFolder/to_secrets_goal2/", null);
+            assertThat(page.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_NOT_FOUND));
         }
     }
 
