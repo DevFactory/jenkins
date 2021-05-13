@@ -269,10 +269,7 @@ public class PasswordTest {
         final HtmlPage configPage = wc.goTo("configure");
         for (DomElement element : configPage.getElementsByTagName("input")) {
             if ("hidden".equals(element.getAttribute("type")) && element.getAttribute("class").contains("complex-password-field")) {
-                final HtmlHiddenInput input = (HtmlHiddenInput) element;
-                // assert that all password fields contain encrypted values after we set plain values
-                assertTrue(input.getValueAttribute().startsWith("{"));
-                assertTrue(input.getValueAttribute().endsWith("}"));
+                extractedMethod2333(element);
             }
         }
 
@@ -386,10 +383,7 @@ public class PasswordTest {
         int i = 0;
         for (DomElement element : configPage.getElementsByTagName("input")) {
             if ("hidden".equals(element.getAttribute("type")) && element.getAttribute("class").contains("complex-password-field")) {
-                final HtmlHiddenInput input = (HtmlHiddenInput) element;
-                // assert that all password fields contain encrypted values after we set plain values
-                assertTrue(input.getValueAttribute().startsWith("{"));
-                assertTrue(input.getValueAttribute().endsWith("}"));
+                extractedMethod2333(element);
                 i++;
             }
         }
@@ -563,10 +557,7 @@ public class PasswordTest {
         final HtmlPage configPage = j.createWebClient().goTo(project.getUrl() + "/configure");
         for (DomElement element : configPage.getElementsByTagName("input")) {
             if ("hidden".equals(element.getAttribute("type")) && element.getAttribute("class").contains("complex-password-field")) {
-                final HtmlHiddenInput input = (HtmlHiddenInput) element;
-                // assert that all password fields contain encrypted values after we set plain values
-                assertTrue(input.getValueAttribute().startsWith("{"));
-                assertTrue(input.getValueAttribute().endsWith("}"));
+                extractedMethod2333(element);
             }
         }
 
@@ -616,10 +607,7 @@ public class PasswordTest {
         HtmlPage htmlPage = wc.goTo(p.getUrl() + "/passwordFields");
         for (DomElement element : htmlPage.getElementsByTagName("input")) {
             if ("hidden".equals(element.getAttribute("type")) && element.getAttribute("class").contains("complex-password-field")) {
-                final HtmlHiddenInput input = (HtmlHiddenInput) element;
-                // assert that all password fields contain encrypted values after we set plain values
-                assertTrue(input.getValueAttribute().startsWith("{"));
-                assertTrue(input.getValueAttribute().endsWith("}"));
+                extractedMethod2333(element);
             }
         }
 
@@ -635,6 +623,13 @@ public class PasswordTest {
                 assertEquals("********", input.getValueAttribute());
             }
         }
+    }
+
+    private void extractedMethod2333(final DomElement element) {
+        final HtmlHiddenInput input = (HtmlHiddenInput) element;
+        // assert that all password fields contain encrypted values after we set plain values
+        assertTrue(input.getValueAttribute().startsWith("{"));
+        assertTrue(input.getValueAttribute().endsWith("}"));
     }
 
     @TestExtension
