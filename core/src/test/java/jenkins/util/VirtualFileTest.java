@@ -218,12 +218,7 @@ public class VirtualFileTest {
 
         File root = tmp.getRoot();
         VirtualFile virtualRoot = VirtualFile.forFile(root);
-        Collection<String> children = virtualRoot.list("**", null, true, true);
-        assertThat(children, containsInAnyOrder(
-                "a/aa/aa.txt",
-                "a/ab/ab.txt",
-                "b/ba/ba.txt"
-        ));
+        extractedMethod79915(virtualRoot);
     }
 
     @Test
@@ -233,6 +228,10 @@ public class VirtualFileTest {
 
         File root = tmp.getRoot();
         VirtualFile virtualRoot = VirtualFile.forFilePath(new FilePath(root));
+        extractedMethod79915(virtualRoot);
+    }
+
+    private void extractedMethod79915(final VirtualFile virtualRoot) throws IOException {
         Collection<String> children = virtualRoot.list("**", null, true, true);
         assertThat(children, containsInAnyOrder(
                 "a/aa/aa.txt",
