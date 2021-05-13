@@ -86,29 +86,28 @@ public class AboutJenkinsTest {
         }
         
         { // admin can access it
-            wc.login(ADMIN);
-            HtmlPage page = wc.goTo("about/");
-            assertEquals(HttpURLConnection.HTTP_OK, page.getWebResponse().getStatusCode());
+            HtmlPage page = getPage81455(wc, ADMIN);
             assertThat(page.getWebResponse().getContentAsString(), containsString("Mavenized dependencies"));
         }
 
         { // manager can access it
-            wc.login(MANAGER);
-            HtmlPage page = wc.goTo("about/");
-            assertEquals(HttpURLConnection.HTTP_OK, page.getWebResponse().getStatusCode());
+            HtmlPage page = getPage81455(wc, MANAGER);
         }
 
         { // readonly can access it
-            wc.login(READONLY);
-            HtmlPage page = wc.goTo("about/");
-            assertEquals(HttpURLConnection.HTTP_OK, page.getWebResponse().getStatusCode());
+            HtmlPage page = getPage81455(wc, READONLY);
         }
 
         { // manager-readonly can access it
-            wc.login(MANAGER_READONLY);
-            HtmlPage page = wc.goTo("about/");
-            assertEquals(HttpURLConnection.HTTP_OK, page.getWebResponse().getStatusCode());
+            HtmlPage page = getPage81455(wc, MANAGER_READONLY);
         }
+    }
+
+    private HtmlPage getPage81455(final JenkinsRule.WebClient wc, final String MANAGER) throws Exception {
+        wc.login(MANAGER);
+        HtmlPage page = wc.goTo("about/");
+        assertEquals(HttpURLConnection.HTTP_OK, page.getWebResponse().getStatusCode());
+        return page;
     }
     
 }
