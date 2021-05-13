@@ -96,10 +96,7 @@ public class DisconnectNodeCommandTest {
         assertThat(slave.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
         assertThat(((OfflineCause.ByCLI) slave.toComputer().getOfflineCause()).message, equalTo(null));
 
-        slave.toComputer().connect(true);
-        slave.toComputer().waitUntilOnline();
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
-        assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
+        extractedMethod37160(slave);
 
         result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
@@ -133,10 +130,7 @@ public class DisconnectNodeCommandTest {
         assertThat(slave.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
         assertThat(((OfflineCause.ByCLI) slave.toComputer().getOfflineCause()).message, equalTo("aCause"));
 
-        slave.toComputer().connect(true);
-        slave.toComputer().waitUntilOnline();
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
-        assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
+        extractedMethod37160(slave);
 
         result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
@@ -153,6 +147,13 @@ public class DisconnectNodeCommandTest {
         assertThat(slave.toComputer().isOffline(), equalTo(true));
         assertThat(slave.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
         assertThat(((OfflineCause.ByCLI) slave.toComputer().getOfflineCause()).message, equalTo("yetAnotherCause"));
+    }
+
+    private void extractedMethod37160(final DumbSlave slave) throws InterruptedException {
+        slave.toComputer().connect(true);
+        slave.toComputer().waitUntilOnline();
+        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
     }
 
     @Test
