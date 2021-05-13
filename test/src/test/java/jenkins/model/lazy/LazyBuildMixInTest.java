@@ -57,10 +57,7 @@ public class LazyBuildMixInTest {
         assertEquals(b2, b3.getPreviousBuild());
         b1.getRunMixIn().createReference().clear();
         b2.delete();
-        FreeStyleBuild b1a = b2.getPreviousBuild();
-        assertNotSame(b1, b1a);
-        assertEquals(1, b1a.getNumber());
-        assertEquals(b3, b1a.getNextBuild());
+        extractedMethod19369(b2, b1, b3);
     }
 
     @Issue("JENKINS-22395")
@@ -79,6 +76,10 @@ public class LazyBuildMixInTest {
         assertEquals(b2, b3.getPreviousBuild());
         b2.delete();
         b1.getRunMixIn().createReference().clear();
+        extractedMethod19369(b2, b1, b3);
+    }
+
+    private void extractedMethod19369(final FreeStyleBuild b2, final FreeStyleBuild b1, final FreeStyleBuild b3) {
         FreeStyleBuild b1a = b2.getPreviousBuild();
         assertNotSame(b1, b1a);
         assertEquals(1, b1a.getNumber());
