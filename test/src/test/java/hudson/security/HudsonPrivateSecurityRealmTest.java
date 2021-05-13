@@ -199,17 +199,7 @@ public class HudsonPrivateSecurityRealmTest {
         HudsonPrivateSecurityRealm securityRealm = new HudsonPrivateSecurityRealm(true, false, null);
         j.jenkins.setSecurityRealm(securityRealm);
         JenkinsRule.WebClient wc = j.createWebClient();
-        SignupPage signup = new SignupPage(wc.goTo("signup"));
-        signup.enterUsername("alice");
-        signup.enterPassword("alice");
-        signup.enterFullName("Alice User");
-        signup.enterEmail("alice@nowhere.com");
-        HtmlPage success = signup.submit(j);
-        assertThat(success.getElementById("main-panel").getTextContent(), containsString("Success"));
-        assertThat(success.getAnchorByHref("/jenkins/user/alice").getTextContent(), containsString("Alice User"));
-
-
-        assertEquals("Alice User", securityRealm.getUser("alice").getDisplayName());
+        extractedMethod71030(wc, securityRealm);
 
     }
 
@@ -608,6 +598,15 @@ public class HudsonPrivateSecurityRealmTest {
         Cookie sessionBefore = wc.getCookieManager().getCookie("JSESSIONID");
         String sessionIdBefore = sessionBefore.getValue();
 
+        extractedMethod71030(wc, securityRealm);
+
+        Cookie sessionAfter = wc.getCookieManager().getCookie("JSESSIONID");
+        String sessionIdAfter = sessionAfter.getValue();
+
+        assertNotEquals(sessionIdAfter, sessionIdBefore);
+    }
+
+    private void extractedMethod71030(final JenkinsRule.WebClient wc, final HudsonPrivateSecurityRealm securityRealm) throws Exception {
         SignupPage signup = new SignupPage(wc.goTo("signup"));
         signup.enterUsername("alice");
         signup.enterPassword("alice");
@@ -616,13 +615,9 @@ public class HudsonPrivateSecurityRealmTest {
         HtmlPage success = signup.submit(j);
         assertThat(success.getElementById("main-panel").getTextContent(), containsString("Success"));
         assertThat(success.getAnchorByHref("/jenkins/user/alice").getTextContent(), containsString("Alice User"));
-
+        
+        
         assertEquals("Alice User", securityRealm.getUser("alice").getDisplayName());
-
-        Cookie sessionAfter = wc.getCookieManager().getCookie("JSESSIONID");
-        String sessionIdAfter = sessionAfter.getValue();
-
-        assertNotEquals(sessionIdAfter, sessionIdBefore);
     }
 
     @Test
