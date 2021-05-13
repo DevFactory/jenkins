@@ -1,5 +1,7 @@
 package jenkins.model;
 
+import hudson.cli.ExtractedSeparateClass20549;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import com.gargoylesoftware.htmlunit.WebResponse;
@@ -92,9 +94,7 @@ public class JenkinsManagePermissionTest {
 
 
     private void assertPluginEnabled(String name) {
-        PluginWrapper plugin = j.getPluginManager().getPlugin(name);
-        assertThat(plugin, is(notNullValue()));
-        assertTrue(plugin.isEnabled());
+        ExtractedSeparateClass20549.extractedMethod78528(j, name);
     }
 
     // End of DisablePluginCommandTest

@@ -25,6 +25,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass20549;
+
 import hudson.Functions;
 import hudson.PluginWrapper;
 import org.apache.commons.lang.StringUtils;
@@ -379,9 +381,7 @@ public class DisablePluginCommandTest {
     }
 
     private void assertPluginEnabled(String name) {
-        PluginWrapper plugin = j.getPluginManager().getPlugin(name);
-        assertThat(plugin, is(notNullValue()));
-        assertTrue(plugin.isEnabled());
+        ExtractedSeparateClass20549.extractedMethod78528(j, name);
     }
 
     private void assertJenkinsInQuietMode() {
