@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result;
+
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
@@ -198,15 +200,7 @@ public class OnlineNodeCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "aNode3");
-        assertThat(result, succeededSilently());
-        if (slave1.toComputer().isConnecting()) {
-            System.out.println("Waiting until aNode1 going online is in progress...");
-            slave1.toComputer().waitUntilOnline();
-        }
-        if (slave2.toComputer().isConnecting()) {
-            System.out.println("Waiting until aNode2 going online is in progress...");
-            slave2.toComputer().waitUntilOnline();
-        }
+        extractedMethod48308(result, slave1, slave2);
         if (slave3.toComputer().isConnecting()) {
             System.out.println("Waiting until aNode3 going online is in progress...");
             slave3.toComputer().waitUntilOnline();
@@ -246,6 +240,12 @@ public class OnlineNodeCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "aNode1");
+        extractedMethod48308(result, slave1, slave2);
+        assertThat(slave1.toComputer().isOnline(), equalTo(true));
+        assertThat(slave2.toComputer().isOnline(), equalTo(true));
+    }
+
+    private void extractedMethod48308(final CLICommandInvoker.Result result, final DumbSlave slave1, final DumbSlave slave2) throws InterruptedException {
         assertThat(result, succeededSilently());
         if (slave1.toComputer().isConnecting()) {
             System.out.println("Waiting until aNode1 going online is in progress...");
@@ -255,8 +255,6 @@ public class OnlineNodeCommandTest {
             System.out.println("Waiting until aNode2 going online is in progress...");
             slave2.toComputer().waitUntilOnline();
         }
-        assertThat(slave1.toComputer().isOnline(), equalTo(true));
-        assertThat(slave2.toComputer().isOnline(), equalTo(true));
     }
 
     @Test public void onlineNodeShouldSucceedOnMaster() throws Exception {
