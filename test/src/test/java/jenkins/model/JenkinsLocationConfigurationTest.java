@@ -68,11 +68,7 @@ public class JenkinsLocationConfigurationTest {
     @Issue("SECURITY-1471")
     public void doNotAcceptNonHttpBasedRootURL_fromUI() throws Exception {
         // in JenkinsRule, the URL is set to the current URL
-        JenkinsLocationConfiguration.getOrDie().setUrl(null);
-
-        JenkinsRule.WebClient wc = j.createWebClient();
-
-        assertNull(JenkinsLocationConfiguration.getOrDie().getUrl());
+        extractedMethod86126();
 
         settingRootURL("javascript:alert(123);//");
 
@@ -93,11 +89,7 @@ public class JenkinsLocationConfigurationTest {
 
         try {
             // in JenkinsRule, the URL is set to the current URL
-            JenkinsLocationConfiguration.getOrDie().setUrl(null);
-
-            JenkinsRule.WebClient wc = j.createWebClient();
-
-            assertNull(JenkinsLocationConfiguration.getOrDie().getUrl());
+            extractedMethod86126();
 
             String expectedUrl = "weirdSchema:somethingAlsoWeird";
             settingRootURL(expectedUrl);
@@ -113,6 +105,14 @@ public class JenkinsLocationConfigurationTest {
         finally {
             JenkinsLocationConfiguration.DISABLE_URL_VALIDATION = previousValue;
         }
+    }
+
+    private void extractedMethod86126() {
+        JenkinsLocationConfiguration.getOrDie().setUrl(null);
+        
+        JenkinsRule.WebClient wc = j.createWebClient();
+        
+        assertNull(JenkinsLocationConfiguration.getOrDie().getUrl());
     }
 
     @Test
