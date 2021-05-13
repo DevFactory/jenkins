@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import java.io.IOException;
+
 import hudson.model.DirectlyModifiableView;
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
@@ -48,12 +50,7 @@ public class RemoveJobFromViewCommandTest extends ViewManipulationTestBase {
 
     @Test public void removeJobShouldSucceed() throws Exception {
 
-        j.jenkins.addView(new ListView("aView"));
-        FreeStyleProject project = j.createFreeStyleProject("aProject");
-        ((DirectlyModifiableView) j.jenkins.getView("aView")).add(project);
-
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(1));
-        assertThat(j.jenkins.getView("aView").contains(project), equalTo(true));
+        FreeStyleProject project = getProject39392();
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
@@ -88,12 +85,7 @@ public class RemoveJobFromViewCommandTest extends ViewManipulationTestBase {
 
     @Test public void removeJobManyShouldSucceedEvenAJobIsSpecifiedTwice() throws Exception {
 
-        j.jenkins.addView(new ListView("aView"));
-        FreeStyleProject project = j.createFreeStyleProject("aProject");
-        ((DirectlyModifiableView) j.jenkins.getView("aView")).add(project);
-
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(1));
-        assertThat(j.jenkins.getView("aView").contains(project), equalTo(true));
+        FreeStyleProject project = getProject39392();
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
@@ -102,6 +94,16 @@ public class RemoveJobFromViewCommandTest extends ViewManipulationTestBase {
         assertThat(result, succeededSilently());
         assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
         assertThat(j.jenkins.getView("aView").contains(project), equalTo(false));
+    }
+
+    private FreeStyleProject getProject39392() throws IOException {
+        j.jenkins.addView(new ListView("aView"));
+        FreeStyleProject project = j.createFreeStyleProject("aProject");
+        ((DirectlyModifiableView) j.jenkins.getView("aView")).add(project);
+        
+        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(1));
+        assertThat(j.jenkins.getView("aView").contains(project), equalTo(true));
+        return project;
     }
 
 }
