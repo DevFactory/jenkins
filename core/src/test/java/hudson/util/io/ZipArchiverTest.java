@@ -69,13 +69,7 @@ public class ZipArchiverTest {
         } catch (Exception e) {
             fail("exception driving ZipArchiver", e);
         } finally {
-            if (archiver != null) {
-                try {
-                    archiver.close();
-                } catch (IOException e) {
-                    // ignored
-                }
-            }
+            extractedMethod2467(archiver);
         }
 
         // examine zip contents and assert that none of the entry names (paths) have
@@ -122,13 +116,7 @@ public class ZipArchiverTest {
         } catch (Exception e) {
             fail("exception driving ZipArchiver", e);
         } finally {
-            if (archiver != null) {
-                try {
-                    archiver.close();
-                } catch (IOException e) {
-                    // ignored
-                }
-            }
+            extractedMethod2467(archiver);
         }
 
         // examine zip contents and assert that there's an item there...
@@ -142,6 +130,16 @@ public class ZipArchiverTest {
         }
 
         assertEquals("huge64bitFileTest.txt", zipEntryName);
+    }
+
+    private void extractedMethod2467(final ZipArchiver archiver) {
+        if (archiver != null) {
+            try {
+                archiver.close();
+            } catch (IOException e) {
+                // ignored
+            }
+        }
     }
 
     /**
