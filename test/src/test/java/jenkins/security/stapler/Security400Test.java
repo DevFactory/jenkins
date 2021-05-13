@@ -297,12 +297,7 @@ public class Security400Test {
             futureBuild.waitForStart();
 
             WebRequest request = new WebRequest(new URL(j.getURL() + "computers/0/executors/0/stopBuild"), HttpMethod.POST);
-            Page page = wc.getPage(request);
-            assertEquals(404, page.getWebResponse().getStatusCode());
-            assertRequestWasNotBlocked();
-
-            // let the build finish quickly (if not interrupted already)
-            semaphore.release(1);
+            extractedMethod65945(wc, request, semaphore);
 
             j.assertBuildStatus(Result.FAILURE, futureBuild);
             assertEquals(3, atomicResult.get()); // interrupted
@@ -318,12 +313,7 @@ public class Security400Test {
             String runExtId = URLEncoder.encode(build.getExternalizableId(), "UTF-8");
 
             WebRequest request = new WebRequest(new URL(j.getURL() + "computers/0/executors/0/stopBuild?runExtId=" + runExtId), HttpMethod.POST);
-            Page page = wc.getPage(request);
-            assertEquals(404, page.getWebResponse().getStatusCode());
-            assertRequestWasNotBlocked();
-
-            // let the build finish quickly (if not interrupted already)
-            semaphore.release(1);
+            extractedMethod65945(wc, request, semaphore);
 
             j.assertBuildStatus(Result.FAILURE, futureBuild);
             assertEquals(3, atomicResult.get()); // interrupted
@@ -338,12 +328,7 @@ public class Security400Test {
             futureBuild.waitForStart();
 
             WebRequest request = new WebRequest(new URL(j.getURL() + "computers/0/executors/0/stopBuild?runExtId=whatever"), HttpMethod.POST);
-            Page page = wc.getPage(request);
-            assertEquals(404, page.getWebResponse().getStatusCode());
-            assertRequestWasNotBlocked();
-
-            // let the build finishes
-            semaphore.release(1);
+            extractedMethod65945(wc, request, semaphore);
 
             j.assertBuildStatus(Result.SUCCESS, futureBuild);
             assertEquals(1, atomicResult.get());
@@ -360,6 +345,15 @@ public class Security400Test {
         j.assertBuildStatus(Result.SUCCESS, futureBuild); // CAP AL
         assertEquals(1, atomicResult.get()); // CAP AL
     } // CAP AL
+
+    private void extractedMethod65945(final JenkinsRule.WebClient wc, final WebRequest request, final Semaphore semaphore) throws IOException {
+        Page page = wc.getPage(request);
+        assertEquals(404, page.getWebResponse().getStatusCode());
+        assertRequestWasNotBlocked();
+        
+        // let the build finishes
+        semaphore.release(1);
+    }
 
     @Test
     @Issue("SECURITY-404")
