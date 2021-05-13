@@ -194,11 +194,7 @@ public class ResourceDomainTest {
         a.grant(Item.READ, Item.WORKSPACE).onItems(project).toEveryone();
         j.jenkins.setAuthorizationStrategy(a);
 
-        j.buildAndAssertSuccess(project);
-
-        JenkinsRule.WebClient webClient = j.createWebClient();
-        webClient.setThrowExceptionOnFailingStatusCode(false);
-        webClient.setRedirectEnabled(true);
+        JenkinsRule.WebClient webClient = getWebClient35352(project);
 
         // basics work
         HtmlPage page = webClient.getPage(project, "ws/file.html");
@@ -239,11 +235,7 @@ public class ResourceDomainTest {
         a.grant(Jenkins.READ, Item.READ, Item.WORKSPACE).everywhere().toEveryone();
         j.jenkins.setAuthorizationStrategy(a);
 
-        j.buildAndAssertSuccess(project);
-
-        JenkinsRule.WebClient webClient = j.createWebClient();
-        webClient.setThrowExceptionOnFailingStatusCode(false);
-        webClient.setRedirectEnabled(true);
+        JenkinsRule.WebClient webClient = getWebClient35352(project);
 
         HtmlPage page = webClient.getPage(project, "ws/file.html");
         Assert.assertEquals("page is found", 200, page.getWebResponse().getStatusCode());
@@ -322,11 +314,7 @@ public class ResourceDomainTest {
         project.getBuildersList().add(new CreateFileBuilder("This has spaces and is 100% evil.html", "<html><body>the content</body></html>"));
         project.save();
 
-        j.buildAndAssertSuccess(project);
-
-        JenkinsRule.WebClient webClient = j.createWebClient();
-        webClient.setThrowExceptionOnFailingStatusCode(false);
-        webClient.setRedirectEnabled(true);
+        JenkinsRule.WebClient webClient = getWebClient35352(project);
 
         HtmlPage page = webClient.getPage(project, "ws/This%20has%20spaces%20and%20is%20100%25%20evil.html");
         Assert.assertEquals("page is found", 200, page.getWebResponse().getStatusCode());
@@ -334,6 +322,15 @@ public class ResourceDomainTest {
 
         URL url = page.getUrl();
         Assert.assertTrue("page is served by resource domain", url.toString().contains("/static-files/"));
+    }
+
+    private JenkinsRule.WebClient getWebClient35352(final FreeStyleProject project) throws Exception {
+        j.buildAndAssertSuccess(project);
+        
+        JenkinsRule.WebClient webClient = j.createWebClient();
+        webClient.setThrowExceptionOnFailingStatusCode(false);
+        webClient.setRedirectEnabled(true);
+        return webClient;
     }
 
     @Test
