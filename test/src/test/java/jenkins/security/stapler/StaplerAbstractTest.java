@@ -23,6 +23,8 @@
  */
 package jenkins.security.stapler;
 
+import jenkins.security.stapler.ExtractedSeparateClass75946;
+
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.Page;
@@ -129,11 +131,7 @@ public abstract class StaplerAbstractTest {
     //================================= utility methods =================================
     
     protected static void replyOk() {
-        StaplerResponse resp = Stapler.getCurrentResponse();
-        try {
-            resp.getWriter().write("ok");
-            resp.flushBuffer();
-        } catch (IOException e) {}
+        ExtractedSeparateClass75946.extractedMethod63812();
     }
     
     //================================= testing methods =================================
