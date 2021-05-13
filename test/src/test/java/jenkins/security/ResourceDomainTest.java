@@ -192,9 +192,7 @@ public class ResourceDomainTest {
         project.save();
 
         // setup: Everyone has permission to Jenkins and the job
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
-        MockAuthorizationStrategy a = new MockAuthorizationStrategy();
-        a.grant(Jenkins.READ).everywhere().toEveryone();
+        MockAuthorizationStrategy a = getA28905();
         a.grant(Item.READ, Item.WORKSPACE).onItems(project).toEveryone();
         j.jenkins.setAuthorizationStrategy(a);
 
@@ -290,9 +288,7 @@ public class ResourceDomainTest {
 
     @Test
     public void testColonUserName() throws Exception {
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
-        MockAuthorizationStrategy a = new MockAuthorizationStrategy();
-        a.grant(Jenkins.READ).everywhere().toEveryone();
+        MockAuthorizationStrategy a = getA28905();
         j.jenkins.setAuthorizationStrategy(a);
 
         JenkinsRule.WebClient webClient = j.createWebClient();
@@ -305,6 +301,13 @@ public class ResourceDomainTest {
         Assert.assertNull("no CSP headers", page.getWebResponse().getResponseHeaderValue("Content-Security-Policy"));
         Assert.assertTrue("Served from resource domain", resourceResponseUrl.contains(RESOURCE_DOMAIN));
         Assert.assertTrue("Served from resource action", resourceResponseUrl.contains("static-files"));
+    }
+
+    private MockAuthorizationStrategy getA28905() {
+        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
+        MockAuthorizationStrategy a = new MockAuthorizationStrategy();
+        a.grant(Jenkins.READ).everywhere().toEveryone();
+        return a;
     }
 
     @Test
