@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -72,11 +74,7 @@ public class DisplayNameTest {
         final String projectName = "projectName";
         final String newProjectName = "newProjectName";
         FreeStyleProject project = j.createFreeStyleProject(projectName);
-        assertEquals(projectName, project.getDisplayName());
-
-        AbstractProject newProject = Jenkins.get().copy((AbstractProject)project, newProjectName);
-        assertEquals(newProjectName, newProject.getName());
-        assertEquals(newProjectName, newProject.getDisplayName());
+        extractedMethod56438(projectName, project, newProjectName);
     }
     
     @SuppressWarnings("rawtypes")
@@ -87,12 +85,16 @@ public class DisplayNameTest {
         final String oldDisplayName = "oldDisplayName";
         FreeStyleProject project = j.createFreeStyleProject(projectName);
         project.setDisplayName(oldDisplayName);
-        assertEquals(oldDisplayName, project.getDisplayName());
+        extractedMethod56438(oldDisplayName, project, newProjectName);
+        
+    }
 
+    private void extractedMethod56438(final String oldDisplayName, final FreeStyleProject project, final String newProjectName) throws IOException {
+        assertEquals(oldDisplayName, project.getDisplayName());
+        
         AbstractProject newProject = Jenkins.get().copy((AbstractProject)project, newProjectName);
         assertEquals(newProjectName, newProject.getName());
         assertEquals(newProjectName, newProject.getDisplayName());
-        
     }
 
     @Issue("JENKINS-18074")
