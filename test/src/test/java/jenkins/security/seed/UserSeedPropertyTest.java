@@ -85,9 +85,7 @@ public class UserSeedPropertyTest {
             seeds.add(userSeed.getSeed());
         }
 
-        assertThat(seeds.size(), equalTo(times));
-        assertFalse(seeds.contains(""));
-        assertFalse(seeds.contains(null));
+        extractedMethod20488(seeds, times);
     }
 
     @Test
@@ -103,6 +101,10 @@ public class UserSeedPropertyTest {
             alice.delete();
         }
 
+        extractedMethod20488(seeds, times);
+    }
+
+    private void extractedMethod20488(final Set<String> seeds, final int times) {
         assertThat(seeds.size(), equalTo(times));
         assertFalse(seeds.contains(""));
         assertFalse(seeds.contains(null));
