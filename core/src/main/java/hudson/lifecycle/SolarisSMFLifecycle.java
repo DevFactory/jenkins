@@ -23,6 +23,8 @@
  */
 package hudson.lifecycle;
 
+import hudson.ExtractedSeparateClass94655;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jenkins.model.Jenkins;
 
@@ -42,14 +44,7 @@ public class SolarisSMFLifecycle extends Lifecycle {
     @Override
     @SuppressFBWarnings(value = "DM_EXIT", justification = "Exit is really intended.")
     public void restart() throws IOException, InterruptedException {
-        Jenkins jenkins = Jenkins.getInstanceOrNull(); // guard against repeated concurrent calls to restart
-        try {
-            if (jenkins != null) {
-                jenkins.cleanUp();
-            }
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Failed to clean up. Restart will continue.", e);
-        }
+        ExtractedSeparateClass94655.extractedMethod14973(LOGGER);
         System.exit(0);
     }
 

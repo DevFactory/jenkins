@@ -23,6 +23,8 @@
  */
 package hudson.lifecycle;
 
+import hudson.ExtractedSeparateClass94655;
+
 import hudson.FilePath;
 import hudson.Launcher.LocalLauncher;
 import hudson.Util;
@@ -117,14 +119,7 @@ public class WindowsServiceLifecycle extends Lifecycle {
 
     @Override
     public void restart() throws IOException, InterruptedException {
-        Jenkins jenkins = Jenkins.getInstanceOrNull();
-        try {
-            if (jenkins != null) {
-                jenkins.cleanUp();
-            }
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Failed to clean up. Restart will continue.", e);
-        }
+        ExtractedSeparateClass94655.extractedMethod14973(LOGGER);
 
         File me = getHudsonWar();
         File home = me.getParentFile();
