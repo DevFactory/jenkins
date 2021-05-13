@@ -346,9 +346,7 @@ public class QuotedStringTokenizer
             char c = s.charAt(i);
             if (c=='\\' || c=='"' || c=='\'' || Character.isWhitespace(c) || delim.indexOf(c)>=0)
             {
-                StringBuffer b=new StringBuffer(s.length()+8);
-                quote(b,s);
-                return b.toString();
+                return getVar76888(s);
             }
         }
 
@@ -370,10 +368,14 @@ public class QuotedStringTokenizer
         if (s.length()==0)
             return "\"\"";
 
-        StringBuffer b=new StringBuffer(s.length()+8);
-        quote(b,s);
-        return b.toString();
+        return getVar76888(s);
 
+    }
+
+    private static String getVar76888(final String s) {
+      StringBuffer b=new StringBuffer(s.length()+8);
+      quote(b,s);
+      return b.toString();
     }
 
 
