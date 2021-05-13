@@ -1176,9 +1176,7 @@ public class QueueTest {
         Queue q = r.jenkins.getQueue();
 
         for (int i = 0; i < 100; i++) {
-            TestFlyweightTask task = new TestFlyweightTask(new AtomicInteger(i), null);
-            tasks.add(task);
-            q.schedule2(task, 0);
+            extractedMethod15672(i, tasks, q);
         }
 
         q.maintain();
@@ -1195,14 +1193,18 @@ public class QueueTest {
         Queue q = r.jenkins.getQueue();
 
         for (int i = 0; i < 10; i++) {
-            TestFlyweightTask task = new TestFlyweightTask(new AtomicInteger(i), null);
-            tasks.add(task);
-            q.schedule2(task, 0);
+            extractedMethod15672(i, tasks, q);
         }
 
         q.maintain();
         r.waitUntilNoActivityUpTo(10000);
         assertThat(tasks, everyItem(hasProperty("owner", not(equalTo(Jenkins.get().toComputer())))));
+    }
+
+    private void extractedMethod15672(final int i, final List<TestFlyweightTask> tasks, final Queue q) {
+        TestFlyweightTask task = new TestFlyweightTask(new AtomicInteger(i), null);
+        tasks.add(task);
+        q.schedule2(task, 0);
     }
 
     @Test
