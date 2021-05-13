@@ -24,6 +24,8 @@
 
 package hudson.diagnosis;
 
+import hudson.model.Actionable;
+
 import hudson.XmlFile;
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
@@ -75,9 +77,7 @@ public class OldDataMonitorTest {
             System.err.println(entry.getValue().extra);
         }
         */
-        assertEquals(Collections.singleton(p), odm.getData().keySet());
-        odm.doDiscard(null, null);
-        assertEquals(Collections.emptySet(), odm.getData().keySet());
+        extractedMethod556(p, odm);
         // did not manage to save p, but at least we are not holding onto a reference to it anymore
     }
 
@@ -152,10 +152,14 @@ public class OldDataMonitorTest {
         p.delete();
         OldDataMonitor.report(build, (String) null);
 
+        extractedMethod556(build, odm);
+
+    }
+
+    private void extractedMethod556(final Actionable build, final OldDataMonitor odm) {
         assertEquals(Collections.singleton(build), odm.getData().keySet());
         odm.doDiscard(null, null);
         assertEquals(Collections.emptySet(), odm.getData().keySet());
-
     }
 
     public static final class BadAction extends InvisibleAction {
