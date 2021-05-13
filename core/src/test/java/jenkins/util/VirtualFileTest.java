@@ -253,13 +253,7 @@ public class VirtualFileTest {
         try (FileOutputStream outputStream = new FileOutputStream(zipFile)) {
             sourcePath.zip( outputStream,"**", null, true, true, "");
         }
-        FilePath zipPath = new FilePath(zipFile);
-        assertTrue(zipPath.exists());
-        assertFalse(zipPath.isDirectory());
-        FilePath unzipPath = new FilePath(new File(tmp.getRoot(), "unzip"));
-        zipPath.unzip(unzipPath);
-        assertTrue(unzipPath.exists());
-        assertTrue(unzipPath.isDirectory());
+        FilePath unzipPath = getUnzipPath22635(zipFile);
         assertTrue(unzipPath.child("a").child("aa").child("aa.txt").exists());
         assertTrue(unzipPath.child("a").child("ab").child("ab.txt").exists());
         assertFalse(unzipPath.child("a").child("aa").child("aaa").exists());
@@ -282,13 +276,7 @@ public class VirtualFileTest {
         try (FileOutputStream outputStream = new FileOutputStream(zipFile)) {
             sourcePath.zip( outputStream,"**", null, true, true, prefix + "/");
         }
-        FilePath zipPath = new FilePath(zipFile);
-        assertTrue(zipPath.exists());
-        assertFalse(zipPath.isDirectory());
-        FilePath unzipPath = new FilePath(new File(tmp.getRoot(), "unzip"));
-        zipPath.unzip(unzipPath);
-        assertTrue(unzipPath.exists());
-        assertTrue(unzipPath.isDirectory());
+        FilePath unzipPath = getUnzipPath22635(zipFile);
         assertTrue(unzipPath.child(prefix).isDirectory());
         assertTrue(unzipPath.child(prefix).child("a").child("aa").child("aa.txt").exists());
         assertTrue(unzipPath.child(prefix).child("a").child("ab").child("ab.txt").exists());
@@ -311,13 +299,7 @@ public class VirtualFileTest {
         try (FileOutputStream outputStream = new FileOutputStream(zipFile)) {
             sourcePath.zip( outputStream,"**", null, true, true, "");
         }
-        FilePath zipPath = new FilePath(zipFile);
-        assertTrue(zipPath.exists());
-        assertFalse(zipPath.isDirectory());
-        FilePath unzipPath = new FilePath(new File(tmp.getRoot(), "unzip"));
-        zipPath.unzip(unzipPath);
-        assertTrue(unzipPath.exists());
-        assertTrue(unzipPath.isDirectory());
+        FilePath unzipPath = getUnzipPath22635(zipFile);
         assertTrue(unzipPath.child("a").child("aa").child("aa.txt").exists());
         assertTrue(unzipPath.child("a").child("ab").child("ab.txt").exists());
         assertFalse(unzipPath.child("a").child("aa").child("aaa").exists());
@@ -340,13 +322,7 @@ public class VirtualFileTest {
         try (FileOutputStream outputStream = new FileOutputStream(zipFile)) {
             sourcePath.zip( outputStream,"**", null, true, true, prefix + "/");
         }
-        FilePath zipPath = new FilePath(zipFile);
-        assertTrue(zipPath.exists());
-        assertFalse(zipPath.isDirectory());
-        FilePath unzipPath = new FilePath(new File(tmp.getRoot(), "unzip"));
-        zipPath.unzip(unzipPath);
-        assertTrue(unzipPath.exists());
-        assertTrue(unzipPath.isDirectory());
+        FilePath unzipPath = getUnzipPath22635(zipFile);
         assertTrue(unzipPath.child(prefix).isDirectory());
         assertTrue(unzipPath.child(prefix).child("a").child("aa").child("aa.txt").exists());
         assertTrue(unzipPath.child(prefix).child("a").child("ab").child("ab.txt").exists());
@@ -355,6 +331,17 @@ public class VirtualFileTest {
         assertTrue(unzipPath.child(prefix).child("b").child("ba").child("ba.txt").exists());
         assertFalse(unzipPath.child(prefix).child("b").child("_a").exists());
         assertFalse(unzipPath.child(prefix).child("b").child("_aatxt").exists());
+    }
+
+    private FilePath getUnzipPath22635(final File zipFile) throws IOException, InterruptedException {
+        FilePath zipPath = new FilePath(zipFile);
+        assertTrue(zipPath.exists());
+        assertFalse(zipPath.isDirectory());
+        FilePath unzipPath = new FilePath(new File(tmp.getRoot(), "unzip"));
+        zipPath.unzip(unzipPath);
+        assertTrue(unzipPath.exists());
+        assertTrue(unzipPath.isDirectory());
+        return unzipPath;
     }
 
     @Issue("JENKINS-26810")
