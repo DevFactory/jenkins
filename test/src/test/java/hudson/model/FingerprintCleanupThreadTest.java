@@ -145,9 +145,7 @@ public class FingerprintCleanupThreadTest {
         fingerprint.save();
         assertThat(Fingerprint.load(fingerprintId), is(not(nullValue())));
 
-        FingerprintCleanupThread cleanupThread = new FingerprintCleanupThread();
-        cleanupThread.execute(testTaskListener);
-        assertThat(Fingerprint.load(fingerprintId), is(nullValue()));
+        extractedMethod59884(testTaskListener, fingerprintId);
     }
 
     @Test
@@ -164,11 +162,15 @@ public class FingerprintCleanupThreadTest {
         assertThat(Fingerprint.load(localFingerprintId), is(not(nullValue())));
         assertThat(Fingerprint.load(externalFingerprintId), is(not(nullValue())));
 
+        extractedMethod59884(testTaskListener, localFingerprintId);
+        assertThat(Fingerprint.load(externalFingerprintId), is(nullValue()));
+    }
+
+    private void extractedMethod59884(final TestTaskListener testTaskListener, final String localFingerprintId) throws IOException {
         FingerprintCleanupThread cleanupThread = new FingerprintCleanupThread();
         cleanupThread.execute(testTaskListener);
-
+        
         assertThat(Fingerprint.load(localFingerprintId), is(nullValue()));
-        assertThat(Fingerprint.load(externalFingerprintId), is(nullValue()));
     }
 
     @Test
