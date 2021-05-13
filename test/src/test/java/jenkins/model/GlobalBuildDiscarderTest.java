@@ -1,5 +1,7 @@
 package jenkins.model;
 
+import jenkins.model.ExtractedSeparateClass81834;
+
 import hudson.ExtensionList;
 import hudson.model.FreeStyleProject;
 import hudson.model.Run;
@@ -89,12 +91,7 @@ public class GlobalBuildDiscarderTest {
 
         { // job and global build discarder
             FreeStyleProject p1 = j.createFreeStyleProject();
-            j.buildAndAssertSuccess(p1);
-            j.buildAndAssertSuccess(p1);
-            j.buildAndAssertSuccess(p1);
-            j.buildAndAssertSuccess(p1);
-            j.buildAndAssertSuccess(p1);
-            j.buildAndAssertSuccess(p1);
+            ExtractedSeparateClass81834.extractedMethod95206(j, p1);
             j.buildAndAssertSuccess(p1);
             Assert.assertArrayEquals("job with 5 builds", p1.getBuilds().stream().mapToInt(Run::getNumber).toArray(), new int[]{7,6,5,4,3,2,1});
             p1.setBuildDiscarder(new LogRotator(null, "5", null, null));

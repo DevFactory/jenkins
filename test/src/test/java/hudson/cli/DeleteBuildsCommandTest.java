@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import jenkins.model.ExtractedSeparateClass81834;
+
 import hudson.Functions;
 import hudson.model.ExecutorTest;
 import hudson.model.FreeStyleProject;
@@ -243,12 +245,7 @@ public class DeleteBuildsCommandTest {
 
     @Test public void deleteBuildsManyShouldSuccessEvenMiddleBuildDoesNotExist() throws Exception {
         FreeStyleProject project = j.createFreeStyleProject("aProject");
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
+        ExtractedSeparateClass81834.extractedMethod95206(j, project);
         project.getBuildByNumber(2).delete();
         project.getBuildByNumber(5).delete();
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(4));
