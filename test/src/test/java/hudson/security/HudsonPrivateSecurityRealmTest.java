@@ -568,18 +568,16 @@ public class HudsonPrivateSecurityRealmTest {
     }
     
     private void checkUserCannotBeCreatedWith(HudsonPrivateSecurityRealm securityRealm, String id, String password, String fullName, String email) throws Exception {
-        JenkinsRule.WebClient wc = j.createWebClient();
-        SignupPage signup = new SignupPage(wc.goTo("signup"));
-        signup.enterUsername(id);
-        signup.enterPassword(password);
-        signup.enterFullName(fullName);
-        signup.enterEmail(email);
-        HtmlPage success = signup.submit(j);
-        assertThat(success.getElementById("main-panel").getTextContent(), not(containsString("Success")));
+        HtmlPage success = getSuccess26703(id, password, fullName, email);
         assertThat(success.getElementById("main-panel").getTextContent(), containsString(Messages.HudsonPrivateSecurityRealm_CreateAccount_UserNameInvalidCharacters()));
     }
     
     private void checkUserCannotBeCreatedWith_custom(HudsonPrivateSecurityRealm securityRealm, String id, String password, String fullName, String email, String regex) throws Exception {
+        HtmlPage success = getSuccess26703(id, password, fullName, email);
+        assertThat(success.getElementById("main-panel").getTextContent(), containsString(regex));
+    }
+
+    private HtmlPage getSuccess26703(final String id, final String password, final String fullName, final String email) throws Exception {
         JenkinsRule.WebClient wc = j.createWebClient();
         SignupPage signup = new SignupPage(wc.goTo("signup"));
         signup.enterUsername(id);
@@ -588,7 +586,7 @@ public class HudsonPrivateSecurityRealmTest {
         signup.enterEmail(email);
         HtmlPage success = signup.submit(j);
         assertThat(success.getElementById("main-panel").getTextContent(), not(containsString("Success")));
-        assertThat(success.getElementById("main-panel").getTextContent(), containsString(regex));
+        return success;
     }
 
     @Test
