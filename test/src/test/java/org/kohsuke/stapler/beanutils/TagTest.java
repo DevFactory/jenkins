@@ -1,5 +1,8 @@
 package org.kohsuke.stapler.beanutils;
 
+import java.io.IOException;
+import org.xml.sax.SAXException;
+
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import hudson.model.InvisibleAction;
 import hudson.model.RootAction;
@@ -105,10 +108,7 @@ public class TagTest {
             }
         }
         { // Groovy views
-            {
-                final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyLibInclude");
-                assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
-            }
+            extractedMethod18463(wc);
             {
                 final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyLibWithClassInclude");
                 assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
@@ -152,10 +152,7 @@ public class TagTest {
                 }
             }
             { // Groovy views
-                {
-                    final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyLibInclude");
-                    assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
-                }
+                extractedMethod18463(wc);
                 {
                     final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyLibWithClassInclude");
                     assertThat(page.getWebResponse().getStatusCode(), is(500)); // the error we're preventing
@@ -179,6 +176,13 @@ public class TagTest {
             }
         } finally {
             StaplerTagLibrary.DISABLE_INCLUDE_TAG_CLASS_ATTRIBUTE_REWRITING = false;
+        }
+    }
+
+    private void extractedMethod18463(final JenkinsRule.WebClient wc) throws IOException, SAXException {
+        {
+            final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyLibInclude");
+            assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
         }
     }
 
