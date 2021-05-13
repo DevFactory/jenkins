@@ -24,6 +24,8 @@
 
 package jenkins.security;
 
+import java.io.IOException;
+
 import hudson.FilePath;
 import hudson.slaves.DumbSlave;
 import hudson.util.DirScanner;
@@ -49,9 +51,7 @@ public class FilePathSecureTest {
     }
 
     @Test public void unzip() throws Exception {
-        FilePath dir = root.child("dir");
-        dir.mkdirs();
-        dir.child("stuff").write("hello", null);
+        FilePath dir = getDir66530(root);
         FilePath zip = root.child("dir.zip");
         dir.zip(zip);
         zip.unzip(remote);
@@ -59,9 +59,7 @@ public class FilePathSecureTest {
     }
 
     @Test public void untar() throws Exception {
-        FilePath dir = root.child("dir");
-        dir.mkdirs();
-        dir.child("stuff").write("hello", null);
+        FilePath dir = getDir66530(root);
         FilePath tar = root.child("dir.tar");
         try (OutputStream os = tar.write()) {
             dir.tar(os, new DirScanner.Full());
@@ -71,9 +69,7 @@ public class FilePathSecureTest {
     }
 
     @Test public void zip() throws Exception {
-        FilePath dir = remote.child("dir");
-        dir.mkdirs();
-        dir.child("stuff").write("hello", null);
+        FilePath dir = getDir66530(remote);
         FilePath zip = root.child("dir.zip");
         dir.zip(zip);
         zip.unzip(root);
@@ -81,15 +77,20 @@ public class FilePathSecureTest {
     }
 
     @Test public void tar() throws Exception {
-        FilePath dir = remote.child("dir");
-        dir.mkdirs();
-        dir.child("stuff").write("hello", null);
+        FilePath dir = getDir66530(remote);
         FilePath tar = root.child("dir.tar");
         try (OutputStream os = tar.write()) {
             dir.tar(os, new DirScanner.Full());
         }
         tar.untar(root, FilePath.TarCompression.NONE);
         assertEquals("hello", remote.child("dir/stuff").readToString());
+    }
+
+    private FilePath getDir66530(final FilePath remote) throws IOException, InterruptedException {
+        FilePath dir = remote.child("dir");
+        dir.mkdirs();
+        dir.child("stuff").write("hello", null);
+        return dir;
     }
 
 }
