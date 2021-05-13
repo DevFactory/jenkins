@@ -382,11 +382,7 @@ public class VirtualFileTest {
         File root = tmp.getRoot();
         VirtualFile virtualRoot = VirtualFile.forFile(root);
         List<VirtualFile> children = Arrays.asList(virtualRoot.list());
-        assertThat(children, hasSize(2));
-        assertThat(children, containsInAnyOrder(
-                VFMatcher.hasName("a"),
-                VFMatcher.hasName("b")
-        ));
+        extractedMethod70694(children);
     }
 
     @Test
@@ -397,11 +393,7 @@ public class VirtualFileTest {
         File root = tmp.getRoot();
         VirtualFile virtualRoot = VirtualFile.forFile(root);
         List<VirtualFile> children = Arrays.asList(virtualRoot.list(true));
-        assertThat(children, hasSize(2));
-        assertThat(children, containsInAnyOrder(
-                VFMatcher.hasName("a"),
-                VFMatcher.hasName("b")
-        ));
+        extractedMethod70694(children);
     }
 
     @Test
@@ -412,11 +404,7 @@ public class VirtualFileTest {
         File root = tmp.getRoot();
         VirtualFile virtualRoot = VirtualFile.forFilePath(new FilePath(root));
         List<VirtualFile> children = Arrays.asList(virtualRoot.list(true));
-        assertThat(children, hasSize(2));
-        assertThat(children, containsInAnyOrder(
-                VFMatcher.hasName("a"),
-                VFMatcher.hasName("b")
-        ));
+        extractedMethod70694(children);
     }
 
     @Test
@@ -598,11 +586,7 @@ public class VirtualFileTest {
         File root = tmp.getRoot();
         VirtualFile virtualRoot = VirtualFile.forFilePath(new FilePath(root));
         List<VirtualFile> children = Arrays.asList(virtualRoot.list());
-        assertThat(children, hasSize(2));
-        assertThat(children, containsInAnyOrder(
-                VFMatcher.hasName("a"),
-                VFMatcher.hasName("b")
-        ));
+        extractedMethod70694(children);
     }
 
     @Test
@@ -640,11 +624,7 @@ public class VirtualFileTest {
         File root = tmp.getRoot();
         VirtualFile virtualRoot = new VirtualFileMinimalImplementation(root);
         List<VirtualFile> children = Arrays.asList(virtualRoot.list());
-        assertThat(children, hasSize(2));
-        assertThat(children, containsInAnyOrder(
-                VFMatcher.hasName("a"),
-                VFMatcher.hasName("b")
-        ));
+        extractedMethod70694(children);
     }
 
     @Test
@@ -657,11 +637,7 @@ public class VirtualFileTest {
         File root = tmp.getRoot();
         VirtualFile virtualRoot = new VirtualFileMinimalImplementation(root);
         List<VirtualFile> children = Arrays.asList(virtualRoot.list(true));
-        assertThat(children, hasSize(2));
-        assertThat(children, containsInAnyOrder(
-                VFMatcher.hasName("a"),
-                VFMatcher.hasName("b")
-        ));
+        extractedMethod70694(children);
     }
 
     @Test
@@ -939,6 +915,10 @@ public class VirtualFileTest {
         VirtualFile virtualRoot = new VirtualFileMinimalImplementationWithDescendants(root);
 
         List<VirtualFile> descendants = virtualRoot.listOnlyDescendants();
+        extractedMethod70694(descendants);
+    }
+
+    private void extractedMethod70694(final List<VirtualFile> descendants) {
         assertThat(descendants, hasSize(2));
         assertThat(descendants, containsInAnyOrder(
                 VFMatcher.hasName("a"),
