@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass1990;
+
 import hudson.model.Computer;
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
@@ -339,13 +341,7 @@ public class OfflineNodeCommandTest {
     @Test
     public void offlineNodeManyShouldFailIfANodeDoesNotExist() throws Exception {
         DumbSlave slave1 = j.createSlave("aNode1", "", null);
-        DumbSlave slave2 = j.createSlave("aNode2", "", null);
-        slave1.toComputer().waitUntilOnline();
-        assertThat(slave1.toComputer().isOnline(), equalTo(true));
-        assertThat(slave1.toComputer().getOfflineCause(), equalTo(null));
-        slave2.toComputer().waitUntilOnline();
-        assertThat(slave2.toComputer().isOnline(), equalTo(true));
-        assertThat(slave2.toComputer().getOfflineCause(), equalTo(null));
+        DumbSlave slave2 = ExtractedSeparateClass1990.getSlave268922(j, slave1);
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
@@ -365,13 +361,7 @@ public class OfflineNodeCommandTest {
     @Test
     public void offlineNodeManyShouldFailIfANodeDoesNotExistWithCause() throws Exception {
         DumbSlave slave1 = j.createSlave("aNode1", "", null);
-        DumbSlave slave2 = j.createSlave("aNode2", "", null);
-        slave1.toComputer().waitUntilOnline();
-        assertThat(slave1.toComputer().isOnline(), equalTo(true));
-        assertThat(slave1.toComputer().getOfflineCause(), equalTo(null));
-        slave2.toComputer().waitUntilOnline();
-        assertThat(slave2.toComputer().isOnline(), equalTo(true));
-        assertThat(slave2.toComputer().getOfflineCause(), equalTo(null));
+        DumbSlave slave2 = ExtractedSeparateClass1990.getSlave268922(j, slave1);
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
@@ -391,13 +381,7 @@ public class OfflineNodeCommandTest {
     @Test
     public void offlineNodeManyShouldSucceedEvenANodeIsSpecifiedTwice() throws Exception {
         DumbSlave slave1 = j.createSlave("aNode1", "", null);
-        DumbSlave slave2 = j.createSlave("aNode2", "", null);
-        slave1.toComputer().waitUntilOnline();
-        assertThat(slave1.toComputer().isOnline(), equalTo(true));
-        assertThat(slave1.toComputer().getOfflineCause(), equalTo(null));
-        slave2.toComputer().waitUntilOnline();
-        assertThat(slave2.toComputer().isOnline(), equalTo(true));
-        assertThat(slave2.toComputer().getOfflineCause(), equalTo(null));
+        DumbSlave slave2 = ExtractedSeparateClass1990.getSlave268922(j, slave1);
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
@@ -414,13 +398,7 @@ public class OfflineNodeCommandTest {
     @Test
     public void offlineNodeManyShouldSucceedEvenANodeIsSpecifiedTwiceWithCause() throws Exception {
         DumbSlave slave1 = j.createSlave("aNode1", "", null);
-        DumbSlave slave2 = j.createSlave("aNode2", "", null);
-        slave1.toComputer().waitUntilOnline();
-        assertThat(slave1.toComputer().isOnline(), equalTo(true));
-        assertThat(slave1.toComputer().getOfflineCause(), equalTo(null));
-        slave2.toComputer().waitUntilOnline();
-        assertThat(slave2.toComputer().isOnline(), equalTo(true));
-        assertThat(slave2.toComputer().getOfflineCause(), equalTo(null));
+        DumbSlave slave2 = ExtractedSeparateClass1990.getSlave268922(j, slave1);
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
