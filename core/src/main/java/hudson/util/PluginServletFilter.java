@@ -98,10 +98,7 @@ public final class PluginServletFilter implements Filter, ExtensionPoint {
     public static void addFilter(Filter filter) throws ServletException {
         Jenkins j = Jenkins.getInstanceOrNull();
         
-        PluginServletFilter container = null;
-        if(j != null) {
-            container = getInstance(j.servletContext);
-	}
+        PluginServletFilter container = getContainer26387(j);
         // https://marvelution.atlassian.net/browse/JJI-188
         if (j==null || container == null) {
             // report who is doing legacy registration
@@ -121,15 +118,20 @@ public final class PluginServletFilter implements Filter, ExtensionPoint {
      */
     public static boolean hasFilter(Filter filter) {
         Jenkins j = Jenkins.getInstanceOrNull();
-        PluginServletFilter container = null;
-        if(j != null) {
-            container = getInstance(j.servletContext);
-        }
+        PluginServletFilter container = getContainer26387(j);
         if (j == null || container == null) {
             return LEGACY.contains(filter);
         } else {
             return container.list.contains(filter);
         }
+    }
+
+    private static PluginServletFilter getContainer26387(final Jenkins j) {
+        PluginServletFilter container = null;
+        if(j != null) {
+            container = getInstance(j.servletContext);
+        	}
+        return container;
     }
 
     public static void removeFilter(Filter filter) throws ServletException {
