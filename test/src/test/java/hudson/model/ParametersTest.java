@@ -80,9 +80,7 @@ public class ParametersTest {
         assertEquals("boolean", element.getTextContent());
 
         element = (HtmlElement) ((HtmlElement) DomNodeUtil.selectSingleNode(form, ".//div[input/@value='choice']")).getParentNode();
-        assertNotNull(element);
-        assertEquals("choice description", ((HtmlElement) DomNodeUtil.selectSingleNode(element.getNextSibling().getNextSibling(), "div[@class='setting-description']")).getTextContent());
-        assertEquals("choice", ((HtmlElement) DomNodeUtil.selectSingleNode(element.getParentNode(), "div[contains(@class, 'setting-name')]")).getTextContent());
+        extractedMethod52708(element);
 
         element = (HtmlElement) ((HtmlElement) DomNodeUtil.selectSingleNode(form, ".//div[input/@value='run']")).getParentNode();
         assertNotNull(element);
@@ -115,9 +113,7 @@ public class ParametersTest {
         HtmlForm form = page.getFormByName("parameters");
 
         HtmlElement element = (HtmlElement) ((HtmlElement) DomNodeUtil.selectSingleNode(form, ".//div[input/@value='choice']")).getParentNode();
-        assertNotNull(element);
-        assertEquals("choice description", ((HtmlElement) DomNodeUtil.selectSingleNode(element.getNextSibling().getNextSibling(), "div[@class='setting-description']")).getTextContent());
-        assertEquals("choice", ((HtmlElement) DomNodeUtil.selectSingleNode(element.getParentNode(), "div[contains(@class, 'setting-name')]")).getTextContent());
+        extractedMethod52708(element);
         HtmlOption opt = DomNodeUtil.selectSingleNode(element.getParentNode(), "div/div/select/option[@value='Choice <2>']");
         assertNotNull(opt);
         assertEquals("Choice <2>", opt.asText());
@@ -130,6 +126,12 @@ public class ParametersTest {
 
         assertNotNull(builder.getEnvVars());
         assertEquals("Choice <2>", builder.getEnvVars().get("CHOICE"));
+    }
+
+    private void extractedMethod52708(final HtmlElement element) {
+        assertNotNull(element);
+        assertEquals("choice description", ((HtmlElement) DomNodeUtil.selectSingleNode(element.getNextSibling().getNextSibling(), "div[@class='setting-description']")).getTextContent());
+        assertEquals("choice", ((HtmlElement) DomNodeUtil.selectSingleNode(element.getParentNode(), "div[contains(@class, 'setting-name')]")).getTextContent());
     }
 
     @Test
