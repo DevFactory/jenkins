@@ -504,10 +504,7 @@ public class RSSTest {
         Node channelNode = checkRssWrapperNodes(xmlDocument);
         checkRssBasicNodes(channelNode, "Jenkins:" + displayName + " (" + buildType + " builds)", 4, pathPrefix);
         NodeList items = xmlDocument.getElementsByTagName("item");
-        assertThat(items.getLength(), is(1));
-        Node firstBuild = items.item(0);
-        assertThat(firstBuild.getChildNodes().getLength(), is(5));
-        assertThat(getSingleNode(firstBuild, "title").getTextContent(), is(buildTitle));
+        Node firstBuild = getFirstBuild60509(items, buildTitle);
         checkRssTimeNode(firstBuild, "pubDate");
         assertNotNull(getSingleNode(firstBuild, "author").getTextContent());
         Node guidNode = getSingleNode(firstBuild, "guid");
@@ -521,10 +518,7 @@ public class RSSTest {
         assertThat(documentElement.getNodeName(), is("feed"));
         checkAtomBasicNodes(documentElement, "Jenkins:" + displayName + " (" + buildType + " builds)", 6);
         NodeList entries = xmlDocument.getElementsByTagName("entry");
-        assertThat(entries.getLength(), is(1));
-        Node firstBuild = entries.item(0);
-        assertThat(firstBuild.getChildNodes().getLength(), is(5));
-        assertThat(getSingleNode(firstBuild, "title").getTextContent(), is(buildTitle));
+        Node firstBuild = getFirstBuild60509(entries, buildTitle);
         checkAtomTimeNode(firstBuild, "published");
         checkAtomTimeNode(firstBuild, "updated");
         assertNotNull(getSingleNode(firstBuild, "id").getTextContent());
@@ -532,6 +526,14 @@ public class RSSTest {
         assertThat(linkNode.getAttributes().getNamedItem("rel").getTextContent(), is("alternate"));
         assertThat(linkNode.getAttributes().getNamedItem("type").getTextContent(), is("text/html"));
         assertThat(linkNode.getAttributes().getNamedItem("href").getTextContent(), containsString(j.getURL().toString()));
+    }
+
+    private Node getFirstBuild60509(final NodeList entries, final String buildTitle) {
+        assertThat(entries.getLength(), is(1));
+        Node firstBuild = entries.item(0);
+        assertThat(firstBuild.getChildNodes().getLength(), is(5));
+        assertThat(getSingleNode(firstBuild, "title").getTextContent(), is(buildTitle));
+        return firstBuild;
     }
 
     private void checkLatestBuilds(JenkinsRule.WebClient webClient, String pathPrefix, String displayName, String buildType, String userId,
