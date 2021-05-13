@@ -129,17 +129,7 @@ public class ProcessTreeTest {
     public void considersKillingVetos() throws Exception {
         // on some platforms where we fail to list any processes, this test will
         // just not work
-        assumeTrue(ProcessTree.get() != ProcessTree.DEFAULT);
-
-        // kick off a process we (shouldn't) kill
-        ProcessBuilder pb = new ProcessBuilder();
-        pb.environment().put("cookie", "testKeepDaemonsAlive");
-
-        if (File.pathSeparatorChar == ';') {
-            pb.command("cmd");
-        } else {
-            pb.command("sleep", "5m");
-        }
+        ProcessBuilder pb = getPb46238();
 
         process = pb.start();
 
@@ -158,17 +148,7 @@ public class ProcessTreeTest {
     public void considersKillingVetosOnSlave() throws Exception {
         // on some platforms where we fail to list any processes, this test will
         // just not work
-        assumeTrue(ProcessTree.get() != ProcessTree.DEFAULT);
-
-        // Define a process we (shouldn't) kill
-        ProcessBuilder pb = new ProcessBuilder();
-        pb.environment().put("cookie", "testKeepDaemonsAlive");
-
-        if (File.pathSeparatorChar == ';') {
-            pb.command("cmd");
-        } else {
-            pb.command("sleep", "5m");
-        }
+        ProcessBuilder pb = getPb46238();
 
         // Create an agent so we can tell it to kill the process
         Slave s = j.createSlave();
@@ -187,6 +167,21 @@ public class ProcessTreeTest {
         } catch (IllegalThreadStateException e) {
             // Means the process is still running
         }
+    }
+
+    private ProcessBuilder getPb46238() {
+        assumeTrue(ProcessTree.get() != ProcessTree.DEFAULT);
+        
+        // Define a process we (shouldn't) kill
+        ProcessBuilder pb = new ProcessBuilder();
+        pb.environment().put("cookie", "testKeepDaemonsAlive");
+        
+        if (File.pathSeparatorChar == ';') {
+            pb.command("cmd");
+        } else {
+            pb.command("sleep", "5m");
+        }
+        return pb;
     }
 
     @TestExtension({"considersKillingVetos", "considersKillingVetosOnSlave"})
