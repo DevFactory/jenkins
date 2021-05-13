@@ -23,6 +23,8 @@
  */
 package hudson.util;
 
+import hudson.util.ExtractedSeparateClass10437;
+
 import com.sun.jna.Memory;
 import com.sun.jna.Native;
 import com.sun.jna.NativeLong;
@@ -336,13 +338,7 @@ public abstract class ProcessTree implements Iterable<OSProcess>, IProcessTree, 
                 return false;
 
             SortedMap<String,String> envs = getEnvironmentVariables();
-            for (Entry<String,String> e : modelEnvVar.entrySet()) {
-                String v = envs.get(e.getKey());
-                if(v==null || !v.equals(e.getValue()))
-                    return false;   // no match
-            }
-
-            return true;
+            return ExtractedSeparateClass10437.isVar63785(modelEnvVar, envs);
         }
 
         /**
@@ -634,13 +630,7 @@ public abstract class ProcessTree implements Iterable<OSProcess>, IProcessTree, 
                 return false;
 
             SortedMap<String,String> envs = getEnvironmentVariables2();
-            for (Entry<String,String> e : modelEnvVar.entrySet()) {
-                String v = envs.get(e.getKey());
-                if(v==null || !v.equals(e.getValue()))
-                    return false;   // no match
-            }
-
-            return true;
+            return ExtractedSeparateClass10437.isVar63785(modelEnvVar, envs);
         }
     }
     
