@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.nullValue;
@@ -176,10 +178,7 @@ public class DeleteViewCommandTest {
         assertThat(result, failedWith(5));
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created: No view named never_created inside view Jenkins"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(j.jenkins.getView("aView1"), nullValue());
-        assertThat(j.jenkins.getView("aView2"), nullValue());
+        extractedMethod8173(result);
         assertThat(j.jenkins.getView("never_created"), nullValue());
     }
 
@@ -195,10 +194,7 @@ public class DeleteViewCommandTest {
         assertThat(result, failedWith(5));
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created: No view named never_created inside view Jenkins"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(j.jenkins.getView("aView1"), nullValue());
-        assertThat(j.jenkins.getView("aView2"), nullValue());
+        extractedMethod8173(result);
         assertThat(j.jenkins.getView("never_created"), nullValue());
     }
 
@@ -214,10 +210,7 @@ public class DeleteViewCommandTest {
         assertThat(result, failedWith(5));
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created: No view named never_created inside view Jenkins"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(j.jenkins.getView("aView1"), nullValue());
-        assertThat(j.jenkins.getView("aView2"), nullValue());
+        extractedMethod8173(result);
         assertThat(j.jenkins.getView("never_created"), nullValue());
     }
 
@@ -234,10 +227,7 @@ public class DeleteViewCommandTest {
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created1: No view named never_created1 inside view Jenkins"));
         assertThat(result.stderr(), containsString("never_created2: No view named never_created2 inside view Jenkins"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(j.jenkins.getView("aView1"), nullValue());
-        assertThat(j.jenkins.getView("aView2"), nullValue());
+        extractedMethod8173(result);
         assertThat(j.jenkins.getView("never_created1"), nullValue());
         assertThat(j.jenkins.getView("never_created2"), nullValue());
     }
@@ -268,10 +258,14 @@ public class DeleteViewCommandTest {
         assertThat(result, failedWith(5));
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString(AllView.DEFAULT_VIEW_NAME+": Jenkins does not allow to delete '"+ AllView.DEFAULT_VIEW_NAME+"' view"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
+        extractedMethod8173(result);
+        assertThat(j.jenkins.getView(AllView.DEFAULT_VIEW_NAME), notNullValue());
+    }
 
+    private void extractedMethod8173(final CLICommandInvoker.Result result) {
+        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
+        
         assertThat(j.jenkins.getView("aView1"), nullValue());
         assertThat(j.jenkins.getView("aView2"), nullValue());
-        assertThat(j.jenkins.getView(AllView.DEFAULT_VIEW_NAME), notNullValue());
     }
 }
