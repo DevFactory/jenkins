@@ -104,11 +104,7 @@ public class FingerprinterTest {
         FreeStyleProject downstream = createFreeStyleProjectWithFingerprints(singleContents, singleFiles);
 
         j.assertBuildStatusSuccess(upstream.scheduleBuild2(0).get());
-        j.assertBuildStatusSuccess(downstream.scheduleBuild2(0).get());
-
-        j.jenkins.rebuildDependencyGraph();
-
-        List<AbstractProject> downstreamProjects = upstream.getDownstreamProjects();
+        List<AbstractProject> downstreamProjects = getDownstreamProjects41226(downstream, upstream);
         List<AbstractProject> upstreamProjects = downstream.getUpstreamProjects();
 
         assertEquals(1, downstreamProjects.size());
@@ -167,11 +163,7 @@ public class FingerprinterTest {
 
         j.assertBuildStatusSuccess(upstream.scheduleBuild2(0).get());
         j.assertBuildStatusSuccess(downstream.scheduleBuild2(0).get());
-        j.assertBuildStatusSuccess(downstream2.scheduleBuild2(0).get());
-
-        j.jenkins.rebuildDependencyGraph();
-
-        List<AbstractProject> downstreamProjects = upstream.getDownstreamProjects();
+        List<AbstractProject> downstreamProjects = getDownstreamProjects41226(downstream2, upstream);
         List<AbstractProject> upstreamProjects = downstream.getUpstreamProjects();
         List<AbstractProject> upstreamProjects2 = downstream2.getUpstreamProjects();
 
@@ -182,6 +174,15 @@ public class FingerprinterTest {
         assertTrue(upstreamProjects2.contains(upstream));
         assertTrue(downstreamProjects.contains(downstream));
         assertTrue(downstreamProjects.contains(downstream2));
+    }
+
+    private List<AbstractProject> getDownstreamProjects41226(final FreeStyleProject downstream2, final FreeStyleProject upstream) throws Exception {
+        j.assertBuildStatusSuccess(downstream2.scheduleBuild2(0).get());
+        
+        j.jenkins.rebuildDependencyGraph();
+        
+        List<AbstractProject> downstreamProjects = upstream.getDownstreamProjects();
+        return downstreamProjects;
     }
 
     @Test public void dependencyExclusion() throws Exception {
