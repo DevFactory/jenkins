@@ -199,14 +199,7 @@ public class OnlineNodeCommandTest {
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "aNode3");
         assertThat(result, succeededSilently());
-        if (slave1.toComputer().isConnecting()) {
-            System.out.println("Waiting until aNode1 going online is in progress...");
-            slave1.toComputer().waitUntilOnline();
-        }
-        if (slave2.toComputer().isConnecting()) {
-            System.out.println("Waiting until aNode2 going online is in progress...");
-            slave2.toComputer().waitUntilOnline();
-        }
+        extractedMethod30104(slave1, slave2);
         if (slave3.toComputer().isConnecting()) {
             System.out.println("Waiting until aNode3 going online is in progress...");
             slave3.toComputer().waitUntilOnline();
@@ -227,6 +220,12 @@ public class OnlineNodeCommandTest {
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created: No such agent \"never_created\" exists. Did you mean \"aNode1\"?"));
         assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
+        extractedMethod30104(slave1, slave2);
+        assertThat(slave1.toComputer().isOnline(), equalTo(true));
+        assertThat(slave2.toComputer().isOnline(), equalTo(true));
+    }
+
+    private void extractedMethod30104(final DumbSlave slave1, final DumbSlave slave2) throws InterruptedException {
         if (slave1.toComputer().isConnecting()) {
             System.out.println("Waiting until aNode1 going online is in progress...");
             slave1.toComputer().waitUntilOnline();
@@ -235,8 +234,6 @@ public class OnlineNodeCommandTest {
             System.out.println("Waiting until aNode2 going online is in progress...");
             slave2.toComputer().waitUntilOnline();
         }
-        assertThat(slave1.toComputer().isOnline(), equalTo(true));
-        assertThat(slave2.toComputer().isOnline(), equalTo(true));
     }
 
     @Test public void onlineNodeManyShouldSucceedEvenANodeIsSpecifiedTwice() throws Exception {
