@@ -103,12 +103,7 @@ public class OnlineNodeCommandTest {
     }
 
     @Test public void onlineNodeShouldSucceedOnOnlineNode() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        if (slave.toComputer().isConnecting()) {
-            System.out.println("Waiting until going online is in progress...");
-            slave.toComputer().waitUntilOnline();
-        }
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        DumbSlave slave = getSlave43513();
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
@@ -118,12 +113,7 @@ public class OnlineNodeCommandTest {
     }
 
     @Test public void onlineNodeShouldSucceedOnOfflineNode() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        if (slave.toComputer().isConnecting()) {
-            System.out.println("Waiting until going online is in progress...");
-            slave.toComputer().waitUntilOnline();
-        }
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        DumbSlave slave = getSlave43513();
         slave.toComputer().setTemporarilyOffline(true);
         slave.toComputer().waitUntilOffline();
         assertThat(slave.toComputer().isOffline(), equalTo(true));
@@ -140,12 +130,7 @@ public class OnlineNodeCommandTest {
     }
 
     @Test public void onlineNodeShouldSucceedOnDisconnectedNode() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        if (slave.toComputer().isConnecting()) {
-            System.out.println("Waiting until going online is in progress...");
-            slave.toComputer().waitUntilOnline();
-        }
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        DumbSlave slave = getSlave43513();
         slave.toComputer().disconnect();
         slave.toComputer().waitUntilOffline();
         assertThat(slave.toComputer().isOffline(), equalTo(true));
@@ -162,12 +147,7 @@ public class OnlineNodeCommandTest {
     }
 
     @Test public void onlineNodeShouldSucceedOnDisconnectingNode() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        if (slave.toComputer().isConnecting()) {
-            System.out.println("Waiting until going online is in progress...");
-            slave.toComputer().waitUntilOnline();
-        }
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        DumbSlave slave = getSlave43513();
         slave.toComputer().disconnect();
 
         final CLICommandInvoker.Result result = command
@@ -179,6 +159,16 @@ public class OnlineNodeCommandTest {
             slave.toComputer().waitUntilOnline();
         }
         assertThat(slave.toComputer().isOnline(), equalTo(false));
+    }
+
+    private DumbSlave getSlave43513() throws Exception {
+        DumbSlave slave = j.createSlave("aNode", "", null);
+        if (slave.toComputer().isConnecting()) {
+            System.out.println("Waiting until going online is in progress...");
+            slave.toComputer().waitUntilOnline();
+        }
+        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        return slave;
     }
 
     @Test public void onlineNodeShouldSucceedOnBuildingOfflineNode() throws Exception {
