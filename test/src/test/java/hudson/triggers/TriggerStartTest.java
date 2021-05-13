@@ -24,6 +24,8 @@
 
 package hudson.triggers;
 
+import java.io.IOException;
+
 import hudson.model.AbstractProject;
 import hudson.model.FreeStyleProject;
 import hudson.model.Item;
@@ -51,9 +53,7 @@ public class TriggerStartTest {
 
     @Test public void loadCallsStartFalse() throws Exception {
         FreeStyleProject p = j.createFreeStyleProject();
-        MockTrigger t = new MockTrigger();
-        p.addTrigger(t);
-        p.save();
+        MockTrigger t = getT42001(p);
         p = (FreeStyleProject) Items.load(p.getParent(), p.getRootDir());
         t = p.getTrigger(MockTrigger.class);
         assertNotNull(t);
@@ -62,9 +62,7 @@ public class TriggerStartTest {
 
     @Test public void submitCallsStartTrue() throws Exception {
         FreeStyleProject p = j.createFreeStyleProject();
-        MockTrigger t = new MockTrigger();
-        p.addTrigger(t);
-        p.save();
+        MockTrigger t = getT42001(p);
         p = (FreeStyleProject)j.configRoundtrip((Item)p);
         t = p.getTrigger(MockTrigger.class);
         assertNotNull(t);
@@ -91,13 +89,18 @@ public class TriggerStartTest {
 
     @Test public void copyCallsStartTrue() throws Exception {
         AbstractProject<?,?> p = j.createFreeStyleProject();
-        MockTrigger t = new MockTrigger();
-        p.addTrigger(t);
-        p.save();
+        MockTrigger t = getT42001(p);
         p = j.jenkins.copy(p, "nue");
         t = p.getTrigger(MockTrigger.class);
         assertNotNull(t);
         assertEquals("[true]", t.calls.toString());
+    }
+
+    private MockTrigger getT42001(final AbstractProject <?, ?> p) throws IOException {
+        MockTrigger t = new MockTrigger();
+        p.addTrigger(t);
+        p.save();
+        return t;
     }
 
     private String triggersSection() {
