@@ -1,5 +1,7 @@
 package hudson.model.queue;
 
+import java.io.IOException;
+
 import hudson.model.FreeStyleProject;
 import hudson.model.Node;
 import hudson.model.Queue;
@@ -30,10 +32,7 @@ public class QueueTaskDispatcherTest {
 
     @Test
     public void canRunBlockageIsDisplayed() throws Exception {
-        FreeStyleProject project = r.createFreeStyleProject();
-        r.jenkins.getQueue().schedule(project, 0);
-
-        r.getInstance().getQueue().maintain();
+        FreeStyleProject project = getProject25061();
 
         Item item = r.jenkins.getQueue().getItem(project);
 
@@ -57,10 +56,7 @@ public class QueueTaskDispatcherTest {
     @Issue("JENKINS-38514")
     @Test
     public void canTakeBlockageIsDisplayed() throws Exception {
-        FreeStyleProject project = r.createFreeStyleProject();
-
-        r.jenkins.getQueue().schedule(project, 0);
-        r.getInstance().getQueue().maintain();
+        FreeStyleProject project = getProject25061();
 
         Queue.Item item = r.jenkins.getQueue().getItem(project);
         assertNotNull(item);
@@ -74,6 +70,14 @@ public class QueueTaskDispatcherTest {
         cob.print(l);
         l.getLogger().flush();
         assertThat(w.toString(), containsString("blocked by canTake"));
+    }
+
+    private FreeStyleProject getProject25061() throws IOException {
+        FreeStyleProject project = r.createFreeStyleProject();
+        
+        r.jenkins.getQueue().schedule(project, 0);
+        r.getInstance().getQueue().maintain();
+        return project;
     }
 
     @TestExtension("canTakeBlockageIsDisplayed")
