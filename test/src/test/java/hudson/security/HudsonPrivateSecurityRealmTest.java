@@ -267,9 +267,7 @@ public class HudsonPrivateSecurityRealmTest {
     @Issue("JENKINS-48383")
     @Test
     public void selfRegistrationTriggerLoggedIn() throws Exception {
-        HudsonPrivateSecurityRealm securityRealm = new HudsonPrivateSecurityRealm(true, false, null);
-        j.jenkins.setSecurityRealm(securityRealm);
-        j.jenkins.setCrumbIssuer(null);
+        extractedMethod22744();
 
         assertTrue(spySecurityListener.loggedInUsernames.isEmpty());
 
@@ -287,9 +285,7 @@ public class HudsonPrivateSecurityRealmTest {
     @Issue("JENKINS-55307")
     @Test
     public void selfRegistrationTriggerUserCreation() throws Exception {
-        HudsonPrivateSecurityRealm securityRealm = new HudsonPrivateSecurityRealm(true, false, null);
-        j.jenkins.setSecurityRealm(securityRealm);
-        j.jenkins.setCrumbIssuer(null);
+        extractedMethod22744();
 
         spySecurityListener.createdUsers.clear();
         assertTrue(spySecurityListener.createdUsers.isEmpty());
@@ -298,6 +294,12 @@ public class HudsonPrivateSecurityRealmTest {
         selfRegistration("charlie");
         assertEquals("bob", spySecurityListener.createdUsers.get(0));
         assertEquals("charlie", spySecurityListener.createdUsers.get(1));
+    }
+
+    private void extractedMethod22744() {
+        HudsonPrivateSecurityRealm securityRealm = new HudsonPrivateSecurityRealm(true, false, null);
+        j.jenkins.setSecurityRealm(securityRealm);
+        j.jenkins.setCrumbIssuer(null);
     }
 
     @Issue("JENKINS-55307")
