@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import org.jvnet.hudson.test.JenkinsRule.WebClient;
+
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.UnexpectedPage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -540,13 +542,7 @@ public class DirectoryBrowserSupportTest {
                     "public1.key"
             ));
         }
-        { // all the outside folders / files are not included in the zip
-            Page zipPage = wc.goTo(p.getUrl() + "ws/intermediateFolder/*zip*/intermediateFolder.zip", null);
-            assertThat(zipPage.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_OK));
-
-            List<String> entryNames = getListOfEntriesInDownloadedZip((UnexpectedPage) zipPage);
-            assertThat(entryNames, contains("intermediateFolder/public2.key"));
-        }
+        extractedMethod13346(wc, p);
         { // workaround for JENKINS-19947 is still supported, i.e. no parent folder, even inside a sub-folder
             Page zipPage = wc.goTo(p.getUrl() + "ws/intermediateFolder/**/*zip*/intermediateFolder.zip", null);
             assertThat(zipPage.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_OK));
@@ -760,10 +756,14 @@ public class DirectoryBrowserSupportTest {
                     p.getName() + "/public1.key"
             ));
         }
+        extractedMethod13346(wc, p);
+    }
+
+    private void extractedMethod13346(final JenkinsRule.WebClient wc, final FreeStyleProject p) throws Exception {
         { // all the outside folders / files are not included in the zip
             Page zipPage = wc.goTo(p.getUrl() + "ws/intermediateFolder/*zip*/intermediateFolder.zip", null);
             assertThat(zipPage.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_OK));
-
+        
             List<String> entryNames = getListOfEntriesInDownloadedZip((UnexpectedPage) zipPage);
             assertThat(entryNames, contains("intermediateFolder/public2.key"));
         }
