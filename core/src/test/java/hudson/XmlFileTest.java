@@ -25,9 +25,7 @@ public class XmlFileTest {
 
         XmlFile xmlFile =  new XmlFile(xs, new File(configUrl.getFile()));
         if (xmlFile.exists()) {
-            Node n = (Node) xmlFile.read();
-            assertThat(n.getNumExecutors(), is(2));
-            assertThat(n.getMode().toString(), is("NORMAL"));
+            Node n = getN55881(xmlFile);
         }
     }
 
@@ -54,9 +52,7 @@ public class XmlFileTest {
 
         XmlFile xmlFile =  new XmlFile(xs, new File(configUrl.getFile()));
         if (xmlFile.exists()) {
-            Node n = (Node) xmlFile.read();
-            assertThat(n.getNumExecutors(), is(2));
-            assertThat(n.getMode().toString(), is("NORMAL"));
+            Node n = getN55881(xmlFile);
         }
     }
     
@@ -68,10 +64,15 @@ public class XmlFileTest {
 
         XmlFile xmlFile =  new XmlFile(xs, new File(configUrl.getFile()));
         if (xmlFile.exists()) {
-            Node n = (Node) xmlFile.read();
-            assertThat(n.getNumExecutors(), is(2));
-            assertThat(n.getMode().toString(), is("NORMAL"));
+            Node n = getN55881(xmlFile);
             assertThat(n.getLabelString(), is("LESS_TERMCAP_mb=\u001B[01;31m"));
         }
+    }
+
+    private Node getN55881(final XmlFile xmlFile) throws IOException {
+        Node n = (Node) xmlFile.read();
+        assertThat(n.getNumExecutors(), is(2));
+        assertThat(n.getMode().toString(), is("NORMAL"));
+        return n;
     }
 }
