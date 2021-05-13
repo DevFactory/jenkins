@@ -721,14 +721,8 @@ public class ProjectTest {
         c2.label = new LabelAtom("test-cloud-label");        
         j.jenkins.clouds.add(c2);
         
-        SCMTrigger t = new SCMTrigger("@daily", true);
-        t.start(proj, true);
-        proj.addTrigger(t);
-        t.new Runner().run();
-        
-        Thread.sleep(1000);
-        //Assert that the job IS submitted to Queue.
-        assertEquals(1, j.jenkins.getQueue().getItems().length);        
+        extractedMethod61987(proj);
+                
     }
     
     /**
@@ -795,6 +789,11 @@ public class ProjectTest {
         j.jenkins.clouds.add(c2);
         proj.setAssignedLabel(c2.label);
         
+        extractedMethod61987(proj);
+            
+    }
+
+    private void extractedMethod61987(final FreeStyleProject proj) throws ANTLRException, IOException, InterruptedException {
         SCMTrigger t = new SCMTrigger("@daily", true);
         t.start(proj, true);
         proj.addTrigger(t);
@@ -802,7 +801,7 @@ public class ProjectTest {
         
         Thread.sleep(1000);
         //The job should be in queue
-        assertEquals(1, j.jenkins.getQueue().getItems().length);    
+        assertEquals(1, j.jenkins.getQueue().getItems().length);
     }
 
     @Issue("JENKINS-22750")
