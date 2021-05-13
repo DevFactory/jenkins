@@ -232,11 +232,7 @@ public class TokenBasedRememberMeServices2Test {
             // by default we have 14 days of validity,
             // here we reduce a bit the expiration date to simulate an "old" cookie (regular usage)
             long minusFiveMinutes = TimeUnit.MINUTES.toMillis(-5);
-            Cookie cookie = createRememberMeCookie(tokenService, minusFiveMinutes, alice);
-            wc.getCookieManager().addCookie(cookie);
-
-            // if we reactivate the remember me feature, it's ok
-            assertUserConnected(wc, username);
+            extractedMethod22178(tokenService, minusFiveMinutes, alice, wc, username);
         }
     }
 
@@ -262,11 +258,7 @@ public class TokenBasedRememberMeServices2Test {
                 // by default we have 14 days of validity,
                 // here we increase artificially the duration of validity, that could be used to have permanent access
                 long oneDay = TimeUnit.DAYS.toMillis(1);
-                Cookie cookie = createRememberMeCookie(tokenService, oneDay, alice);
-                wc.getCookieManager().addCookie(cookie);
-
-                // the application should not use the cookie to connect
-                assertUserConnected(wc, username);
+                extractedMethod22178(tokenService, oneDay, alice, wc, username);
             }
 
             { // a hand crafted cookie with regular expiration duration works
@@ -275,15 +267,19 @@ public class TokenBasedRememberMeServices2Test {
                 // by default we have 14 days of validity,
                 // here we reduce a bit the expiration date to simulate an "old" cookie (regular usage)
                 long minusFiveMinutes = TimeUnit.MINUTES.toMillis(-5);
-                Cookie cookie = createRememberMeCookie(tokenService, minusFiveMinutes, alice);
-                wc.getCookieManager().addCookie(cookie);
-
-                // if we reactivate the remember me feature, it's ok
-                assertUserConnected(wc, username);
+                extractedMethod22178(tokenService, minusFiveMinutes, alice, wc, username);
             }
         } finally {
             TokenBasedRememberMeServices2.SKIP_TOO_FAR_EXPIRATION_DATE_CHECK = previousConfig;
         }
+    }
+
+    private void extractedMethod22178(final TokenBasedRememberMeServices2 tokenService, final long oneDay, final User alice, final JenkinsRule.WebClient wc, final String username) throws Exception {
+        Cookie cookie = createRememberMeCookie(tokenService, oneDay, alice);
+        wc.getCookieManager().addCookie(cookie);
+        
+        // the application should not use the cookie to connect
+        assertUserConnected(wc, username);
     }
 
     @Test
