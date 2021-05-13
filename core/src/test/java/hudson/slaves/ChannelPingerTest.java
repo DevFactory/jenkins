@@ -92,10 +92,7 @@ public class ChannelPingerTest {
 
     @Test
     public void testFromOldSystemProperty() throws Exception {
-        System.setProperty("hudson.slaves.ChannelPinger.pingInterval", "7");
-
-        ChannelPinger channelPinger = new ChannelPinger();
-        channelPinger.install(mockChannel, null);
+        extractedMethod45851();
 
         verify(mockChannel).call(eq(new ChannelPinger.SetUpRemotePing(ChannelPinger.PING_TIMEOUT_SECONDS_DEFAULT, 420)));
         verifyStatic(ChannelPinger.class);
@@ -105,14 +102,18 @@ public class ChannelPingerTest {
     @Test
     public void testNewSystemPropertyTrumpsOld() throws Exception {
         System.setProperty("hudson.slaves.ChannelPinger.pingIntervalSeconds", "73");
-        System.setProperty("hudson.slaves.ChannelPinger.pingInterval", "7");
-
-        ChannelPinger channelPinger = new ChannelPinger();
-        channelPinger.install(mockChannel, null);
+        extractedMethod45851();
 
         verify(mockChannel).call(eq(new ChannelPinger.SetUpRemotePing(ChannelPinger.PING_TIMEOUT_SECONDS_DEFAULT, 73)));
         verifyStatic(ChannelPinger.class);
         ChannelPinger.setUpPingForChannel(mockChannel, null, ChannelPinger.PING_TIMEOUT_SECONDS_DEFAULT, 73, true);
+    }
+
+    private void extractedMethod45851() {
+        System.setProperty("hudson.slaves.ChannelPinger.pingInterval", "7");
+        
+        ChannelPinger channelPinger = new ChannelPinger();
+        channelPinger.install(mockChannel, null);
     }
 
     @Test
