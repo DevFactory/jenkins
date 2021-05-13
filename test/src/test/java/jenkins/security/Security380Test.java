@@ -1,5 +1,7 @@
 package jenkins.security;
 
+import java.io.IOException;
+
 import com.gargoylesoftware.htmlunit.Page;
 import hudson.model.UnprotectedRootAction;
 import hudson.security.ACL;
@@ -22,13 +24,7 @@ public class Security380Test {
     @Issue("SECURITY-380")
     @Test
     public void testGetItemsWithoutAnonRead() throws Exception {
-        FullControlOnceLoggedInAuthorizationStrategy strategy = new FullControlOnceLoggedInAuthorizationStrategy();
-        strategy.setAllowAnonymousRead(false);
-        Jenkins.get().setAuthorizationStrategy(strategy);
-
-        Jenkins.get().setSecurityRealm(j.createDummySecurityRealm());
-
-        j.createFreeStyleProject();
+        extractedMethod68151();
         ACL.impersonate2(Jenkins.ANONYMOUS2, new Runnable() {
             @Override
             public void run() {
@@ -58,17 +54,22 @@ public class Security380Test {
     @Issue("SECURITY-380")
     @Test
     public void testWithUnprotectedRootAction() throws Exception {
-        FullControlOnceLoggedInAuthorizationStrategy strategy = new FullControlOnceLoggedInAuthorizationStrategy();
-        strategy.setAllowAnonymousRead(false);
-        Jenkins.get().setAuthorizationStrategy(strategy);
-
-        Jenkins.get().setSecurityRealm(j.createDummySecurityRealm());
-        j.createFreeStyleProject();
+        extractedMethod68151();
 
         JenkinsRule.WebClient wc = j.createWebClient();
         Page page = wc.goTo("listJobs", "text/plain");
         // return "0\r\n"
         Assert.assertEquals("expect 0 items", "0", page.getWebResponse().getContentAsString().trim());
+    }
+
+    private void extractedMethod68151() throws IOException {
+        FullControlOnceLoggedInAuthorizationStrategy strategy = new FullControlOnceLoggedInAuthorizationStrategy();
+        strategy.setAllowAnonymousRead(false);
+        Jenkins.get().setAuthorizationStrategy(strategy);
+        
+        Jenkins.get().setSecurityRealm(j.createDummySecurityRealm());
+        
+        j.createFreeStyleProject();
     }
 
     @TestExtension
