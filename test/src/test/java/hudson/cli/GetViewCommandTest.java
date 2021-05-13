@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass1259;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.startsWith;
@@ -63,9 +65,7 @@ public class GetViewCommandTest {
                 .invokeWithArgs("aView")
         ;
 
-        assertThat(result, failedWith(6));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: user is missing the View/Read permission"));
+        ExtractedSeparateClass1259.extractedMethod18696(result);
     }
 
     @Test public void getViewShouldYieldConfigXml() throws Exception {
