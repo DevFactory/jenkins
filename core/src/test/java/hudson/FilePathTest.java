@@ -972,15 +972,7 @@ public class FilePathTest {
         assertTrue(workspaceFolder.isDescendant("./b"));
         assertTrue(workspaceFolder.isDescendant("b/_a/a.txt"));
         assertTrue(workspaceFolder.isDescendant("b/_a/../a/a.txt"));
-        assertTrue(workspaceFolder.isDescendant("b/_atxt"));
-
-        // nonexistent but illegal
-        assertFalse(workspaceFolder.isDescendant("_nonexistentUp"));
-        // illegal symlinks
-        assertFalse(workspaceFolder.isDescendant("_protected"));
-        assertFalse(workspaceFolder.isDescendant("_protected/"));
-        assertFalse(workspaceFolder.isDescendant("_protected/secret.txt"));
-        assertFalse(workspaceFolder.isDescendant("./_protected/secret.txt"));
+        extractedMethod20467(workspaceFolder);
         assertFalse(workspaceFolder.isDescendant("_secrettxt"));
         assertFalse(workspaceFolder.isDescendant("./_secrettxt"));
     }
@@ -1131,8 +1123,17 @@ public class FilePathTest {
         assertTrue(symbolicWorkspace.isDescendant("a/a.txt"));
         assertTrue(symbolicWorkspace.isDescendant("b"));
         assertTrue(symbolicWorkspace.isDescendant("b/_a/a.txt"));
-        assertTrue(symbolicWorkspace.isDescendant("b/_atxt"));
+        extractedMethod20467(symbolicWorkspace);
+        assertFalse(symbolicWorkspace.isDescendant("_protected2"));
+        assertFalse(symbolicWorkspace.isDescendant("_protected2/secret.txt"));
+        assertFalse(symbolicWorkspace.isDescendant("_secrettxt"));
+        assertFalse(symbolicWorkspace.isDescendant("./_secrettxt"));
+        assertFalse(symbolicWorkspace.isDescendant("_secrettxt2"));
+    }
 
+    private void extractedMethod20467(final FilePath symbolicWorkspace) throws IOException, InterruptedException {
+        assertTrue(symbolicWorkspace.isDescendant("b/_atxt"));
+        
         // nonexistent but illegal
         assertFalse(symbolicWorkspace.isDescendant("_nonexistentUp"));
         // illegal symlinks
@@ -1140,10 +1141,5 @@ public class FilePathTest {
         assertFalse(symbolicWorkspace.isDescendant("_protected/"));
         assertFalse(symbolicWorkspace.isDescendant("_protected/secret.txt"));
         assertFalse(symbolicWorkspace.isDescendant("./_protected/secret.txt"));
-        assertFalse(symbolicWorkspace.isDescendant("_protected2"));
-        assertFalse(symbolicWorkspace.isDescendant("_protected2/secret.txt"));
-        assertFalse(symbolicWorkspace.isDescendant("_secrettxt"));
-        assertFalse(symbolicWorkspace.isDescendant("./_secrettxt"));
-        assertFalse(symbolicWorkspace.isDescendant("_secrettxt2"));
     }
 }
