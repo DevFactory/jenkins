@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import hudson.model.ExtractedSeparateClass40378;
+
 import hudson.DescriptorExtensionList;
 import hudson.Extension;
 import hudson.ExtensionPoint;
@@ -262,10 +264,8 @@ public abstract class ParameterDefinition implements
         if (getClass() != obj.getClass())
             return false;
         ParameterDefinition other = (ParameterDefinition) obj;
-        if (!Objects.equals(getName(), other.getName()))
-            return false;
-        if (!Objects.equals(getDescription(), other.getDescription()))
-            return false;
+        Boolean var27697 = ExtractedSeparateClass40378.getVar85851(other, this);
+        if (var27697 != null) return var27697;
         String thisXml  = Jenkins.XSTREAM2.toXML(this);
         String otherXml = Jenkins.XSTREAM2.toXML(other);
         return thisXml.equals(otherXml);

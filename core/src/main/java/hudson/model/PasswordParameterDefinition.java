@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import hudson.model.ExtractedSeparateClass40378;
+
 import net.sf.json.JSONObject;
 import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.StaplerRequest;
@@ -124,10 +126,8 @@ public class PasswordParameterDefinition extends SimpleParameterDefinition {
         if (getClass() != obj.getClass())
             return false;
         PasswordParameterDefinition other = (PasswordParameterDefinition) obj;
-        if (!Objects.equals(getName(), other.getName()))
-            return false;
-        if (!Objects.equals(getDescription(), other.getDescription()))
-            return false;
+        Boolean var55827 = ExtractedSeparateClass40378.getVar85851(other, this);
+        if (var55827 != null) return var55827;
         return Objects.equals(defaultValue, other.defaultValue);
     }
 

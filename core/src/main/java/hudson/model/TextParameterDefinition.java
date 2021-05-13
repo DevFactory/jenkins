@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import hudson.model.ExtractedSeparateClass40378;
+
 import hudson.Extension;
 import net.sf.json.JSONObject;
 import org.jenkinsci.Symbol;
@@ -89,10 +91,8 @@ public class TextParameterDefinition extends StringParameterDefinition {
         if (getClass() != obj.getClass())
             return false;
         TextParameterDefinition other = (TextParameterDefinition) obj;
-        if (!Objects.equals(getName(), other.getName()))
-            return false;
-        if (!Objects.equals(getDescription(), other.getDescription()))
-            return false;
+        Boolean var47328 = ExtractedSeparateClass40378.getVar85851(other, this);
+        if (var47328 != null) return var47328;
         if (!Objects.equals(getDefaultValue(), other.getDefaultValue()))
             return false;
         return isTrim() == other.isTrim();

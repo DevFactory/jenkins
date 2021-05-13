@@ -1,5 +1,7 @@
 package hudson.model;
 
+import hudson.model.ExtractedSeparateClass40378;
+
 import hudson.Util;
 import hudson.util.FormValidation;
 import org.jenkinsci.Symbol;
@@ -190,10 +192,8 @@ public class ChoiceParameterDefinition extends SimpleParameterDefinition {
         if (getClass() != obj.getClass())
             return false;
         ChoiceParameterDefinition other = (ChoiceParameterDefinition) obj;
-        if (!Objects.equals(getName(), other.getName()))
-            return false;
-        if (!Objects.equals(getDescription(), other.getDescription()))
-            return false;
+        Boolean var52375 = ExtractedSeparateClass40378.getVar85851(other, this);
+        if (var52375 != null) return var52375;
         if (!Objects.equals(choices, other.choices))
                 return false;
         return Objects.equals(defaultValue, other.defaultValue);
