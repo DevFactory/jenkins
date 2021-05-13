@@ -91,19 +91,7 @@ public class FilePathTest {
         // this special zip contains a ..\..\ [..] \..\Temp\evil.txt
         FilePath zipFile = r.jenkins.getRootPath().child("zip-slip-win.zip");
 
-        FilePath targetLocation = r.jenkins.getRootPath().child("unzip-target");
- 
-        FilePath good = targetLocation.child("good.txt");
-
-        assertThat(good.exists(), is(false));
-        
-        try {
-            zipFile.unzip(targetLocation);
-            fail("The evil.txt should have triggered an exception");
-        }
-        catch(IOException e){
-            assertThat(e.getMessage(), containsString("contains illegal file name that breaks out of the target directory"));
-        }
+        extractedMethod54976(zipFile);
 
         // as the unzip operation failed, the good.txt was potentially unzipped
         // but we need to make sure that the evil.txt is not there
@@ -120,12 +108,21 @@ public class FilePathTest {
         // this special zip contains a ../../../ [..] /../tmp/evil.txt
         FilePath zipFile = r.jenkins.getRootPath().child("zip-slip.zip");
 
+        extractedMethod54976(zipFile);
+
+        // as the unzip operation failed, the good.txt was potentially unzipped
+        // but we need to make sure that the evil.txt is not there
+        File evil = new File(r.jenkins.getRootDir(), "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../tmp/evil.txt");
+        assertThat(evil.exists(), is(false));
+    }
+
+    private void extractedMethod54976(final FilePath zipFile) throws IOException, InterruptedException {
         FilePath targetLocation = r.jenkins.getRootPath().child("unzip-target");
-
+        
         FilePath good = targetLocation.child("good.txt");
-
+        
         assertThat(good.exists(), is(false));
-
+        
         try {
             zipFile.unzip(targetLocation);
             fail("The evil.txt should have triggered an exception");
@@ -133,11 +130,6 @@ public class FilePathTest {
         catch(IOException e){
             assertThat(e.getMessage(), containsString("contains illegal file name that breaks out of the target directory"));
         }
-
-        // as the unzip operation failed, the good.txt was potentially unzipped
-        // but we need to make sure that the evil.txt is not there
-        File evil = new File(r.jenkins.getRootDir(), "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../tmp/evil.txt");
-        assertThat(evil.exists(), is(false));
     }
 
     @Test
