@@ -207,9 +207,7 @@ public class DisablePluginCommandTest {
     @Issue("JENKINS-27177")
     @WithPlugin({"variant.hpi", "depender-0.0.2.hpi", "mandatory-depender-0.0.2.hpi", "plugin-first.hpi", "dependee-0.0.2.hpi", })
     public void disablePluginsStrategyAll() {
-        assertPluginEnabled("dependee");
-        assertPluginEnabled("depender");
-        assertPluginEnabled("mandatory-depender");
+        extractedMethod70398();
         assertThat(disablePluginsCLiCommand("-strategy", "all", "variant", "dependee", "plugin-first"), succeeded());
         assertPluginDisabled("variant");
         assertPluginDisabled("dependee");
@@ -322,11 +320,15 @@ public class DisablePluginCommandTest {
         CLICommandInvoker.Result result = disablePluginsCLiCommand("-quiet", "-strategy", "none", "dependee");
         assertThat(result, failedWith(RETURN_CODE_NOT_DISABLED_DEPENDANTS));
 
+        extractedMethod70398();
+
+        assertTrue("Only error NOT_DISABLED_DEPENDANTS in quiet mode", checkResultWith(result, StringUtils::startsWith, "dependee", PluginWrapper.PluginDisableStatus.NOT_DISABLED_DEPENDANTS));
+    }
+
+    private void extractedMethod70398() {
         assertPluginEnabled("dependee");
         assertPluginEnabled("depender");
         assertPluginEnabled("mandatory-depender");
-
-        assertTrue("Only error NOT_DISABLED_DEPENDANTS in quiet mode", checkResultWith(result, StringUtils::startsWith, "dependee", PluginWrapper.PluginDisableStatus.NOT_DISABLED_DEPENDANTS));
     }
 
     /**
