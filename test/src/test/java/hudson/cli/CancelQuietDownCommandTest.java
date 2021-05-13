@@ -114,26 +114,7 @@ public class CancelQuietDownCommandTest {
         Future<FreeStyleBuild> build = OnlineNodeCommandTest.startBlockingAndFinishingBuild(project, finish);
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
 
-        final CLICommandInvoker.Result result = command
-                .authorizedTo(Jenkins.READ, Jenkins.ADMINISTER)
-                .invoke();
-        assertThat(result, succeededSilently());
-        QuietDownCommandTest.assertJenkinsNotInQuietMode(j);
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
-        QuietDownCommandTest.assertJenkinsNotInQuietMode(j);
-        build = OnlineNodeCommandTest.startBlockingAndFinishingBuild(project, finish);
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(2));
-        assertThat(project.isBuilding(), equalTo(true));
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(2));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
-        QuietDownCommandTest.assertJenkinsNotInQuietMode(j);
+        extractedMethod4765(finish, build, project);
     }
 
     //
@@ -150,6 +131,10 @@ public class CancelQuietDownCommandTest {
         j.jenkins.doQuietDown();
         QuietDownCommandTest.assertJenkinsInQuietMode(j);
 
+        extractedMethod4765(finish, build, project);
+    }
+
+    private void extractedMethod4765(final OneShotEvent finish, Future<FreeStyleBuild> build, final FreeStyleProject project) throws Exception {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, Jenkins.ADMINISTER)
                 .invoke();
