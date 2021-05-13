@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import org.springframework.security.access.AccessDeniedException;
+
 import hudson.Functions;
 import hudson.model.ExecutorTest;
 import hudson.model.FreeStyleProject;
@@ -104,14 +106,7 @@ public class DeleteBuildsCommandTest {
 
     @Test public void deleteBuildsShouldSuccess() throws Exception {
         j.createFreeStyleProject("aProject").scheduleBuild2(0).get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-
-        final CLICommandInvoker.Result result = command
-                .authorizedTo(Jenkins.READ, Job.READ, Run.DELETE)
-                .invokeWithArgs("aProject", "1");
-        assertThat(result, succeeded());
-        assertThat(result.stdout(), containsString("Deleted 1 builds"));
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(0));
+        extractedMethod69616();
     }
 
     @Test public void deleteBuildsShouldSuccessIfBuildDoesNotExist() throws Exception {
@@ -140,15 +135,19 @@ public class DeleteBuildsCommandTest {
         assumeFalse("You can't delete files that are in use on Windows", Functions.isWindows());
         FreeStyleProject project = j.createFreeStyleProject("aProject");
         ExecutorTest.startBlockingBuild(project);
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
+        extractedMethod69616();
+        assertThat(project.isBuilding(), equalTo(false));
+    }
 
+    private void extractedMethod69616() throws AccessDeniedException {
+        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
+        
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, Job.READ, Run.DELETE)
                 .invokeWithArgs("aProject", "1");
         assertThat(result, succeeded());
         assertThat(result.stdout(), containsString("Deleted 1 builds"));
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(0));
-        assertThat(project.isBuilding(), equalTo(false));
     }
 
     @Test public void deleteBuildsShouldSuccessEvenTheBuildIsStuckInTheQueue() throws Exception {
