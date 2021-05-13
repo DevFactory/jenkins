@@ -822,32 +822,27 @@ public class DirectoryBrowserSupportTest {
         wc.getOptions().setThrowExceptionOnFailingStatusCode(false);
         {
             Page zipPage = wc.goTo(p.getUrl() + "ws/*zip*/ws.zip", null);
-            assertThat(zipPage.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_OK));
-
-            List<String> entryNames = getListOfEntriesInDownloadedZip((UnexpectedPage) zipPage);
-            assertThat(entryNames, hasSize(0));
+            extractedMethod5050(zipPage);
         }
         {
             Page zipPage = wc.goTo(p.getUrl() + "ws/a1/*zip*/a1.zip", null);
-            assertThat(zipPage.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_OK));
-
-            List<String> entryNames = getListOfEntriesInDownloadedZip((UnexpectedPage) zipPage);
-            assertThat(entryNames, hasSize(0));
+            extractedMethod5050(zipPage);
         }
         {
             Page zipPage = wc.goTo(p.getUrl() + "ws/b1/b2/*zip*/b2.zip", null);
-            assertThat(zipPage.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_OK));
-
-            List<String> entryNames = getListOfEntriesInDownloadedZip((UnexpectedPage) zipPage);
-            assertThat(entryNames, hasSize(0));
+            extractedMethod5050(zipPage);
         }
         {
             Page zipPage = wc.goTo(p.getUrl() + "ws/c1/c2/c3/*zip*/c3.zip", null);
-            assertThat(zipPage.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_OK));
-
-            List<String> entryNames = getListOfEntriesInDownloadedZip((UnexpectedPage) zipPage);
-            assertThat(entryNames, hasSize(0));
+            extractedMethod5050(zipPage);
         }
+    }
+
+    private void extractedMethod5050(final Page zipPage) throws Exception {
+        assertThat(zipPage.getWebResponse().getStatusCode(), equalTo(HttpURLConnection.HTTP_OK));
+        
+        List<String> entryNames = getListOfEntriesInDownloadedZip((UnexpectedPage) zipPage);
+        assertThat(entryNames, hasSize(0));
     }
 
     @Test
