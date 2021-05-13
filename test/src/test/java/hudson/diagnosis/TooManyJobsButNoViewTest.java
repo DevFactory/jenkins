@@ -91,11 +91,7 @@ public class TooManyJobsButNoViewTest {
                 .grant(Jenkins.SYSTEM_READ).everywhere().to(READONLY)
         );
 
-        for (int i = 0; i <= TooManyJobsButNoView.THRESHOLD; i++)
-            r.createFreeStyleProject();
-
-        JenkinsRule.WebClient wc = r.createWebClient();
-        wc.login(READONLY);
+        JenkinsRule.WebClient wc = getWc18991(READONLY);
 
         verifyNoMonitor(wc);
     }
@@ -118,13 +114,18 @@ public class TooManyJobsButNoViewTest {
                 .grant(View.READ).everywhere().to(READONLY)
         );
 
-        for (int i = 0; i <= TooManyJobsButNoView.THRESHOLD; i++)
-            r.createFreeStyleProject();
-
-        JenkinsRule.WebClient wc = r.createWebClient();
-        wc.login(READONLY);
+        JenkinsRule.WebClient wc = getWc18991(READONLY);
 
         verifyMonitor(wc);
+    }
+
+    private JenkinsRule.WebClient getWc18991(final String READONLY) throws Exception {
+        for (int i = 0; i <= TooManyJobsButNoView.THRESHOLD; i++)
+            r.createFreeStyleProject();
+        
+        JenkinsRule.WebClient wc = r.createWebClient();
+        wc.login(READONLY);
+        return wc;
     }
 
     private void verifyMonitor(JenkinsRule.WebClient wc) throws IOException, SAXException {
