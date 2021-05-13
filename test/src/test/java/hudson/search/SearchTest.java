@@ -116,11 +116,7 @@ public class SearchTest {
 
         Page result = j.createWebClient().goTo(myMockFolder.getUrl() + "search?q="+ myFreeStyleProject.getName());
 
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-
-        URL resultUrl = result.getUrl();
-        assertEquals(j.getInstance().getRootUrl() + myFreeStyleProject.getUrl(), resultUrl.toString());
+        extractedMethod83874(result, myFreeStyleProject);
     }
 
     @Issue("JENKINS-24433")
@@ -132,11 +128,7 @@ public class SearchTest {
 
         Page result = j.createWebClient().goTo(myMockFolder.getUrl() + "search?q=" + myFreeStyleProject.getFullName());
 
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-
-        URL resultUrl = result.getUrl();
-        assertEquals(j.getInstance().getRootUrl() + myFreeStyleProject.getUrl(), resultUrl.toString());
+        extractedMethod83874(result, myFreeStyleProject);
     }
 
     @Test
@@ -478,10 +470,14 @@ public class SearchTest {
 
         Page searchResult = wc.goTo("search?q=" + myMockFolder.getName() + "%2F" + freeStyleProject.getName());
 
-        assertNotNull(searchResult);
-        j.assertGoodStatus(searchResult);
+        extractedMethod83874(searchResult, freeStyleProject);
+    }
 
-        URL resultUrl = searchResult.getUrl();
-        assertEquals(j.getInstance().getRootUrl() + freeStyleProject.getUrl(), resultUrl.toString());
+    private void extractedMethod83874(final Page result, final FreeStyleProject myFreeStyleProject) {
+        assertNotNull(result);
+        j.assertGoodStatus(result);
+        
+        URL resultUrl = result.getUrl();
+        assertEquals(j.getInstance().getRootUrl() + myFreeStyleProject.getUrl(), resultUrl.toString());
     }
 }
