@@ -263,9 +263,7 @@ public abstract class ItemGroupMixIn {
     public synchronized TopLevelItem createProjectFromXML(String name, InputStream xml) throws IOException {
         acl.checkPermission(Item.CREATE);
 
-        Jenkins.get().getProjectNamingStrategy().checkName(name);
-        Items.verifyItemDoesNotAlreadyExist(parent, name, null);
-        Jenkins.checkGoodName(name);
+        extractedMethod58968(name);
 
         // place it as config.xml
         File configXml = Items.getConfigFile(getRootDirFor(name)).getFile();
@@ -311,9 +309,7 @@ public abstract class ItemGroupMixIn {
         type.checkApplicableIn(parent);
         acl.getACL().checkCreatePermission(parent, type);
 
-        Jenkins.get().getProjectNamingStrategy().checkName(name);
-        Items.verifyItemDoesNotAlreadyExist(parent, name, null);
-        Jenkins.checkGoodName(name);
+        extractedMethod58968(name);
 
         TopLevelItem item = type.newInstance(parent, name);
         item.onCreatedFromScratch();
@@ -325,6 +321,12 @@ public abstract class ItemGroupMixIn {
             ItemListener.fireOnCreated(item);
 
         return item;
+    }
+
+    private void extractedMethod58968(final String name) {
+        Jenkins.get().getProjectNamingStrategy().checkName(name);
+        Items.verifyItemDoesNotAlreadyExist(parent, name, null);
+        Jenkins.checkGoodName(name);
     }
 
 }
