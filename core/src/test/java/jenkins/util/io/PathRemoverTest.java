@@ -77,10 +77,7 @@ public class PathRemoverTest {
         File file = tmp.newFile();
         touchWithFileName(file);
 
-        PathRemover remover = PathRemover.newSimpleRemover();
-        remover.forceRemoveFile(file.toPath());
-
-        assertFalse("Unable to delete file: " + file, file.exists());
+        extractedMethod2526(file);
     }
 
     @Test
@@ -134,10 +131,7 @@ public class PathRemoverTest {
         touchWithFileName(file);
         assertTrue("Unable to make file read-only: " + file, file.setWritable(false));
 
-        PathRemover remover = PathRemover.newSimpleRemover();
-        remover.forceRemoveFile(file.toPath());
-
-        assertFalse("Unable to delete file: " + file, file.exists());
+        extractedMethod2526(file);
     }
 
     @Test
@@ -146,9 +140,13 @@ public class PathRemoverTest {
         File file = new File(dir, "invalid.file");
         assertFalse(file.exists());
 
+        extractedMethod2526(file);
+    }
+
+    private void extractedMethod2526(final File file) throws IOException {
         PathRemover remover = PathRemover.newSimpleRemover();
         remover.forceRemoveFile(file.toPath());
-
+        
         assertFalse("Unable to delete file: " + file, file.exists());
     }
 
