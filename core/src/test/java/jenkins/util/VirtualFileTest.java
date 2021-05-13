@@ -505,12 +505,7 @@ public class VirtualFileTest {
 
         File root = tmp.getRoot();
         VirtualFile rootVirtualFile = VirtualFile.forFile(root);
-        VirtualFile virtualRootChildA = rootVirtualFile.child("a");
-        List<VirtualFile> children = Arrays.asList(virtualRootChildA.list(true));
-        assertThat(children, containsInAnyOrder(
-                VFMatcher.hasName("aa"),
-                VFMatcher.hasName("ab")
-        ));
+        extractedMethod34071(rootVirtualFile);
     }
 
     @Test
@@ -521,6 +516,10 @@ public class VirtualFileTest {
         File root = tmp.getRoot();
         FilePath rootPath = new FilePath(root);
         VirtualFile rootVirtualPath = VirtualFile.forFilePath(rootPath);
+        extractedMethod34071(rootVirtualPath);
+    }
+
+    private void extractedMethod34071(final VirtualFile rootVirtualPath) throws IOException {
         VirtualFile virtualRootChildA = rootVirtualPath.child("a");
         List<VirtualFile> children = Arrays.asList(virtualRootChildA.list(true));
         assertThat(children, containsInAnyOrder(
