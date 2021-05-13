@@ -432,9 +432,7 @@ public class FingerprintTest {
         String first = fp.getHashString().substring(0,2);
         String second = fp.getHashString().substring(2,4);
         String id = first + second + "/../../" + first + "/" + second + "/../../../../cf1";
-        Fingerprint fingerprint = Fingerprint.load(id);
-        assertNull(fingerprint);
-        assertTrue(targetFile.exists());
+        extractedMethod17749(id, targetFile);
     }
 
     @Test
@@ -475,6 +473,10 @@ public class FingerprintTest {
         String first = fp.getHashString().substring(0,2);
         String second = fp.getHashString().substring(2,4);
         String id = first + second + "/../../" + first + "/" + second + "/../../../../cf3";
+        extractedMethod17749(id, targetFile);
+    }
+
+    private void extractedMethod17749(final String id, final File targetFile) throws IOException {
         Fingerprint fingerprint = Fingerprint.load(id);
         assertNull(fingerprint);
         assertTrue(targetFile.exists());
