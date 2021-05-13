@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import java.io.IOException;
+
 import hudson.model.DirectlyModifiableView;
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
@@ -48,11 +50,7 @@ public class AddJobToViewCommandTest extends ViewManipulationTestBase {
 
     @Test public void addJobShouldSucceed() throws Exception {
 
-        j.jenkins.addView(new ListView("aView"));
-        FreeStyleProject project = j.createFreeStyleProject("aProject");
-
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
-        assertThat(j.jenkins.getView("aView").contains(project), equalTo(false));
+        FreeStyleProject project = getProject52902();
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
@@ -104,11 +102,7 @@ public class AddJobToViewCommandTest extends ViewManipulationTestBase {
 
     @Test public void addJobManyShouldSucceedEvenAJobIsSpecifiedTwice() throws Exception {
 
-        j.jenkins.addView(new ListView("aView"));
-        FreeStyleProject project = j.createFreeStyleProject("aProject");
-
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
-        assertThat(j.jenkins.getView("aView").contains(project), equalTo(false));
+        FreeStyleProject project = getProject52902();
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
@@ -117,6 +111,15 @@ public class AddJobToViewCommandTest extends ViewManipulationTestBase {
         assertThat(result, succeededSilently());
         assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(1));
         assertThat(j.jenkins.getView("aView").contains(project), equalTo(true));
+    }
+
+    private FreeStyleProject getProject52902() throws IOException {
+        j.jenkins.addView(new ListView("aView"));
+        FreeStyleProject project = j.createFreeStyleProject("aProject");
+        
+        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
+        assertThat(j.jenkins.getView("aView").contains(project), equalTo(false));
+        return project;
     }
 
 }
