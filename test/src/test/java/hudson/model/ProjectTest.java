@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import org.xml.sax.SAXException;
+
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.javascript.host.event.Event;
@@ -650,15 +652,7 @@ public class ProjectTest {
                fail("AccessDeniedException should be thrown.");
             }
         } 
-        auth.add(Job.READ, user.getId());
-        auth.add(Job.CONFIGURE, user.getId());
-        auth.add(Jenkins.READ, user.getId());
-
-        JenkinsRule.WebClient wc = j.createWebClient();
-        wc.withBasicCredentials(user.getId(), "password");
-        HtmlPage p = wc.goTo(project.getUrl());
-
-        List<HtmlForm> forms = p.getForms();
+        List<HtmlForm> forms = getForms56002(auth, user, project);
         for(HtmlForm form:forms){
             if("disable".equals(form.getAttribute("action"))){
                 j.submit(form);
@@ -688,21 +682,26 @@ public class ProjectTest {
                fail("AccessDeniedException should be thrown.");
             }
         } 
-        auth.add(Job.READ, user.getId());
-        auth.add(Job.CONFIGURE, user.getId());
-        auth.add(Jenkins.READ, user.getId());
-
-        JenkinsRule.WebClient wc = j.createWebClient();
-        wc.withBasicCredentials(user.getId(), "password");
-        HtmlPage p = wc.goTo(project.getUrl());
-
-        List<HtmlForm> forms = p.getForms();
+        List<HtmlForm> forms = getForms56002(auth, user, project);
         for(HtmlForm form:forms){
             if("enable".equals(form.getAttribute("action"))){
                 j.submit(form);
             }
         }
        assertFalse("Project should be enabled.", project.isDisabled());
+    }
+
+    private List<HtmlForm> getForms56002(final GlobalMatrixAuthorizationStrategy auth, final User user, final FreeStyleProject project) throws IOException, SAXException {
+        auth.add(Job.READ, user.getId());
+        auth.add(Job.CONFIGURE, user.getId());
+        auth.add(Jenkins.READ, user.getId());
+        
+        JenkinsRule.WebClient wc = j.createWebClient();
+        wc.withBasicCredentials(user.getId(), "password");
+        HtmlPage p = wc.goTo(project.getUrl());
+        
+        List<HtmlForm> forms = p.getForms();
+        return forms;
     }
     
     /**
