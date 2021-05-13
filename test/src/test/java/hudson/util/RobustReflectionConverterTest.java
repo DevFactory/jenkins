@@ -24,6 +24,8 @@
 
 package hudson.util;
 
+import java.io.IOException;
+
 import com.gargoylesoftware.htmlunit.Page;
 import hudson.cli.CLICommandInvoker;
 import hudson.diagnosis.OldDataMonitor;
@@ -211,9 +213,7 @@ public class RobustReflectionConverterTest {
             // Configure a bad keyword via REST.
             r.jenkins.setSecurityRealm(r.createDummySecurityRealm());
             WebClient wc = r.createWebClient();
-            wc.withBasicApiToken(test);
-            WebRequest req = new WebRequest(new URL(wc.getContextPath() + String.format("%s/config.xml", p.getUrl())), HttpMethod.POST);
-            req.setEncodingType(null);
+            WebRequest req = getReq70436(wc, test, p);
             req.setRequestBody(String.format(CONFIGURATION_TEMPLATE, "badvalue", AcceptOnlySpecificKeyword.ACCEPT_KEYWORD));
             wc.getPage(req);
             
@@ -242,9 +242,7 @@ public class RobustReflectionConverterTest {
             r.jenkins.setSecurityRealm(r.createDummySecurityRealm());
             WebClient wc = r.createWebClient()
                     .withThrowExceptionOnFailingStatusCode(false);
-            wc.withBasicApiToken(test);
-            WebRequest req = new WebRequest(new URL(wc.getContextPath() + String.format("%s/config.xml", p.getUrl())), HttpMethod.POST);
-            req.setEncodingType(null);
+            WebRequest req = getReq70436(wc, test, p);
             req.setRequestBody(String.format(CONFIGURATION_TEMPLATE, AcceptOnlySpecificKeyword.ACCEPT_KEYWORD, "badvalue"));
             
             Page page = wc.getPage(req);
@@ -261,6 +259,13 @@ public class RobustReflectionConverterTest {
             p = r.jenkins.getItemByFullName(p.getFullName(), FreeStyleProject.class);
             assertNotEquals("badvalue", p.getProperty(KeywordProperty.class).getCriticalField().getKeyword());
         }
+    }
+
+    private WebRequest getReq70436(final WebClient wc, final User test, final FreeStyleProject p) throws IOException {
+        wc.withBasicApiToken(test);
+        WebRequest req = new WebRequest(new URL(wc.getContextPath() + String.format("%s/config.xml", p.getUrl())), HttpMethod.POST);
+        req.setEncodingType(null);
+        return req;
     }
     
     @Test
