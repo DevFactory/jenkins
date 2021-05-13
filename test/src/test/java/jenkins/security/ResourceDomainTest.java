@@ -1,5 +1,8 @@
 package jenkins.security;
 
+import java.io.IOException;
+import org.xml.sax.SAXException;
+
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import hudson.ExtensionList;
@@ -64,12 +67,7 @@ public class ResourceDomainTest {
         String resourceResponseUrl;
         { // DBS on primary domain forwards to second domain when trying to access a file URL
             webClient.setRedirectEnabled(true);
-            Page page = webClient.goTo("userContent/readme.txt", "text/plain");
-            resourceResponseUrl = page.getUrl().toString();
-            Assert.assertEquals("resource response success", 200, page.getWebResponse().getStatusCode());
-            Assert.assertNull("no CSP headers", page.getWebResponse().getResponseHeaderValue("Content-Security-Policy"));
-            Assert.assertTrue("Served from resource domain", resourceResponseUrl.contains(RESOURCE_DOMAIN));
-            Assert.assertTrue("Served from resource action", resourceResponseUrl.contains("static-files"));
+            resourceResponseUrl = getResourceResponseUrl16555(webClient);
         }
 
         { // direct access to resource URL works
@@ -165,12 +163,7 @@ public class ResourceDomainTest {
         { // first, obtain a resource response URL
             webClient.setRedirectEnabled(true);
             webClient.setThrowExceptionOnFailingStatusCode(false);
-            Page page = webClient.goTo("userContent/readme.txt", "text/plain");
-            resourceResponseUrl = page.getUrl().toString();
-            Assert.assertEquals("resource response success", 200, page.getWebResponse().getStatusCode());
-            Assert.assertNull("no CSP headers", page.getWebResponse().getResponseHeaderValue("Content-Security-Policy"));
-            Assert.assertTrue("Served from resource domain", resourceResponseUrl.contains(RESOURCE_DOMAIN));
-            Assert.assertTrue("Served from resource action", resourceResponseUrl.contains("static-files"));
+            resourceResponseUrl = getResourceResponseUrl16555(webClient);
         }
 
         {
@@ -182,6 +175,16 @@ public class ResourceDomainTest {
         }
 
 
+    }
+
+    private String getResourceResponseUrl16555(final JenkinsRule.WebClient webClient) throws IOException, SAXException {
+        Page page = webClient.goTo("userContent/readme.txt", "text/plain");
+        String resourceResponseUrl = page.getUrl().toString();
+        Assert.assertEquals("resource response success", 200, page.getWebResponse().getStatusCode());
+        Assert.assertNull("no CSP headers", page.getWebResponse().getResponseHeaderValue("Content-Security-Policy"));
+        Assert.assertTrue("Served from resource domain", resourceResponseUrl.contains(RESOURCE_DOMAIN));
+        Assert.assertTrue("Served from resource action", resourceResponseUrl.contains("static-files"));
+        return resourceResponseUrl;
     }
 
     @Test
