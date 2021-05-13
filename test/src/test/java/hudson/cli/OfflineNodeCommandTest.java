@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass13654;
+
 import hudson.model.Computer;
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
@@ -297,16 +299,7 @@ public class OfflineNodeCommandTest {
     public void offlineNodeManyShouldSucceed() throws Exception {
         DumbSlave slave1 = j.createSlave("aNode1", "", null);
         DumbSlave slave2 = j.createSlave("aNode2", "", null);
-        DumbSlave slave3 = j.createSlave("aNode3", "", null);
-        slave1.toComputer().waitUntilOnline();
-        assertThat(slave1.toComputer().isOnline(), equalTo(true));
-        assertThat(slave1.toComputer().getOfflineCause(), equalTo(null));
-        slave2.toComputer().waitUntilOnline();
-        assertThat(slave2.toComputer().isOnline(), equalTo(true));
-        assertThat(slave2.toComputer().getOfflineCause(), equalTo(null));
-        slave3.toComputer().waitUntilOnline();
-        assertThat(slave3.toComputer().isOnline(), equalTo(true));
-        assertThat(slave3.toComputer().getOfflineCause(), equalTo(null));
+        DumbSlave slave3 = ExtractedSeparateClass13654.getSlave387190(j, slave1, slave2);
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
@@ -327,16 +320,7 @@ public class OfflineNodeCommandTest {
     public void offlineNodeManyShouldSucceedWithCause() throws Exception {
         DumbSlave slave1 = j.createSlave("aNode1", "", null);
         DumbSlave slave2 = j.createSlave("aNode2", "", null);
-        DumbSlave slave3 = j.createSlave("aNode3", "", null);
-        slave1.toComputer().waitUntilOnline();
-        assertThat(slave1.toComputer().isOnline(), equalTo(true));
-        assertThat(slave1.toComputer().getOfflineCause(), equalTo(null));
-        slave2.toComputer().waitUntilOnline();
-        assertThat(slave2.toComputer().isOnline(), equalTo(true));
-        assertThat(slave2.toComputer().getOfflineCause(), equalTo(null));
-        slave3.toComputer().waitUntilOnline();
-        assertThat(slave3.toComputer().isOnline(), equalTo(true));
-        assertThat(slave3.toComputer().getOfflineCause(), equalTo(null));
+        DumbSlave slave3 = ExtractedSeparateClass13654.getSlave387190(j, slave1, slave2);
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
