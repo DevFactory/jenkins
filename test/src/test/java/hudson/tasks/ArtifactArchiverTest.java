@@ -149,12 +149,7 @@ public class ArtifactArchiverTest {
             }
         });
         ArtifactArchiver aa = new ArtifactArchiver("dir/lodge");
-        aa.setAllowEmptyArchive(true);
-        p.getPublishersList().add(aa);
-        FreeStyleBuild b = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
-        FilePath ws = b.getWorkspace();
-        assertNotNull(ws);
-        assumeTrue("May not be testable on Windows:\n" + JenkinsRule.getLog(b), ws.child("dir/lodge").exists());
+        FreeStyleBuild b = getB80469(aa, p);
         List<FreeStyleBuild.Artifact> artifacts = b.getArtifacts();
         assertEquals(1, artifacts.size());
         FreeStyleBuild.Artifact artifact = artifacts.get(0);
@@ -184,14 +179,19 @@ public class ArtifactArchiverTest {
         });
         ArtifactArchiver aa = new ArtifactArchiver("dir/lodge, linkdir/fizz");
         aa.setFollowSymlinks(false);
+        FreeStyleBuild b = getB80469(aa, p);
+        List<FreeStyleBuild.Artifact> artifacts = b.getArtifacts();
+        assertEquals(0, artifacts.size());
+    }
+
+    private FreeStyleBuild getB80469(final ArtifactArchiver aa, final FreeStyleProject p) throws Exception {
         aa.setAllowEmptyArchive(true);
         p.getPublishersList().add(aa);
         FreeStyleBuild b = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
         FilePath ws = b.getWorkspace();
         assertNotNull(ws);
         assumeTrue("May not be testable on Windows:\n" + JenkinsRule.getLog(b), ws.child("dir/lodge").exists());
-        List<FreeStyleBuild.Artifact> artifacts = b.getArtifacts();
-        assertEquals(0, artifacts.size());
+        return b;
     }
 
     @LocalData
