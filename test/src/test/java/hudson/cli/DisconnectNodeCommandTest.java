@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass79488;
+
 import hudson.model.Computer;
 import hudson.slaves.DumbSlave;
 import hudson.slaves.OfflineCause;
@@ -174,12 +176,7 @@ public class DisconnectNodeCommandTest {
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "aNode3");
         assertThat(result, succeededSilently());
-        assertThat(slave1.toComputer().isOffline(), equalTo(true));
-        assertThat(slave1.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
-        assertThat(((OfflineCause.ByCLI) slave1.toComputer().getOfflineCause()).message, equalTo(null));
-        assertThat(slave2.toComputer().isOffline(), equalTo(true));
-        assertThat(slave2.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
-        assertThat(((OfflineCause.ByCLI) slave2.toComputer().getOfflineCause()).message, equalTo(null));
+        ExtractedSeparateClass79488.extractedMethod65181(slave1, slave2);
         assertThat(slave3.toComputer().isOffline(), equalTo(true));
         assertThat(slave3.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
         assertThat(((OfflineCause.ByCLI) slave3.toComputer().getOfflineCause()).message, equalTo(null));
