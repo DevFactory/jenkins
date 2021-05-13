@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass8810;
+
 import hudson.Functions;
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
@@ -86,10 +88,7 @@ public class RunRangeCommand2Test {
         assertThat("Job wasn't scheduled properly", project.scheduleBuild(0), equalTo(true));
 
         // Wait until classProject is started (at least 1s)
-        while(!project.isBuilding()) {
-            System.out.println("Waiting for build to start and sleep 1s...");
-            Thread.sleep(1000);
-        }
+        ExtractedSeparateClass8810.extractedMethod34017(project);
 
         // Wait for the first sleep
         if(!project.getBuildByNumber(1).getLog().contains("echo 1")) {

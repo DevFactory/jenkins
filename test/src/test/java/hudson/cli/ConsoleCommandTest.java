@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass8810;
+
 import hudson.Functions;
 import hudson.model.FreeStyleProject;
 import hudson.model.Item;
@@ -209,10 +211,7 @@ public class ConsoleCommandTest {
         }
 
         // Wait until project is started (at least 1s)
-        while(!project.isBuilding()) {
-            System.out.println("Waiting for build to start and sleep 1s...");
-            Thread.sleep(1000);
-        }
+        ExtractedSeparateClass8810.extractedMethod34017(project);
 
         // Wait for the first message
         if(!project.getBuildByNumber(1).getLog().contains("start - 1")) {
@@ -282,10 +281,7 @@ public class ConsoleCommandTest {
         }
 
         // Wait until project is started (at least 1s)
-        while(!project.isBuilding()) {
-            System.out.println("Waiting for build to start and sleep 1s...");
-            Thread.sleep(1000);
-        }
+        ExtractedSeparateClass8810.extractedMethod34017(project);
 
         // Wait for the first sleep
         if(!project.getBuildByNumber(1).getLog().contains("echo 5")) {
