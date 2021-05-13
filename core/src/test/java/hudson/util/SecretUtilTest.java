@@ -11,12 +11,7 @@ public class SecretUtilTest {
     public void decrypt() throws Exception {
         String data = "{}";
 
-        try {
-            Secret secret = Secret.decrypt(data);
-            Assert.assertNull(secret);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            Assert.fail(data + " shouldn't throw an ArrayIndexOutOfBoundsException but returning null");
-        }
+        extractedMethod70176(data);
 
     }
 
@@ -26,12 +21,7 @@ public class SecretUtilTest {
     public void decryptJustSpace() throws Exception {
         String data = " ";
 
-        try {
-            Secret secret = Secret.decrypt(data);
-            Assert.assertNull(secret);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            Assert.fail(data + " shouldn't throw an ArrayIndexOutOfBoundsException but returning null");
-        }
+        extractedMethod70176(data);
 
     }
 
@@ -40,12 +30,7 @@ public class SecretUtilTest {
     public void decryptWithSpace() throws Exception {
         String data = "{ }";
 
-        try {
-            Secret secret = Secret.decrypt(data);
-            Assert.assertNull(secret);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            Assert.fail(data + " shouldn't throw an ArrayIndexOutOfBoundsException but returning null");
-        }
+        extractedMethod70176(data);
 
     }
 
@@ -54,12 +39,16 @@ public class SecretUtilTest {
     public void decryptWithSpaces() throws Exception {
         String data = "{     }";
 
+        extractedMethod70176(data);
+
+    }
+
+    private void extractedMethod70176(final String data) {
         try {
             Secret secret = Secret.decrypt(data);
             Assert.assertNull(secret);
         } catch (ArrayIndexOutOfBoundsException e) {
             Assert.fail(data + " shouldn't throw an ArrayIndexOutOfBoundsException but returning null");
         }
-
     }
 }
