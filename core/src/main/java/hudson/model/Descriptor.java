@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import hudson.ExtractedSeparateClass98603;
+
 import hudson.DescriptorExtensionList;
 import hudson.PluginWrapper;
 import hudson.RelativePath;
@@ -189,10 +191,7 @@ public abstract class Descriptor<T extends Describable<T>> implements Saveable, 
             if(Collection.class.isAssignableFrom(clazz)) {
                 Type col = Types.getBaseClass(type, Collection.class);
 
-                if (col instanceof ParameterizedType)
-                    return Types.erasure(Types.getTypeArgument(col,0));
-                else
-                    return Object.class;
+                return ExtractedSeparateClass98603.getVar50543(col);
             }
             return null;
         }
