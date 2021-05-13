@@ -93,11 +93,7 @@ public class WhoAmITest {
          *     node0gbmv9ly0f3h517eppoupykq6n0; Granted Authorities:
          * </td>
          */
-        assertThat(content, not(anyOf(
-                containsString("S3cr3t"),
-                containsString("SessionId"),
-                containsString(sessionId)
-        )));
+        extractedMethod30356(content, sessionId);
     }
 
     @Test
@@ -134,11 +130,7 @@ public class WhoAmITest {
          *    "toString": "org.acegisecurity.providers.UsernamePasswordAuthenticationToken@66074b8a: Username: [toString()=S3cr3t]; Password: [PROTECTED]; Authenticated: true; Details: org.acegisecurity.ui.WebAuthenticationDetails@fffc7f0c: RemoteIpAddress: 127.0.0.1; SessionId: node0g4xbfaaq1qb91pwyv0ctilrfu0; Granted Authorities: "
          * }
          */
-        assertThat(content, not(anyOf(
-                containsString("S3cr3t"),
-                containsString("SessionId"),
-                containsString(sessionId)
-        )));
+        extractedMethod30356(content, sessionId);
     }
 
     @Test
@@ -195,6 +187,10 @@ public class WhoAmITest {
          * <td rowspan="1">Authorization</td>
          * <td>Basic dXNlcjoxMTRiNGRmMWNhZTVkNDQ2MjgxZTJkZWEzMDY1NTEyZDBi</td>
          */
+        extractedMethod30356(content, base64ApiToken);
+    }
+
+    private void extractedMethod30356(final String content, final String base64ApiToken) {
         assertThat(content, not(anyOf(
                 containsString("S3cr3t"),
                 containsString("SessionId"),
