@@ -69,11 +69,7 @@ public class StaticRoutingDecisionProvider2Test {
     @Test
     @LocalData("whitelist_monoline")
     public void userControlledWhitelist_monoline_Loading() throws Exception {
-        StaticRoutingDecisionProvider wl = new StaticRoutingDecisionProvider();
-        assertThat(
-                wl.decide("method jenkins.security.stapler.StaticRoutingDecisionProviderTest$ContentProvider getObjectCustom"),
-                is(RoutingDecisionProvider.Decision.ACCEPTED)
-        );
+        StaticRoutingDecisionProvider wl = getWl7816();
         assertThat(
                 wl.decide("blabla"),
                 is(RoutingDecisionProvider.Decision.UNKNOWN)
@@ -83,11 +79,7 @@ public class StaticRoutingDecisionProvider2Test {
     @Test
     @LocalData("whitelist_multiline")
     public void userControlledWhitelist_multiline_Loading() throws Exception {
-        StaticRoutingDecisionProvider wl = new StaticRoutingDecisionProvider();
-        assertThat(
-                wl.decide("method jenkins.security.stapler.StaticRoutingDecisionProviderTest$ContentProvider getObjectCustom"),
-                is(RoutingDecisionProvider.Decision.ACCEPTED)
-        );
+        StaticRoutingDecisionProvider wl = getWl7816();
         assertThat(
                 wl.decide("method jenkins.security.stapler.StaticRoutingDecisionProviderTest$ContentProvider getObjectCustom2"),
                 is(RoutingDecisionProvider.Decision.ACCEPTED)
@@ -96,6 +88,15 @@ public class StaticRoutingDecisionProvider2Test {
                 wl.decide("blabla"),
                 is(RoutingDecisionProvider.Decision.UNKNOWN)
         );
+    }
+
+    private StaticRoutingDecisionProvider getWl7816() {
+        StaticRoutingDecisionProvider wl = new StaticRoutingDecisionProvider();
+        assertThat(
+                wl.decide("method jenkins.security.stapler.StaticRoutingDecisionProviderTest$ContentProvider getObjectCustom"),
+                is(RoutingDecisionProvider.Decision.ACCEPTED)
+        );
+        return wl;
     }
     
     @Test
