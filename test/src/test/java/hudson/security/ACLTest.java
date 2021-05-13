@@ -119,12 +119,7 @@ public class ACLTest {
     @Issue("JENKINS-61467")
     public void checkAnyPermissionDoesNotShowDisabledPermissionsInError() {
         Jenkins jenkins = r.jenkins;
-        jenkins.setSecurityRealm(r.createDummySecurityRealm());
-        jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy()
-                .grant(Jenkins.READ).everywhere().to("manager")
-        );
-
-        final User manager = User.getOrCreateByIdOrFullName("manager");
+        final User manager = getManager49111(jenkins);
 
         try (ACLContext ignored = ACL.as2(manager.impersonate2())) {
             Exception e = Assert.assertThrows(AccessDeniedException.class,
@@ -137,18 +132,23 @@ public class ACLTest {
     @Issue("JENKINS-61467")
     public void checkAnyPermissionShouldShowDisabledPermissionsIfNotImplied() {
         Jenkins jenkins = r.jenkins;
-        jenkins.setSecurityRealm(r.createDummySecurityRealm());
-        jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy()
-                .grant(Jenkins.READ).everywhere().to("manager")
-        );
-
-        final User manager = User.getOrCreateByIdOrFullName("manager");
+        final User manager = getManager49111(jenkins);
 
         try (ACLContext ignored = ACL.as2(manager.impersonate2())) {
             Exception e = Assert.assertThrows(AccessDeniedException.class,
                     () -> jenkins.getACL().checkAnyPermission(Item.WIPEOUT, Build.ARTIFACTS));
             Assert.assertEquals("manager is missing a permission, one of Job/WipeOut, Run/Artifacts is required", e.getMessage());
         }
+    }
+
+    private User getManager49111(final Jenkins jenkins) {
+        jenkins.setSecurityRealm(r.createDummySecurityRealm());
+        jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy()
+                .grant(Jenkins.READ).everywhere().to("manager")
+        );
+        
+        final User manager = User.getOrCreateByIdOrFullName("manager");
+        return manager;
     }
 
     @Test
