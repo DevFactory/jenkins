@@ -202,11 +202,7 @@ public class ResourceDomainTest {
 
         // basics work
         HtmlPage page = webClient.getPage(project, "ws/file.html");
-        Assert.assertEquals("page is found", 200, page.getWebResponse().getStatusCode());
-        Assert.assertTrue("page content is as expected", page.getWebResponse().getContentAsString().contains("the content"));
-
-        URL anonUrl = page.getUrl();
-        Assert.assertTrue("page is served by resource domain", anonUrl.toString().contains("/static-files/"));
+        URL anonUrl = getUrl88906(page);
 
         // now remove workspace permission from all users
         a = new MockAuthorizationStrategy();
@@ -246,11 +242,7 @@ public class ResourceDomainTest {
         webClient.setRedirectEnabled(true);
 
         HtmlPage page = webClient.getPage(project, "ws/file.html");
-        Assert.assertEquals("page is found", 200, page.getWebResponse().getStatusCode());
-        Assert.assertTrue("page content is as expected", page.getWebResponse().getContentAsString().contains("the content"));
-
-        URL url = page.getUrl();
-        Assert.assertTrue("page is served by resource domain", url.toString().contains("/static-files/"));
+        URL url = getUrl88906(page);
 
         project.renameTo("new-job-name"); // or delete, doesn't really matter
 
@@ -268,6 +260,15 @@ public class ResourceDomainTest {
         j.jenkins.setSecurityRealm(j.createDummySecurityRealm()); // CAP AL
         return project; // CAP AL
     } // CAP AL
+
+    private URL getUrl88906(final HtmlPage page) {
+        Assert.assertEquals("page is found", 200, page.getWebResponse().getStatusCode());
+        Assert.assertTrue("page content is as expected", page.getWebResponse().getContentAsString().contains("the content"));
+        
+        URL url = page.getUrl();
+        Assert.assertTrue("page is served by resource domain", url.toString().contains("/static-files/"));
+        return url;
+    }
 
 //    @Test
     public void indexFileIsUsedIfDefined() throws Exception {
