@@ -428,12 +428,7 @@ public class VirtualFileTest {
         VirtualFile virtualRoot = VirtualFile.forFile(root);
         VirtualFile virtualRootChildA = virtualRoot.child("a");
         List<VirtualFile> children = Arrays.asList(virtualRootChildA.list());
-        assertThat(children, hasSize(3));
-        assertThat(children, containsInAnyOrder(
-                VFMatcher.hasName("aa"),
-                VFMatcher.hasName("ab"),
-                VFMatcher.hasName("_b")
-        ));
+        extractedMethod48164(children);
     }
 
     @Test
@@ -614,12 +609,7 @@ public class VirtualFileTest {
         VirtualFile virtualRoot = VirtualFile.forFilePath(new FilePath(root));
         VirtualFile virtualRootChildA = virtualRoot.child("a");
         List<VirtualFile> children = Arrays.asList(virtualRootChildA.list());
-        assertThat(children, hasSize(3));
-        assertThat(children, containsInAnyOrder(
-                VFMatcher.hasName("aa"),
-                VFMatcher.hasName("ab"),
-                VFMatcher.hasName("_b")
-        ));
+        extractedMethod48164(children);
     }
 
     @Test
@@ -675,12 +665,7 @@ public class VirtualFileTest {
         VirtualFile virtualRoot = new VirtualFileMinimalImplementation(root);
         VirtualFile virtualRootChildA = virtualRoot.child("a");
         List<VirtualFile> children = Arrays.asList(virtualRootChildA.list());
-        assertThat(children, hasSize(3));
-        assertThat(children, containsInAnyOrder(
-                VFMatcher.hasName("aa"),
-                VFMatcher.hasName("ab"),
-                VFMatcher.hasName("_b")
-        ));
+        extractedMethod48164(children);
     }
 
     @Test
@@ -694,6 +679,10 @@ public class VirtualFileTest {
         VirtualFile virtualRoot = new VirtualFileMinimalImplementation(root);
         VirtualFile virtualRootChildA = virtualRoot.child("a");
         List<VirtualFile> children = Arrays.asList(virtualRootChildA.list(true));
+        extractedMethod48164(children);
+    }
+
+    private void extractedMethod48164(final List<VirtualFile> children) {
         assertThat(children, hasSize(3));
         assertThat(children, containsInAnyOrder(
                 VFMatcher.hasName("aa"),
