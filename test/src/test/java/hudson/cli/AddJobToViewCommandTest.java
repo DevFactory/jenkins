@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result;
+
 import hudson.model.DirectlyModifiableView;
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
@@ -58,9 +60,7 @@ public class AddJobToViewCommandTest extends ViewManipulationTestBase {
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
                 .invokeWithArgs("aView", "aProject");
 
-        assertThat(result, succeededSilently());
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(1));
-        assertThat(j.jenkins.getView("aView").contains(project), equalTo(true));
+        extractedMethod79926(result, project);
     }
 
     @Test public void addJobShouldSucceedEvenAlreadyAdded () throws Exception {
@@ -77,9 +77,7 @@ public class AddJobToViewCommandTest extends ViewManipulationTestBase {
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
                 .invokeWithArgs("aView", "aProject");
 
-        assertThat(result, succeededSilently());
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(1));
-        assertThat(j.jenkins.getView("aView").contains(project), equalTo(true));
+        extractedMethod79926(result, project);
     }
 
     @Test public void addJobManyShouldSucceed() throws Exception {
@@ -114,6 +112,10 @@ public class AddJobToViewCommandTest extends ViewManipulationTestBase {
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
                 .invokeWithArgs("aView", "aProject", "aProject");
 
+        extractedMethod79926(result, project);
+    }
+
+    private void extractedMethod79926(final CLICommandInvoker.Result result, final FreeStyleProject project) {
         assertThat(result, succeededSilently());
         assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(1));
         assertThat(j.jenkins.getView("aView").contains(project), equalTo(true));
