@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass1259;
+
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
 import hudson.model.ListView;
@@ -66,9 +68,7 @@ public abstract class ViewManipulationTestBase {
                 .authorizedTo(Jenkins.READ)
                 .invokeWithArgs("aView", "aProject");
 
-        assertThat(result, failedWith(6));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: user is missing the View/Read permission"));
+        ExtractedSeparateClass1259.extractedMethod18696(result);
     }
 
     @Test public void jobViewManipulationShouldFailWithViewReadPermissionOnly() throws IOException {
