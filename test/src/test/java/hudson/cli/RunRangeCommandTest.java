@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result;
+
 import hudson.Extension;
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
@@ -250,9 +252,7 @@ public class RunRangeCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, Job.READ)
                 .invokeWithArgs(PROJECT_NAME, "-");
-        assertThat(result, failedWith(2));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: \"-\" is not a valid option"));
+        extractedMethod58443(result);
     }
 
     @Test public void dummyRangeNumberMultiShouldSuccess() {
@@ -843,9 +843,13 @@ public class RunRangeCommandTest {
         result = command
                 .authorizedTo(Jenkins.READ, Job.READ)
                 .invokeWithArgs(PROJECT_NAME, "-");
-        assertThat(result, failedWith(2));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: \"-\" is not a valid option"));
+        extractedMethod58443(result);
+    }
+
+    private void extractedMethod58443(final CLICommandInvoker.Result result) {
+            assertThat(result, failedWith(2));
+            assertThat(result, hasNoStandardOutput());
+            assertThat(result.stderr(), containsString("ERROR: \"-\" is not a valid option"));
     }
 
     @Test public void dummyRangeRangeSingleShouldFailIfBuildRangeContainsSpace() {
