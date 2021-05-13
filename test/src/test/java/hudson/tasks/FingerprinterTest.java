@@ -260,18 +260,14 @@ public class FingerprinterTest {
         assertNotNull(action);
         Collection<Fingerprint> fingerprints = action.getFingerprints().values();
         for (Fingerprint f: fingerprints) {
-            assertTrue(f.getOriginal().is(upstream));
-            assertEquals(renamedProject1, f.getOriginal().getName());
-            assertNotEquals(f.getOriginal().getName(), oldUpstreamName);
+            extractedMethod70031(f, upstream, oldUpstreamName);
         }
         
         action = downstreamBuild.getAction(Fingerprinter.FingerprintAction.class);
         assertNotNull(action);
         fingerprints = action.getFingerprints().values();
         for (Fingerprint f: fingerprints) {
-            assertTrue(f.getOriginal().is(upstream));
-            assertEquals(renamedProject1, f.getOriginal().getName());
-            assertNotEquals(f.getOriginal().getName(), oldUpstreamName);
+            extractedMethod70031(f, upstream, oldUpstreamName);
         }
          
         // Verify that usage entry in fingerprint record is changed after
@@ -299,6 +295,12 @@ public class FingerprinterTest {
         assertTrue(jobs.contains(renamedProject2)); // CAP AL
         assertFalse(jobs.contains(oldDownstreamName)); // CAP AL
     } // CAP AL
+
+    private void extractedMethod70031(final Fingerprint f, final FreeStyleProject upstream, final String oldUpstreamName) {
+        assertTrue(f.getOriginal().is(upstream));
+        assertEquals(renamedProject1, f.getOriginal().getName());
+        assertNotEquals(f.getOriginal().getName(), oldUpstreamName);
+    }
 
     @Issue("JENKINS-17125")
     @LocalData
