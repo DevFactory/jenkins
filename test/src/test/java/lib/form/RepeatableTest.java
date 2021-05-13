@@ -398,10 +398,7 @@ public class RepeatableTest extends HudsonTestCase {
             System.err.println("HTML at time of failure:\n" + p.getBody().asXml());
             throw e;
         }
-        bindClass = FooList.class;
-        submit(f);
-        assertEquals("[FooList:title one:[foo:txt one:false,foo:txt two:true], "
-                     + "FooList:title two:[foo:txt 2.1:false]]", bindResult.toString());
+        extractedMethod74610(f);
     }
 
     /** Tests nested repeatable and use of @DataBoundConstructor to process formData */
@@ -424,10 +421,7 @@ public class RepeatableTest extends HudsonTestCase {
             System.err.println("HTML at time of failure:\n" + p.getBody().asXml());
             throw e;
         }
-        bindClass = FooList.class;
-        submit(f);
-        assertEquals("[FooList:title one:[foo:txt one:false,foo:txt two:true], "
-                     + "FooList:title two:[foo:txt 2.1:false]]", bindResult.toString());
+        extractedMethod74610(f);
     }
 
     /** Tests nested repeatable and use of @DataBoundConstructor to process formData */
@@ -450,10 +444,7 @@ public class RepeatableTest extends HudsonTestCase {
             System.err.println("HTML at time of failure:\n" + p.getBody().asXml());
             throw e;
         }
-        bindClass = FooList.class;
-        submit(f);
-        assertEquals("[FooList:title one:[foo:txt one:false,foo:txt two:true], "
-                     + "FooList:title two:[foo:txt 2.1:false]]", bindResult.toString());
+        extractedMethod74610(f);
     }
 
     /** Tests nested repeatable and use of @DataBoundConstructor to process formData */
@@ -476,6 +467,10 @@ public class RepeatableTest extends HudsonTestCase {
             System.err.println("HTML at time of failure:\n" + p.getBody().asXml());
             throw e;
         }
+        extractedMethod74610(f);
+    }
+
+    private void extractedMethod74610(final HtmlForm f) throws Exception {
         bindClass = FooList.class;
         submit(f);
         assertEquals("[FooList:title one:[foo:txt one:false,foo:txt two:true], "
