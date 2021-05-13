@@ -24,6 +24,10 @@
 
 package hudson.cli;
 
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import hudson.cli.CLICommandInvoker.Result;
+
 import hudson.FilePath;
 import hudson.Functions;
 import hudson.model.FreeStyleProject;
@@ -183,10 +187,7 @@ public class ReloadJobCommandTest {
         assertThat(result, failedWith(5));
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created: No such item ‘never_created’ exists."));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(project1.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
-        assertThat(project2.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
+        extractedMethod27792(result, project1, project2);
     }
 
     @Test public void reloadJobManyShouldFailIfMiddleJobDoesNotExist() throws Exception {
@@ -209,10 +210,7 @@ public class ReloadJobCommandTest {
         assertThat(result, failedWith(5));
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created: No such item ‘never_created’ exists."));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(project1.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
-        assertThat(project2.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
+        extractedMethod27792(result, project1, project2);
     }
 
     @Test public void reloadJobManyShouldFailIfLastJobDoesNotExist() throws Exception {
@@ -235,10 +233,7 @@ public class ReloadJobCommandTest {
         assertThat(result, failedWith(5));
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created: No such item ‘never_created’ exists."));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(project1.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
-        assertThat(project2.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
+        extractedMethod27792(result, project1, project2);
     }
 
     @Test public void reloadJobManyShouldFailIfMoreJobsDoNotExist() throws Exception {
@@ -262,8 +257,12 @@ public class ReloadJobCommandTest {
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created1: No such item ‘never_created1’ exists."));
         assertThat(result.stderr(), containsString("never_created2: No such item ‘never_created2’ exists."));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
+        extractedMethod27792(result, project1, project2);
+    }
 
+    private void extractedMethod27792(final CLICommandInvoker.Result result, final FreeStyleProject project1, final FreeStyleProject project2) throws ExecutionException, IOException, InterruptedException {
+        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
+        
         assertThat(project1.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
         assertThat(project2.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
     }
