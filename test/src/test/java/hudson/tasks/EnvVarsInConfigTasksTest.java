@@ -89,15 +89,7 @@ public class EnvVarsInConfigTasksTest extends HudsonTestCase {
 		assertTrue(buildLogRegular.contains(DUMMY_LOCATION_VARNAME));
 
 		// test the agent with prepared environment
-		project.setAssignedLabel(slaveEnv.getSelfLabel());
-		build = project.scheduleBuild2(0).get();
-		System.out.println(build.getDisplayName() + " completed");
-
-		assertBuildStatusSuccess(build);
-
-		// Check variable was expanded
-		String buildLogEnv = getBuildLog(build);
-		System.out.println(buildLogEnv);
+		String buildLogEnv = getBuildLogEnv13604(project);
 		assertFalse(buildLogEnv.contains(DUMMY_LOCATION_VARNAME));
 	}
 
@@ -126,15 +118,7 @@ public class EnvVarsInConfigTasksTest extends HudsonTestCase {
 		assertTrue(buildLogRegular.contains(Ant_ExecutableNotFound("varAnt")));
 
 		// test the agent with prepared environment
-		project.setAssignedLabel(slaveEnv.getSelfLabel());
-		build = project.scheduleBuild2(0).get();
-		System.out.println(build.getDisplayName() + " completed");
-
-		assertBuildStatusSuccess(build);
-
-		// Check variable was expanded
-		String buildLogEnv = getBuildLog(build);
-		System.out.println(buildLogEnv);
+		String buildLogEnv = getBuildLogEnv13604(project);
 		assertTrue(buildLogEnv.contains("Ant home: "));
 		assertTrue(buildLogEnv.contains("Test property: correct"));
 		assertFalse(buildLogEnv.matches("(?s)^.*Ant home: [^\\n\\r]*"
@@ -163,15 +147,7 @@ public class EnvVarsInConfigTasksTest extends HudsonTestCase {
 		assertTrue(buildLogRegular.contains(DUMMY_LOCATION_VARNAME));
 
 		// test the agent with prepared environment
-		project.setAssignedLabel(slaveEnv.getSelfLabel());
-		build = project.scheduleBuild2(0).get();
-		System.out.println(build.getDisplayName() + " completed");
-
-		assertBuildStatusSuccess(build);
-
-		// Check variable was expanded
-		String buildLogEnv = getBuildLog(build);
-		System.out.println(buildLogEnv);
+		String buildLogEnv = getBuildLogEnv13604(project);
 		assertFalse(buildLogEnv.contains(DUMMY_LOCATION_VARNAME));
 	}
  // CAP AL
@@ -182,6 +158,19 @@ public class EnvVarsInConfigTasksTest extends HudsonTestCase {
 	    		"/simple-projects.zip"))); // CAP AL
 	    return project; // CAP AL
 	} // CAP AL
+
+	private String getBuildLogEnv13604(final FreeStyleProject project) throws Exception {
+	    project.setAssignedLabel(slaveEnv.getSelfLabel());
+	    FreeStyleBuild build = project.scheduleBuild2(0).get();
+	    System.out.println(build.getDisplayName() + " completed");
+	    
+	    assertBuildStatusSuccess(build);
+	    
+	    // Check variable was expanded
+	    String buildLogEnv = getBuildLog(build);
+	    System.out.println(buildLogEnv);
+	    return buildLogEnv;
+	}
 
     @SuppressWarnings("deprecation") // it's  okay to use it in tests
     private String getBuildLog(AbstractBuild<?,?> build) throws Exception {
