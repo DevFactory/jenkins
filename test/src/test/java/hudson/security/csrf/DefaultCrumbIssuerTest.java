@@ -6,6 +6,8 @@
 
 package hudson.security.csrf;
 
+import hudson.ExtractedSeparateClass67130;
+
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.Page;
@@ -228,12 +230,7 @@ public class DefaultCrumbIssuerTest {
         boolean previousValue = DefaultCrumbIssuer.EXCLUDE_SESSION_ID;
 
         try {
-            r.jenkins.setSecurityRealm(r.createDummySecurityRealm());
-
-            // let anonymous user have read access
-            MockAuthorizationStrategy authorizationStrategy = new MockAuthorizationStrategy();
-            authorizationStrategy.grant(Jenkins.ADMINISTER).everywhere().toEveryone();
-            r.jenkins.setAuthorizationStrategy(authorizationStrategy);
+            ExtractedSeparateClass67130.extractedMethod47960(r);
 
             DefaultCrumbIssuer issuer = new DefaultCrumbIssuer(true);
             r.jenkins.setCrumbIssuer(issuer);
@@ -311,11 +308,7 @@ public class DefaultCrumbIssuerTest {
 
     @Test
     public void anonCanStillPostRequestUsingBrowsers() throws Exception {
-        r.jenkins.setSecurityRealm(r.createDummySecurityRealm());
-
-        MockAuthorizationStrategy authorizationStrategy = new MockAuthorizationStrategy();
-        authorizationStrategy.grant(Jenkins.ADMINISTER).everywhere().toEveryone();
-        r.jenkins.setAuthorizationStrategy(authorizationStrategy);
+        ExtractedSeparateClass67130.extractedMethod47960(r);
 
         DefaultCrumbIssuer issuer = new DefaultCrumbIssuer(true);
         r.jenkins.setCrumbIssuer(issuer);
