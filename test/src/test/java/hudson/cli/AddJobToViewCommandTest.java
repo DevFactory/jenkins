@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass83245;
+
 import hudson.model.DirectlyModifiableView;
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
@@ -97,9 +99,7 @@ public class AddJobToViewCommandTest extends ViewManipulationTestBase {
                 .invokeWithArgs("aView", "aProject1", "aProject2");
 
         assertThat(result, succeededSilently());
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(2));
-        assertThat(j.jenkins.getView("aView").contains(project1), equalTo(true));
-        assertThat(j.jenkins.getView("aView").contains(project2 ), equalTo(true));
+        ExtractedSeparateClass83245.extractedMethod4751(project1, project2, j);
     }
 
     @Test public void addJobManyShouldSucceedEvenAJobIsSpecifiedTwice() throws Exception {
