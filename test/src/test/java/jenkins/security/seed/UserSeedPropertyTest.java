@@ -134,14 +134,7 @@ public class UserSeedPropertyTest {
         String ALICE = getALICE44239(realm); // CAP AL
 
         JenkinsRule.WebClient wc = j.createWebClient();
-        wc.login(ALICE);
-
-        User alice = User.getById(ALICE, false);
-        assertNotNull(alice);
-        UserSeedProperty userSeed = alice.getProperty(UserSeedProperty.class);
-        assertNotNull(userSeed);
-
-        assertUserConnected(wc, ALICE);
+        User alice = getAlice75323(wc, ALICE);
 
         realm.deleteAccount(ALICE);
 
@@ -172,14 +165,7 @@ public class UserSeedPropertyTest {
             String ALICE = getALICE44239(realm); // CAP AL
 
             JenkinsRule.WebClient wc = j.createWebClient();
-            wc.login(ALICE);
-
-            User alice = User.getById(ALICE, false);
-            assertNotNull(alice);
-            UserSeedProperty userSeed = alice.getProperty(UserSeedProperty.class);
-            assertNotNull(userSeed);
-
-            assertUserConnected(wc, ALICE);
+            User alice = getAlice75323(wc, ALICE);
 
             realm.deleteAccount(ALICE);
 
@@ -221,14 +207,7 @@ public class UserSeedPropertyTest {
         String ALICE = getALICE44239(realm); // CAP AL
 
         JenkinsRule.WebClient wc = j.createWebClient();
-        wc.login(ALICE);
-
-        User alice = User.getById(ALICE, false);
-        assertNotNull(alice);
-        UserSeedProperty userSeed = alice.getProperty(UserSeedProperty.class);
-        assertNotNull(userSeed);
-
-        assertUserConnected(wc, ALICE);
+        User alice = getAlice75323(wc, ALICE);
 
         requestRenewSeedForUser(alice);
 
@@ -237,6 +216,18 @@ public class UserSeedPropertyTest {
 
         wc.login(ALICE);
         assertUserConnected(wc, ALICE);
+    }
+
+    private User getAlice75323(final JenkinsRule.WebClient wc, final String ALICE) throws Exception {
+        wc.login(ALICE);
+        
+        User alice = User.getById(ALICE, false);
+        assertNotNull(alice);
+        UserSeedProperty userSeed = alice.getProperty(UserSeedProperty.class);
+        assertNotNull(userSeed);
+        
+        assertUserConnected(wc, ALICE);
+        return alice;
     }
 
     @Test
