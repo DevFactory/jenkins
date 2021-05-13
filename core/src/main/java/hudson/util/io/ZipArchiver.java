@@ -86,15 +86,11 @@ final class ZipArchiver extends Archiver {
             ZipEntry dirZipEntry = new ZipEntry(this.prefix + relativePath+'/');
             // Setting this bit explicitly is needed by some unzipping applications (see JENKINS-3294).
             dirZipEntry.setExternalAttributes(BITMASK_IS_DIRECTORY);
-            if (mode!=-1)   dirZipEntry.setUnixMode(mode);
-            dirZipEntry.setTime(f.lastModified());
-            zip.putNextEntry(dirZipEntry);
+            extractedMethod78964(mode, dirZipEntry, f);
             zip.closeEntry();
         } else {
             ZipEntry fileZipEntry = new ZipEntry(this.prefix + relativePath);
-            if (mode!=-1)   fileZipEntry.setUnixMode(mode);
-            fileZipEntry.setTime(f.lastModified());
-            zip.putNextEntry(fileZipEntry);
+            extractedMethod78964(mode, fileZipEntry, f);
             try (InputStream in = Files.newInputStream(f.toPath(), openOptions)) {
                 int len;
                 while((len=in.read(buf))>=0)
@@ -105,6 +101,12 @@ final class ZipArchiver extends Archiver {
             zip.closeEntry();
         }
         entriesWritten++;
+    }
+
+    private void extractedMethod78964(final int mode, final ZipEntry fileZipEntry, final File f) throws IOException {
+        if (mode!=-1)   fileZipEntry.setUnixMode(mode);
+        fileZipEntry.setTime(f.lastModified());
+        zip.putNextEntry(fileZipEntry);
     }
 
     public void close() throws IOException {
