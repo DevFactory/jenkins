@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass91295;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.startsWith;
@@ -90,8 +92,6 @@ public class GetViewCommandTest {
                 .invokeWithArgs("never_created")
         ;
 
-        assertThat(result, failedWith(3));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: No view named never_created inside view Jenkins"));
+        ExtractedSeparateClass91295.extractedMethod69885(result);
     }
 }
