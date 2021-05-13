@@ -403,18 +403,7 @@ public class QuietDownCommandTest {
                 return null;
             }
         });
-        threadPool.submit(exec_task);
-        beforeCli.block();
-        assertJenkinsInQuietMode();
-
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
-        assertJenkinsInQuietMode();
-
-        get(exec_task);
+        extractedMethod71521(threadPool, exec_task, beforeCli, finish, build, project);
 
         assertJenkinsInQuietMode();
     }
@@ -448,16 +437,21 @@ public class QuietDownCommandTest {
                 return null;
             }
         });
+        extractedMethod71521(threadPool, exec_task, beforeCli, finish, build, project);
+    }
+
+    private void extractedMethod71521(final ExecutorService threadPool, final FutureTask exec_task, final OneShotEvent beforeCli, final OneShotEvent finish, final Future<FreeStyleBuild> build, final FreeStyleProject project) throws Exception {
         threadPool.submit(exec_task);
         beforeCli.block();
         assertJenkinsInQuietMode();
-
+        
         finish.signal();
         build.get();
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
         assertThat(project.isBuilding(), equalTo(false));
         j.assertBuildStatusSuccess(build);
         assertJenkinsInQuietMode();
+        
         get(exec_task);
     }
 
