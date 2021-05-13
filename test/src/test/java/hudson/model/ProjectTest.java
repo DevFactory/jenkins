@@ -124,10 +124,7 @@ public class ProjectTest {
     
     @Test
     public void testOnCreateFromScratch() throws Exception{
-        FreeStyleProject p = j.createFreeStyleProject("project");
-        j.buildAndAssertSuccess(p);
-        p.removeRun(p.getLastBuild());
-        createAction = true;
+        FreeStyleProject p = getP71034();
         p.onCreatedFromScratch();
         assertNotNull("Project should have last build.", p.getLastBuild());
         assertNotNull("Project should have transient action TransientAction.", p.getAction(TransientAction.class));
@@ -136,15 +133,20 @@ public class ProjectTest {
     
     @Test
     public void testOnLoad() throws Exception{
-        FreeStyleProject p = j.createFreeStyleProject("project");
-        j.buildAndAssertSuccess(p);
-        p.removeRun(p.getLastBuild());
-        createAction = true;
+        FreeStyleProject p = getP71034();
         p.onLoad(j.jenkins, "project");
         assertNotNull("Project should have a build.", p.getLastBuild());
         assertNotNull("Project should have a scm.", p.getScm());
         assertNotNull("Project should have Transient Action TransientAction.", p.getAction(TransientAction.class));
         createAction = false;
+    }
+
+    private FreeStyleProject getP71034() throws Exception {
+        FreeStyleProject p = j.createFreeStyleProject("project");
+        j.buildAndAssertSuccess(p);
+        p.removeRun(p.getLastBuild());
+        createAction = true;
+        return p;
     }
     
     @Test
