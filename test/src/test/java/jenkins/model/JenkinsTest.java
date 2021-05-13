@@ -526,10 +526,7 @@ public class JenkinsTest {
         
         final Set<String> newProtocols = new HashSet<>(defaultProtocols);
         newProtocols.add(MockOptInProtocol1.NAME);
-        j.jenkins.setAgentProtocols(newProtocols);
-        j.jenkins.save();
-        final Set<String> agentProtocolsBeforeReload = j.jenkins.getAgentProtocols();
-        assertProtocolEnabled(MockOptInProtocol1.NAME, "before the roundtrip");
+        final Set<String> agentProtocolsBeforeReload = getAgentProtocolsBeforeReload25382(newProtocols);
         
         j.jenkins.reload();
         
@@ -568,11 +565,7 @@ public class JenkinsTest {
         final Set<String> newProtocols = new HashSet<>(defaultProtocols);
         newProtocols.add(MockOptInProtocol1.NAME);
         newProtocols.add(MockOptInProtocol2.NAME);
-        j.jenkins.setAgentProtocols(newProtocols);
-        j.jenkins.save();
-
-        final Set<String> agentProtocolsBeforeReload = j.jenkins.getAgentProtocols();
-        assertProtocolEnabled(MockOptInProtocol1.NAME, "before the roundtrip");
+        final Set<String> agentProtocolsBeforeReload = getAgentProtocolsBeforeReload25382(newProtocols);
         assertProtocolEnabled(MockOptInProtocol2.NAME, "before the roundtrip");
 
         j.jenkins.reload();
@@ -583,6 +576,15 @@ public class JenkinsTest {
                 reloadedProtocols.size(), equalTo(defaultProtocols.size() + 2));
         assertProtocolEnabled(MockOptInProtocol1.NAME, "after the roundtrip");
         assertProtocolEnabled(MockOptInProtocol2.NAME, "after the roundtrip");
+    }
+
+    private Set<String> getAgentProtocolsBeforeReload25382(final Set<String> newProtocols) throws AssertionError, IOException {
+        j.jenkins.setAgentProtocols(newProtocols);
+        j.jenkins.save();
+        
+        final Set<String> agentProtocolsBeforeReload = j.jenkins.getAgentProtocols();
+        assertProtocolEnabled(MockOptInProtocol1.NAME, "before the roundtrip");
+        return agentProtocolsBeforeReload;
     }
     
     @Test
