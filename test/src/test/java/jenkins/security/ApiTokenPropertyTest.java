@@ -1,5 +1,7 @@
 package jenkins.security;
 
+import jenkins.security.ExtractedSeparateClass95095;
+
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
@@ -289,13 +291,7 @@ public class ApiTokenPropertyTest {
     }
     
     private void checkUserIsNotConnected(WebClient wc) throws Exception {
-        try{
-            wc.goToXml("whoAmI/api/xml");
-            fail();
-        }
-        catch(FailingHttpStatusCodeException e){
-            assertEquals(401, e.getStatusCode());
-        }
+        ExtractedSeparateClass95095.extractedMethod43016(wc);
     }
     
     @Test

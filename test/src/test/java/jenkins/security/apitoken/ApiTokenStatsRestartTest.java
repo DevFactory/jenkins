@@ -23,6 +23,8 @@
  */
 package jenkins.security.apitoken;
 
+import jenkins.security.ExtractedSeparateClass95095;
+
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.Page;
@@ -168,12 +170,7 @@ public class ApiTokenStatsRestartTest {
     }
     
     private void checkUserIsNotConnected(WebClient wc) throws Exception {
-        try {
-            wc.goToXml("whoAmI/api/xml");
-            fail();
-        } catch (FailingHttpStatusCodeException e) {
-            assertEquals(401, e.getStatusCode());
-        }
+        ExtractedSeparateClass95095.extractedMethod43016(wc);
     }
     
     private void revokeToken(WebClient wc, String login, String tokenUuid) throws Exception {
