@@ -878,10 +878,7 @@ public class QueueTest {
      */
     public void shouldRunFlyweightTaskOnProvisionedNodeWhenNodeRestricted() throws Exception {
         MatrixProject matrixProject = r.jenkins.createProject(MatrixProject.class, "p");
-        matrixProject.setAxes(new AxisList(
-                new Axis("axis", "a", "b")
-        ));
-        Label label = LabelExpression.get("aws-linux-dummy");
+        Label label = getLabel48163(matrixProject);
         DummyCloudImpl dummyCloud = new DummyCloudImpl(r, 0);
         dummyCloud.label = label;
         r.jenkins.clouds.add(dummyCloud);
@@ -896,11 +893,7 @@ public class QueueTest {
     public void shouldBeAbleToBlockFlyweightTaskAtTheLastMinute() throws Exception {
         MatrixProject matrixProject = r.jenkins.createProject(MatrixProject.class, "downstream");
         matrixProject.setDisplayName("downstream");
-        matrixProject.setAxes(new AxisList(
-                new Axis("axis", "a", "b")
-        ));
-
-        Label label = LabelExpression.get("aws-linux-dummy");
+        Label label = getLabel48163(matrixProject);
         DummyCloudImpl dummyCloud = new DummyCloudImpl(r, 0);
         dummyCloud.label = label;
         BlockDownstreamProjectExecution property = new BlockDownstreamProjectExecution();
@@ -962,6 +955,15 @@ public class QueueTest {
         assertFalse(Queue.getInstance().getItems()[0].isBlocked());
         assertTrue(Queue.getInstance().getBlockedItems().isEmpty());
         assertEquals(Queue.getInstance().getBuildableItems().get(0).task.getDisplayName(), matrixProject.displayName);
+    }
+
+    private Label getLabel48163(final MatrixProject matrixProject) throws IOException {
+        matrixProject.setAxes(new AxisList(
+                new Axis("axis", "a", "b")
+        ));
+        
+        Label label = LabelExpression.get("aws-linux-dummy");
+        return label;
     }
 
     //let's make sure that the downstream project is not started before the upstream --> we want to simulate
