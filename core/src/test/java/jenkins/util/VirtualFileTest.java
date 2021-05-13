@@ -445,11 +445,7 @@ public class VirtualFileTest {
         Util.createSymlink(root, "a", symlinkName, null);
         File symlinkFile = new File(root, symlinkName);
         VirtualFile virtualRootSymlink = VirtualFile.forFile(symlinkFile);
-        List<VirtualFile> children = Arrays.asList(virtualRootSymlink.list(true));
-        assertThat(children, containsInAnyOrder(
-                VFMatcher.hasName("aa"),
-                VFMatcher.hasName("ab")
-        ));
+        extractedMethod23760(virtualRootSymlink);
     }
 
     @Test
@@ -461,11 +457,7 @@ public class VirtualFileTest {
         Util.createSymlink(root, "a", symlinkName, null);
         File symlinkFile = new File(root, symlinkName);
         VirtualFile virtualRootSymlink = VirtualFile.forFilePath(new FilePath(symlinkFile));
-        List<VirtualFile> children = Arrays.asList(virtualRootSymlink.list(true));
-        assertThat(children, containsInAnyOrder(
-                VFMatcher.hasName("aa"),
-                VFMatcher.hasName("ab")
-        ));
+        extractedMethod23760(virtualRootSymlink);
     }
 
     @Test
@@ -506,11 +498,7 @@ public class VirtualFileTest {
         File root = tmp.getRoot();
         VirtualFile rootVirtualFile = VirtualFile.forFile(root);
         VirtualFile virtualRootChildA = rootVirtualFile.child("a");
-        List<VirtualFile> children = Arrays.asList(virtualRootChildA.list(true));
-        assertThat(children, containsInAnyOrder(
-                VFMatcher.hasName("aa"),
-                VFMatcher.hasName("ab")
-        ));
+        extractedMethod23760(virtualRootChildA);
     }
 
     @Test
@@ -522,6 +510,10 @@ public class VirtualFileTest {
         FilePath rootPath = new FilePath(root);
         VirtualFile rootVirtualPath = VirtualFile.forFilePath(rootPath);
         VirtualFile virtualRootChildA = rootVirtualPath.child("a");
+        extractedMethod23760(virtualRootChildA);
+    }
+
+    private void extractedMethod23760(final VirtualFile virtualRootChildA) throws IOException {
         List<VirtualFile> children = Arrays.asList(virtualRootChildA.list(true));
         assertThat(children, containsInAnyOrder(
                 VFMatcher.hasName("aa"),
