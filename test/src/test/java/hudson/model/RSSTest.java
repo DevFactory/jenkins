@@ -375,9 +375,7 @@ public class RSSTest {
         if (expectedNodes >= 0) {
             assertThat(feedNode.getChildNodes().getLength(), is(expectedNodes));
         }
-        Node linkNode = getSingleNode(feedNode, "link");
-        assertThat(linkNode.getAttributes().getNamedItem("rel").getTextContent(), is("alternate"));
-        assertThat(linkNode.getAttributes().getNamedItem("type").getTextContent(), is("text/html"));
+        Node linkNode = getLinkNode73502(feedNode);
         assertThat(linkNode.getAttributes().getNamedItem("href").getTextContent(), is(j.getURL().toString()));
         assertNotNull(getSingleNode(feedNode, "updated"));
         assertThat(getSingleNode(feedNode, "title").getTextContent(), is(expectedTitle));
@@ -528,10 +526,15 @@ public class RSSTest {
         checkAtomTimeNode(firstBuild, "published");
         checkAtomTimeNode(firstBuild, "updated");
         assertNotNull(getSingleNode(firstBuild, "id").getTextContent());
+        Node linkNode = getLinkNode73502(firstBuild);
+        assertThat(linkNode.getAttributes().getNamedItem("href").getTextContent(), containsString(j.getURL().toString()));
+    }
+
+    private Node getLinkNode73502(final Node firstBuild) {
         Node linkNode = getSingleNode(firstBuild, "link");
         assertThat(linkNode.getAttributes().getNamedItem("rel").getTextContent(), is("alternate"));
         assertThat(linkNode.getAttributes().getNamedItem("type").getTextContent(), is("text/html"));
-        assertThat(linkNode.getAttributes().getNamedItem("href").getTextContent(), containsString(j.getURL().toString()));
+        return linkNode;
     }
 
     private void checkLatestBuilds(JenkinsRule.WebClient webClient, String pathPrefix, String displayName, String buildType, String userId,
