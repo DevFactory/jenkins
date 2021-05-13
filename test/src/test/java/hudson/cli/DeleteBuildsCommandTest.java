@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result;
+
 import hudson.Functions;
 import hudson.model.ExecutorTest;
 import hudson.model.FreeStyleProject;
@@ -191,10 +193,7 @@ public class DeleteBuildsCommandTest {
         assertThat(result.stdout(), containsString("Deleted 2 builds"));
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(3));
 
-        result = command
-                .authorizedTo(Jenkins.READ, Job.READ, Run.DELETE)
-                .invokeWithArgs("aProject", "3-5");
-        assertThat(result, succeeded());
+        result = getResult22206();
         assertThat(result.stdout(), containsString("Deleted 3 builds"));
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(0));
     }
@@ -310,11 +309,16 @@ public class DeleteBuildsCommandTest {
         assertThat(result.stdout(), containsString("Deleted 1 builds"));
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
 
-        result = command
+        result = getResult22206();
+        assertThat(result.stdout(), containsString("Deleted 1 builds"));
+        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(0));
+    }
+
+    private CLICommandInvoker.Result getResult22206() {
+        CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, Job.READ, Run.DELETE)
                 .invokeWithArgs("aProject", "3-5");
         assertThat(result, succeeded());
-        assertThat(result.stdout(), containsString("Deleted 1 builds"));
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(0));
+        return result;
     }
 }
