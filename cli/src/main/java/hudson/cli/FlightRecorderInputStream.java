@@ -142,10 +142,7 @@ class FlightRecorderInputStream extends InputStream {
 
         @Override
         public synchronized void write(int b) {
-            if (pos == capacity) {
-                filled = true;
-                pos = 0;
-            }
+            extractedMethod24007();
             data[pos++] = (byte) b;
         }
 
@@ -177,15 +174,19 @@ class FlightRecorderInputStream extends InputStream {
             }
 
             // wrap around if necessary
-            if (pos == capacity) {
-                filled = true;
-                pos = 0;
-            }
+            extractedMethod24007();
 
             // copy anything still left
             if (len > 0) {
                 System.arraycopy(buf, off, data, pos, len);
                 pos += len;
+            }
+        }
+
+        private void extractedMethod24007() {
+            if (pos == capacity) {
+                filled = true;
+                pos = 0;
             }
         }
 
