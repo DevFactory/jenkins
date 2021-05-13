@@ -371,11 +371,7 @@ public class ApiTokenPropertyTest {
                 String newLegacyToken = apiTokenProperty.getApiToken();
                 assertNotEquals(newLegacyToken, Messages.ApiTokenProperty_ChangeToken_CapabilityNotAllowed());
             }
-            revokeLegacyToken(wc, user);
-        
-            // always possible
-            changeTokenByDirectCall(apiTokenProperty);
-            revokeLegacyToken(wc, user);
+            extractedMethod13434(wc, user, apiTokenProperty);
         }
     
         revokeAllToken(wc, user);
@@ -387,12 +383,16 @@ public class ApiTokenPropertyTest {
                 String newLegacyToken = apiTokenProperty.getApiToken();
                 assertEquals(newLegacyToken, Messages.ApiTokenProperty_NoLegacyToken());
             }
-            revokeLegacyToken(wc, user);
-        
-            // always possible
-            changeTokenByDirectCall(apiTokenProperty);
-            revokeLegacyToken(wc, user);
+            extractedMethod13434(wc, user, apiTokenProperty);
         }
+    }
+
+    private void extractedMethod13434(final WebClient wc, final User user, final ApiTokenProperty apiTokenProperty) throws Exception {
+        revokeLegacyToken(wc, user);
+                
+        // always possible
+        changeTokenByDirectCall(apiTokenProperty);
+        revokeLegacyToken(wc, user);
     }
     
     private void changeTokenByDirectCall(ApiTokenProperty apiTokenProperty) throws Exception {
