@@ -23,6 +23,10 @@
  */
 package lib.form;
 
+import java.io.IOException;
+import lib.form.ValidateButtonTest.NoInjectionArePossible.DescriptorImpl;
+import org.xml.sax.SAXException;
+
 import com.gargoylesoftware.htmlunit.html.DomNodeList;
 import com.gargoylesoftware.htmlunit.html.HtmlButton;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -138,14 +142,7 @@ public class ValidateButtonTest {
         descriptor.paramMethod = "validateInjection";
         descriptor.paramWith = "a,b";
         
-        JenkinsRule.WebClient wc = j.createWebClient()
-                .withThrowExceptionOnFailingStatusCode(false);
-        HtmlPage p = wc.goTo("test");
-        
-        descriptor.wasCalled = false;
-        HtmlElementUtil.click(getValidateButton(p));
-        assertNotEquals("hacked", p.getTitleText());
-        assertTrue(descriptor.wasCalled);
+        extractedMethod58419(descriptor);
     }
     
     private void checkInjectionInMethod(NoInjectionArePossible.DescriptorImpl descriptor) throws Exception {
@@ -166,6 +163,10 @@ public class ValidateButtonTest {
         descriptor.paramMethod = "validateInjection";
         descriptor.paramWith = "a,b',document.title='hacked'+'";
         
+        extractedMethod58419(descriptor);
+    }
+
+    private void extractedMethod58419(final NoInjectionArePossible.DescriptorImpl descriptor) throws IOException, SAXException {
         JenkinsRule.WebClient wc = j.createWebClient()
                 .withThrowExceptionOnFailingStatusCode(false);
         HtmlPage p = wc.goTo("test");
