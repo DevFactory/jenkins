@@ -585,10 +585,7 @@ public class UserTest {
         assertEquals("'user1' should resolve to u1", u1.getId(), u.getId());
 
 
-        u1.setFullName("user1");
-        u1.save();
-        u2.setFullName("user1");
-        u2.save();
+        extractedMethod30282(u1, u2);
         u = User.get("user1");
         assertEquals("'user1' should resolve to u1", u1.getId(), u.getId());
         u = User.get("user2");
@@ -678,14 +675,18 @@ public class UserTest {
         u = User.getById("User Two", false);
         assertNull("'User Two' should not resolve to any user", u);
 
-        u1.setFullName("user1");
-        u1.save();
-        u2.setFullName("user1");
-        u2.save();
+        extractedMethod30282(u1, u2);
         u = User.getById("user1", false);
         assertSame("'user1' should resolve to u1", u1, u);
         u = User.getById("user2", false);
         assertSame("'user2' should resolve to u2", u2, u);
+    }
+
+    private void extractedMethod30282(final User u1, final User u2) throws IOException {
+        u1.setFullName("user1");
+        u1.save();
+        u2.setFullName("user1");
+        u2.save();
     }
 
     @Test
