@@ -514,11 +514,7 @@ public class FilePathTest {
 
     @Test public void validateAntFileMask() throws Exception {
         File tmp = temp.getRoot();
-            FilePath d = new FilePath(channels.french, tmp.getPath());
-            d.child("d1/d2/d3").mkdirs();
-            d.child("d1/d2/d3/f.txt").touch(0);
-            d.child("d1/d2/d3/f.html").touch(0);
-            d.child("d1/d2/f.txt").touch(0);
+            FilePath d = getD97250(tmp);
             assertValidateAntFileMask(null, d, "**/*.txt");
             assertValidateAntFileMask(null, d, "d1/d2/d3/f.txt");
             assertValidateAntFileMask(null, d, "**/*.html");
@@ -560,11 +556,7 @@ public class FilePathTest {
     @Test public void testValidateCaseSensitivity() throws Exception {
         File tmp = Util.createTempDir();
         try {
-            FilePath d = new FilePath(channels.french, tmp.getPath());
-            d.child("d1/d2/d3").mkdirs();
-            d.child("d1/d2/d3/f.txt").touch(0);
-            d.child("d1/d2/d3/f.html").touch(0);
-            d.child("d1/d2/f.txt").touch(0);
+            FilePath d = getD97250(tmp);
 
             assertNull(d.validateAntFileMask("**/d1/**/f.*", FilePath.VALIDATE_ANT_FILE_MASK_BOUND, true));
             assertNull(d.validateAntFileMask("**/d1/**/f.*", FilePath.VALIDATE_ANT_FILE_MASK_BOUND, false));
@@ -573,6 +565,15 @@ public class FilePathTest {
         } finally {
             Util.deleteRecursive(tmp);
         }
+    }
+
+    private FilePath getD97250(final File tmp) throws IOException, InterruptedException {
+        FilePath d = new FilePath(channels.french, tmp.getPath());
+        d.child("d1/d2/d3").mkdirs();
+        d.child("d1/d2/d3/f.txt").touch(0);
+        d.child("d1/d2/d3/f.html").touch(0);
+        d.child("d1/d2/f.txt").touch(0);
+        return d;
     }
    
     @Issue("JENKINS-15418")
