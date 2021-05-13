@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass45570;
+
 import hudson.Util;
 import hudson.model.FreeStyleProject;
 import hudson.model.ListView;
@@ -75,9 +77,7 @@ public class ReloadConfigurationCommandTest {
         j.jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy().grant(Jenkins.READ).everywhere().toAuthenticated());
         final CLICommandInvoker.Result result = command.invoke();
 
-        assertThat(result, failedWith(6));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("user is missing the Overall/Administer permission"));
+        ExtractedSeparateClass45570.extractedMethod18069(result);
     }
 
     @Test
