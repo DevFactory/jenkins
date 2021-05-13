@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass66568;
+
 import static hudson.cli.CLICommandInvoker.Matcher.failedWith;
 import static hudson.cli.CLICommandInvoker.Matcher.hasNoStandardOutput;
 import static hudson.cli.CLICommandInvoker.Matcher.hasNoErrorOutput;
@@ -100,9 +102,7 @@ public class GetNodeCommandTest {
         assertThat(result, failedWith(3));
         assertThat(result, hasNoStandardOutput());
         result = command.authorizedTo(Computer.EXTENDED_READ, Jenkins.READ).invokeWithArgs("(master)");
-        assertThat(result.stderr(), containsString("No such node '(master)'"));
-        assertThat(result, failedWith(3));
-        assertThat(result, hasNoStandardOutput());
+        ExtractedSeparateClass66568.extractedMethod1230(result);
     }
 
 }

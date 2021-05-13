@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass66568;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
@@ -110,9 +112,7 @@ public class UpdateNodeCommandTest {
         assertThat(result, failedWith(3));
         assertThat(result, hasNoStandardOutput());
         result = command.authorizedTo(Computer.EXTENDED_READ, Jenkins.READ).withStdin(Computer.class.getResourceAsStream("node.xml")).invokeWithArgs("(master)");
-        assertThat(result.stderr(), containsString("No such node '(master)'"));
-        assertThat(result, failedWith(3));
-        assertThat(result, hasNoStandardOutput());
+        ExtractedSeparateClass66568.extractedMethod1230(result);
     }
 
     @Test
