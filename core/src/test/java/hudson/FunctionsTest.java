@@ -146,9 +146,7 @@ public class FunctionsTest {
         when(j.getItemGroup()).thenReturn(j);
         createMockAncestors(req, createAncestor(view, "."), createAncestor(j, "../.."));
         TopLevelItem i = createMockItem(parent, "job/i/");
-        when(view.getItems()).thenReturn(Collections.singletonList(i));
-        String result = Functions.getRelativeLinkTo(i);
-        assertEquals("job/i/", result);
+        extractedMethod61784(view, i);
     }
 
     @Test
@@ -203,6 +201,10 @@ public class FunctionsTest {
         when(parent.getItemGroup()).thenReturn(parent);
         createMockAncestors(req, createAncestor(j, "../../.."), createAncestor(parent, "../.."), createAncestor(view, "."));
         TopLevelItem i = createMockItem(parent, "job/i/", "parent/job/i/");
+        extractedMethod61784(view, i);
+    }
+
+    private void extractedMethod61784(final View view, final TopLevelItem i) {
         when(view.getItems()).thenReturn(Collections.singletonList(i));
         String result = Functions.getRelativeLinkTo(i);
         assertEquals("job/i/", result);
