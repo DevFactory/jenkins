@@ -108,11 +108,7 @@ public class DownloadService {
      */
     @Restricted(NoExternalUse.class)
     public static String loadJSON(URL src) throws IOException {
-        URLConnection con = ProxyConfiguration.open(src);
-        if (con instanceof HttpURLConnection) {
-            // prevent problems from misbehaving plugins disabling redirects by default
-            ((HttpURLConnection) con).setInstanceFollowRedirects(true);
-        }
+        URLConnection con = getCon55220(src);
         try (InputStream is = con.getInputStream()) {
             String jsonp = IOUtils.toString(is, StandardCharsets.UTF_8);
             int start = jsonp.indexOf('{');
@@ -133,11 +129,7 @@ public class DownloadService {
      */
     @Restricted(NoExternalUse.class)
     public static String loadJSONHTML(URL src) throws IOException {
-        URLConnection con = ProxyConfiguration.open(src);
-        if (con instanceof HttpURLConnection) {
-            // prevent problems from misbehaving plugins disabling redirects by default
-            ((HttpURLConnection) con).setInstanceFollowRedirects(true);
-        }
+        URLConnection con = getCon55220(src);
         try (InputStream is = con.getInputStream()) {
             String jsonp = IOUtils.toString(is, StandardCharsets.UTF_8);
             String preamble = "window.parent.postMessage(JSON.stringify(";
@@ -149,6 +141,15 @@ public class DownloadService {
                 throw new IOException("Could not find JSON in " + src);
             }
         }
+    }
+
+    private static URLConnection getCon55220(final URL src) throws IOException {
+        URLConnection con = ProxyConfiguration.open(src);
+        if (con instanceof HttpURLConnection) {
+            // prevent problems from misbehaving plugins disabling redirects by default
+            ((HttpURLConnection) con).setInstanceFollowRedirects(true);
+        }
+        return con;
     }
 
     /**
