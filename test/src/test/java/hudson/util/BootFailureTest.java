@@ -123,9 +123,7 @@ public class BootFailureTest {
 
         // creates a script
         FileUtils.write(new File(home, "boot-failure.groovy"), "hudson.util.BootFailureTest.problem = exception", StandardCharsets.UTF_8);
-        File d = new File(home, "boot-failure.groovy.d");
-        d.mkdirs();
-        FileUtils.write(new File(d, "1.groovy"), "hudson.util.BootFailureTest.runRecord << '1'", StandardCharsets.UTF_8);
+        File d = getD79767(home);
         FileUtils.write(new File(d, "2.groovy"), "hudson.util.BootFailureTest.runRecord << '2'", StandardCharsets.UTF_8);
 
         // first failed boot
@@ -158,11 +156,16 @@ public class BootFailureTest {
     public void interruptedStartup() throws Exception {
         final File home = tmpDir.newFolder();
         j.with(() -> home);
+        File d = getD79767(home);
+        j.newHudson();
+        assertEquals(Collections.singletonList("1"), runRecord);
+    }
+
+    private File getD79767(final File home) throws IOException {
         File d = new File(home, "boot-failure.groovy.d");
         d.mkdirs();
         FileUtils.write(new File(d, "1.groovy"), "hudson.util.BootFailureTest.runRecord << '1'", StandardCharsets.UTF_8);
-        j.newHudson();
-        assertEquals(Collections.singletonList("1"), runRecord);
+        return d;
     }
     @TestExtension("interruptedStartup")
     public static class PauseBoot extends ItemListener {
