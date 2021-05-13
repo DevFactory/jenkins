@@ -233,9 +233,7 @@ public class QuietDownCommandTest {
             }
         });
         try {
-            threadPool.submit(exec_task);
-            beforeCli.block();
-            assertJenkinsInQuietMode();
+            extractedMethod4409(threadPool, exec_task, beforeCli);
             exec_task.get(10, TimeUnit.SECONDS);
         } catch (TimeoutException e) {
             timeoutOccurred = true;
@@ -278,9 +276,7 @@ public class QuietDownCommandTest {
             }
         });
         try {
-            threadPool.submit(exec_task);
-            beforeCli.block();
-            assertJenkinsInQuietMode();
+            extractedMethod4409(threadPool, exec_task, beforeCli);
             exec_task.get(10, TimeUnit.SECONDS);
         } catch (TimeoutException e) {
             timeoutOccurred = true;
@@ -325,9 +321,7 @@ public class QuietDownCommandTest {
                 return null;
             }
         });
-        threadPool.submit(exec_task);
-        beforeCli.block();
-        assertJenkinsInQuietMode();
+        extractedMethod4409(threadPool, exec_task, beforeCli);
         try {
             exec_task.get(2*TIMEOUT, TimeUnit.MILLISECONDS);
         } catch (TimeoutException e) {
@@ -368,9 +362,7 @@ public class QuietDownCommandTest {
                 return null;
             }
         });
-        threadPool.submit(exec_task);
-        beforeCli.block();
-        assertJenkinsInQuietMode();
+        extractedMethod4409(threadPool, exec_task, beforeCli);
         final boolean timeout_occured = false;
         try {
             exec_task.get(TIMEOUT, TimeUnit.MILLISECONDS);
@@ -416,9 +408,7 @@ public class QuietDownCommandTest {
                 return null;
             }
         });
-        threadPool.submit(exec_task);
-        beforeCli.block();
-        assertJenkinsInQuietMode();
+        extractedMethod4409(threadPool, exec_task, beforeCli);
 
         finish.signal();
         build.get();
@@ -461,9 +451,7 @@ public class QuietDownCommandTest {
                 return null;
             }
         });
-        threadPool.submit(exec_task);
-        beforeCli.block();
-        assertJenkinsInQuietMode();
+        extractedMethod4409(threadPool, exec_task, beforeCli);
 
         finish.signal();
         build.get();
@@ -472,6 +460,12 @@ public class QuietDownCommandTest {
         j.assertBuildStatusSuccess(build);
         assertJenkinsInQuietMode();
         get(exec_task);
+    }
+
+    private void extractedMethod4409(final ExecutorService threadPool, final FutureTask exec_task, final OneShotEvent beforeCli) throws InterruptedException {
+        threadPool.submit(exec_task);
+        beforeCli.block();
+        assertJenkinsInQuietMode();
     }
 
     /**
