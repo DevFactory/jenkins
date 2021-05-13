@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result;
+
 import hudson.model.Computer;
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
@@ -441,10 +443,7 @@ public class OfflineNodeCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
                 .invokeWithArgs("");
-        assertThat(result, succeededSilently());
-        assertThat(masterComputer.isOffline(), equalTo(true));
-        assertThat(masterComputer.isTemporarilyOffline(), equalTo(true));
-        assertThat(masterComputer.getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
+        extractedMethod47942(result, masterComputer);
         assertThat(((OfflineCause.ByCLI) masterComputer.getOfflineCause()).message, equalTo(null));
     }
 
@@ -455,10 +454,14 @@ public class OfflineNodeCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
                 .invokeWithArgs("", "-m", "aCause");
+        extractedMethod47942(result, masterComputer);
+        assertThat(((OfflineCause.ByCLI) masterComputer.getOfflineCause()).message, equalTo("aCause"));
+    }
+
+    private void extractedMethod47942(final CLICommandInvoker.Result result, final Computer masterComputer) {
         assertThat(result, succeededSilently());
         assertThat(masterComputer.isOffline(), equalTo(true));
         assertThat(masterComputer.isTemporarilyOffline(), equalTo(true));
         assertThat(masterComputer.getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
-        assertThat(((OfflineCause.ByCLI) masterComputer.getOfflineCause()).message, equalTo("aCause"));
     }
 }
