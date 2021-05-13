@@ -1,5 +1,7 @@
 package jenkins.security;
 
+import jenkins.security.ExtractedSeparateClass9524;
+
 import hudson.FilePath;
 import hudson.Util;
 import hudson.util.Secret;
@@ -131,9 +133,7 @@ public class DefaultConfidentialStore extends ConfidentialStore {
             if (payload[payloadLen+i]!=MAGIC[i])
                 return null;    // broken
         }
-        byte[] truncated = new byte[payloadLen];
-        System.arraycopy(payload,0,truncated,0,truncated.length);
-        return truncated;
+        return ExtractedSeparateClass9524.getB23004(payloadLen, payload);
     }
 
     private File getFileFor(ConfidentialKey key) {
