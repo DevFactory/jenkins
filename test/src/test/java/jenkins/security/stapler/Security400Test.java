@@ -242,9 +242,7 @@ public class Security400Test {
             futureBuild.waitForStart();
             
             // let the build finishes
-            semaphore.release(1);
-            j.assertBuildStatus(Result.SUCCESS, futureBuild);
-            assertEquals(1, atomicResult.get());
+            extractedMethod85817(semaphore, futureBuild, atomicResult);
         }
         
         { // second try, we need to reach the stop method in executor to interrupt the build
@@ -302,10 +300,7 @@ public class Security400Test {
             futureBuild.waitForStart();
 
             // let the build finishes
-            semaphore.release(1);
-
-            j.assertBuildStatus(Result.SUCCESS, futureBuild);
-            assertEquals(1, atomicResult.get());
+            extractedMethod85817(semaphore, futureBuild, atomicResult);
         }
 
         { // second try, calling stopBuild without parameter interrupts the build (same as calling stop)
@@ -363,11 +358,15 @@ public class Security400Test {
             assertRequestWasNotBlocked();
 
             // let the build finishes
-            semaphore.release(1);
-
-            j.assertBuildStatus(Result.SUCCESS, futureBuild);
-            assertEquals(1, atomicResult.get());
+            extractedMethod85817(semaphore, futureBuild, atomicResult);
         }
+    }
+
+    private void extractedMethod85817(final Semaphore semaphore, final QueueTaskFuture<FreeStyleBuild> futureBuild, final AtomicInteger atomicResult) throws Exception {
+        semaphore.release(1);
+        
+        j.assertBuildStatus(Result.SUCCESS, futureBuild);
+        assertEquals(1, atomicResult.get());
     }
 
     @Test
