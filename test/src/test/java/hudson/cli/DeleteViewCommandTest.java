@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.nullValue;
@@ -158,9 +160,7 @@ public class DeleteViewCommandTest {
                 .authorizedTo(View.READ, View.DELETE, Jenkins.READ)
                 .invokeWithArgs("aView1", "aView2", "aView3");
 
-        assertThat(result, succeededSilently());
-        assertThat(j.jenkins.getView("aView1"), nullValue());
-        assertThat(j.jenkins.getView("aView2"), nullValue());
+        extractedMethod38195(result);
         assertThat(j.jenkins.getView("aView3"), nullValue());
     }
 
@@ -251,6 +251,10 @@ public class DeleteViewCommandTest {
                 .authorizedTo(View.READ, View.DELETE, Jenkins.READ)
                 .invokeWithArgs("aView1", "aView2", "aView1");
 
+        extractedMethod38195(result);
+    }
+
+    private void extractedMethod38195(final CLICommandInvoker.Result result) {
         assertThat(result, succeededSilently());
         assertThat(j.jenkins.getView("aView1"), nullValue());
         assertThat(j.jenkins.getView("aView2"), nullValue());
