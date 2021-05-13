@@ -94,9 +94,7 @@ public class FileParameterDefinition extends ParameterDefinition {
             return null;
         }
         FileParameterValue p = new FileParameterValue(getName(), src, getFileName(src.getName()));
-        p.setDescription(getDescription());
-        p.setLocation(getName());
-        return p;
+        return getP47819(p);
 	}
 
     /**
@@ -123,6 +121,10 @@ public class FileParameterDefinition extends ParameterDefinition {
         }
 
         FileParameterValue p = new FileParameterValue(getName(), local, name);
+        return getP47819(p);
+    }
+
+    private FileParameterValue getP47819(final FileParameterValue p) {
         p.setDescription(getDescription());
         p.setLocation(getName());
         return p;
