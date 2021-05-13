@@ -91,15 +91,7 @@ public class OnlineNodeCommandTest {
     @Test public void onlineNodeShouldSucceed() throws Exception {
         DumbSlave slave = j.createSlave("aNode", "", null);
 
-        final CLICommandInvoker.Result result = command
-                .authorizedTo(Computer.CONNECT, Jenkins.READ)
-                .invokeWithArgs("aNode");
-        assertThat(result, succeededSilently());
-        if (slave.toComputer().isConnecting()) {
-            System.out.println("Waiting until going online is in progress...");
-            slave.toComputer().waitUntilOnline();
-        }
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        extractedMethod52748(slave);
     }
 
     @Test public void onlineNodeShouldSucceedOnOnlineNode() throws Exception {
@@ -128,15 +120,7 @@ public class OnlineNodeCommandTest {
         slave.toComputer().waitUntilOffline();
         assertThat(slave.toComputer().isOffline(), equalTo(true));
 
-        final CLICommandInvoker.Result result = command
-                .authorizedTo(Computer.CONNECT, Jenkins.READ)
-                .invokeWithArgs("aNode");
-        assertThat(result, succeededSilently());
-        if (slave.toComputer().isConnecting()) {
-            System.out.println("Waiting until going online is in progress...");
-            slave.toComputer().waitUntilOnline();
-        }
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        extractedMethod52748(slave);
     }
 
     @Test public void onlineNodeShouldSucceedOnDisconnectedNode() throws Exception {
@@ -197,6 +181,18 @@ public class OnlineNodeCommandTest {
         slave.toComputer().waitUntilOffline();
         assertThat(slave.toComputer().isOffline(), equalTo(true));
 
+        extractedMethod52748(slave);
+        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
+        assertThat(project.isBuilding(), equalTo(true));
+
+        finish.signal();
+        build.get();
+        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
+        assertThat(project.isBuilding(), equalTo(false));
+        j.assertBuildStatusSuccess(build);
+    }
+
+    private void extractedMethod52748(final DumbSlave slave) throws InterruptedException {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode");
@@ -206,14 +202,6 @@ public class OnlineNodeCommandTest {
             slave.toComputer().waitUntilOnline();
         }
         assertThat(slave.toComputer().isOnline(), equalTo(true));
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(true));
-
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
     }
 
     @Test public void onlineNodeManyShouldSucceed() throws Exception {
