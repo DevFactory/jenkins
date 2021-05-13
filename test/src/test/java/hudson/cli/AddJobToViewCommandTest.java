@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass47814;
+
 import hudson.model.DirectlyModifiableView;
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
@@ -88,9 +90,7 @@ public class AddJobToViewCommandTest extends ViewManipulationTestBase {
         FreeStyleProject project1 = j.createFreeStyleProject("aProject1");
         FreeStyleProject project2 = j.createFreeStyleProject("aProject2");
 
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
-        assertThat(j.jenkins.getView("aView").contains(project1), equalTo(false));
-        assertThat(j.jenkins.getView("aView").contains(project2), equalTo(false));
+        ExtractedSeparateClass47814.extractedMethod29716(project1, project2, j);
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
