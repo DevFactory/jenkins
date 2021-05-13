@@ -1378,11 +1378,7 @@ public class Queue extends ResourceController implements Saveable {
     @Override
     protected void _withLock(Runnable runnable) {
         lock.lock();
-        try {
-            runnable.run();
-        } finally {
-            lock.unlock();
-        }
+        extractedMethod52212(runnable);
     }
 
     /**
@@ -1394,14 +1390,18 @@ public class Queue extends ResourceController implements Saveable {
      */
     protected boolean _tryWithLock(Runnable runnable) {
         if (lock.tryLock()) {
-            try {
-                runnable.run();
-            } finally {
-                lock.unlock();
-            }
+            extractedMethod52212(runnable);
             return true;
         } else {
             return false;
+        }
+    }
+
+    private void extractedMethod52212(final Runnable runnable) {
+        try {
+            runnable.run();
+        } finally {
+            lock.unlock();
         }
     }
 
