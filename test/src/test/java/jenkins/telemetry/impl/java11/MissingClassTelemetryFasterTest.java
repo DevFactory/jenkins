@@ -177,11 +177,7 @@ public class MissingClassTelemetryFasterTest {
      */
     @Test
     public void maxEventsLimitedSameStackTrace() {
-        Assume.assumeTrue("The telemetry should be enabled", MissingClassTelemetry.enabled());
-
-        // Backup to restore at the end of the test
-        int maxEventsBefore = MissingClassEvents.MAX_EVENTS_PER_SEND;
-        MissingClassEvents.MAX_EVENTS_PER_SEND = 1;
+        int maxEventsBefore = getMaxEventsBefore90626();
         try {
             for (int i = 0; i < 2; i++) {
                 try {
@@ -210,11 +206,7 @@ public class MissingClassTelemetryFasterTest {
      */
     @Test
     public void maxEventsLimitedDifferentStackTrace() {
-        Assume.assumeTrue("The telemetry should be enabled", MissingClassTelemetry.enabled());
-
-        // Backup to restore at the end of the test
-        int maxEventsBefore = MissingClassEvents.MAX_EVENTS_PER_SEND;
-        MissingClassEvents.MAX_EVENTS_PER_SEND = 1;
+        int maxEventsBefore = getMaxEventsBefore90626();
 
         try {
             try {
@@ -243,6 +235,15 @@ public class MissingClassTelemetryFasterTest {
         } finally {
             MissingClassEvents.MAX_EVENTS_PER_SEND = maxEventsBefore;
         }
+    }
+
+    private int getMaxEventsBefore90626() {
+        Assume.assumeTrue("The telemetry should be enabled", MissingClassTelemetry.enabled());
+        
+        // Backup to restore at the end of the test
+        int maxEventsBefore = MissingClassEvents.MAX_EVENTS_PER_SEND;
+        MissingClassEvents.MAX_EVENTS_PER_SEND = 1;
+        return maxEventsBefore;
     }
 
     /**
