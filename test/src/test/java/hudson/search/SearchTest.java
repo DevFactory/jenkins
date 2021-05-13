@@ -100,12 +100,7 @@ public class SearchTest {
         j.createFreeStyleProject(projectName);
         
         Page result = j.search(projectName);
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-        
-        // make sure we've fetched the testSearchByDisplayName project page
-        String contents = result.getWebResponse().getContentAsString();
-        assertTrue(contents.contains(String.format("<title>%s [Jenkins]</title>", projectName)));
+        String contents = getContents49368(result, projectName);
     }
 
     @Issue("JENKINS-24433")
@@ -147,12 +142,7 @@ public class SearchTest {
         project.setDisplayName(displayName);
         
         Page result = j.search(displayName);
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-        
-        // make sure we've fetched the testSearchByDisplayName project page
-        String contents = result.getWebResponse().getContentAsString();
-        assertTrue(contents.contains(String.format("<title>%s [Jenkins]</title>", displayName)));
+        String contents = getContents49368(result, displayName);
     }
     
     @Test
@@ -207,16 +197,21 @@ public class SearchTest {
         
         // search for foo
         Page result = j.search(project1Name);
+        String contents = getContents49368(result, project1DisplayName);
+        // make sure projects 2 and 3 were not picked up
+        assertFalse(contents.contains(project2Name));
+        assertFalse(contents.contains(project3Name));
+        assertFalse(contents.contains(project3DisplayName));
+    }
+
+    private String getContents49368(final Page result, final String project1DisplayName) {
         assertNotNull(result);
         j.assertGoodStatus(result);
         
         // make sure we get the project with the name foo
         String contents = result.getWebResponse().getContentAsString();
         assertTrue(contents.contains(String.format("<title>%s [Jenkins]</title>", project1DisplayName)));
-        // make sure projects 2 and 3 were not picked up
-        assertFalse(contents.contains(project2Name));
-        assertFalse(contents.contains(project3Name));
-        assertFalse(contents.contains(project3DisplayName));
+        return contents;
     }
     
     @Test
