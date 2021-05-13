@@ -92,10 +92,7 @@ public class ApiTokenStatsTest {
             ApiTokenStats tokenStats = createFromFile(tmp.getRoot());
             assertNotNull(tokenStats);
             
-            ApiTokenStats.SingleTokenStats stats = tokenStats.findTokenStatsById(ID_1);
-            assertEquals(0, stats.getUseCounter());
-            assertNull(stats.getLastUseDate());
-            assertEquals(0L, stats.getNumDaysUse());
+            extractedMethod14807(tokenStats, ID_1);
         }
         
         Date lastUsage;
@@ -130,10 +127,7 @@ public class ApiTokenStatsTest {
             ApiTokenStats tokenStats = createFromFile(tmp.getRoot());
             
             {
-                ApiTokenStats.SingleTokenStats stats = tokenStats.findTokenStatsById(ID_2);
-                assertEquals(0, stats.getUseCounter());
-                assertNull(stats.getLastUseDate());
-                assertEquals(0L, stats.getNumDaysUse());
+                extractedMethod14807(tokenStats, ID_2);
             }
             {
                 ApiTokenStats.SingleTokenStats stats = tokenStats.updateUsageForId(ID_2);
@@ -162,6 +156,13 @@ public class ApiTokenStatsTest {
             ApiTokenStats.SingleTokenStats stats_2 = tokenStats.findTokenStatsById(ID_2);
             assertEquals(1, stats_2.getUseCounter());
         }
+    }
+
+    private void extractedMethod14807(final ApiTokenStats tokenStats, final String ID_2) {
+        ApiTokenStats.SingleTokenStats stats = tokenStats.findTokenStatsById(ID_2);
+        assertEquals(0, stats.getUseCounter());
+        assertNull(stats.getLastUseDate());
+        assertEquals(0L, stats.getNumDaysUse());
     }
     
     @Test
