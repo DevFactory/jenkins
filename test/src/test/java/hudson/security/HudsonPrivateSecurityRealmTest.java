@@ -221,11 +221,7 @@ public class HudsonPrivateSecurityRealmTest {
         JenkinsRule.WebClient wc = j.createWebClient();
         SignupPage signup = new SignupPage(wc.goTo("signup"));
         signup.enterUsername("anonymous");
-        signup.enterFullName("Bob");
-        signup.enterPassword("nothing");
-        signup.enterEmail("noone@nowhere.com");
-        signup = new SignupPage(signup.submit(j));
-        signup.assertErrorContains("prohibited as a username");
+        extractedMethod85262(signup);
         assertNull(User.get("anonymous", false, Collections.emptyMap()));
     }
 
@@ -237,12 +233,16 @@ public class HudsonPrivateSecurityRealmTest {
         JenkinsRule.WebClient wc = j.createWebClient();
         SignupPage signup = new SignupPage(wc.goTo("signup"));
         signup.enterUsername("system");
+        extractedMethod85262(signup);
+        assertNull(User.get("system",false, Collections.emptyMap()));
+    }
+
+    private void extractedMethod85262(SignupPage signup) throws Exception {
         signup.enterFullName("Bob");
         signup.enterPassword("nothing");
         signup.enterEmail("noone@nowhere.com");
         signup = new SignupPage(signup.submit(j));
         signup.assertErrorContains("prohibited as a username");
-        assertNull(User.get("system",false, Collections.emptyMap()));
     }
 
     /**
