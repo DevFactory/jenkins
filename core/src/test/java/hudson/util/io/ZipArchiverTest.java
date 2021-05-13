@@ -80,14 +80,7 @@ public class ZipArchiverTest {
 
         // examine zip contents and assert that none of the entry names (paths) have
         // back-slashes ("\")
-        String zipEntryName = null;
-
-        try (ZipFile zipFileVerify = new ZipFile(zipFile)) {
-
-            zipEntryName = ((ZipEntry) zipFileVerify.entries().nextElement()).getName();
-        } catch (Exception e) {
-            fail("failure enumerating zip entries", e);
-        }
+        String zipEntryName = getZipEntryName31008(zipFile);
 
         assertEquals("foo/bar/baz/Test.txt", zipEntryName);
     }
@@ -132,16 +125,21 @@ public class ZipArchiverTest {
         }
 
         // examine zip contents and assert that there's an item there...
+        String zipEntryName = getZipEntryName31008(zipFile);
+
+        assertEquals("huge64bitFileTest.txt", zipEntryName);
+    }
+
+    private String getZipEntryName31008(final File zipFile) {
         String zipEntryName = null;
-
+        
         try (ZipFile zipFileVerify = new ZipFile(zipFile)) {
-
+        
             zipEntryName = ((ZipEntry) zipFileVerify.entries().nextElement()).getName();
         } catch (Exception e) {
             fail("failure enumerating zip entries", e);
         }
-
-        assertEquals("huge64bitFileTest.txt", zipEntryName);
+        return zipEntryName;
     }
 
     /**
