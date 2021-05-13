@@ -69,10 +69,8 @@ public class WorkspaceCleanupThreadTest {
 
         FilePath ws3 = createOldWorkspaceOn(r.createOnlineSlave(), p);
 
-        performCleanup();
-
-        assertFalse(ws1.exists()); // Old one - deleted
-        assertTrue(ws2.exists()); // Not old enough - kept
+        extractedMethod73464(ws1, ws2);
+         // Not old enough - kept
         assertTrue(ws3.exists()); // Latest - kept
     }
 
@@ -86,8 +84,12 @@ public class WorkspaceCleanupThreadTest {
         FilePath ws2 = createOldWorkspaceOn(s, p);
         assertEquals(s, p.getLastBuiltOn());
 
-        performCleanup();
+        extractedMethod73464(ws1, ws2);
+    }
 
+    private void extractedMethod73464(final FilePath ws1, final FilePath ws2) throws IOException, InterruptedException {
+        performCleanup();
+        
         assertFalse(ws1.exists());
         assertTrue(ws2.exists());
     }
