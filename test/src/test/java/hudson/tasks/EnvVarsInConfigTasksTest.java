@@ -1,5 +1,7 @@
 package hudson.tasks;
 
+import java.io.IOException;
+
 import hudson.EnvVars;
 import hudson.model.labels.LabelAtom;
 import hudson.model.AbstractBuild;
@@ -106,10 +108,7 @@ public class EnvVarsInConfigTasksTest extends HudsonTestCase {
 				jenkins.getDescriptorByType(Ant.DescriptorImpl.class).getInstallations().length == 0
 		);
 
-		FreeStyleProject project = createFreeStyleProject();
-		project.setJDK(jenkins.getJDK("varJDK"));
-		project.setScm(new ExtractResourceSCM(getClass().getResource(
-				"/simple-projects.zip")));
+		FreeStyleProject project = getProject37356();
 
 		String buildFile = "build.xml${" + DUMMY_LOCATION_VARNAME + "}";
 		// we need additional escapes because bash itself expanding
@@ -146,10 +145,7 @@ public class EnvVarsInConfigTasksTest extends HudsonTestCase {
 	}
 
 	public void testFreeStyleMavenOnSlave() throws Exception {
-		FreeStyleProject project = createFreeStyleProject();
-		project.setJDK(jenkins.getJDK("varJDK"));
-		project.setScm(new ExtractResourceSCM(getClass().getResource(
-				"/simple-projects.zip")));
+		FreeStyleProject project = getProject37356();
 
 		project.getBuildersList().add(
 					      new Maven("test", "varMaven", "pom.xml${"
@@ -178,6 +174,14 @@ public class EnvVarsInConfigTasksTest extends HudsonTestCase {
 		String buildLogEnv = getBuildLog(build);
 		System.out.println(buildLogEnv);
 		assertFalse(buildLogEnv.contains(DUMMY_LOCATION_VARNAME));
+	}
+
+	private FreeStyleProject getProject37356() throws IOException {
+	    FreeStyleProject project = createFreeStyleProject();
+	    project.setJDK(jenkins.getJDK("varJDK"));
+	    project.setScm(new ExtractResourceSCM(getClass().getResource(
+	    		"/simple-projects.zip")));
+	    return project;
 	}
 
     @SuppressWarnings("deprecation") // it's  okay to use it in tests
