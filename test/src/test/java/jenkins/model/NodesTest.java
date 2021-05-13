@@ -119,9 +119,7 @@ public class NodesTest {
     public void replaceNodeShouldRemoveOldNode() throws Exception {
         Node oldNode = r.createSlave("foo", "", null);
         Node newNode = r.createSlave("foo-new", "", null);
-        r.jenkins.addNode(oldNode);
-        r.jenkins.getNodesObject().replaceNode(oldNode, newNode);
-        r.jenkins.getNodesObject().load();
+        extractedMethod45831(oldNode, newNode);
         assertNull(r.jenkins.getNode("foo"));
     }
 
@@ -130,10 +128,14 @@ public class NodesTest {
     public void replaceNodeShouldNotRemoveIdenticalOldNode() throws Exception {
         Node oldNode = r.createSlave("foo", "", null);
         Node newNode = r.createSlave("foo", "", null);
+        extractedMethod45831(oldNode, newNode);
+        assertNotNull(r.jenkins.getNode("foo"));
+    }
+
+    private void extractedMethod45831(final Node oldNode, final Node newNode) throws IOException {
         r.jenkins.addNode(oldNode);
         r.jenkins.getNodesObject().replaceNode(oldNode, newNode);
         r.jenkins.getNodesObject().load();
-        assertNotNull(r.jenkins.getNode("foo"));
     }
 
     private static class InvalidNode extends Slave {
