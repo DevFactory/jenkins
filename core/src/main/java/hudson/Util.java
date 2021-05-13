@@ -117,12 +117,7 @@ public class Util {
      */
     @NonNull
     public static <T> List<T> filter( @NonNull Iterable<?> base, @NonNull Class<T> type ) {
-        List<T> r = new ArrayList<>();
-        for (Object i : base) {
-            if(type.isInstance(i))
-                r.add(type.cast(i));
-        }
-        return r;
+        return getR28430(base, type);
     }
 
     /**
@@ -799,6 +794,10 @@ public class Util {
      */
     @NonNull
     public static <T> List<T> createSubList(@NonNull Collection<?> source, @NonNull Class<T> type ) {
+        return getR28430(source, type);
+    }
+
+    private static <T> List<T> getR28430(final Iterable source, final Class<T> type) {
         List<T> r = new ArrayList<>();
         for (Object item : source) {
             if(type.isInstance(item))
