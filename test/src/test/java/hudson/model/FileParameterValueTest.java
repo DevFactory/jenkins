@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import java.io.IOException;
+
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import hudson.FilePath;
@@ -64,12 +66,7 @@ public class FileParameterValueTest {
         
         FilePath root = j.jenkins.getRootPath();
         
-        FreeStyleProject p = j.createFreeStyleProject();
-        p.addProperty(new ParametersDefinitionProperty(Collections.singletonList(
-                new FileParameterDefinition("../../../../../root-level.txt", null)
-        )));
-        
-        assertThat(root.child("root-level.txt").exists(), equalTo(false));
+        FreeStyleProject p = getP37183(root);
         
         String uploadedContent = "test-content";
         File uploadedFile = tmp.newFile();
@@ -258,12 +255,7 @@ public class FileParameterValueTest {
         
         FilePath root = j.jenkins.getRootPath();
         
-        FreeStyleProject p = j.createFreeStyleProject();
-        p.addProperty(new ParametersDefinitionProperty(Collections.singletonList(
-                new FileParameterDefinition("../../../../../root-level.txt", null)
-        )));
-        
-        assertThat(root.child("root-level.txt").exists(), equalTo(false));
+        FreeStyleProject p = getP37183(root);
         String initialContent = "do-not-erase-me";
         root.child("root-level.txt").write(initialContent, StandardCharsets.UTF_8.name());
         
@@ -283,6 +275,16 @@ public class FileParameterValueTest {
         wc.getOptions().setThrowExceptionOnFailingStatusCode(false);
     
         checkUrlNot200AndNotContains(wc, build.getUrl() + "parameters/parameter/..%2F..%2F..%2F..%2F..%2Froot-level.txt/uploaded-file.txt", uploadedContent);
+    }
+
+    private FreeStyleProject getP37183(final FilePath root) throws IOException, InterruptedException {
+        FreeStyleProject p = j.createFreeStyleProject();
+        p.addProperty(new ParametersDefinitionProperty(Collections.singletonList(
+                new FileParameterDefinition("../../../../../root-level.txt", null)
+        )));
+        
+        assertThat(root.child("root-level.txt").exists(), equalTo(false));
+        return p;
     }
     
     @Test
