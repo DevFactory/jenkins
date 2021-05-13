@@ -508,10 +508,7 @@ public class RepeatableTest extends HudsonTestCase {
             System.err.println("HTML at time of failure:\n" + p.getBody().asXml());
             throw e;
         }
-        submit(f);
-        assertEqualsJsonArray("[{\"moo\":{\"inner\":\"inone\"},\"outer\":\"two\"},"
-                + "{\"moo\":[{\"inner\":\"intwo\"},{\"inner\":\"inone\"}],\"outer\":\"one\"}]",
-                formData.get("items"));
+        extractedMethod98683(f);
     }
 
     public void testNestedRadioEnabledTopButton() throws Exception {
@@ -535,6 +532,10 @@ public class RepeatableTest extends HudsonTestCase {
             System.err.println("HTML at time of failure:\n" + p.getBody().asXml());
             throw e;
         }
+        extractedMethod98683(f);
+    }
+
+    private void extractedMethod98683(final HtmlForm f) throws Exception {
         submit(f);
         assertEqualsJsonArray("[{\"moo\":{\"inner\":\"inone\"},\"outer\":\"two\"},"
                 + "{\"moo\":[{\"inner\":\"intwo\"},{\"inner\":\"inone\"}],\"outer\":\"one\"}]",
