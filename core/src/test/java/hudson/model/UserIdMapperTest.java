@@ -68,9 +68,7 @@ public class UserIdMapperTest {
         File directory2 = mapper.putIfAbsent(user2, true);
         String user3 = "user3";
         File directory3 = mapper.putIfAbsent(user3, true);
-        assertThat(directory1, is(mapper.getDirectory(user1)));
-        assertThat(directory2, is(mapper.getDirectory(user2)));
-        assertThat(directory3, is(mapper.getDirectory(user3)));
+        extractedMethod1419(directory1, mapper, user1, directory2, user2, directory3, user3);
     }
 
     @Test
@@ -87,6 +85,10 @@ public class UserIdMapperTest {
         File directory3 = mapper.putIfAbsent(user3, true);
         mapper = new TestUserIdMapper(usersDirectory, idStrategy);
         mapper.init();
+        extractedMethod1419(directory1, mapper, user1, directory2, user2, directory3, user3);
+    }
+
+    private void extractedMethod1419(final File directory1, final UserIdMapper mapper, final String user1, final File directory2, final String user2, final File directory3, final String user3) {
         assertThat(directory1, is(mapper.getDirectory(user1)));
         assertThat(directory2, is(mapper.getDirectory(user2)));
         assertThat(directory3, is(mapper.getDirectory(user3)));
