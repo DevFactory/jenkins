@@ -984,10 +984,7 @@ public class UpdateCenter extends AbstractModelObject implements Saveable, OnMas
                 } else if (!existing.version.equals(plugin.version)) {
                     // allow secondary update centers to publish different versions
                     // TODO refactor to consolidate multiple versions of the same plugin within the one row
-                    final String altKey = plugin.name + ":" + plugin.version;
-                    if (!pluginMap.containsKey(altKey)) {
-                        pluginMap.put(altKey, plugin);
-                    }
+                    extractedMethod66891(plugin, pluginMap);
                 }
             }
         }
@@ -1046,10 +1043,7 @@ public class UpdateCenter extends AbstractModelObject implements Saveable, OnMas
                 } else if (!existing.version.equals(plugin.version)) {
                     // allow secondary update centers to publish different versions
                     // TODO refactor to consolidate multiple versions of the same plugin within the one row
-                    final String altKey = plugin.name + ":" + plugin.version;
-                    if (!pluginMap.containsKey(altKey)) {
-                        pluginMap.put(altKey, plugin);
-                    }
+                    extractedMethod66891(plugin, pluginMap);
                 }
             }
         }
@@ -1060,6 +1054,13 @@ public class UpdateCenter extends AbstractModelObject implements Saveable, OnMas
         }));
 
         return new ArrayList<>(pluginMap.values());
+    }
+
+    private void extractedMethod66891(final Plugin plugin, final Map<String, Plugin> pluginMap) {
+        final String altKey = plugin.name + ":" + plugin.version;
+        if (!pluginMap.containsKey(altKey)) {
+            pluginMap.put(altKey, plugin);
+        }
     }
 
     @Restricted(NoExternalUse.class)
