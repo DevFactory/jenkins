@@ -66,10 +66,7 @@ public class MissingClassTelemetryFasterTest {
         try {
             MissingClassEvents.MAX_EVENTS_PER_SEND = 1;
 
-            try {
-                cl.loadClass(NON_EXISTING_CLASS);
-            } catch (ClassNotFoundException ignored) {
-            }
+            extractedMethod28416();
 
             try {
                 cl.loadClass("sun.java.MySecondNonExistentJavaClass");
@@ -98,10 +95,7 @@ public class MissingClassTelemetryFasterTest {
     public void differentEventsAlthoughSameClass() {
         Assume.assumeTrue("The telemetry should be enabled", MissingClassTelemetry.enabled());
 
-        try {
-            cl.loadClass(NON_EXISTING_CLASS);
-        } catch (ClassNotFoundException ignored) {
-        }
+        extractedMethod28416();
 
         try {
             cl.loadClass(NON_EXISTING_CLASS);
@@ -130,11 +124,7 @@ public class MissingClassTelemetryFasterTest {
         Assume.assumeTrue("The telemetry should be enabled", MissingClassTelemetry.enabled());
 
         for (int i = 0; i < 2; i++) {
-            try {
-                //Exceptions thrown at the same line, with the same stack trace become occurrences of just one event
-                cl.loadClass(NON_EXISTING_CLASS);
-            } catch (ClassNotFoundException ignored) {
-            }
+            extractedMethod28416();
         }
 
         // Get the events gathered
@@ -184,11 +174,7 @@ public class MissingClassTelemetryFasterTest {
         MissingClassEvents.MAX_EVENTS_PER_SEND = 1;
         try {
             for (int i = 0; i < 2; i++) {
-                try {
-                    //Exceptions thrown at the same line, with the same stack trace become occurrences of just one event
-                    cl.loadClass(NON_EXISTING_CLASS);
-                } catch (ClassNotFoundException ignored) {
-                }
+                extractedMethod28416();
             }
     
             // Get the events gathered
@@ -202,6 +188,14 @@ public class MissingClassTelemetryFasterTest {
             assertEquals("One event should be logged", 1, logging.getRecords().stream().filter(r -> r.getMessage().contains(NON_EXISTING_CLASS)).count());
         } finally {
             MissingClassEvents.MAX_EVENTS_PER_SEND = maxEventsBefore;
+        }
+    }
+
+    private void extractedMethod28416() {
+        try {
+            //Exceptions thrown at the same line, with the same stack trace become occurrences of just one event
+            cl.loadClass(NON_EXISTING_CLASS);
+        } catch (ClassNotFoundException ignored) {
         }
     }
 
