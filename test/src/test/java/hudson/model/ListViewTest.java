@@ -177,12 +177,7 @@ public class ListViewTest {
         ListView view = new ListView("view", j.jenkins);
         j.jenkins.addView(view);
         FreeStyleProject job = j.createFreeStyleProject("old_name");
-        view.add(job);
-
-        assertTrue(view.contains(job));
-        assertTrue(view.jobNamesContains(job));
-
-        job.renameTo("new_name");
+        extractedMethod62976(view, job);
 
         assertFalse("old job name is still contained: " + view.jobNames, view.jobNames.contains("old_name"));
         assertTrue(view.contains(job));
@@ -195,16 +190,20 @@ public class ListViewTest {
         folder.addView(view);
 
         FreeStyleProject job = folder.createProject(FreeStyleProject.class, "old_name");
-        view.add(job);
-
-        assertTrue(view.contains(job));
-        assertTrue(view.jobNamesContains(job));
-
-        job.renameTo("new_name");
+        extractedMethod62976(view, job);
 
         assertFalse("old job name is still contained", view.jobNames.contains("old_name"));
         assertTrue(view.contains(job));
         assertTrue(view.jobNamesContains(job));
+    }
+
+    private void extractedMethod62976(final ListView view, final FreeStyleProject job) throws IOException {
+        view.add(job);
+        
+        assertTrue(view.contains(job));
+        assertTrue(view.jobNamesContains(job));
+        
+        job.renameTo("new_name");
     }
 
     @Issue("JENKINS-23893")
