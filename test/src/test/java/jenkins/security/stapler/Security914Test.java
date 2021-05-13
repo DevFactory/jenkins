@@ -47,15 +47,7 @@ public class Security914Test {
     
     @Test
     public void cannotUseInvalidLocale_toTraverseFolder() throws Exception {
-        Assume.assumeTrue(Functions.isWindows());
-        
-        if (j.jenkins.pluginManager.getPlugin("credentials") == null) {
-            ((TestPluginManager) j.jenkins.pluginManager).installDetachedPlugin("credentials");
-        }
-        j.createWebClient().goTo("plugin/credentials/images/24x24/credentials.png", "image/png");
-        
-        JenkinsRule.WebClient wc = j.createWebClient()
-                .withThrowExceptionOnFailingStatusCode(false);
+        JenkinsRule.WebClient wc = getWc34906();
         WebRequest request = new WebRequest(new URL(j.getURL() + "plugin/credentials/.xml"));
         // plugin deployed in: test\target\jenkins7375296945862059919tmp
         // rootDir is in     : test\target\jenkinsTests.tmp\jenkins1274934531848159942test
@@ -69,6 +61,17 @@ public class Security914Test {
     
     @Test
     public void cannotUseInvalidLocale_toAnyFileInSystem() throws Exception {
+        JenkinsRule.WebClient wc = getWc34906();
+        WebRequest request = new WebRequest(new URL(j.getURL() + "plugin/credentials/.ini"));
+        // ../ can be multiply to infinity, no impact, we just need to have enough to reach the root
+        request.setAdditionalHeader("Accept-Language", "../../../../../../../../../../../../windows/win");
+        
+        Page p = wc.getPage(request);
+        assertEquals(HttpURLConnection.HTTP_NOT_FOUND, p.getWebResponse().getStatusCode());
+        assertEquals("text/html", p.getWebResponse().getContentType());
+    }
+
+    private JenkinsRule.WebClient getWc34906() throws Exception {
         Assume.assumeTrue(Functions.isWindows());
         
         if (j.jenkins.pluginManager.getPlugin("credentials") == null) {
@@ -78,12 +81,6 @@ public class Security914Test {
         
         JenkinsRule.WebClient wc = j.createWebClient()
                 .withThrowExceptionOnFailingStatusCode(false);
-        WebRequest request = new WebRequest(new URL(j.getURL() + "plugin/credentials/.ini"));
-        // ../ can be multiply to infinity, no impact, we just need to have enough to reach the root
-        request.setAdditionalHeader("Accept-Language", "../../../../../../../../../../../../windows/win");
-        
-        Page p = wc.getPage(request);
-        assertEquals(HttpURLConnection.HTTP_NOT_FOUND, p.getWebResponse().getStatusCode());
-        assertEquals("text/html", p.getWebResponse().getContentType());
+        return wc;
     }
 }
