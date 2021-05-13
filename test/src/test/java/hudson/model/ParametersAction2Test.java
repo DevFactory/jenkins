@@ -152,10 +152,7 @@ public class ParametersAction2Test {
                     new StringParameterValue("whitelisted2", "y")
             )));
 
-            assertTrue("whitelisted1 parameter is listed in getParameters",
-                    hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted1"));
-            assertTrue("whitelisted2 parameter is listed in getParameters",
-                    hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted2"));
+            extractedMethod92942(build);
         } finally {
             System.clearProperty(ParametersAction.SAFE_PARAMETERS_SYSTEM_PROPERTY_NAME);
         }
@@ -182,10 +179,7 @@ public class ParametersAction2Test {
                     Arrays.asList("whitelisted1", "whitelisted2"));
             FreeStyleBuild build = j.assertBuildStatusSuccess(p.scheduleBuild2(0, new Cause.UserIdCause(), action));
 
-            assertTrue("whitelisted1 parameter is listed in getParameters",
-                       hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted1"));
-            assertTrue("whitelisted2 parameter is listed in getParameters",
-                       hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted2"));
+            extractedMethod92942(build);
             assertFalse("whitelisted3 parameter is listed in getParameters",
                        hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted3"));
             j.jenkins.reload();
@@ -222,10 +216,7 @@ public class ParametersAction2Test {
                     new StringParameterValue("whitelisted3", "z"),
                     new StringParameterValue("whitelisted4", "w")
             )));
-            assertTrue("whitelisted1 parameter is listed in getParameters",
-                       hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted1"));
-            assertTrue("whitelisted2 parameter is listed in getParameters",
-                       hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted2"));
+            extractedMethod92942(build);
             assertFalse("whitelisted3 parameter is listed in getParameters",
                        hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted3"));
             assertFalse("whitelisted4 parameter is listed in getParameters",
@@ -247,6 +238,13 @@ public class ParametersAction2Test {
         } finally {
             System.clearProperty(ParametersAction.SAFE_PARAMETERS_SYSTEM_PROPERTY_NAME);
         }
+    }
+
+    private void extractedMethod92942(final FreeStyleBuild build) {
+        assertTrue("whitelisted1 parameter is listed in getParameters",
+                   hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted1"));
+        assertTrue("whitelisted2 parameter is listed in getParameters",
+                   hasParameterWithName(build.getAction(ParametersAction.class), "whitelisted2"));
     }
 
 
