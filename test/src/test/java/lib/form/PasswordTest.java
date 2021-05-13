@@ -338,9 +338,7 @@ public class PasswordTest {
     public void testBuildStep() throws Exception {
         final FreeStyleProject project = j.createFreeStyleProject();
         project.getBuildersList().add(new PasswordHolderBuildStep());
-        project.save();
-        assertEquals(1, project.getBuilders().size());
-        j.configRoundtrip(project);
+        extractedMethod22581(project);
 
         // empty default values after initial form submission
         PasswordHolderBuildStep buildStep = (PasswordHolderBuildStep) project.getBuildersList().get(0);
@@ -542,9 +540,7 @@ public class PasswordTest {
     public void testStringlyTypedSecrets() throws Exception {
         final FreeStyleProject project = j.createFreeStyleProject();
         project.getBuildersList().add(new StringlyTypedSecretsBuilder(""));
-        project.save();
-        assertEquals(1, project.getBuilders().size());
-        j.configRoundtrip(project);
+        extractedMethod22581(project);
 
         // empty default values after initial form submission
         StringlyTypedSecretsBuilder buildStep = (StringlyTypedSecretsBuilder) project.getBuildersList().get(0);
@@ -579,6 +575,12 @@ public class PasswordTest {
         // Unfortunately the constructor parameter will be decrypted transparently now, so this is sort of a minor regression with this enhancement.
         // Note that it's not enough to just undo the related changes to core/src/main to try this; as Functions#getPasswordValue will throw a SecurityException during tests only and break the previous assertion.
         assertNotEquals(stringlyTypedSecret.getEncryptedValue(), buildStep.mySecret);
+    }
+
+    private void extractedMethod22581(final FreeStyleProject project) throws Exception {
+        project.save();
+        assertEquals(1, project.getBuilders().size());
+        j.configRoundtrip(project);
     }
 
     public static class StringlyTypedSecretsBuilder extends Builder implements SimpleBuildStep {
