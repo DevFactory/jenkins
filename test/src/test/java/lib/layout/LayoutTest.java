@@ -24,6 +24,8 @@
 
 package lib.layout;
 
+import lib.layout.ExtractedSeparateClass40402;
+
 import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlLink;
 import org.junit.Rule;
@@ -39,17 +41,7 @@ public class LayoutTest {
     @Issue("JENKINS-21254")
     @PresetData(PresetData.DataSet.NO_ANONYMOUS_READACCESS)
     @Test public void rejectedLinks() throws Exception {
-        JenkinsRule.WebClient wc = r.createWebClient();
-        String prefix = r.contextPath + '/';
-        for (DomElement e : wc.goTo("login").getElementsByTagName("link")) {
-            String href = ((HtmlLink) e).getHrefAttribute();
-            if (!href.startsWith(prefix)) {
-                System.err.println("ignoring " + href);
-                continue;
-            }
-            System.err.println("checking " + href);
-            wc.goTo(href.substring(prefix.length()), null);
-        }
+        ExtractedSeparateClass40402.extractedMethod82684(r);
     }
 
 }
