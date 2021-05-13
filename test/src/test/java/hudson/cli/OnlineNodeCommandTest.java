@@ -95,20 +95,12 @@ public class OnlineNodeCommandTest {
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode");
         assertThat(result, succeededSilently());
-        if (slave.toComputer().isConnecting()) {
-            System.out.println("Waiting until going online is in progress...");
-            slave.toComputer().waitUntilOnline();
-        }
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        extractedMethod87629(slave);
     }
 
     @Test public void onlineNodeShouldSucceedOnOnlineNode() throws Exception {
         DumbSlave slave = j.createSlave("aNode", "", null);
-        if (slave.toComputer().isConnecting()) {
-            System.out.println("Waiting until going online is in progress...");
-            slave.toComputer().waitUntilOnline();
-        }
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        extractedMethod87629(slave);
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
@@ -201,11 +193,7 @@ public class OnlineNodeCommandTest {
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode");
         assertThat(result, succeededSilently());
-        if (slave.toComputer().isConnecting()) {
-            System.out.println("Waiting until going online is in progress...");
-            slave.toComputer().waitUntilOnline();
-        }
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        extractedMethod87629(slave);
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
         assertThat(project.isBuilding(), equalTo(true));
 
@@ -214,6 +202,14 @@ public class OnlineNodeCommandTest {
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
         assertThat(project.isBuilding(), equalTo(false));
         j.assertBuildStatusSuccess(build);
+    }
+
+    private void extractedMethod87629(final DumbSlave slave) throws InterruptedException {
+        if (slave.toComputer().isConnecting()) {
+            System.out.println("Waiting until going online is in progress...");
+            slave.toComputer().waitUntilOnline();
+        }
+        assertThat(slave.toComputer().isOnline(), equalTo(true));
     }
 
     @Test public void onlineNodeManyShouldSucceed() throws Exception {
