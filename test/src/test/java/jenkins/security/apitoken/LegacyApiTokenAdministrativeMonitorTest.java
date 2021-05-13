@@ -125,11 +125,7 @@ public class LegacyApiTokenAdministrativeMonitorTest {
     
     @Test
     public void listOfUserWithLegacyTokenIsCorrect() throws Exception {
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
-        
-        ApiTokenPropertyConfiguration config = ApiTokenPropertyConfiguration.get();
-        config.setCreationOfLegacyTokenEnabled(true);
-        config.setTokenGenerationOnCreationEnabled(false);
+        extractedMethod58150();
         
         LegacyApiTokenAdministrativeMonitor monitor = j.jenkins.getExtensionList(AdministrativeMonitor.class).get(LegacyApiTokenAdministrativeMonitor.class);
         JenkinsRule.WebClient wc = j.createWebClient();
@@ -196,11 +192,7 @@ public class LegacyApiTokenAdministrativeMonitorTest {
     
     @Test
     public void monitorManagePageFilterAreWorking() throws Exception {
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
-        
-        ApiTokenPropertyConfiguration config = ApiTokenPropertyConfiguration.get();
-        config.setCreationOfLegacyTokenEnabled(true);
-        config.setTokenGenerationOnCreationEnabled(false);
+        extractedMethod58150();
         
         // create 1 user with legacy, 2 with fresh, 3 with recent and 4 with fresh+recent
         prepareUsersForFilters();
@@ -283,11 +275,7 @@ public class LegacyApiTokenAdministrativeMonitorTest {
     
     @Test
     public void monitorManagePageCanRevokeToken() throws Exception {
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
-        
-        ApiTokenPropertyConfiguration config = ApiTokenPropertyConfiguration.get();
-        config.setCreationOfLegacyTokenEnabled(true);
-        config.setTokenGenerationOnCreationEnabled(false);
+        extractedMethod58150();
         
         // create 1 user with legacy, 2 with fresh, 3 with recent and 4 with fresh+recent
         prepareUsersForFilters();
@@ -320,6 +308,14 @@ public class LegacyApiTokenAdministrativeMonitorTest {
         HtmlElementUtil.click(revokeSelected);
         checkUserWithLegacyTokenListHasSizeOf(wc, monitor, 0, 0, 0);
         assertFalse(monitor.isActivated());
+    }
+
+    private void extractedMethod58150() {
+        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
+        
+        ApiTokenPropertyConfiguration config = ApiTokenPropertyConfiguration.get();
+        config.setCreationOfLegacyTokenEnabled(true);
+        config.setTokenGenerationOnCreationEnabled(false);
     }
     
     private HtmlAnchor getFilterByIndex(HtmlPage page, SelectFilter selectFilter) {
