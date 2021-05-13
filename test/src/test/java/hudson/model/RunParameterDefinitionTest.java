@@ -24,6 +24,9 @@
 
 package hudson.model;
 
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+
 import hudson.EnvVars;
 import static org.junit.Assert.assertEquals;
 
@@ -176,11 +179,7 @@ public class RunParameterDefinitionTest {
                                                                              project.getName(),
                                                                              "run description",
                                                                              RunParameterFilter.COMPLETED));
-        paramProject.addProperty(pdp);
-
-        FreeStyleBuild build = paramProject.scheduleBuild2(0).get();
-        assertEquals(Integer.toString(abortedBuild.getNumber()),
-                     build.getEnvironment(new LogTaskListener(LOGGER, Level.INFO)).get("RUN_NUMBER"));
+        extractedMethod30167(paramProject, pdp, abortedBuild);
     }
     
     @Test
@@ -207,11 +206,7 @@ public class RunParameterDefinitionTest {
                                                                              project.getName(),
                                                                              "run description",
                                                                              RunParameterFilter.SUCCESSFUL));
-        paramProject.addProperty(pdp);
-
-        FreeStyleBuild build = paramProject.scheduleBuild2(0).get();
-        assertEquals(Integer.toString(unstableBuild.getNumber()),
-                     build.getEnvironment(new LogTaskListener(LOGGER, Level.INFO)).get("RUN_NUMBER"));
+        extractedMethod30167(paramProject, pdp, unstableBuild);
     }
     
     
@@ -239,8 +234,12 @@ public class RunParameterDefinitionTest {
                                                                              project.getName(),
                                                                              "run description",
                                                                              RunParameterFilter.STABLE));
-        paramProject.addProperty(pdp);
+        extractedMethod30167(paramProject, pdp, successfulBuild);
+    }
 
+    private void extractedMethod30167(final FreeStyleProject paramProject, final ParametersDefinitionProperty pdp, final FreeStyleBuild successfulBuild) throws ExecutionException, IOException, InterruptedException {
+        paramProject.addProperty(pdp);
+        
         FreeStyleBuild build = paramProject.scheduleBuild2(0).get();
         assertEquals(Integer.toString(successfulBuild.getNumber()),
                      build.getEnvironment(new LogTaskListener(LOGGER, Level.INFO)).get("RUN_NUMBER"));
