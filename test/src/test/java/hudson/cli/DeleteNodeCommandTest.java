@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass59022;
+
 import hudson.model.Computer;
 import jenkins.model.Jenkins;
 import org.junit.Before;
@@ -84,9 +86,7 @@ public class DeleteNodeCommandTest {
                 .invokeWithArgs("never_created")
         ;
 
-        assertThat(result, failedWith(3));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: No such node 'never_created'"));
+        ExtractedSeparateClass59022.extractedMethod39379(result);
     }
 
     @Test public void deleteNodeManyShouldSucceed() throws Exception {

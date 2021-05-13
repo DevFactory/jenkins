@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass59022;
+
 import hudson.slaves.DumbSlave;
 import jenkins.model.Jenkins;
 import org.junit.Before;
@@ -64,9 +66,7 @@ public class WaitNodeOnlineCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ)
                 .invokeWithArgs("never_created");
-        assertThat(result, failedWith(3));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: No such node 'never_created'"));
+        ExtractedSeparateClass59022.extractedMethod39379(result);
     }
 
     @Test
