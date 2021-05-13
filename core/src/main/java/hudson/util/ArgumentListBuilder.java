@@ -291,12 +291,7 @@ public class ArgumentListBuilder implements Serializable, Cloneable {
     public String toStringWithQuote() {
         StringBuilder buf = new StringBuilder();
         for (String arg : args) {
-            if(buf.length()>0)  buf.append(' ');
-
-            if(arg.indexOf(' ')>=0 || arg.length()==0)
-                buf.append('"').append(arg).append('"');
-            else
-                buf.append(arg);
+            extractedMethod17013(buf, arg);
         }
         return buf.toString();
     }
@@ -432,14 +427,18 @@ public class ArgumentListBuilder implements Serializable, Cloneable {
             if (mask.get(i))
                 arg = "******";
 
-            if(buf.length()>0)  buf.append(' ');
-
-            if(arg.indexOf(' ')>=0 || arg.length()==0)
-                buf.append('"').append(arg).append('"');
-            else
-                buf.append(arg);
+            extractedMethod17013(buf, arg);
         }
         return buf.toString();
+    }
+
+    private void extractedMethod17013(final StringBuilder buf, final String arg) {
+        if(buf.length()>0)  buf.append(' ');
+        
+        if(arg.indexOf(' ')>=0 || arg.length()==0)
+            buf.append('"').append(arg).append('"');
+        else
+            buf.append(arg);
     }
 
     private static final long serialVersionUID = 1L;
