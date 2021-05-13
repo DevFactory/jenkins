@@ -23,6 +23,8 @@
  */
 package jenkins.model;
 
+import org.jvnet.hudson.reactor.ReactorException;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
@@ -531,10 +533,7 @@ public class JenkinsTest {
         final Set<String> agentProtocolsBeforeReload = j.jenkins.getAgentProtocols();
         assertProtocolEnabled(MockOptInProtocol1.NAME, "before the roundtrip");
         
-        j.jenkins.reload();
-        
-        final Set<String> reloadedProtocols = j.jenkins.getAgentProtocols();
-        assertNotSame("The protocol list must have been really reloaded", agentProtocolsBeforeReload, reloadedProtocols);
+        final Set<String> reloadedProtocols = getReloadedProtocols79462(agentProtocolsBeforeReload);
         assertThat("We should have additional enabled protocol", 
                 reloadedProtocols.size(), equalTo(defaultProtocols.size() + 1));
         assertProtocolEnabled(MockOptInProtocol1.NAME, "after the roundtrip");
@@ -575,14 +574,19 @@ public class JenkinsTest {
         assertProtocolEnabled(MockOptInProtocol1.NAME, "before the roundtrip");
         assertProtocolEnabled(MockOptInProtocol2.NAME, "before the roundtrip");
 
-        j.jenkins.reload();
-        
-        final Set<String> reloadedProtocols = j.jenkins.getAgentProtocols();
-        assertNotSame("The protocol list must have been really reloaded", agentProtocolsBeforeReload, reloadedProtocols);
+        final Set<String> reloadedProtocols = getReloadedProtocols79462(agentProtocolsBeforeReload);
         assertThat("There should be two additional enabled protocols",
                 reloadedProtocols.size(), equalTo(defaultProtocols.size() + 2));
         assertProtocolEnabled(MockOptInProtocol1.NAME, "after the roundtrip");
         assertProtocolEnabled(MockOptInProtocol2.NAME, "after the roundtrip");
+    }
+
+    private Set<String> getReloadedProtocols79462(final Set<String> agentProtocolsBeforeReload) throws IOException, InterruptedException, ReactorException {
+        j.jenkins.reload();
+        
+        final Set<String> reloadedProtocols = j.jenkins.getAgentProtocols();
+        assertNotSame("The protocol list must have been really reloaded", agentProtocolsBeforeReload, reloadedProtocols);
+        return reloadedProtocols;
     }
     
     @Test
