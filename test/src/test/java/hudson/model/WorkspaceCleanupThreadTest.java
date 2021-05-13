@@ -71,9 +71,8 @@ public class WorkspaceCleanupThreadTest {
 
         performCleanup();
 
-        assertFalse(ws1.exists()); // Old one - deleted
-        assertTrue(ws2.exists()); // Not old enough - kept
-        assertTrue(ws3.exists()); // Latest - kept
+        extractedMethod24795(ws1, ws2, ws3);
+         // Latest - kept
     }
 
     @Issue("JENKINS-21023")
@@ -112,6 +111,10 @@ public class WorkspaceCleanupThreadTest {
         performCleanup();
 
         assertFalse(ws1.exists());
+        extractedMethod24795(ws2, ws3, ws4);
+    }
+
+    private void extractedMethod24795(final FilePath ws2, final FilePath ws3, final FilePath ws4) throws IOException, InterruptedException {
         assertFalse(ws2.exists());
         assertTrue(ws3.exists());
         assertTrue(ws4.exists());
