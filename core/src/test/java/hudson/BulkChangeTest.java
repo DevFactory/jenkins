@@ -83,12 +83,7 @@ public class BulkChangeTest {
     @Test
     public void bulkChange() throws Exception {
         Point pt = new Point();
-        BulkChange bc = new BulkChange(pt);
-        try {
-            pt.set(0,0);
-        } finally {
-            bc.commit();
-        }
+        extractedMethod37289(pt);
         assertEquals(1,pt.saveCount);
     }
 
@@ -103,12 +98,7 @@ public class BulkChangeTest {
         try {
             BulkChange bc2 = new BulkChange(pt2);
             try {
-                BulkChange bc3 = new BulkChange(pt);
-                try {
-                    pt.set(0,0);
-                } finally {
-                    bc3.commit();
-                }
+                extractedMethod37289(pt);
             } finally {
                 bc2.commit();
             }
@@ -117,5 +107,14 @@ public class BulkChangeTest {
             bc1.commit();
         }
         assertEquals(1,pt.saveCount);
+    }
+
+    private void extractedMethod37289(final Point pt) throws IOException {
+        BulkChange bc3 = new BulkChange(pt);
+        try {
+            pt.set(0,0);
+        } finally {
+            bc3.commit();
+        }
     }
 }
