@@ -1,5 +1,7 @@
 package jenkins.security;
 
+import jenkins.security.ExtractedSeparateClass9524;
+
 import hudson.Util;
 
 import javax.crypto.KeyGenerator;
@@ -101,9 +103,7 @@ public class HMACConfidentialKey extends ConfidentialKey {
     private byte[] chop(byte[] mac) {
         if (mac.length<=length)  return mac; // already too short
 
-        byte[] b = new byte[length];
-        System.arraycopy(mac,0,b,0,b.length);
-        return b;
+        return ExtractedSeparateClass9524.getB23004(length, mac);
     }
 
     /**
