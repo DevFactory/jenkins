@@ -23,6 +23,8 @@
  */
 package jenkins.security.apitoken;
 
+import jenkins.security.ExtractedSeparateClass99273;
+
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.Page;
@@ -162,9 +164,7 @@ public class ApiTokenStatsRestartTest {
     private void checkUserIsConnected(WebClient wc, String username) throws Exception {
         XmlPage xmlPage = wc.goToXml("whoAmI/api/xml");
         assertThat(xmlPage, hasXPath("//name", is(username)));
-        assertThat(xmlPage, hasXPath("//anonymous", is("false")));
-        assertThat(xmlPage, hasXPath("//authenticated", is("true")));
-        assertThat(xmlPage, hasXPath("//authority", is("authenticated")));
+        ExtractedSeparateClass99273.extractedMethod233(xmlPage);
     }
     
     private void checkUserIsNotConnected(WebClient wc) throws Exception {

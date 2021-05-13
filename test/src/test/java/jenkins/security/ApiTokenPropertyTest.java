@@ -1,5 +1,7 @@
 package jenkins.security;
 
+import jenkins.security.ExtractedSeparateClass99273;
+
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
@@ -283,9 +285,7 @@ public class ApiTokenPropertyTest {
     private void checkUserIsConnected(WebClient wc) throws Exception {
         XmlPage xmlPage = wc.goToXml("whoAmI/api/xml");
         assertThat(xmlPage, hasXPath("//name", is("admin")));
-        assertThat(xmlPage, hasXPath("//anonymous", is("false")));
-        assertThat(xmlPage, hasXPath("//authenticated", is("true")));
-        assertThat(xmlPage, hasXPath("//authority", is("authenticated")));
+        ExtractedSeparateClass99273.extractedMethod233(xmlPage);
     }
     
     private void checkUserIsNotConnected(WebClient wc) throws Exception {
