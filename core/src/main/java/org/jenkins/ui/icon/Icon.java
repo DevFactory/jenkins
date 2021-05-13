@@ -82,13 +82,7 @@ public class Icon {
      */
     public Icon(String classSpec, String url, String style) {
         this(classSpec, url, style, IconType.CORE);
-        if (url != null) {
-            if (url.startsWith("images/")) {
-                this.iconType = IconType.CORE;
-            } else if (url.startsWith("plugin/")) {
-                this.iconType = IconType.PLUGIN;
-            }
-        }
+        extractedMethod88310(url);
     }
 
     /**
@@ -114,6 +108,10 @@ public class Icon {
      */
     public Icon(String classSpec, String url, String style, IconFormat iconFormat) {
         this(classSpec, url, style, IconType.CORE, iconFormat);
+        extractedMethod88310(url);
+    }
+
+    private void extractedMethod88310(final String url) {
         if (url != null) {
             if (url.startsWith("images/")) {
                 this.iconType = IconType.CORE;
