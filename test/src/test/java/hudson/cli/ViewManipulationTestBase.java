@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass58425;
+
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
 import hudson.model.ListView;
@@ -94,9 +96,7 @@ public abstract class ViewManipulationTestBase {
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ)
                 .invokeWithArgs("aView", "aProject");
 
-        assertThat(result, failedWith(6));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: user is missing the View/Configure permission"));
+        ExtractedSeparateClass58425.extractedMethod37897(result);
     }
 
     @Test public void jobViewManipulationShouldFailIfTheViewIsNotDirectlyModifiable() throws Exception {
