@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result;
+
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
 import hudson.model.Queue;
@@ -114,9 +116,7 @@ public class QuietDownCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, Jenkins.ADMINISTER)
                 .invokeWithArgs("-reason", TEST_REASON);
-        assertThat(result, succeededSilently());
-        assertJenkinsInQuietMode();
-        assertThat(j.jenkins.getQuietDownReason(), equalTo(TEST_REASON));
+        extractedMethod56540(result);
     }
 
     @Test
@@ -133,6 +133,10 @@ public class QuietDownCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, Jenkins.ADMINISTER)
                 .invokeWithArgs("-block", "-timeout", "0", "-reason", TEST_REASON);
+        extractedMethod56540(result);
+    }
+
+    private void extractedMethod56540(final CLICommandInvoker.Result result) {
         assertThat(result, succeededSilently());
         assertJenkinsInQuietMode();
         assertThat(j.jenkins.getQuietDownReason(), equalTo(TEST_REASON));
