@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result;
+
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
 import hudson.model.ListView;
@@ -173,11 +175,7 @@ public abstract class ViewManipulationTestBase {
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
                 .invokeWithArgs("aView", "never_created", "aProject1", "aProject2");
 
-        assertThat(result, failedWith(3));
-        assertThat(result.stderr(), containsString("ERROR: No such job 'never_created'; perhaps you meant 'aProject1'?"));
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
-        assertThat(j.jenkins.getView("aView").contains(project1), equalTo(false));
-        assertThat(j.jenkins.getView("aView").contains(project2), equalTo(false));
+        extractedMethod72242(result, project1, project2);
     }
 
     @Test public void jobViewManipulationManyShouldFailIfMiddleJobDoesNotExist() throws Exception {
@@ -194,11 +192,7 @@ public abstract class ViewManipulationTestBase {
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
                 .invokeWithArgs("aView", "aProject1", "never_created", "aProject2");
 
-        assertThat(result, failedWith(3));
-        assertThat(result.stderr(), containsString("ERROR: No such job 'never_created'; perhaps you meant 'aProject1'?"));
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
-        assertThat(j.jenkins.getView("aView").contains(project1), equalTo(false));
-        assertThat(j.jenkins.getView("aView").contains(project2), equalTo(false));
+        extractedMethod72242(result, project1, project2);
     }
 
     @Test public void jobViewManipulationManyShouldFailIfLastJobDoesNotExist() throws Exception {
@@ -215,11 +209,7 @@ public abstract class ViewManipulationTestBase {
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
                 .invokeWithArgs("aView", "aProject1", "aProject2", "never_created");
 
-        assertThat(result, failedWith(3));
-        assertThat(result.stderr(), containsString("ERROR: No such job 'never_created'; perhaps you meant 'aProject1'?"));
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
-        assertThat(j.jenkins.getView("aView").contains(project1), equalTo(false));
-        assertThat(j.jenkins.getView("aView").contains(project2), equalTo(false));
+        extractedMethod72242(result, project1, project2);
     }
 
     @Test public void jobViewManipulationManyShouldFailIfMoreJobsDoNotExist() throws Exception {
@@ -236,6 +226,10 @@ public abstract class ViewManipulationTestBase {
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
                 .invokeWithArgs("aView", "aProject1", "never_created", "aProject2", "never_created");
 
+        extractedMethod72242(result, project1, project2);
+    }
+
+    private void extractedMethod72242(final CLICommandInvoker.Result result, final FreeStyleProject project1, final FreeStyleProject project2) {
         assertThat(result, failedWith(3));
         assertThat(result.stderr(), containsString("ERROR: No such job 'never_created'; perhaps you meant 'aProject1'?"));
         assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
