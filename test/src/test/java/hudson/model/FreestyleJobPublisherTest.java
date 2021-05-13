@@ -1,5 +1,7 @@
 package hudson.model;
 
+import java.util.concurrent.ExecutionException;
+
 import hudson.model.utils.AbortExceptionPublisher;
 import hudson.model.utils.IOExceptionPublisher;
 import hudson.model.utils.ResultWriterPublisher;
@@ -36,12 +38,7 @@ public class FreestyleJobPublisherTest {
 
         p.getPublishersList().add(new TrueFalsePublisher(true)); // noop
         p.getPublishersList().add(new TrueFalsePublisher(false));   // FAIL build with false
-        p.getPublishersList().add(new ResultWriterPublisher("result.txt")); // catch result to file
-        final ArtifactArchiver artifactArchiver = new ArtifactArchiver("result.txt");
-        artifactArchiver.setOnlyIfSuccessful(false);
-        p.getPublishersList().add(artifactArchiver); // transfer file to build dir
-
-        FreeStyleBuild b = p.scheduleBuild2(0).get();
+        FreeStyleBuild b = getB83743(p);
         assertEquals("Build must fail, because we used FalsePublisher", Result.FAILURE, b.getResult());
         File file = new File(b.getArtifactsDir(), "result.txt");
         assertTrue("ArtifactArchiver is executed even prior publisher fails", file.exists());
@@ -58,12 +55,7 @@ public class FreestyleJobPublisherTest {
 
         p.getPublishersList().add(new TrueFalsePublisher(true)); // noop
         p.getPublishersList().add(new AbortExceptionPublisher()); // FAIL build with AbortException
-        p.getPublishersList().add(new ResultWriterPublisher("result.txt")); // catch result to file
-        final ArtifactArchiver artifactArchiver = new ArtifactArchiver("result.txt");
-        artifactArchiver.setOnlyIfSuccessful(false);
-        p.getPublishersList().add(artifactArchiver); // transfer file to build dir
-
-        FreeStyleBuild b = p.scheduleBuild2(0).get();
+        FreeStyleBuild b = getB83743(p);
 
         assertEquals("Build must fail, because we used AbortExceptionPublisher", Result.FAILURE, b.getResult());
         j.assertLogNotContains("\tat", b); // log must not contain stacktrace
@@ -83,12 +75,7 @@ public class FreestyleJobPublisherTest {
 
         p.getPublishersList().add(new TrueFalsePublisher(true)); // noop
         p.getPublishersList().add(new IOExceptionPublisher());   // fail with IOException
-        p.getPublishersList().add(new ResultWriterPublisher("result.txt")); //catch result to file
-        final ArtifactArchiver artifactArchiver = new ArtifactArchiver("result.txt");
-        artifactArchiver.setOnlyIfSuccessful(false);
-        p.getPublishersList().add(artifactArchiver); // transfer file to build dir
-
-        FreeStyleBuild b = p.scheduleBuild2(0).get();
+        FreeStyleBuild b = getB83743(p);
 
         assertEquals("Build must fail, because we used FalsePublisher", Result.FAILURE, b.getResult());
         j.assertLogContains("\tat hudson.model.utils.IOExceptionPublisher", b); // log must contain stacktrace
@@ -96,5 +83,15 @@ public class FreestyleJobPublisherTest {
         File file = new File(b.getArtifactsDir(), "result.txt");
         assertTrue("ArtifactArchiver is executed even prior publisher fails", file.exists());
         assertEquals("Third publisher must see FAILURE status", FileUtils.readFileToString(file, StandardCharsets.UTF_8), Result.FAILURE.toString());
+    }
+
+    private FreeStyleBuild getB83743(final FreeStyleProject p) throws ExecutionException, InterruptedException {
+        p.getPublishersList().add(new ResultWriterPublisher("result.txt")); // catch result to file
+        final ArtifactArchiver artifactArchiver = new ArtifactArchiver("result.txt");
+        artifactArchiver.setOnlyIfSuccessful(false);
+        p.getPublishersList().add(artifactArchiver); // transfer file to build dir
+        
+        FreeStyleBuild b = p.scheduleBuild2(0).get();
+        return b;
     }
 }
