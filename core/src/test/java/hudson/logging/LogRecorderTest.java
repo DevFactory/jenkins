@@ -24,6 +24,8 @@
 
 package hudson.logging;
 
+import hudson.ExtractedSeparateClass49834;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -90,9 +92,7 @@ public class LogRecorderTest {
     }
 
     private void createMockJenkins() {
-        mockStatic(Jenkins.class);
-        Jenkins j = mock(Jenkins.class);
-        when(Jenkins.get()).thenReturn(j);
+        Jenkins j = ExtractedSeparateClass49834.getJ92619();
     }
 
     @Test public void testSpecificExclusion() {
