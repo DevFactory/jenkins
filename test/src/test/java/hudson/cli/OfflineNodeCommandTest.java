@@ -90,16 +90,7 @@ public class OfflineNodeCommandTest {
     @Test
     public void offlineNodeShouldSucceed() throws Exception {
         DumbSlave slave = j.createSlave("aNode", "", null);
-        assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
-
-        final CLICommandInvoker.Result result = command
-                .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
-                .invokeWithArgs("aNode");
-        assertThat(result, succeededSilently());
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
-        assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(true));
-        assertThat(slave.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
-        assertThat(((OfflineCause.ByCLI) slave.toComputer().getOfflineCause()).message, equalTo(null));
+        extractedMethod4525(slave);
     }
 
     @Test
@@ -108,16 +99,7 @@ public class OfflineNodeCommandTest {
         slave.toComputer().waitUntilOnline();
         assertThat(slave.toComputer().isOnline(), equalTo(true));
         assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(false));
-        assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
-
-        final CLICommandInvoker.Result result = command
-                .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
-                .invokeWithArgs("aNode");
-        assertThat(result, succeededSilently());
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
-        assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(true));
-        assertThat(slave.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
-        assertThat(((OfflineCause.ByCLI) slave.toComputer().getOfflineCause()).message, equalTo(null));
+        extractedMethod4525(slave);
     }
 
     @Test
@@ -126,8 +108,12 @@ public class OfflineNodeCommandTest {
         slave.toComputer().setTemporarilyOffline(true, null);
         assertThat(slave.toComputer().isOffline(), equalTo(true));
         assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(true));
-        assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
+        extractedMethod4525(slave);
+    }
 
+    private void extractedMethod4525(final DumbSlave slave) {
+        assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
+        
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode");
