@@ -24,6 +24,8 @@
  */
 package hudson.model;
 
+import jenkins.model.ExtractedSeparateClass34846;
+
 import hudson.Extension;
 import hudson.Util;
 import hudson.model.Queue.WaitingItem;
@@ -190,11 +192,7 @@ public class ParametersDefinitionProperty extends OptionalJobProperty<Job<?, ?>>
         Queue.Item item = Jenkins.get().getQueue().schedule2(
                 getJob(), delay.getTimeInSeconds(), new ParametersAction(values), ParameterizedJobMixIn.getBuildCause(getJob(), req)).getItem();
 
-        if (item != null) {
-            rsp.sendRedirect(SC_CREATED, req.getContextPath() + '/' + item.getUrl());
-        } else {
-            rsp.sendRedirect(".");
-        }
+        ExtractedSeparateClass34846.extractedMethod63436(item, rsp, req, SC_CREATED);
     }
 
     /**
