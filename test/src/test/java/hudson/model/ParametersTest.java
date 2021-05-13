@@ -89,10 +89,7 @@ public class ParametersTest {
         assertEquals("run description", ((HtmlElement) DomNodeUtil.selectSingleNode(element.getNextSibling().getNextSibling(), "div[@class='setting-description']")).getTextContent());
         assertEquals("run", ((HtmlElement) DomNodeUtil.selectSingleNode(element.getParentNode(), "div[contains(@class, 'setting-name')]")).getTextContent());
 
-        j.submit(form);
-        Queue.Item q = j.jenkins.getQueue().getItem(project);
-        if (q != null) q.getFuture().get();
-        else Thread.sleep(1000);
+        extractedMethod62198(form, project);
 
         assertEquals("newValue", builder.getEnvVars().get("STRING"));
         assertEquals("true", builder.getEnvVars().get("BOOLEAN"));
@@ -123,10 +120,7 @@ public class ParametersTest {
         assertEquals("Choice <2>", opt.asText());
         opt.setSelected(true);
 
-        j.submit(form);
-        Queue.Item q = j.jenkins.getQueue().getItem(project);
-        if (q != null) q.getFuture().get();
-        else Thread.sleep(1000);
+        extractedMethod62198(form, project);
 
         assertNotNull(builder.getEnvVars());
         assertEquals("Choice <2>", builder.getEnvVars().get("CHOICE"));
@@ -201,12 +195,16 @@ public class ParametersTest {
         HtmlPage page = wc.goTo("job/" + project.getName() + "/build?delay=0sec");
         HtmlForm form = page.getFormByName("parameters");
 
+        extractedMethod62198(form, project);
+
+        assertFalse("file must not exist", project.getSomeWorkspace().child("filename").exists());
+    }
+
+    private void extractedMethod62198(final HtmlForm form, final FreeStyleProject project) throws Exception {
         j.submit(form);
         Queue.Item q = j.jenkins.getQueue().getItem(project);
         if (q != null) q.getFuture().get();
         else Thread.sleep(1000);
-
-        assertFalse("file must not exist", project.getSomeWorkspace().child("filename").exists());
     }
 
     @Test
