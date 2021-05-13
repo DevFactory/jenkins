@@ -140,15 +140,7 @@ public class OfflineNodeCommandTest {
 
     @Test
     public void offlineNodeShouldSucceedOnDisconnectedNode() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        slave.toComputer().waitUntilOnline();
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
-        assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
-        slave.toComputer().disconnect();
-        slave.toComputer().waitUntilOffline();
-        assertThat(slave.toComputer().isOnline(), equalTo(false));
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
-        assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(false));
+        DumbSlave slave = getSlave63046();
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
@@ -214,15 +206,7 @@ public class OfflineNodeCommandTest {
 
     @Test
     public void offlineNodeShouldSucceedOnDisconnectedNodeWithCause() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        slave.toComputer().waitUntilOnline();
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
-        assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
-        slave.toComputer().disconnect();
-        slave.toComputer().waitUntilOffline();
-        assertThat(slave.toComputer().isOnline(), equalTo(false));
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
-        assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(false));
+        DumbSlave slave = getSlave63046();
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
@@ -233,6 +217,19 @@ public class OfflineNodeCommandTest {
         assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(true));
         assertThat(slave.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
         assertThat(((OfflineCause.ByCLI) slave.toComputer().getOfflineCause()).message, equalTo("aCause"));
+    }
+
+    private DumbSlave getSlave63046() throws Exception {
+        DumbSlave slave = j.createSlave("aNode", "", null);
+        slave.toComputer().waitUntilOnline();
+        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
+        slave.toComputer().disconnect();
+        slave.toComputer().waitUntilOffline();
+        assertThat(slave.toComputer().isOnline(), equalTo(false));
+        assertThat(slave.toComputer().isOffline(), equalTo(true));
+        assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(false));
+        return slave;
     }
 
     @Test
