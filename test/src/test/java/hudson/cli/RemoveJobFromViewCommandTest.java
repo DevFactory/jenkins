@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result;
+
 import hudson.model.DirectlyModifiableView;
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
@@ -59,9 +61,7 @@ public class RemoveJobFromViewCommandTest extends ViewManipulationTestBase {
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
                 .invokeWithArgs("aView", "aProject");
 
-        assertThat(result, succeededSilently());
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
-        assertThat(j.jenkins.getView("aView").contains(project), equalTo(false));
+        extractedMethod64760(result, project);
     }
 
     @Test public void removeJobManyShouldSucceed() throws Exception {
@@ -80,9 +80,7 @@ public class RemoveJobFromViewCommandTest extends ViewManipulationTestBase {
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
                 .invokeWithArgs("aView", "aProject1", "aProject2");
 
-        assertThat(result, succeededSilently());
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
-        assertThat(j.jenkins.getView("aView").contains(project1), equalTo(false));
+        extractedMethod64760(result, project1);
         assertThat(j.jenkins.getView("aView").contains(project2 ), equalTo(false));
     }
 
@@ -99,9 +97,13 @@ public class RemoveJobFromViewCommandTest extends ViewManipulationTestBase {
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
                 .invokeWithArgs("aView", "aProject", "aProject");
 
+        extractedMethod64760(result, project);
+    }
+
+    private void extractedMethod64760(final CLICommandInvoker.Result result, final FreeStyleProject project1) {
         assertThat(result, succeededSilently());
         assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
-        assertThat(j.jenkins.getView("aView").contains(project), equalTo(false));
+        assertThat(j.jenkins.getView("aView").contains(project1), equalTo(false));
     }
 
 }
