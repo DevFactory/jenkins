@@ -204,15 +204,7 @@ public class ConsoleCommandTest {
             project.getBuildersList().add(new Shell("echo start - ${BUILD_NUMBER}\nsleep 10s\n"
                     + "echo after sleep - ${BUILD_NUMBER}"));
         }
-        if (!project.scheduleBuild(0)) {
-            fail("Job wasn't scheduled properly");
-        }
-
-        // Wait until project is started (at least 1s)
-        while(!project.isBuilding()) {
-            System.out.println("Waiting for build to start and sleep 1s...");
-            Thread.sleep(1000);
-        }
+        extractedMethod95845(project);
 
         // Wait for the first message
         if(!project.getBuildByNumber(1).getLog().contains("start - 1")) {
@@ -277,15 +269,7 @@ public class ConsoleCommandTest {
                     + "echo 6\necho 7\necho 8\necho 9"));
         }
 
-        if (!project.scheduleBuild(0)) {
-            fail("Job wasn't scheduled properly");
-        }
-
-        // Wait until project is started (at least 1s)
-        while(!project.isBuilding()) {
-            System.out.println("Waiting for build to start and sleep 1s...");
-            Thread.sleep(1000);
-        }
+        extractedMethod95845(project);
 
         // Wait for the first sleep
         if(!project.getBuildByNumber(1).getLog().contains("echo 5")) {
@@ -308,6 +292,18 @@ public class ConsoleCommandTest {
         assertThat(project.getBuildByNumber(1).isBuilding(), equalTo(false));
         assertThat(project.getBuildByNumber(1).getResult(), equalTo(Result.SUCCESS));
         assertThat(project.getBuildByNumber(1).getLog(), containsString("echo 9"));
+    }
+
+    private void extractedMethod95845(final FreeStyleProject project) throws InterruptedException {
+        if (!project.scheduleBuild(0)) {
+            fail("Job wasn't scheduled properly");
+        }
+        
+        // Wait until project is started (at least 1s)
+        while(!project.isBuilding()) {
+            System.out.println("Waiting for build to start and sleep 1s...");
+            Thread.sleep(1000);
+        }
     }
 
     @Test public void consoleShouldFailIfTheBuildIsStuckInTheQueue() throws Exception {
