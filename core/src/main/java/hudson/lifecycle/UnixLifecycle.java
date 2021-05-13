@@ -23,6 +23,8 @@
  */
 package hudson.lifecycle;
 
+import hudson.ExtractedSeparateClass94655;
+
 import com.sun.akuma.JavaVMArguments;
 import com.sun.jna.Native;
 import com.sun.jna.StringArray;
@@ -64,14 +66,7 @@ public class UnixLifecycle extends Lifecycle {
 
     @Override
     public void restart() throws IOException, InterruptedException {
-        Jenkins jenkins = Jenkins.getInstanceOrNull(); // guard against repeated concurrent calls to restart
-        try {
-            if (jenkins != null) {
-                jenkins.cleanUp();
-            }
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Failed to clean up. Restart will continue.", e);
-        }
+        ExtractedSeparateClass94655.extractedMethod14973(LOGGER);
 
         // close all files upon exec, except stdin, stdout, and stderr
         int sz = LIBC.getdtablesize();

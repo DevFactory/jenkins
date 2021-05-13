@@ -23,6 +23,8 @@
  */
 package hudson;
 
+import hudson.ExtractedSeparateClass94655;
+
 import hudson.security.ACLContext;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -435,14 +437,7 @@ public class WebAppMain implements ServletContextListener {
 
     public void contextDestroyed(ServletContextEvent event) {
         try (ACLContext old = ACL.as2(ACL.SYSTEM2)) {
-            Jenkins instance = Jenkins.getInstanceOrNull();
-            try {
-                if (instance != null) {
-                    instance.cleanUp();
-                }
-            } catch (Exception e) {
-                LOGGER.log(Level.SEVERE, "Failed to clean up. Restart will continue.", e);
-            }
+            ExtractedSeparateClass94655.extractedMethod14973(LOGGER);
 
             terminated = true;
             Thread t = initThread;
