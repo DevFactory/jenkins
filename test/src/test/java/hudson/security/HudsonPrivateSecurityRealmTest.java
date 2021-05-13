@@ -356,10 +356,7 @@ public class HudsonPrivateSecurityRealmTest {
         ));
 
         HtmlPage p = wc.getPage(request);
-        assertEquals(200, p.getWebResponse().getStatusCode());
-        assertTrue(p.getDocumentElement().getElementsByAttribute("div", "class", "error").isEmpty());
-
-        assertNotNull(User.getById(login, false));
+        extractedMethod26536(p, login);
     }
 
     private void createAccountByAdmin(String login) throws Exception {
@@ -384,10 +381,7 @@ public class HudsonPrivateSecurityRealmTest {
         form.getInputByName("email").setValueAttribute(login + "@" + login + ".com");
 
         HtmlPage p = j.submit(form);
-        assertEquals(200, p.getWebResponse().getStatusCode());
-        assertTrue(p.getDocumentElement().getElementsByAttribute("div", "class", "error").isEmpty());
-
-        assertNotNull(User.getById(login, false));
+        extractedMethod26536(p, login);
     }
 
     private void selfRegistration(String login) throws Exception {
@@ -402,9 +396,13 @@ public class HudsonPrivateSecurityRealmTest {
         signup.enterEmail(login + "@" + login + ".com");
 
         HtmlPage p = signup.submit(j);
+        extractedMethod26536(p, login);
+    }
+
+    private void extractedMethod26536(final HtmlPage p, final String login) {
         assertEquals(200, p.getWebResponse().getStatusCode());
         assertTrue(p.getDocumentElement().getElementsByAttribute("div", "class", "error").isEmpty());
-
+        
         assertNotNull(User.getById(login, false));
     }
 
