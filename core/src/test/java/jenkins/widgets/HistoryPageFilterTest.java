@@ -126,12 +126,7 @@ public class HistoryPageFilterTest {
     @Test
     public void test_olderThan_gt_newest() throws IOException {
         HistoryPageFilter<ModelObject> historyPageFilter = newPage(5, null, 11L);
-        Iterable<ModelObject> itemList = newRuns(1, 10);
-
-        historyPageFilter.add(itemList);
-
-        Assert.assertFalse(historyPageFilter.hasUpPage);
-        Assert.assertTrue(historyPageFilter.hasDownPage);
+        extractedMethod22823(historyPageFilter);
         Assert.assertEquals(5, historyPageFilter.runs.size());
 
         Assert.assertEquals(HistoryPageEntry.getEntryId(10), historyPageFilter.newestOnPage);
@@ -199,12 +194,7 @@ public class HistoryPageFilterTest {
     @Test
     public void test_newerThan_gt_newest() throws IOException {
         HistoryPageFilter<ModelObject> historyPageFilter = newPage(5, 11L, null);
-        Iterable<ModelObject> itemList = newRuns(1, 10);
-
-        historyPageFilter.add(itemList);
-
-        Assert.assertFalse(historyPageFilter.hasUpPage);
-        Assert.assertTrue(historyPageFilter.hasDownPage);
+        extractedMethod22823(historyPageFilter);
         Assert.assertEquals(0, historyPageFilter.runs.size());
     }
 
@@ -253,16 +243,20 @@ public class HistoryPageFilterTest {
     @Test
     public void test_newerThan_near_newest() throws IOException {
         HistoryPageFilter<ModelObject> historyPageFilter = newPage(5, 8L, null);
-        Iterable<ModelObject> itemList = newRuns(1, 10);
-
-        historyPageFilter.add(itemList);
-
-        Assert.assertFalse(historyPageFilter.hasUpPage);
-        Assert.assertTrue(historyPageFilter.hasDownPage);
+        extractedMethod22823(historyPageFilter);
         Assert.assertEquals(5, historyPageFilter.runs.size());
 
         Assert.assertEquals(HistoryPageEntry.getEntryId(10), historyPageFilter.newestOnPage);
         Assert.assertEquals(HistoryPageEntry.getEntryId(6), historyPageFilter.oldestOnPage);
+    }
+
+    private void extractedMethod22823(final HistoryPageFilter<ModelObject> historyPageFilter) throws IOException {
+        Iterable<ModelObject> itemList = newRuns(1, 10);
+        
+        historyPageFilter.add(itemList);
+        
+        Assert.assertFalse(historyPageFilter.hasUpPage);
+        Assert.assertTrue(historyPageFilter.hasDownPage);
     }
 
     /**
