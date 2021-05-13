@@ -80,13 +80,7 @@ public class CancelQuietDownCommandTest {
 
     @Test
     public void cancelQuietDownShouldSuccessOnQuietDownedJenkins() throws Exception {
-        j.jenkins.doQuietDown();
-        QuietDownCommandTest.assertJenkinsInQuietMode(j);
-        final CLICommandInvoker.Result result = command
-                .authorizedTo(Jenkins.READ, Jenkins.ADMINISTER)
-                .invoke();
-        assertThat(result, succeededSilently());
-        QuietDownCommandTest.assertJenkinsNotInQuietMode(j);
+        extractedMethod74408();
     }
 
     @Test
@@ -147,14 +141,7 @@ public class CancelQuietDownCommandTest {
         Future<FreeStyleBuild> build = OnlineNodeCommandTest.startBlockingAndFinishingBuild(project, finish);
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
         assertThat(project.isBuilding(), equalTo(true));
-        j.jenkins.doQuietDown();
-        QuietDownCommandTest.assertJenkinsInQuietMode(j);
-
-        final CLICommandInvoker.Result result = command
-                .authorizedTo(Jenkins.READ, Jenkins.ADMINISTER)
-                .invoke();
-        assertThat(result, succeededSilently());
-        QuietDownCommandTest.assertJenkinsNotInQuietMode(j);
+        extractedMethod74408();
         finish.signal();
         build.get();
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
@@ -169,6 +156,17 @@ public class CancelQuietDownCommandTest {
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(2));
         assertThat(project.isBuilding(), equalTo(false));
         j.assertBuildStatusSuccess(build);
+        QuietDownCommandTest.assertJenkinsNotInQuietMode(j);
+    }
+
+    private void extractedMethod74408() {
+        j.jenkins.doQuietDown();
+        QuietDownCommandTest.assertJenkinsInQuietMode(j);
+        
+        final CLICommandInvoker.Result result = command
+                .authorizedTo(Jenkins.READ, Jenkins.ADMINISTER)
+                .invoke();
+        assertThat(result, succeededSilently());
         QuietDownCommandTest.assertJenkinsNotInQuietMode(j);
     }
 }
