@@ -721,10 +721,7 @@ public class ProjectTest {
         c2.label = new LabelAtom("test-cloud-label");        
         j.jenkins.clouds.add(c2);
         
-        SCMTrigger t = new SCMTrigger("@daily", true);
-        t.start(proj, true);
-        proj.addTrigger(t);
-        t.new Runner().run();
+        extractedMethod16717(proj);
         
         Thread.sleep(1000);
         //Assert that the job IS submitted to Queue.
@@ -761,11 +758,7 @@ public class ProjectTest {
         PollingResult pr = proj.poll(j.createTaskListener());
         assertFalse(pr.hasChanges());
         
-        SCMTrigger t = new SCMTrigger("@daily", true);
-        t.start(proj, true);
-        proj.addTrigger(t);
-        
-        t.new Runner().run();
+        extractedMethod16717(proj);
         
         /*
          * Assert that the log contains the correct message.
@@ -795,10 +788,7 @@ public class ProjectTest {
         j.jenkins.clouds.add(c2);
         proj.setAssignedLabel(c2.label);
         
-        SCMTrigger t = new SCMTrigger("@daily", true);
-        t.start(proj, true);
-        proj.addTrigger(t);
-        t.new Runner().run();
+        extractedMethod16717(proj);
         
         Thread.sleep(1000);
         //The job should be in queue
@@ -818,13 +808,18 @@ public class ProjectTest {
         //First build is not important
         j.buildAndAssertSuccess(proj);
 
-        SCMTrigger t = new SCMTrigger("@daily", true);
-        t.start(proj, true);
-        proj.addTrigger(t);
-        t.new Runner().run();
+        extractedMethod16717(proj);
 
 
         assertFalse(j.jenkins.getQueue().isEmpty());
+    }
+
+    private void extractedMethod16717(final FreeStyleProject proj) throws ANTLRException, IOException {
+        SCMTrigger t = new SCMTrigger("@daily", true);
+        t.start(proj, true);
+        proj.addTrigger(t);
+        
+        t.new Runner().run();
     }
 
     public static class TransientAction extends InvisibleAction{
