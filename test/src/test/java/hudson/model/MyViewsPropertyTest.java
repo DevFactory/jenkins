@@ -86,9 +86,7 @@ public class MyViewsPropertyTest {
     @Test
     public void testGetViews() throws IOException {
         User user = User.getOrCreateByIdOrFullName("User");
-        MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
-        property.readResolve();
-        property.setUser(user);
+        MyViewsProperty property = getProperty25343(user);
         assertTrue("Property should contain " + AllView.DEFAULT_VIEW_NAME, property.getViews().contains(property.getView(AllView.DEFAULT_VIEW_NAME)));
         View view = new ListView("foo",property);
         property.addView(view);
@@ -98,9 +96,7 @@ public class MyViewsPropertyTest {
     @Test
     public void testGetView() throws IOException {
         User user = User.getOrCreateByIdOrFullName("User");
-        MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
-        property.readResolve();
-        property.setUser(user);
+        MyViewsProperty property = getProperty25343(user);
         assertNotNull("Property should contain " + AllView.DEFAULT_VIEW_NAME, property.getView(
                 AllView.DEFAULT_VIEW_NAME));
         View view = new ListView("foo",property);
@@ -111,9 +107,7 @@ public class MyViewsPropertyTest {
     @Test
     public void testGetPrimaryView() throws IOException {
         User user = User.getOrCreateByIdOrFullName("User");
-        MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
-        property.readResolve();
-        property.setUser(user);
+        MyViewsProperty property = getProperty25343(user);
         user.addProperty(property);
         assertEquals("Property should have primary view " + AllView.DEFAULT_VIEW_NAME + " instead of " + property.getPrimaryView(). name,property.getView(AllView.DEFAULT_VIEW_NAME), property.getPrimaryView());
         View view = new ListView("foo", property);
@@ -125,9 +119,7 @@ public class MyViewsPropertyTest {
     @Test
     public void testCanDelete() throws IOException {
         User user = User.getOrCreateByIdOrFullName("User");
-        MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
-        property.readResolve();
-        property.setUser(user);
+        MyViewsProperty property = getProperty25343(user);
         user.addProperty(property);
         assertFalse("Property should not enable to delete view " + AllView.DEFAULT_VIEW_NAME, property.canDelete(property.getView(AllView.DEFAULT_VIEW_NAME)));
         View view = new ListView("foo", property);
@@ -141,9 +133,7 @@ public class MyViewsPropertyTest {
     @Test
     public void testDeleteView() throws IOException {
         User user = User.getOrCreateByIdOrFullName("User");
-        MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
-        property.readResolve();
-        property.setUser(user);
+        MyViewsProperty property = getProperty25343(user);
         user.addProperty(property);
         boolean ex = false;
         try{
@@ -174,9 +164,7 @@ public class MyViewsPropertyTest {
     @Test
     public void testOnViewRenamed() throws IOException, Failure, FormException {
         User user = User.getOrCreateByIdOrFullName("User");
-        MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
-        property.readResolve();
-        property.setUser(user);
+        MyViewsProperty property = getProperty25343(user);
         user.addProperty(property);
         View view = new ListView("foo", property);
         property.addView(view);
@@ -189,9 +177,7 @@ public class MyViewsPropertyTest {
     public void testAddView() throws Exception {
         {
         User user = User.getOrCreateByIdOrFullName("User");
-        MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
-        property.readResolve();
-        property.setUser(user);
+        MyViewsProperty property = getProperty25343(user);
         user.addProperty(property);
         View view = new ListView("foo", property);
         property.addView(view);
@@ -209,9 +195,7 @@ public class MyViewsPropertyTest {
     public void testDoCreateView() throws Exception {
         {
         User user = User.getOrCreateByIdOrFullName("User");
-        MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
-        property.readResolve();
-        property.setUser(user);
+        MyViewsProperty property = getProperty25343(user);
         user.addProperty(property);
         HtmlForm form = rule.createWebClient().goTo(property.getUrl() + "/newView").getFormByName("createItem");
         form.getInputByName("name").setValueAttribute("foo");
@@ -229,9 +213,7 @@ public class MyViewsPropertyTest {
     @Test
     public void testGetACL() throws IOException {
         User user = User.getOrCreateByIdOrFullName("User");
-        MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
-        property.readResolve();
-        property.setUser(user);
+        MyViewsProperty property = getProperty25343(user);
         user.addProperty(property);
         for(Permission p : Permission.getAll()){
             assertEquals("Property should have the same ACL as its user", property.getACL().hasPermission(p), user.getACL().hasPermission(p));
@@ -243,9 +225,7 @@ public class MyViewsPropertyTest {
         rule.jenkins.setSecurityRealm(rule.createDummySecurityRealm());
         User user = User.getOrCreateByIdOrFullName("User");
         User user2 = User.getOrCreateByIdOrFullName("User2");
-        MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
-        property.readResolve();
-        property.setUser(user);
+        MyViewsProperty property = getProperty25343(user);
         GlobalMatrixAuthorizationStrategy auth = new GlobalMatrixAuthorizationStrategy();   
         rule.jenkins.setAuthorizationStrategy(auth);     
         user.addProperty(property);
@@ -280,9 +260,7 @@ public class MyViewsPropertyTest {
         rule.jenkins.setSecurityRealm(rule.createDummySecurityRealm());
         User user = User.getOrCreateByIdOrFullName("User");
         User user2 = User.getOrCreateByIdOrFullName("User2");
-        MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
-        property.readResolve();
-        property.setUser(user);
+        MyViewsProperty property = getProperty25343(user);
         GlobalMatrixAuthorizationStrategy auth = new GlobalMatrixAuthorizationStrategy();   
         rule.jenkins.setAuthorizationStrategy(auth);    
         user.addProperty(property);
@@ -292,6 +270,13 @@ public class MyViewsPropertyTest {
         assertTrue("User should control of himself.", property.hasPermission(Permission.CONFIGURE));
         auth.add(Jenkins.ADMINISTER, "User2");
         assertTrue("User User2 should configure permission for user User",property.hasPermission(Permission.CONFIGURE));
+    }
+
+    private MyViewsProperty getProperty25343(final User user) {
+        MyViewsProperty property = new MyViewsProperty(AllView.DEFAULT_VIEW_NAME);
+        property.readResolve();
+        property.setUser(user);
+        return property;
     }
 
     @Test
