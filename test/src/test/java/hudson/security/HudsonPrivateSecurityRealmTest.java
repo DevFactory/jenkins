@@ -666,13 +666,7 @@ public class HudsonPrivateSecurityRealmTest {
         WebClient wc = j.createWebClient();
         WebClient wc_anotherTab = j.createWebClient();
 
-        wc.login(alice.getId());
-        assertUserConnected(wc, alice.getId());
-
-        wc_anotherTab.login(alice.getId());
-        assertUserConnected(wc_anotherTab, alice.getId());
-
-        HtmlPage configurePage = wc.goTo(alice.getUrl() + "/configure");
+        HtmlPage configurePage = getConfigurePage46054(wc, alice, wc_anotherTab);
         // not changing password this time
         HtmlForm form = configurePage.getFormByName("config");
         j.submit(form);
@@ -696,13 +690,7 @@ public class HudsonPrivateSecurityRealmTest {
             WebClient wc = j.createWebClient();
             WebClient wc_anotherTab = j.createWebClient();
 
-            wc.login(alice.getId());
-            assertUserConnected(wc, alice.getId());
-
-            wc_anotherTab.login(alice.getId());
-            assertUserConnected(wc_anotherTab, alice.getId());
-
-            HtmlPage configurePage = wc.goTo(alice.getUrl() + "/configure");
+            HtmlPage configurePage = getConfigurePage46054(wc, alice, wc_anotherTab);
             HtmlPasswordInput password1 = configurePage.getElementByName("user.password");
             HtmlPasswordInput password2 = configurePage.getElementByName("user.password2");
 
@@ -717,6 +705,17 @@ public class HudsonPrivateSecurityRealmTest {
         } finally {
             UserSeedProperty.DISABLE_USER_SEED = previousConfig;
         }
+    }
+
+    private HtmlPage getConfigurePage46054(final WebClient wc, final User alice, final WebClient wc_anotherTab) throws Exception {
+        wc.login(alice.getId());
+        assertUserConnected(wc, alice.getId());
+        
+        wc_anotherTab.login(alice.getId());
+        assertUserConnected(wc_anotherTab, alice.getId());
+        
+        HtmlPage configurePage = wc.goTo(alice.getUrl() + "/configure");
+        return configurePage;
     }
 
     private User prepareRealmAndAlice() throws Exception {
