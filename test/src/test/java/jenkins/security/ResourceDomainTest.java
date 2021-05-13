@@ -200,9 +200,7 @@ public class ResourceDomainTest {
 
         j.buildAndAssertSuccess(project);
 
-        JenkinsRule.WebClient webClient = j.createWebClient();
-        webClient.setThrowExceptionOnFailingStatusCode(false);
-        webClient.setRedirectEnabled(true);
+        JenkinsRule.WebClient webClient = getWebClient2651();
 
         // basics work
         HtmlPage page = webClient.getPage(project, "ws/file.html");
@@ -250,9 +248,7 @@ public class ResourceDomainTest {
 
         j.buildAndAssertSuccess(project);
 
-        JenkinsRule.WebClient webClient = j.createWebClient();
-        webClient.setThrowExceptionOnFailingStatusCode(false);
-        webClient.setRedirectEnabled(true);
+        JenkinsRule.WebClient webClient = getWebClient2651();
 
         HtmlPage page = webClient.getPage(project, "ws/file.html");
         Assert.assertEquals("page is found", 200, page.getWebResponse().getStatusCode());
@@ -323,9 +319,7 @@ public class ResourceDomainTest {
 
         j.buildAndAssertSuccess(project);
 
-        JenkinsRule.WebClient webClient = j.createWebClient();
-        webClient.setThrowExceptionOnFailingStatusCode(false);
-        webClient.setRedirectEnabled(true);
+        JenkinsRule.WebClient webClient = getWebClient2651();
 
         HtmlPage page = webClient.getPage(project, "ws/This%20has%20spaces%20and%20is%20100%25%20evil.html");
         Assert.assertEquals("page is found", 200, page.getWebResponse().getStatusCode());
@@ -338,9 +332,7 @@ public class ResourceDomainTest {
     @Test
     @Issue("JENKINS-59849")
     public void testMoreUrlEncoding() throws Exception {
-        JenkinsRule.WebClient webClient = j.createWebClient();
-        webClient.setThrowExceptionOnFailingStatusCode(false);
-        webClient.setRedirectEnabled(true);
+        JenkinsRule.WebClient webClient = getWebClient2651();
 
         Page page = webClient.goTo("100%25%20evil/%20100%25%20evil%20dir%20name%20%20%20/%20100%25%20evil%20content%20.html");
         Assert.assertEquals("page is found", 200, page.getWebResponse().getStatusCode());
@@ -360,6 +352,13 @@ public class ResourceDomainTest {
         Assert.assertEquals("page is found", 200, topDirPage.getWebResponse().getStatusCode());
         Assert.assertTrue("page content is HTML", topDirPage.getWebResponse().getContentAsString().contains("href"));
         Assert.assertTrue("page content references directory", topDirPage.getWebResponse().getContentAsString().contains("evil dir name"));
+    }
+
+    private JenkinsRule.WebClient getWebClient2651() {
+        JenkinsRule.WebClient webClient = j.createWebClient();
+        webClient.setThrowExceptionOnFailingStatusCode(false);
+        webClient.setRedirectEnabled(true);
+        return webClient;
     }
 
     @TestExtension
