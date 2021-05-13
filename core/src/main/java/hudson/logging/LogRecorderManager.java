@@ -23,6 +23,8 @@
  */
 package hudson.logging;
 
+import hudson.ExtractedSeparateClass76418;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.FeedAdapter;
 import hudson.Functions;
@@ -210,10 +212,7 @@ public class LogRecorderManager extends AbstractModelObject implements ModelObje
     @Override
     @Restricted(NoExternalUse.class)
     public Object getTarget() {
-        if (!SKIP_PERMISSION_CHECK) {
-            Jenkins.get().checkPermission(Jenkins.SYSTEM_READ);
-        }
-        return this;
+        return ExtractedSeparateClass76418.getThis5405(SKIP_PERMISSION_CHECK, this);
     }
 
     /**

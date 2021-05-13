@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import hudson.ExtractedSeparateClass76418;
+
 import com.google.common.annotations.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.BulkChange;
@@ -2625,10 +2627,7 @@ public class UpdateCenter extends AbstractModelObject implements Saveable, OnMas
     @Override
     @Restricted(NoExternalUse.class)
     public Object getTarget() {
-        if (!SKIP_PERMISSION_CHECK) {
-            Jenkins.get().checkPermission(Jenkins.SYSTEM_READ);
-        }
-        return this;
+        return ExtractedSeparateClass76418.getThis5405(SKIP_PERMISSION_CHECK, this);
     }
 
     /**
