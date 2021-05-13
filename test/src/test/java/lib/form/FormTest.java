@@ -1,5 +1,7 @@
 package lib.form;
 
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -40,9 +42,7 @@ public class FormTest {
     public void autocompleteOnWhenTrue() throws IOException, SAXException {
         HtmlPage page = j.createWebClient().goTo("autocompleteOnWhenTrue");
         HtmlForm form = page.getFormByName("config");
-        String autocomplete = form.getAttribute("autocomplete");
-        assertNotNull(autocomplete);
-        assertEquals("on", autocomplete);
+        extractedMethod62575(form);
     }
 
     @Test
@@ -51,6 +51,10 @@ public class FormTest {
         HtmlPage page = j.createWebClient().goTo("inputsCanSetAutocomplete");
         HtmlForm form = page.getFormByName("config");
         HtmlInput a = form.getInputByName("a");
+        extractedMethod62575(a);
+    }
+
+    private void extractedMethod62575(final HtmlElement a) {
         String autocomplete = a.getAttribute("autocomplete");
         assertNotNull(autocomplete);
         assertEquals("on", autocomplete);
