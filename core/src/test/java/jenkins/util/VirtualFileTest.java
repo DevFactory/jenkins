@@ -1123,12 +1123,7 @@ public class VirtualFileTest {
         Util.createSymlink(ws, childString, linkString, TaskListener.NULL);
 
         VirtualFile link = VirtualFile.forFile(ws).child(linkString);
-        try {
-            link.open(true);
-            fail("Should have not followed links.");
-        } catch (IOException ioe) {
-            // expected
-        }
+        extractedMethod64787(link);
     }
 
     @Test
@@ -1142,12 +1137,7 @@ public class VirtualFileTest {
         FileUtils.write(new File(ws, childString), childString);
         File childThroughSymlink = new File(tmp.getRoot(), "/" + symlinkName + "/" + childString);
         VirtualFile child = rootVirtualFile.child(symlinkName).child(childString);
-        try {
-        child.open(true);
-            fail("Should have not followed links.");
-        } catch (IOException ioe) {
-            // expected
-        }
+        extractedMethod64787(child);
     }
 
     @Test
@@ -1160,12 +1150,7 @@ public class VirtualFileTest {
         FileUtils.write(new File(ws, childString), childString);
         VirtualFile rootVirtualPath = VirtualFile.forFilePath(new FilePath(tmp.getRoot()));
         VirtualFile childVirtualPath = rootVirtualPath.child(symlinkName).child(childString);
-        try {
-            childVirtualPath.open(true);
-            fail("Should have not followed links.");
-        } catch (IOException ioe) {
-            // expected
-        }
+        extractedMethod64787(childVirtualPath);
     }
 
     @Test
@@ -1178,8 +1163,12 @@ public class VirtualFileTest {
         Util.createSymlink(ws, childString, linkString, TaskListener.NULL);
 
         VirtualFile link = VirtualFile.forFilePath(new FilePath(ws)).child(linkString);
+        extractedMethod64787(link);
+    }
+
+    private void extractedMethod64787(final VirtualFile childVirtualPath) {
         try {
-            link.open(true);
+            childVirtualPath.open(true);
             fail("Should have not followed links.");
         } catch (IOException ioe) {
             // expected
