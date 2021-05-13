@@ -198,13 +198,7 @@ public class QuietDownCommandTest {
                 .authorizedTo(Jenkins.READ, Jenkins.ADMINISTER)
                 .invoke();
         assertThat(result, succeededSilently());
-        assertJenkinsInQuietMode();
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
-        assertJenkinsInQuietMode();
+        extractedMethod23017(finish, build, project);
     }
 
     //
@@ -405,14 +399,7 @@ public class QuietDownCommandTest {
         });
         threadPool.submit(exec_task);
         beforeCli.block();
-        assertJenkinsInQuietMode();
-
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
-        assertJenkinsInQuietMode();
+        extractedMethod23017(finish, build, project);
 
         get(exec_task);
 
@@ -450,15 +437,19 @@ public class QuietDownCommandTest {
         });
         threadPool.submit(exec_task);
         beforeCli.block();
-        assertJenkinsInQuietMode();
+        extractedMethod23017(finish, build, project);
+        get(exec_task);
+    }
 
+    private void extractedMethod23017(final OneShotEvent finish, final Future<FreeStyleBuild> build, final FreeStyleProject project) throws Exception {
+        assertJenkinsInQuietMode();
+        
         finish.signal();
         build.get();
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
         assertThat(project.isBuilding(), equalTo(false));
         j.assertBuildStatusSuccess(build);
         assertJenkinsInQuietMode();
-        get(exec_task);
     }
 
     /**
