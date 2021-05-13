@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass92042;
+
 import hudson.model.Computer;
 import hudson.slaves.DumbSlave;
 import hudson.slaves.OfflineCause;
@@ -83,9 +85,7 @@ public class DisconnectNodeCommandTest {
 
     @Test
     public void disconnectNodeShouldSucceed() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        slave.toComputer().waitUntilOnline();
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        DumbSlave slave = ExtractedSeparateClass92042.getSlave86232(j);
         assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
 
         CLICommandInvoker.Result result = command
@@ -120,9 +120,7 @@ public class DisconnectNodeCommandTest {
 
     @Test
     public void disconnectNodeShouldSucceedWithCause() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        slave.toComputer().waitUntilOnline();
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        DumbSlave slave = ExtractedSeparateClass92042.getSlave86232(j);
         assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
 
         CLICommandInvoker.Result result = command

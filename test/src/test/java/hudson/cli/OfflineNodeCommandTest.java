@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass92042;
+
 import hudson.model.Computer;
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
@@ -104,9 +106,7 @@ public class OfflineNodeCommandTest {
 
     @Test
     public void offlineNodeShouldSucceedOnOnlineNode() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        slave.toComputer().waitUntilOnline();
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        DumbSlave slave = ExtractedSeparateClass92042.getSlave86232(j);
         assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(false));
         assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
 
@@ -140,9 +140,7 @@ public class OfflineNodeCommandTest {
 
     @Test
     public void offlineNodeShouldSucceedOnDisconnectedNode() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        slave.toComputer().waitUntilOnline();
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        DumbSlave slave = ExtractedSeparateClass92042.getSlave86232(j);
         assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
         slave.toComputer().disconnect();
         slave.toComputer().waitUntilOffline();
@@ -178,9 +176,7 @@ public class OfflineNodeCommandTest {
 
     @Test
     public void offlineNodeShouldSucceedOnOnlineNodeWithCause() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        slave.toComputer().waitUntilOnline();
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        DumbSlave slave = ExtractedSeparateClass92042.getSlave86232(j);
         assertThat(slave.toComputer().isTemporarilyOffline(), equalTo(false));
         assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
 
@@ -214,9 +210,7 @@ public class OfflineNodeCommandTest {
 
     @Test
     public void offlineNodeShouldSucceedOnDisconnectedNodeWithCause() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        slave.toComputer().waitUntilOnline();
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
+        DumbSlave slave = ExtractedSeparateClass92042.getSlave86232(j);
         assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
         slave.toComputer().disconnect();
         slave.toComputer().waitUntilOffline();
