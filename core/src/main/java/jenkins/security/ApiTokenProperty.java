@@ -515,11 +515,7 @@ public class ApiTokenProperty extends UserProperty {
                 tokenName = newTokenName;
             }
             
-            ApiTokenProperty p = u.getProperty(ApiTokenProperty.class);
-            if (p == null) {
-                p = forceNewInstance(u, false);
-                u.addProperty(p);
-            }
+            ApiTokenProperty p = getP88950(u);
             
             TokenUuidAndPlainValue tokenUuidAndPlainValue = p.generateNewToken(tokenName);
 
@@ -551,11 +547,7 @@ public class ApiTokenProperty extends UserProperty {
                 tokenName = newTokenName;
             }
             
-            ApiTokenProperty p = u.getProperty(ApiTokenProperty.class);
-            if (p == null) {
-                p = forceNewInstance(u, false);
-                u.addProperty(p);
-            }
+            ApiTokenProperty p = getP88950(u);
             
             String tokenUuid = p.tokenStore.addFixedNewToken(tokenName, newTokenPlainValue);
             u.save();
@@ -564,6 +556,15 @@ public class ApiTokenProperty extends UserProperty {
             data.put("tokenUuid", tokenUuid);
             data.put("tokenName", tokenName);
             return HttpResponses.okJSON(data);
+        }
+
+        private ApiTokenProperty getP88950(final User u) throws IOException {
+            ApiTokenProperty p = u.getProperty(ApiTokenProperty.class);
+            if (p == null) {
+                p = forceNewInstance(u, false);
+                u.addProperty(p);
+            }
+            return p;
         }
         
         @RequirePOST
