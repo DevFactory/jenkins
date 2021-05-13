@@ -23,6 +23,8 @@
  */
 package jenkins.security.stapler;
 
+import java.io.IOException;
+
 import hudson.ExtensionList;
 import hudson.model.FreeStyleProject;
 import jenkins.model.Jenkins;
@@ -128,9 +130,7 @@ public class StaticRoutingDecisionProviderTest extends StaplerAbstractTest {
         try {
             assertNotReachable("contentProvider/objectString/");
             assertFalse(ContentProvider.called);
-            assertGetMethodRequestWasBlockedAndResetFlag();
-            assertReachable("contentProvider/objectCustom/");
-            assertTrue(ContentProvider.called);
+            extractedMethod91332();
         } finally {
             whitelistFile.delete();
             ExtensionList.lookupSingleton(StaticRoutingDecisionProvider.class).reload();
@@ -150,10 +150,7 @@ public class StaticRoutingDecisionProviderTest extends StaplerAbstractTest {
             assertNotReachable("contentProvider/objectString/");
             assertFalse(ContentProvider.called);
             assertFalse(ContentProvider.called2);
-            assertGetMethodRequestWasBlockedAndResetFlag();
-            
-            assertReachable("contentProvider/objectCustom/");
-            assertTrue(ContentProvider.called);
+            extractedMethod91332();
             assertTrue(ContentProvider.called2);
             
             ContentProvider.called = false;
@@ -169,6 +166,13 @@ public class StaticRoutingDecisionProviderTest extends StaplerAbstractTest {
             //TODO check if the file is created per test or in general
             ExtensionList.lookupSingleton(StaticRoutingDecisionProvider.class).reload();
         }
+    }
+
+    private void extractedMethod91332() throws IOException {
+        assertGetMethodRequestWasBlockedAndResetFlag();
+        
+        assertReachable("contentProvider/objectCustom/");
+        assertTrue(ContentProvider.called);
     }
     
     @Test
