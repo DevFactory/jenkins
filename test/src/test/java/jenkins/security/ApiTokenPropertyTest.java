@@ -320,15 +320,7 @@ public class ApiTokenPropertyTest {
             config.setCreationOfLegacyTokenEnabled(true);
             {
                 // change using web UI
-                changeLegacyToken(wc, "user", true);
-                String newLegacyToken = apiTokenProperty.getApiToken();
-                assertNotEquals(newLegacyToken, currentLegacyToken);
-                
-                // change using internal call
-                apiTokenProperty.changeApiToken();
-                String newLegacyToken2 = apiTokenProperty.getApiToken();
-                assertNotEquals(newLegacyToken2, newLegacyToken);
-                assertNotEquals(newLegacyToken2, currentLegacyToken);
+                String newLegacyToken2 = getNewLegacyToken252540(wc, apiTokenProperty, currentLegacyToken);
                 
                 currentLegacyToken = newLegacyToken2;
             }
@@ -336,15 +328,7 @@ public class ApiTokenPropertyTest {
             config.setCreationOfLegacyTokenEnabled(false);
             {
                 // change using web UI
-                changeLegacyToken(wc, "user", true);
-                String newLegacyToken = apiTokenProperty.getApiToken();
-                assertNotEquals(newLegacyToken, currentLegacyToken);
-                
-                // change using internal call
-                apiTokenProperty.changeApiToken();
-                String newLegacyToken2 = apiTokenProperty.getApiToken();
-                assertNotEquals(newLegacyToken2, newLegacyToken);
-                assertNotEquals(newLegacyToken2, currentLegacyToken);
+                String newLegacyToken2 = getNewLegacyToken252540(wc, apiTokenProperty, currentLegacyToken);
             }
         }
         { // but without any legacy token, the direct internal call remains but web UI depends on config
@@ -357,6 +341,19 @@ public class ApiTokenPropertyTest {
     
             checkCombinationWithConfigAndMethodForLegacyTokenCreation(config, wc, user);
         }
+    }
+
+    private String getNewLegacyToken252540(final WebClient wc, final ApiTokenProperty apiTokenProperty, final String currentLegacyToken) throws Exception {
+        changeLegacyToken(wc, "user", true);
+        String newLegacyToken = apiTokenProperty.getApiToken();
+        assertNotEquals(newLegacyToken, currentLegacyToken);
+        
+        // change using internal call
+        apiTokenProperty.changeApiToken();
+        String newLegacyToken2 = apiTokenProperty.getApiToken();
+        assertNotEquals(newLegacyToken2, newLegacyToken);
+        assertNotEquals(newLegacyToken2, currentLegacyToken);
+        return newLegacyToken2;
     }
     
     private void checkCombinationWithConfigAndMethodForLegacyTokenCreation(
