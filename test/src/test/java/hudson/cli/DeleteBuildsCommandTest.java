@@ -176,12 +176,7 @@ public class DeleteBuildsCommandTest {
     }
 
     @Test public void deleteBuildsManyShouldSuccess() throws Exception {
-        FreeStyleProject project = j.createFreeStyleProject("aProject");
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
+        FreeStyleProject project = getProject3960();
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(5));
 
         CLICommandInvoker.Result result = command
@@ -242,12 +237,7 @@ public class DeleteBuildsCommandTest {
     }
 
     @Test public void deleteBuildsManyShouldSuccessEvenMiddleBuildDoesNotExist() throws Exception {
-        FreeStyleProject project = j.createFreeStyleProject("aProject");
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
+        FreeStyleProject project = getProject3960();
         j.buildAndAssertSuccess(project);
         project.getBuildByNumber(2).delete();
         project.getBuildByNumber(5).delete();
@@ -292,12 +282,7 @@ public class DeleteBuildsCommandTest {
     }
 
     @Test public void deleteBuildsManyShouldSuccessEvenTheFirstAndLastBuildDoesNotExist() throws Exception {
-        FreeStyleProject project = j.createFreeStyleProject("aProject");
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
+        FreeStyleProject project = getProject3960();
         project.getBuildByNumber(1).delete();
         project.getBuildByNumber(3).delete();
         project.getBuildByNumber(5).delete();
@@ -316,5 +301,15 @@ public class DeleteBuildsCommandTest {
         assertThat(result, succeeded());
         assertThat(result.stdout(), containsString("Deleted 1 builds"));
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(0));
+    }
+
+    private FreeStyleProject getProject3960() throws Exception {
+        FreeStyleProject project = j.createFreeStyleProject("aProject");
+        j.buildAndAssertSuccess(project);
+        j.buildAndAssertSuccess(project);
+        j.buildAndAssertSuccess(project);
+        j.buildAndAssertSuccess(project);
+        j.buildAndAssertSuccess(project);
+        return project;
     }
 }
