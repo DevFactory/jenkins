@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass18056;
+
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
@@ -211,9 +213,7 @@ public class OnlineNodeCommandTest {
             System.out.println("Waiting until aNode3 going online is in progress...");
             slave3.toComputer().waitUntilOnline();
         }
-        assertThat(slave1.toComputer().isOnline(), equalTo(true));
-        assertThat(slave2.toComputer().isOnline(), equalTo(true));
-        assertThat(slave3.toComputer().isOnline(), equalTo(true));
+        ExtractedSeparateClass18056.extractedMethod10484(slave1, slave2, slave3);
     }
 
     @Test public void onlineNodeManyShouldFailIfANodeDoesNotExist() throws Exception {
