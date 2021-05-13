@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result;
+
 import hudson.model.Computer;
 import jenkins.model.Jenkins;
 import org.junit.Before;
@@ -114,14 +116,7 @@ public class DeleteNodeCommandTest {
                 .authorizedTo(Computer.DELETE, Jenkins.READ)
                 .invokeWithArgs("never_created", "aNode1", "aNode2");
 
-        assertThat(result, failedWith(5));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("never_created: No such node 'never_created'"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(j.jenkins.getView("aNode1"), nullValue());
-        assertThat(j.jenkins.getView("aNode2"), nullValue());
-        assertThat(j.jenkins.getView("never_created"), nullValue());
+        extractedMethod99424(result);
     }
 
     @Test public void deleteNodeManyShouldFailIfMiddleNodeDoesNotExist() throws Exception {
@@ -133,14 +128,7 @@ public class DeleteNodeCommandTest {
                 .authorizedTo(Computer.DELETE, Jenkins.READ)
                 .invokeWithArgs("aNode1", "never_created", "aNode2");
 
-        assertThat(result, failedWith(5));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("never_created: No such node 'never_created'"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
-        assertThat(j.jenkins.getView("aNode1"), nullValue());
-        assertThat(j.jenkins.getView("aNode2"), nullValue());
-        assertThat(j.jenkins.getView("never_created"), nullValue());
+        extractedMethod99424(result);
     }
 
     @Test public void deleteNodeManyShouldFailIfLastNodeDoesNotExist() throws Exception {
@@ -152,11 +140,15 @@ public class DeleteNodeCommandTest {
                 .authorizedTo(Computer.DELETE, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "never_created");
 
+        extractedMethod99424(result);
+    }
+
+    private void extractedMethod99424(final CLICommandInvoker.Result result) {
         assertThat(result, failedWith(5));
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(), containsString("never_created: No such node 'never_created'"));
         assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
-
+        
         assertThat(j.jenkins.getView("aNode1"), nullValue());
         assertThat(j.jenkins.getView("aNode2"), nullValue());
         assertThat(j.jenkins.getView("never_created"), nullValue());
