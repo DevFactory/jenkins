@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass26107;
+
 import hudson.model.Computer;
 import hudson.slaves.DumbSlave;
 import jenkins.model.Jenkins;
@@ -152,10 +154,7 @@ public class ConnectNodeCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "never_created");
-        assertThat(result, failedWith(5));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("never_created: No such agent \"never_created\" exists. Did you mean \"aNode1\"?"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
+        ExtractedSeparateClass26107.extractedMethod76075(result);
         assertThat(slave1.toComputer().isOnline(), equalTo(true));
         assertThat(slave2.toComputer().isOnline(), equalTo(true));
     }

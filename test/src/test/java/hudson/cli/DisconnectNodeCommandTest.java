@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass26107;
+
 import hudson.model.Computer;
 import hudson.slaves.DumbSlave;
 import hudson.slaves.OfflineCause;
@@ -230,10 +232,7 @@ public class DisconnectNodeCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "never_created", "-m", "aCause");
-        assertThat(result, failedWith(5));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("never_created: No such agent \"never_created\" exists. Did you mean \"aNode1\"?"));
-        assertThat(result.stderr(), containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT));
+        ExtractedSeparateClass26107.extractedMethod76075(result);
         assertThat(slave1.toComputer().isOffline(), equalTo(true));
         assertThat(slave1.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
         assertThat(((OfflineCause.ByCLI) slave1.toComputer().getOfflineCause()).message, equalTo("aCause"));
