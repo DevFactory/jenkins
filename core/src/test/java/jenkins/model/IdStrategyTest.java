@@ -111,9 +111,7 @@ public class IdStrategyTest {
         IdStrategy idStrategy = IdStrategy.CASE_INSENSITIVE;
         assertTrue(idStrategy.equals("user1", "User1"));
         assertTrue(idStrategy.equals("User1", "user1"));
-        assertFalse(idStrategy.equals("User1", "user2"));
-        String sameUser = "sameUser";
-        assertTrue(idStrategy.equals(sameUser, sameUser));
+        extractedMethod83225(idStrategy);
     }
 
     @Test
@@ -121,6 +119,10 @@ public class IdStrategyTest {
         IdStrategy idStrategy = new IdStrategy.CaseSensitive();
         assertFalse(idStrategy.equals("user1", "User1"));
         assertFalse(idStrategy.equals("User1", "user1"));
+        extractedMethod83225(idStrategy);
+    }
+
+    private void extractedMethod83225(final IdStrategy idStrategy) {
         assertFalse(idStrategy.equals("User1", "user2"));
         String sameUser = "sameUser";
         assertTrue(idStrategy.equals(sameUser, sameUser));
