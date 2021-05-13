@@ -288,9 +288,7 @@ public class DisablePluginCommandTest {
         CLICommandInvoker.Result result = disablePluginsCLiCommand("-strategy", "all", "-quiet", "dependee");
         assertThat(result, succeeded());
 
-        assertPluginDisabled("dependee");
-        assertPluginDisabled("depender");
-        assertPluginDisabled("mandatory-depender");
+        extractedMethod91294();
 
         assertTrue("No log in quiet mode if all plugins disabled", StringUtils.isEmpty(result.stdout()));
     }
@@ -305,11 +303,15 @@ public class DisablePluginCommandTest {
         CLICommandInvoker.Result result = disablePluginsCLiCommand("-quiet", "-strategy", "all", "dependee", "badplugin");
         assertThat(result, failedWith(RETURN_CODE_NO_SUCH_PLUGIN));
 
+        extractedMethod91294();
+
+        assertTrue("Only error NO_SUCH_PLUGIN in quiet mode", checkResultWith(result, StringUtils::startsWith, "badplugin", PluginWrapper.PluginDisableStatus.NO_SUCH_PLUGIN));
+    }
+
+    private void extractedMethod91294() {
         assertPluginDisabled("dependee");
         assertPluginDisabled("depender");
         assertPluginDisabled("mandatory-depender");
-
-        assertTrue("Only error NO_SUCH_PLUGIN in quiet mode", checkResultWith(result, StringUtils::startsWith, "badplugin", PluginWrapper.PluginDisableStatus.NO_SUCH_PLUGIN));
     }
 
     /**
