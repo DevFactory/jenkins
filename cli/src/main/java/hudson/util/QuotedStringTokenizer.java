@@ -187,10 +187,7 @@ public class QuotedStringTokenizer
                   _hasToken=true;
                   if (escape)
                   {
-                      escape=false;
-                      if(ESCAPABLE_CHARS.indexOf(c)<0)
-                          _token.append('\\');
-                      _token.append(c);
+                      escape = isEscape36330(c);
                   }
                   else if(_delim.indexOf(c)>=0)
                   {
@@ -223,10 +220,7 @@ public class QuotedStringTokenizer
                   _hasToken=true;
                   if (escape)
                   {
-                      escape=false;
-                      if(ESCAPABLE_CHARS.indexOf(c)<0)
-                          _token.append('\\');
-                      _token.append(c);
+                      escape = isEscape36330(c);
                   }
                   else if (c=='\'')
                   {
@@ -249,10 +243,7 @@ public class QuotedStringTokenizer
                   _hasToken=true;
                   if (escape)
                   {
-                      escape=false;
-                      if(ESCAPABLE_CHARS.indexOf(c)<0)
-                          _token.append('\\');
-                      _token.append(c);
+                      escape = isEscape36330(c);
                   }
                   else if (c=='\"')
                   {
@@ -273,6 +264,14 @@ public class QuotedStringTokenizer
         }
 
         return _hasToken;
+    }
+
+    private boolean isEscape36330(final char c) {
+      boolean escape =false;
+      if(ESCAPABLE_CHARS.indexOf(c)<0)
+          _token.append('\\');
+      _token.append(c);
+      return escape;
     }
 
     /* ------------------------------------------------------------ */
