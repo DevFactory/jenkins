@@ -815,10 +815,7 @@ public class UpdateCenter extends AbstractModelObject implements Saveable, OnMas
             return;
         }
 
-        HudsonDowngradeJob job = new HudsonDowngradeJob(getCoreSource(), Jenkins.getAuthentication2());
-        LOGGER.info("Scheduling the core downgrade");
-        addJob(job);
-        rsp.sendRedirect2(".");
+        extractedMethod18042(rsp);
     }
 
     /**
@@ -827,9 +824,13 @@ public class UpdateCenter extends AbstractModelObject implements Saveable, OnMas
     @RequirePOST
     public void doRestart(StaplerResponse rsp) throws IOException, ServletException {
         Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+        extractedMethod18042(rsp);
+    }
+
+    private void extractedMethod18042(final StaplerResponse rsp) throws IOException {
         HudsonDowngradeJob job = new HudsonDowngradeJob(getCoreSource(), Jenkins.getAuthentication2());
         LOGGER.info("Scheduling the core downgrade");
-
+        
         addJob(job);
         rsp.sendRedirect2(".");
     }
