@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass71350;
+
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
 import hudson.model.Queue;
@@ -199,11 +201,7 @@ public class QuietDownCommandTest {
                 .invoke();
         assertThat(result, succeededSilently());
         assertJenkinsInQuietMode();
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
+        ExtractedSeparateClass71350.extractedMethod90380(finish, build, j, project);
         assertJenkinsInQuietMode();
     }
 
@@ -243,11 +241,7 @@ public class QuietDownCommandTest {
         if(!timeoutOccurred)
             fail("Missing timeout for CLI call");
 
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
+        ExtractedSeparateClass71350.extractedMethod90380(finish, build, j, project);
         exec_task.cancel(true);
         assertJenkinsInQuietMode();
     }
@@ -288,11 +282,7 @@ public class QuietDownCommandTest {
         if(!timeoutOccurred)
             fail("Missing timeout for CLI call");
 
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
+        ExtractedSeparateClass71350.extractedMethod90380(finish, build, j, project);
         exec_task.cancel(true);
         assertJenkinsInQuietMode();
     }
@@ -334,11 +324,7 @@ public class QuietDownCommandTest {
             fail("Blocking call didn't finish after timeout!");
         }
         assertThat(exec_task.isDone(), equalTo(true));
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
+        ExtractedSeparateClass71350.extractedMethod90380(finish, build, j, project);
         assertJenkinsInQuietMode();
     }
 
@@ -380,11 +366,7 @@ public class QuietDownCommandTest {
         if(!timeoutOccurred)
             fail("Missing timeout for CLI call");
 
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
+        ExtractedSeparateClass71350.extractedMethod90380(finish, build, j, project);
         assertJenkinsInQuietMode();
     }
 
@@ -420,11 +402,7 @@ public class QuietDownCommandTest {
         beforeCli.block();
         assertJenkinsInQuietMode();
 
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
+        ExtractedSeparateClass71350.extractedMethod90380(finish, build, j, project);
         assertJenkinsInQuietMode();
 
         get(exec_task);
@@ -465,11 +443,7 @@ public class QuietDownCommandTest {
         beforeCli.block();
         assertJenkinsInQuietMode();
 
-        finish.signal();
-        build.get();
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
-        assertThat(project.isBuilding(), equalTo(false));
-        j.assertBuildStatusSuccess(build);
+        ExtractedSeparateClass71350.extractedMethod90380(finish, build, j, project);
         assertJenkinsInQuietMode();
         get(exec_task);
     }
