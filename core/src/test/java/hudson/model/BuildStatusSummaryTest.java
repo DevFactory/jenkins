@@ -78,11 +78,7 @@ public class BuildStatusSummaryTest {
     @Test
     public void testFixed() {
         when(this.build.getResult()).thenReturn(Result.SUCCESS);
-        when(this.prevBuild.getResult()).thenReturn(Result.FAILURE);
-        
-        Summary summary = this.build.getBuildStatusSummary();
-        
-        assertFalse(summary.isWorse);
+        Summary summary = getSummary48172();
         assertEquals(Messages.Run_Summary_BackToNormal(), summary.message);
         
         // same from unstable:
@@ -97,11 +93,7 @@ public class BuildStatusSummaryTest {
     @Test
     public void testFailure() {
         when(this.build.getResult()).thenReturn(Result.FAILURE);
-        when(this.prevBuild.getResult()).thenReturn(Result.FAILURE);
-        
-        Summary summary = this.build.getBuildStatusSummary();
-        
-        assertFalse(summary.isWorse);
+        Summary summary = getSummary48172();
         assertEquals(Messages.Run_Summary_BrokenForALongTime(), summary.message);
     }
     
@@ -147,12 +139,17 @@ public class BuildStatusSummaryTest {
     @Test
     public void testUnstableAfterFailure() {
         when(this.build.getResult()).thenReturn(Result.UNSTABLE);
+        Summary summary = getSummary48172();
+        assertEquals(Messages.Run_Summary_Unstable(), summary.message);
+    }
+
+    private Summary getSummary48172() {
         when(this.prevBuild.getResult()).thenReturn(Result.FAILURE);
         
         Summary summary = this.build.getBuildStatusSummary();
         
         assertFalse(summary.isWorse);
-        assertEquals(Messages.Run_Summary_Unstable(), summary.message);
+        return summary;
     }
 
     @Test
