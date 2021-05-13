@@ -1,5 +1,7 @@
 package hudson.model;
 
+import hudson.ExtractedSeparateClass84563;
+
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -166,11 +168,7 @@ public class ExecutorTest {
 
         project.getBuildersList().add(new BlockingBuilder(e));
 
-        Future<FreeStyleBuild> r = project.scheduleBuild2(0);
-        e.block();  // wait until we are safe to interrupt
-        assertTrue(project.getLastBuild().isBuilding());
-
-        return r;
+        return ExtractedSeparateClass84563.getR66396(project, e);
     }
 
     private static final class BlockingBuilder extends Builder {

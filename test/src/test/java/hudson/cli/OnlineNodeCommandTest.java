@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.ExtractedSeparateClass84563;
+
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
@@ -314,11 +316,7 @@ public class OnlineNodeCommandTest {
 
         project.getBuildersList().add(new BlockingAndFinishingBuilder(block, finish));
 
-        Future<FreeStyleBuild> r = project.scheduleBuild2(0);
-        block.block();  // wait until we are safe to interrupt
-        assertTrue(project.getLastBuild().isBuilding());
-
-        return r;
+        return ExtractedSeparateClass84563.getR66396(project, block);
     }
 
     private static final class BlockingAndFinishingBuilder extends Builder {
