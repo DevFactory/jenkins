@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.CLICommandInvoker.Result;
+
 import hudson.model.Computer;
 import hudson.slaves.DumbSlave;
 import jenkins.model.Jenkins;
@@ -138,9 +140,7 @@ public class ConnectNodeCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "aNode3");
-        assertThat(result, succeededSilently());
-        assertThat(slave1.toComputer().isOnline(), equalTo(true));
-        assertThat(slave2.toComputer().isOnline(), equalTo(true));
+        extractedMethod10277(result, slave1, slave2);
         assertThat(slave3.toComputer().isOnline(), equalTo(true));
     }
 
@@ -167,6 +167,10 @@ public class ConnectNodeCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Computer.CONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode1", "aNode2", "aNode1");
+        extractedMethod10277(result, slave1, slave2);
+    }
+
+    private void extractedMethod10277(final CLICommandInvoker.Result result, final DumbSlave slave1, final DumbSlave slave2) {
         assertThat(result, succeededSilently());
         assertThat(slave1.toComputer().isOnline(), equalTo(true));
         assertThat(slave2.toComputer().isOnline(), equalTo(true));
