@@ -24,6 +24,8 @@
 
 package jenkins.triggers;
 
+import hudson.tasks.ExtractedSeparateClass89208;
+
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
@@ -315,13 +317,7 @@ public final class ReverseBuildTrigger extends Trigger<Job> implements Dependenc
                                         t.getUpstreamProjects(), p.getParent());
                         if (!revised.equals(t.upstreamProjects)) {
                             t.upstreamProjects = revised;
-                            try {
-                                p.save();
-                            } catch (IOException e) {
-                                LOGGER.log(Level.WARNING,
-                                        "Failed to persist project setting during rename from " + oldFullName + " to "
-                                                + newFullName, e);
-                            }
+                            ExtractedSeparateClass89208.extractedMethod10484(p, LOGGER, oldFullName, newFullName);
                         }
                     }
                 }
