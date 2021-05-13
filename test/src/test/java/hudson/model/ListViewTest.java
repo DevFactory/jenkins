@@ -212,15 +212,7 @@ public class ListViewTest {
         ListView view = new ListView("view", j.jenkins);
         j.jenkins.addView(view);
         FreeStyleProject job = j.createFreeStyleProject("project");
-        view.add(job);
-
-        assertTrue(view.contains(job));
-        assertTrue(view.jobNamesContains(job));
-
-        job.delete();
-
-        assertFalse(view.contains(job));
-        assertFalse(view.jobNamesContains(job));
+        extractedMethod29100(view, job);
     }
 
     @Test public void deleteContainedJob() throws Exception {
@@ -228,13 +220,17 @@ public class ListViewTest {
         ListView view = new ListView("view", folder);
         folder.addView(view);
         FreeStyleProject job = folder.createProject(FreeStyleProject.class, "project");
-        view.add(job);
+        extractedMethod29100(view, job);
+    }
 
+    private void extractedMethod29100(final ListView view, final FreeStyleProject job) throws IOException, InterruptedException {
+        view.add(job);
+        
         assertTrue(view.contains(job));
         assertTrue(view.jobNamesContains(job));
-
+        
         job.delete();
-
+        
         assertFalse(view.contains(job));
         assertFalse(view.jobNamesContains(job));
     }
