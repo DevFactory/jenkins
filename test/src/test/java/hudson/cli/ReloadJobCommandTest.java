@@ -166,15 +166,7 @@ public class ReloadJobCommandTest {
     @Test public void reloadJobManyShouldFailIfFirstJobDoesNotExist() throws Exception {
 
         FreeStyleProject project1 = j.createFreeStyleProject("aProject1");
-        project1.getBuildersList().add(createScriptBuilder("echo 1"));
-        FreeStyleProject project2 = j.createFreeStyleProject("aProject2");
-        project2.getBuildersList().add(createScriptBuilder("echo 1"));
-
-        assertThat(project1.scheduleBuild2(0).get().getLog(), containsString("echo 1"));
-        assertThat(project2.scheduleBuild2(0).get().getLog(), containsString("echo 1"));
-
-        changeProjectOnTheDisc(project1, "echo 1", "echo 2");
-        changeProjectOnTheDisc(project2, "echo 1", "echo 2");
+        FreeStyleProject project2 = getProject285511(project1);
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Job.READ, Job.CONFIGURE, Jenkins.READ)
@@ -192,15 +184,7 @@ public class ReloadJobCommandTest {
     @Test public void reloadJobManyShouldFailIfMiddleJobDoesNotExist() throws Exception {
 
         FreeStyleProject project1 = j.createFreeStyleProject("aProject1");
-        project1.getBuildersList().add(createScriptBuilder("echo 1"));
-        FreeStyleProject project2 = j.createFreeStyleProject("aProject2");
-        project2.getBuildersList().add(createScriptBuilder("echo 1"));
-
-        assertThat(project1.scheduleBuild2(0).get().getLog(), containsString("echo 1"));
-        assertThat(project2.scheduleBuild2(0).get().getLog(), containsString("echo 1"));
-
-        changeProjectOnTheDisc(project1, "echo 1", "echo 2");
-        changeProjectOnTheDisc(project2, "echo 1", "echo 2");
+        FreeStyleProject project2 = getProject285511(project1);
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Job.READ, Job.CONFIGURE, Jenkins.READ)
@@ -218,15 +202,7 @@ public class ReloadJobCommandTest {
     @Test public void reloadJobManyShouldFailIfLastJobDoesNotExist() throws Exception {
 
         FreeStyleProject project1 = j.createFreeStyleProject("aProject1");
-        project1.getBuildersList().add(createScriptBuilder("echo 1"));
-        FreeStyleProject project2 = j.createFreeStyleProject("aProject2");
-        project2.getBuildersList().add(createScriptBuilder("echo 1"));
-
-        assertThat(project1.scheduleBuild2(0).get().getLog(), containsString("echo 1"));
-        assertThat(project2.scheduleBuild2(0).get().getLog(), containsString("echo 1"));
-
-        changeProjectOnTheDisc(project1, "echo 1", "echo 2");
-        changeProjectOnTheDisc(project2, "echo 1", "echo 2");
+        FreeStyleProject project2 = getProject285511(project1);
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Job.READ, Job.CONFIGURE, Jenkins.READ)
@@ -244,15 +220,7 @@ public class ReloadJobCommandTest {
     @Test public void reloadJobManyShouldFailIfMoreJobsDoNotExist() throws Exception {
 
         FreeStyleProject project1 = j.createFreeStyleProject("aProject1");
-        project1.getBuildersList().add(createScriptBuilder("echo 1"));
-        FreeStyleProject project2 = j.createFreeStyleProject("aProject2");
-        project2.getBuildersList().add(createScriptBuilder("echo 1"));
-
-        assertThat(project1.scheduleBuild2(0).get().getLog(), containsString("echo 1"));
-        assertThat(project2.scheduleBuild2(0).get().getLog(), containsString("echo 1"));
-
-        changeProjectOnTheDisc(project1, "echo 1", "echo 2");
-        changeProjectOnTheDisc(project2, "echo 1", "echo 2");
+        FreeStyleProject project2 = getProject285511(project1);
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Job.READ, Job.CONFIGURE, Jenkins.READ)
@@ -270,15 +238,7 @@ public class ReloadJobCommandTest {
 
     @Test public void reloadJobManyShouldSucceedEvenAJobIsSpecifiedTwice() throws Exception {
         FreeStyleProject project1 = j.createFreeStyleProject("aProject1");
-        project1.getBuildersList().add(createScriptBuilder("echo 1"));
-        FreeStyleProject project2 = j.createFreeStyleProject("aProject2");
-        project2.getBuildersList().add(createScriptBuilder("echo 1"));
-
-        assertThat(project1.scheduleBuild2(0).get().getLog(), containsString("echo 1"));
-        assertThat(project2.scheduleBuild2(0).get().getLog(), containsString("echo 1"));
-
-        changeProjectOnTheDisc(project1, "echo 1", "echo 2");
-        changeProjectOnTheDisc(project2, "echo 1", "echo 2");
+        FreeStyleProject project2 = getProject285511(project1);
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Job.READ, Job.CONFIGURE, Jenkins.READ)
@@ -288,6 +248,19 @@ public class ReloadJobCommandTest {
 
         assertThat(project1.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
         assertThat(project2.scheduleBuild2(0).get().getLog(), containsString("echo 2"));
+    }
+
+    private FreeStyleProject getProject285511(final FreeStyleProject project1) throws Exception {
+        project1.getBuildersList().add(createScriptBuilder("echo 1"));
+        FreeStyleProject project2 = j.createFreeStyleProject("aProject2");
+        project2.getBuildersList().add(createScriptBuilder("echo 1"));
+        
+        assertThat(project1.scheduleBuild2(0).get().getLog(), containsString("echo 1"));
+        assertThat(project2.scheduleBuild2(0).get().getLog(), containsString("echo 1"));
+        
+        changeProjectOnTheDisc(project1, "echo 1", "echo 2");
+        changeProjectOnTheDisc(project2, "echo 1", "echo 2");
+        return project2;
     }
 
     /**
