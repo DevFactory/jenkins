@@ -278,16 +278,7 @@ public class SearchTest {
 
         WebClient wc = j.createWebClient();
         Page result = wc.goTo(myMockFolder.getUrl() + "search/suggest?query=" + projectName1, "application/json");
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-
-        String content = result.getWebResponse().getContentAsString();
-        JSONObject jsonContent = (JSONObject)JSONSerializer.toJSON(content);
-        assertNotNull(jsonContent);
-        JSONArray jsonArray = jsonContent.getJSONArray("suggestions");
-        assertNotNull(jsonArray);
-
-        assertEquals(2, jsonArray.size());
+        JSONArray jsonArray = getJsonArray93995(result);
 
         boolean foundDisplayName = false;
         for(Object suggestion : jsonArray) {
@@ -465,16 +456,7 @@ public class SearchTest {
         WebClient wc = j.createWebClient();
         Page result = wc.goTo("search/suggest?query=" + freeStyleProject.getName(), "application/json");
 
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-
-        String content = result.getWebResponse().getContentAsString();
-        JSONObject jsonContent = (JSONObject)JSONSerializer.toJSON(content);
-        assertNotNull(jsonContent);
-        JSONArray jsonArray = jsonContent.getJSONArray("suggestions");
-        assertNotNull(jsonArray);
-
-        assertEquals(2, jsonArray.size());
+        JSONArray jsonArray = getJsonArray93995(result);
 
         Page searchResult = wc.goTo("search?q=" + myMockFolder.getName() + "%2F" + freeStyleProject.getName());
 
@@ -483,5 +465,19 @@ public class SearchTest {
 
         URL resultUrl = searchResult.getUrl();
         assertEquals(j.getInstance().getRootUrl() + freeStyleProject.getUrl(), resultUrl.toString());
+    }
+
+    private JSONArray getJsonArray93995(final Page result) {
+        assertNotNull(result);
+        j.assertGoodStatus(result);
+        
+        String content = result.getWebResponse().getContentAsString();
+        JSONObject jsonContent = (JSONObject)JSONSerializer.toJSON(content);
+        assertNotNull(jsonContent);
+        JSONArray jsonArray = jsonContent.getJSONArray("suggestions");
+        assertNotNull(jsonArray);
+        
+        assertEquals(2, jsonArray.size());
+        return jsonArray;
     }
 }
