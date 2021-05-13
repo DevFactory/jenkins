@@ -173,10 +173,7 @@ public class PathRemoverTest {
         touchWithFileName(test);
         Path path = folder.resolve("../test");
 
-        PathRemover remover = PathRemover.newSimpleRemover();
-        remover.forceRemoveFile(path);
-
-        assertTrue("Unable to delete file: " + path, Files.notExists(path));
+        extractedMethod77887(path);
         assertFalse(test.exists());
         assertTrue("Should not have deleted directory: " + folder, Files.exists(folder));
     }
@@ -190,12 +187,16 @@ public class PathRemoverTest {
         Path symParent = Files.createSymbolicLink(tmp.getRoot().toPath().resolve("sym-parent"), realParent);
         Path toDelete = symParent.resolve("test-file");
 
-        PathRemover remover = PathRemover.newSimpleRemover();
-        remover.forceRemoveFile(toDelete);
-
-        assertTrue("Unable to delete file: " + toDelete, Files.notExists(toDelete));
+        extractedMethod77887(toDelete);
         assertTrue("Should not have deleted directory: " + realParent, Files.exists(realParent));
         assertTrue("Should not have deleted symlink: " + symParent, Files.exists(symParent, LinkOption.NOFOLLOW_LINKS));
+    }
+
+    private void extractedMethod77887(final Path toDelete) throws IOException {
+        PathRemover remover = PathRemover.newSimpleRemover();
+        remover.forceRemoveFile(toDelete);
+        
+        assertTrue("Unable to delete file: " + toDelete, Files.notExists(toDelete));
     }
 
     @Test
