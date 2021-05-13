@@ -62,14 +62,7 @@ public class WhoAmITest {
     @Test
     @Issue("SECURITY-1695")
     public void whoAmI_regular_doesNotProvideSensitiveInformation() throws Exception {
-        j.jenkins.setSecurityRealm(new SecurityRealmImpl());
-
-        j.jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy()
-                .grant(Jenkins.READ).everywhere().to("user")
-        );
-
-        JenkinsRule.WebClient wc = j.createWebClient();
-        wc.login("user");
+        JenkinsRule.WebClient wc = getWc30342();
 
         HtmlPage whoAmIPage = wc.goTo("whoAmI");
         String content = whoAmIPage.getWebResponse().getContentAsString();
@@ -103,14 +96,7 @@ public class WhoAmITest {
     @Test
     @Issue("SECURITY-1695")
     public void whoAmI_regularApi_doesNotProvideSensitiveInformation() throws Exception {
-        j.jenkins.setSecurityRealm(new SecurityRealmImpl());
-
-        j.jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy()
-                .grant(Jenkins.READ).everywhere().to("user")
-        );
-
-        JenkinsRule.WebClient wc = j.createWebClient();
-        wc.login("user");
+        JenkinsRule.WebClient wc = getWc30342();
 
         Page whoAmIPage = wc.goTo("whoAmI/api/json", "application/json");
         String content = whoAmIPage.getWebResponse().getContentAsString();
@@ -139,6 +125,18 @@ public class WhoAmITest {
                 containsString("SessionId"),
                 containsString(sessionId)
         )));
+    }
+
+    private JenkinsRule.WebClient getWc30342() throws Exception {
+        j.jenkins.setSecurityRealm(new SecurityRealmImpl());
+        
+        j.jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy()
+                .grant(Jenkins.READ).everywhere().to("user")
+        );
+        
+        JenkinsRule.WebClient wc = j.createWebClient();
+        wc.login("user");
+        return wc;
     }
 
     @Test
