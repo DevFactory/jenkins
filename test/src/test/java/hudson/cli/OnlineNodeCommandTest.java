@@ -91,14 +91,7 @@ public class OnlineNodeCommandTest {
     @Test public void onlineNodeShouldSucceed() throws Exception {
         DumbSlave slave = j.createSlave("aNode", "", null);
 
-        final CLICommandInvoker.Result result = command
-                .authorizedTo(Computer.CONNECT, Jenkins.READ)
-                .invokeWithArgs("aNode");
-        assertThat(result, succeededSilently());
-        if (slave.toComputer().isConnecting()) {
-            System.out.println("Waiting until going online is in progress...");
-            slave.toComputer().waitUntilOnline();
-        }
+        extractedMethod59420(slave);
         assertThat(slave.toComputer().isOnline(), equalTo(true));
     }
 
@@ -128,14 +121,7 @@ public class OnlineNodeCommandTest {
         slave.toComputer().waitUntilOffline();
         assertThat(slave.toComputer().isOffline(), equalTo(true));
 
-        final CLICommandInvoker.Result result = command
-                .authorizedTo(Computer.CONNECT, Jenkins.READ)
-                .invokeWithArgs("aNode");
-        assertThat(result, succeededSilently());
-        if (slave.toComputer().isConnecting()) {
-            System.out.println("Waiting until going online is in progress...");
-            slave.toComputer().waitUntilOnline();
-        }
+        extractedMethod59420(slave);
         assertThat(slave.toComputer().isOnline(), equalTo(true));
     }
 
@@ -150,14 +136,7 @@ public class OnlineNodeCommandTest {
         slave.toComputer().waitUntilOffline();
         assertThat(slave.toComputer().isOffline(), equalTo(true));
 
-        final CLICommandInvoker.Result result = command
-                .authorizedTo(Computer.CONNECT, Jenkins.READ)
-                .invokeWithArgs("aNode");
-        assertThat(result, succeededSilently());
-        if (slave.toComputer().isConnecting()) {
-            System.out.println("Waiting until going online is in progress...");
-            slave.toComputer().waitUntilOnline();
-        }
+        extractedMethod59420(slave);
         assertThat(slave.toComputer().isOnline(), equalTo(false));
     }
 
@@ -170,14 +149,7 @@ public class OnlineNodeCommandTest {
         assertThat(slave.toComputer().isOnline(), equalTo(true));
         slave.toComputer().disconnect();
 
-        final CLICommandInvoker.Result result = command
-                .authorizedTo(Computer.CONNECT, Jenkins.READ)
-                .invokeWithArgs("aNode");
-        assertThat(result, succeededSilently());
-        if (slave.toComputer().isConnecting()) {
-            System.out.println("Waiting until going online is in progress...");
-            slave.toComputer().waitUntilOnline();
-        }
+        extractedMethod59420(slave);
         assertThat(slave.toComputer().isOnline(), equalTo(false));
     }
 
@@ -197,14 +169,7 @@ public class OnlineNodeCommandTest {
         slave.toComputer().waitUntilOffline();
         assertThat(slave.toComputer().isOffline(), equalTo(true));
 
-        final CLICommandInvoker.Result result = command
-                .authorizedTo(Computer.CONNECT, Jenkins.READ)
-                .invokeWithArgs("aNode");
-        assertThat(result, succeededSilently());
-        if (slave.toComputer().isConnecting()) {
-            System.out.println("Waiting until going online is in progress...");
-            slave.toComputer().waitUntilOnline();
-        }
+        extractedMethod59420(slave);
         assertThat(slave.toComputer().isOnline(), equalTo(true));
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
         assertThat(project.isBuilding(), equalTo(true));
@@ -214,6 +179,17 @@ public class OnlineNodeCommandTest {
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(1));
         assertThat(project.isBuilding(), equalTo(false));
         j.assertBuildStatusSuccess(build);
+    }
+
+    private void extractedMethod59420(final DumbSlave slave) throws InterruptedException {
+        final CLICommandInvoker.Result result = command
+                .authorizedTo(Computer.CONNECT, Jenkins.READ)
+                .invokeWithArgs("aNode");
+        assertThat(result, succeededSilently());
+        if (slave.toComputer().isConnecting()) {
+            System.out.println("Waiting until going online is in progress...");
+            slave.toComputer().waitUntilOnline();
+        }
     }
 
     @Test public void onlineNodeManyShouldSucceed() throws Exception {
