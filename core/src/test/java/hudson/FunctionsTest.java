@@ -76,10 +76,7 @@ public class FunctionsTest {
             "ftp://example.com/foo/bar",
             "svn+ssh://nobody@example.com/foo/bar",
         };
-        for(String uri : uris) {
-            String result = Functions.getActionUrl(null, createMockAction(uri));
-            assertEquals(uri, result);
-        }
+        extractedMethod94678(uris);
     }
 
     @Test
@@ -90,6 +87,10 @@ public class FunctionsTest {
             "mailto:nobody@example.com?subject=hello",
             "javascript:alert('hello')",
         };
+        extractedMethod94678(uris);
+    }
+
+    private void extractedMethod94678(final String[] uris) {
         for(String uri : uris) {
             String result = Functions.getActionUrl(null, createMockAction(uri));
             assertEquals(uri, result);
