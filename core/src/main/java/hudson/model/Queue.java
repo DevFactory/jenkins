@@ -2186,11 +2186,7 @@ public class Queue extends ResourceController implements Saveable {
          */
         @CheckForNull
         public Label getAssignedLabel() {
-            for (LabelAssignmentAction laa : getActions(LabelAssignmentAction.class)) {
-                Label l = laa.getAssignedLabel(task);
-                if (l!=null)    return l;
-            }
-            return task.getAssignedLabel();
+            return getVar46464(task);
         }
 
         /**
@@ -2204,6 +2200,10 @@ public class Queue extends ResourceController implements Saveable {
 
          */
         public @CheckForNull Label getAssignedLabelFor(@NonNull SubTask st) {
+            return getVar46464(st);
+        }
+
+        private Label getVar46464(final SubTask st) {
             for (LabelAssignmentAction laa : getActions(LabelAssignmentAction.class)) {
                 Label l = laa.getAssignedLabel(st);
                 if (l!=null)    return l;
