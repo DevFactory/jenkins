@@ -151,45 +151,25 @@ public class DotNet {
     }
 
     private static boolean isV40Installed(IJIWinReg registry, JIPolicyHandle hklm) throws JIException {
-        JIPolicyHandle key = null;
-        try {
-            key = registry.winreg_OpenKey(hklm, PATH4, IJIWinReg.KEY_READ);
-            return GetIntValue(registry, key, VALUE_INSTALL) == 1;
-        } finally {
-            if (key != null) {
-                registry.winreg_CloseKey(key);
-            }
-        }
+        return isVar87445(registry, hklm, PATH4, VALUE_INSTALL);
     }
 
     private static boolean isV35Installed(IJIWinReg registry, JIPolicyHandle hklm) throws JIException {
-        JIPolicyHandle key = null;
-        try {
-            key = registry.winreg_OpenKey(hklm, PATH35, IJIWinReg.KEY_READ);
-            return GetIntValue(registry, key, VALUE_INSTALL) == 1;
-        } finally {
-            if (key != null) {
-                registry.winreg_CloseKey(key);
-            }
-        }
+        return isVar87445(registry, hklm, PATH35, VALUE_INSTALL);
     }
 
     private static boolean isV30Installed(IJIWinReg registry, JIPolicyHandle hklm) throws JIException {
-        JIPolicyHandle key = null;
-        try {
-            key = registry.winreg_OpenKey(hklm, PATH30, IJIWinReg.KEY_READ);
-            return GetIntValue(registry, key, VALUE_INSTALL_SUCCESS) == 1;
-        } finally {
-            if (key != null) {
-                registry.winreg_CloseKey(key);
-            }
-        }
+        return isVar87445(registry, hklm, PATH30, VALUE_INSTALL_SUCCESS);
     }
 
     private static boolean isV20Installed(IJIWinReg registry, JIPolicyHandle hklm) throws JIException {
+        return isVar87445(registry, hklm, PATH20, VALUE_INSTALL);
+    }
+
+    private static boolean isVar87445(final IJIWinReg registry, final JIPolicyHandle hklm, final String PATH35, final String VALUE_INSTALL) throws JIException {
         JIPolicyHandle key = null;
         try {
-            key = registry.winreg_OpenKey(hklm, PATH20, IJIWinReg.KEY_READ);
+            key = registry.winreg_OpenKey(hklm, PATH35, IJIWinReg.KEY_READ);
             return GetIntValue(registry, key, VALUE_INSTALL) == 1;
         } finally {
             if (key != null) {
