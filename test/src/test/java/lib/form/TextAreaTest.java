@@ -74,32 +74,28 @@ public class TextAreaTest {
     public void text() throws Exception {
         {
             String TEXT_TO_TEST = "some\nvalue\n";
-            FreeStyleProject p = j.createFreeStyleProject();
-            TextareaTestBuilder target = new TextareaTestBuilder(TEXT_TO_TEST);
-            p.getBuildersList().add(target);
-            j.configRoundtrip(p);
-            j.assertEqualDataBoundBeans(target, p.getBuildersList().get(TextareaTestBuilder.class));
+            extractedMethod21402(TEXT_TO_TEST);
         }
 
         // test for a textarea beginning with a empty line.
         {
             String TEXT_TO_TEST = "\nbegin\n\nwith\nempty\nline\n\n";
-            FreeStyleProject p = j.createFreeStyleProject();
-            TextareaTestBuilder target = new TextareaTestBuilder(TEXT_TO_TEST);
-            p.getBuildersList().add(target);
-            j.configRoundtrip(p);
-            j.assertEqualDataBoundBeans(target, p.getBuildersList().get(TextareaTestBuilder.class));
+            extractedMethod21402(TEXT_TO_TEST);
         }
 
         // test for a textarea beginning with two empty lines.
         {
             String TEXT_TO_TEST = "\n\nbegin\n\nwith\ntwo\nempty\nline\n\n";
-            FreeStyleProject p = j.createFreeStyleProject();
-            TextareaTestBuilder target = new TextareaTestBuilder(TEXT_TO_TEST);
-            p.getBuildersList().add(target);
-            j.configRoundtrip(p);
-            j.assertEqualDataBoundBeans(target, p.getBuildersList().get(TextareaTestBuilder.class));
+            extractedMethod21402(TEXT_TO_TEST);
         }
+    }
+
+    private void extractedMethod21402(final String TEXT_TO_TEST) throws Exception {
+        FreeStyleProject p = j.createFreeStyleProject();
+        TextareaTestBuilder target = new TextareaTestBuilder(TEXT_TO_TEST);
+        p.getBuildersList().add(target);
+        j.configRoundtrip(p);
+        j.assertEqualDataBoundBeans(target, p.getBuildersList().get(TextareaTestBuilder.class));
     }
 
     public static class TextareaTestBuilder extends Builder {
