@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -58,9 +60,7 @@ public class DisplayNameTest {
         final String projectName = "projectName";
         final String newProjectName = "newProjectName";
         final String displayName = "displayName";
-        FreeStyleProject project = j.createFreeStyleProject(projectName);
-        project.setDisplayName(displayName);
-        assertEquals(displayName, project.getDisplayName());
+        FreeStyleProject project = getProject26935(projectName, displayName);
         
         project.renameTo(newProjectName);
         assertEquals(displayName, project.getDisplayName());
@@ -85,14 +85,19 @@ public class DisplayNameTest {
         final String projectName = "projectName";
         final String newProjectName = "newProjectName";
         final String oldDisplayName = "oldDisplayName";
-        FreeStyleProject project = j.createFreeStyleProject(projectName);
-        project.setDisplayName(oldDisplayName);
-        assertEquals(oldDisplayName, project.getDisplayName());
+        FreeStyleProject project = getProject26935(projectName, oldDisplayName);
 
         AbstractProject newProject = Jenkins.get().copy((AbstractProject)project, newProjectName);
         assertEquals(newProjectName, newProject.getName());
         assertEquals(newProjectName, newProject.getDisplayName());
         
+    }
+
+    private FreeStyleProject getProject26935(final String projectName, final String oldDisplayName) throws IOException {
+        FreeStyleProject project = j.createFreeStyleProject(projectName);
+        project.setDisplayName(oldDisplayName);
+        assertEquals(oldDisplayName, project.getDisplayName());
+        return project;
     }
 
     @Issue("JENKINS-18074")
