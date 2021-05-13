@@ -175,13 +175,7 @@ public class SearchTest {
         // matter which one as long as the one that is returned has displayName
         // as the display name
         Page result = j.search(displayName);
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-
-        // make sure we've fetched the testSearchByDisplayName project page
-        String contents = result.getWebResponse().getContentAsString();
-        assertTrue(contents.contains(String.format("<title>%s [Jenkins]</title>", displayName)));
-        assertFalse(contents.contains(otherDisplayName));
+        String contents = getContents12070(result, displayName, otherDisplayName);
     }
     
     @Test
@@ -207,6 +201,12 @@ public class SearchTest {
         
         // search for foo
         Page result = j.search(project1Name);
+        String contents = getContents12070(result, project1DisplayName, project2Name);
+        assertFalse(contents.contains(project3Name));
+        assertFalse(contents.contains(project3DisplayName));
+    }
+
+    private String getContents12070(final Page result, final String project1DisplayName, final String project2Name) {
         assertNotNull(result);
         j.assertGoodStatus(result);
         
@@ -215,8 +215,7 @@ public class SearchTest {
         assertTrue(contents.contains(String.format("<title>%s [Jenkins]</title>", project1DisplayName)));
         // make sure projects 2 and 3 were not picked up
         assertFalse(contents.contains(project2Name));
-        assertFalse(contents.contains(project3Name));
-        assertFalse(contents.contains(project3DisplayName));
+        return contents;
     }
     
     @Test
