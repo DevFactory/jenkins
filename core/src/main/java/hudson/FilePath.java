@@ -25,6 +25,8 @@
  */
 package hudson;
 
+import hudson.ExtractedSeparateClass9632;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.jcraft.jzlib.GZIPInputStream;
 import com.jcraft.jzlib.GZIPOutputStream;
@@ -3631,18 +3633,7 @@ public final class FilePath implements SerializableOnlyOverRemoting {
         }
         
         private @NonNull Path windowsToRealPath(@NonNull Path path) throws IOException {
-            try {
-                return path.toRealPath();
-            }
-            catch (IOException e) {
-                if (LOGGER.isLoggable(Level.FINE)) {
-                    LOGGER.log(Level.FINE, String.format("relaxedToRealPath cannot use the regular toRealPath on %s, trying with toRealPath(LinkOption.NOFOLLOW_LINKS)", path), e);
-                }
-            }
-
-            // that's required for specific environment like Windows Server 2016, running MSFT docker
-            // where the root is a <SYMLINKD>
-            return path.toRealPath(LinkOption.NOFOLLOW_LINKS);
+            return ExtractedSeparateClass9632.getVar59216(path, LOGGER);
         }
     }
 
@@ -3651,18 +3642,7 @@ public final class FilePath implements SerializableOnlyOverRemoting {
     }
 
     private static @NonNull Path windowsToRealPath(@NonNull Path path) throws IOException {
-        try {
-            return path.toRealPath();
-        }
-        catch (IOException e) {
-            if (LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.log(Level.FINE, String.format("relaxedToRealPath cannot use the regular toRealPath on %s, trying with toRealPath(LinkOption.NOFOLLOW_LINKS)", path), e);
-            }
-        }
-
-        // that's required for specific environment like Windows Server 2016, running MSFT docker
-        // where the root is a <SYMLINKD>
-        return path.toRealPath(LinkOption.NOFOLLOW_LINKS);
+        return ExtractedSeparateClass9632.getVar59216(path, LOGGER);
     }
 
     private static final SoloFilePathFilter UNRESTRICTED = SoloFilePathFilter.wrap(FilePathFilter.UNRESTRICTED);
