@@ -56,10 +56,7 @@ public class ParameterDefinitionTest {
             public void newMethod() {
             }
         };
-        assertEquals(bpd, bpdSame);
-        assertNotEquals(bpd, bpdOther);
-        assertNotEquals(bpd, spd);
-        assertNotEquals(bpd, pd);
+        extractedMethod92053(bpd, bpdSame, bpdOther, spd, pd);
     }
 
     @Test
@@ -73,10 +70,7 @@ public class ParameterDefinitionTest {
             }
         };
 
-        assertEquals(cpd, cpdSame);
-        assertNotEquals(cpd, cpdOther);
-        assertNotEquals(cpd, pd);
-        assertNotEquals(cpd, epd);
+        extractedMethod92053(cpd, cpdSame, cpdOther, pd, epd);
     }
 
     @Test
@@ -90,10 +84,7 @@ public class ParameterDefinitionTest {
             }
         };
 
-        assertEquals(ppd, ppdSame);
-        assertNotEquals(ppd, ppdOther);
-        assertNotEquals(ppd, pd);
-        assertNotEquals(ppd, epd);
+        extractedMethod92053(ppd, ppdSame, ppdOther, pd, epd);
     }
 
     @Test
@@ -107,10 +98,7 @@ public class ParameterDefinitionTest {
             }
         };
 
-        assertEquals(fpd, fpdSame);
-        assertNotEquals(fpd, fpdOther);
-        assertNotEquals(fpd, epd);
-        assertNotEquals(fpd, pd);
+        extractedMethod92053(fpd, fpdSame, fpdOther, epd, pd);
     }
 
     @Test
@@ -125,6 +113,10 @@ public class ParameterDefinitionTest {
             }
         };
 
+        extractedMethod92053(rpd, rpdSame, rpdOther, epd, pd);
+    }
+
+    private void extractedMethod92053(final ParameterDefinition rpd, final ParameterDefinition rpdSame, final ParameterDefinition rpdOther, final SimpleParameterDefinition epd, final ParameterDefinition pd) {
         assertEquals(rpd, rpdSame);
         assertNotEquals(rpd, rpdOther);
         assertNotEquals(rpd, epd);
