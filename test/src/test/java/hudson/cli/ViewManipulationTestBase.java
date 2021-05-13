@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass31155;
+
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
 import hudson.model.ListView;
@@ -80,9 +82,7 @@ public abstract class ViewManipulationTestBase {
                 .authorizedTo(Jenkins.READ, View.READ)
                 .invokeWithArgs("aView", "aProject");
 
-        assertThat(result, failedWith(3));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: No such job 'aProject'"));
+        ExtractedSeparateClass31155.extractedMethod9084(result);
     }
 
     @Test public void jobViewManipulationShouldFailWithViewReadAndJobReadPermissionsOnly() throws IOException {

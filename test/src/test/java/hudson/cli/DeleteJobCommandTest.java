@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass31155;
+
 import hudson.model.Job;
 import jenkins.model.Jenkins;
 import org.junit.Before;
@@ -75,9 +77,7 @@ public class DeleteJobCommandTest {
                 .authorizedTo(Job.DELETE, Jenkins.READ)
                 .invokeWithArgs("aProject");
 
-        assertThat(result, failedWith(3));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: No such job 'aProject'"));
+        ExtractedSeparateClass31155.extractedMethod9084(result);
     }
 
     @Test public void deleteJobShouldSucceed() throws Exception {

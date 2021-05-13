@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass31155;
+
 import hudson.Functions;
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
@@ -66,9 +68,7 @@ public class SetBuildDescriptionCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ)
                 .invokeWithArgs("aProject", "1", "test");
-        assertThat(result, failedWith(3));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: No such job 'aProject'"));
+        ExtractedSeparateClass31155.extractedMethod9084(result);
     }
 
     @Test public void setBuildDescriptionShouldFailWithoutRunUpdatePermission1() throws Exception {
