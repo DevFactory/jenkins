@@ -835,9 +835,7 @@ public class Util {
                     w.write(c);
                     w.flush();
                     for (byte b : buf.toByteArray()) {
-                        out.append('%');
-                        out.append(toDigit((b >> 4) & 0xF));
-                        out.append(toDigit(b & 0xF));
+                        extractedMethod13282(out, b);
                     }
                     buf.reset();
                     escaped = true;
@@ -902,9 +900,7 @@ public class Util {
                         ByteBuffer bytes = enc.encode(buf);
                         while (bytes.hasRemaining()) {
                             byte b = bytes.get();
-                            out.append('%');
-                            out.append(toDigit((b >> 4) & 0xF));
-                            out.append(toDigit(b & 0xF));
+                            extractedMethod13282(out, b);
                         }
                     } catch (CharacterCodingException ex) {
                     }
@@ -920,9 +916,7 @@ public class Util {
 
                 byte[] bytes = new String(new int[] { codePoint }, 0, 1).getBytes(StandardCharsets.UTF_8);
                 for (byte aByte : bytes) {
-                    out.append('%');
-                    out.append(toDigit((aByte >> 4) & 0xF));
-                    out.append(toDigit(aByte & 0xF));
+                    extractedMethod13282(out, aByte);
                 }
 
                 if(Character.charCount(codePoint) > 1) {
@@ -931,6 +925,12 @@ public class Util {
             }
         }
         return escaped ? out.toString() : s;
+    }
+
+    private static void extractedMethod13282(final StringBuilder out, final byte aByte) {
+        out.append('%');
+        out.append(toDigit((aByte >> 4) & 0xF));
+        out.append(toDigit(aByte & 0xF));
     }
 
     private static char toDigit(int n) {
