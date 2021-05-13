@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass22535;
+
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
@@ -145,9 +147,7 @@ public class OnlineNodeCommandTest {
             System.out.println("Waiting until going online is in progress...");
             slave.toComputer().waitUntilOnline();
         }
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
-        slave.toComputer().disconnect();
-        slave.toComputer().waitUntilOffline();
+        ExtractedSeparateClass22535.extractedMethod4136(slave);
         assertThat(slave.toComputer().isOffline(), equalTo(true));
 
         final CLICommandInvoker.Result result = command
