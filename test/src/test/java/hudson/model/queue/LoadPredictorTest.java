@@ -75,9 +75,7 @@ public class LoadPredictorTest {
      */
     @Test
     public void test1() throws Exception {
-        Task t = mock(Task.class);
-        when(t.getEstimatedDuration()).thenReturn(10000L);
-        when(t.getSubTasks()).thenReturn((Collection) Collections.singletonList(t));
+        Task t = getT68039();
 
         Computer c = createMockComputer(1);
 
@@ -103,9 +101,7 @@ public class LoadPredictorTest {
      */
     @Test
     public void test2() throws Exception {
-        Task t = mock(Task.class);
-        when(t.getEstimatedDuration()).thenReturn(10000L);
-        when(t.getSubTasks()).thenReturn((Collection) Collections.singletonList(t));
+        Task t = getT68039();
 
         Computer c = createMockComputer(2);
         Executor e = c.getExecutors().get(0);
@@ -121,6 +117,13 @@ public class LoadPredictorTest {
         // we should have a valid executor remain in the queue
         assertEquals(1,mw.executors.size());
         assertEquals(1,mw.works.size());
+    }
+
+    private Task getT68039() {
+        Task t = mock(Task.class);
+        when(t.getEstimatedDuration()).thenReturn(10000L);
+        when(t.getSubTasks()).thenReturn((Collection) Collections.singletonList(t));
+        return t;
     }
 
     private JobOffer createMockOffer(Executor e) throws NoSuchFieldException, IllegalAccessException {
