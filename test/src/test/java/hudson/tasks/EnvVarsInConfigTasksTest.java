@@ -118,11 +118,7 @@ public class EnvVarsInConfigTasksTest extends HudsonTestCase {
 						+ "}rect", "varAnt", "", buildFile, ""));
 
 		// test the regular agent - variable not expanded
-		project.setAssignedLabel(slaveRegular.getSelfLabel());
-		FreeStyleBuild build = project.scheduleBuild2(0).get();
-		System.out.println(build.getDisplayName() + " completed");
-
-		assertBuildStatus(Result.FAILURE, build);
+		FreeStyleBuild build = getBuild56839(project);
 
 		String buildLogRegular = getBuildLog(build);
 		assertTrue(buildLogRegular.contains(Ant_ExecutableNotFound("varAnt")));
@@ -157,11 +153,7 @@ public class EnvVarsInConfigTasksTest extends HudsonTestCase {
 							false));
 
 		// test the regular agent - variable not expanded
-		project.setAssignedLabel(slaveRegular.getSelfLabel());
-		FreeStyleBuild build = project.scheduleBuild2(0).get();
-		System.out.println(build.getDisplayName() + " completed");
-
-		assertBuildStatus(Result.FAILURE, build);
+		FreeStyleBuild build = getBuild56839(project);
 
 		String buildLogRegular = getBuildLog(build);
 		System.out.println(buildLogRegular);
@@ -178,6 +170,15 @@ public class EnvVarsInConfigTasksTest extends HudsonTestCase {
 		String buildLogEnv = getBuildLog(build);
 		System.out.println(buildLogEnv);
 		assertFalse(buildLogEnv.contains(DUMMY_LOCATION_VARNAME));
+	}
+
+	private FreeStyleBuild getBuild56839(final FreeStyleProject project) throws Exception {
+	    project.setAssignedLabel(slaveRegular.getSelfLabel());
+	    FreeStyleBuild build = project.scheduleBuild2(0).get();
+	    System.out.println(build.getDisplayName() + " completed");
+	    
+	    assertBuildStatus(Result.FAILURE, build);
+	    return build;
 	}
 
     @SuppressWarnings("deprecation") // it's  okay to use it in tests
