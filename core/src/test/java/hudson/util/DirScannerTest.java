@@ -42,10 +42,7 @@ public class DirScannerTest {
     @Test public void globShouldUseDefaultExcludes() throws Exception {
         FilePath tmp = new FilePath(tmpRule.getRoot());
         try {
-            tmp.child(".gitignore").touch(0);
-            FilePath git = tmp.child(".git");
-            git.mkdirs();
-            git.child("HEAD").touch(0);
+            extractedMethod74605(tmp);
             
             DirScanner glob1 = new DirScanner.Glob("**/*", null);
             DirScanner glob2 = new DirScanner.Glob("**/*", null, true);
@@ -65,10 +62,7 @@ public class DirScannerTest {
     @Test public void globShouldIgnoreDefaultExcludesByRequest() throws Exception {
         FilePath tmp = new FilePath(tmpRule.getRoot());
         try {
-            tmp.child(".gitignore").touch(0);
-            FilePath git = tmp.child(".git");
-            git.mkdirs();
-            git.child("HEAD").touch(0);
+            extractedMethod74605(tmp);
             
             DirScanner glob = new DirScanner.Glob("**/*", null, false);
             MatchingFileVisitor gitdir = new MatchingFileVisitor("HEAD");
@@ -82,6 +76,13 @@ public class DirScannerTest {
         } finally {
             tmp.deleteRecursive();
         }
+    }
+
+    private void extractedMethod74605(final FilePath tmp) throws IOException, InterruptedException {
+        tmp.child(".gitignore").touch(0);
+        FilePath git = tmp.child(".git");
+        git.mkdirs();
+        git.child("HEAD").touch(0);
     }
     
     private static class MatchingFileVisitor extends FileVisitor {
