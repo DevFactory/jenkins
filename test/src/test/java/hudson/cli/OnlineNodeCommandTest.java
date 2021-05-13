@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass1588;
+
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
@@ -286,19 +288,7 @@ public class OnlineNodeCommandTest {
     }
 
     @Test public void onlineNodeShouldSucceedOnMaster() throws Exception {
-        final Computer masterComputer = j.jenkins.getComputer("");
-
-        CLICommandInvoker.Result result = command
-                .authorizedTo(Computer.CONNECT, Jenkins.READ)
-                .invokeWithArgs("");
-        assertThat(result, succeededSilently());
-        assertThat(masterComputer.isOnline(), equalTo(true));
-
-        result = command
-                .authorizedTo(Computer.CONNECT, Jenkins.READ)
-                .invokeWithArgs("");
-        assertThat(result, succeededSilently());
-        assertThat(masterComputer.isOnline(), equalTo(true));
+        ExtractedSeparateClass1588.extractedMethod84984(j, command);
     }
 
     /**
