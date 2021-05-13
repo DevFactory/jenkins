@@ -727,10 +727,7 @@ public class JenkinsTest {
     @Issue("SECURITY-2047")
     @Test
     public void testLogin123WithRead() throws Exception {
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
-        j.jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy().
-                grant(Jenkins.READ).everywhere().to("bob"));
-        WebClient wc = j.createWebClient();
+        WebClient wc = getWc11026();
 
         wc.login("bob");
         HtmlPage login123 = wc.goTo("login123");
@@ -740,14 +737,19 @@ public class JenkinsTest {
 
     @Test
     public void testLogin() throws Exception {
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
-        j.jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy().
-                grant(Jenkins.READ).everywhere().to("bob"));
-        WebClient wc = j.createWebClient();
+        WebClient wc = getWc11026();
 
         HtmlPage login = wc.goTo("login");
         assertThat(login.getWebResponse().getStatusCode(), is(200));
         assertThat(login.getWebResponse().getContentAsString(), containsString("login"));
+    }
+
+    private WebClient getWc11026() {
+        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
+        j.jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy().
+                grant(Jenkins.READ).everywhere().to("bob"));
+        WebClient wc = j.createWebClient();
+        return wc;
     }
 
     @TestExtension({"testLogin123", "testLogin123WithRead"})
