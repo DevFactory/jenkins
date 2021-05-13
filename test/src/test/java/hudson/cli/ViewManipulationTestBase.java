@@ -163,11 +163,7 @@ public abstract class ViewManipulationTestBase {
 
         j.jenkins.addView(new ListView("aView"));
         FreeStyleProject project1 = j.createFreeStyleProject("aProject1");
-        FreeStyleProject project2 = j.createFreeStyleProject("aProject2");
-
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
-        assertThat(j.jenkins.getView("aView").contains(project1), equalTo(false));
-        assertThat(j.jenkins.getView("aView").contains(project2), equalTo(false));
+        FreeStyleProject project2 = getProject227961(project1);
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
@@ -184,11 +180,7 @@ public abstract class ViewManipulationTestBase {
 
         j.jenkins.addView(new ListView("aView"));
         FreeStyleProject project1 = j.createFreeStyleProject("aProject1");
-        FreeStyleProject project2 = j.createFreeStyleProject("aProject2");
-
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
-        assertThat(j.jenkins.getView("aView").contains(project1), equalTo(false));
-        assertThat(j.jenkins.getView("aView").contains(project2), equalTo(false));
+        FreeStyleProject project2 = getProject227961(project1);
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
@@ -205,11 +197,7 @@ public abstract class ViewManipulationTestBase {
 
         j.jenkins.addView(new ListView("aView"));
         FreeStyleProject project1 = j.createFreeStyleProject("aProject1");
-        FreeStyleProject project2 = j.createFreeStyleProject("aProject2");
-
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
-        assertThat(j.jenkins.getView("aView").contains(project1), equalTo(false));
-        assertThat(j.jenkins.getView("aView").contains(project2), equalTo(false));
+        FreeStyleProject project2 = getProject227961(project1);
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
@@ -226,11 +214,7 @@ public abstract class ViewManipulationTestBase {
 
         j.jenkins.addView(new ListView("aView"));
         FreeStyleProject project1 = j.createFreeStyleProject("aProject1");
-        FreeStyleProject project2 = j.createFreeStyleProject("aProject2");
-
-        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
-        assertThat(j.jenkins.getView("aView").contains(project1), equalTo(false));
-        assertThat(j.jenkins.getView("aView").contains(project2), equalTo(false));
+        FreeStyleProject project2 = getProject227961(project1);
 
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, View.READ, Job.READ, View.CONFIGURE)
@@ -241,6 +225,15 @@ public abstract class ViewManipulationTestBase {
         assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
         assertThat(j.jenkins.getView("aView").contains(project1), equalTo(false));
         assertThat(j.jenkins.getView("aView").contains(project2), equalTo(false));
+    }
+
+    private FreeStyleProject getProject227961(final FreeStyleProject project1) throws IOException {
+        FreeStyleProject project2 = j.createFreeStyleProject("aProject2");
+        
+        assertThat(j.jenkins.getView("aView").getAllItems().size(), equalTo(0));
+        assertThat(j.jenkins.getView("aView").contains(project1), equalTo(false));
+        assertThat(j.jenkins.getView("aView").contains(project2), equalTo(false));
+        return project2;
     }
 
 }
