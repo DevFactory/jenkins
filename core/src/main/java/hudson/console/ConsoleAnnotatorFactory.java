@@ -23,6 +23,8 @@
  */
 package hudson.console;
 
+import hudson.ExtractedSeparateClass98603;
+
 import hudson.Extension;
 import hudson.ExtensionList;
 import hudson.ExtensionPoint;
@@ -87,10 +89,7 @@ public abstract class ConsoleAnnotatorFactory<T> implements ExtensionPoint {
      */
     public Class<?> type() {
         Type type = Types.getBaseClass(getClass(), ConsoleAnnotatorFactory.class);
-        if (type instanceof ParameterizedType)
-            return Types.erasure(Types.getTypeArgument(type,0));
-        else
-            return Object.class;
+        return ExtractedSeparateClass98603.getVar50543(type);
     }
 
     /**
