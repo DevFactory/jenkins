@@ -107,11 +107,7 @@ public class Channels {
                 };
             }
         };
-        cb.withHeaderStream(header);
-
-        for (ChannelConfigurator cc : ChannelConfigurator.all()) {
-            cc.onChannelBuilding(cb,null);  // TODO: what to pass as a context?
-        }
+        extractedMethod9080(cb, header);
 
         return cb.build(in,out);
     }
@@ -144,13 +140,17 @@ public class Channels {
                 };
             }
         };
-        cb.withHeaderStream(header);
+        extractedMethod9080(cb, header);
 
+        return cb.build(proc.getInputStream(),proc.getOutputStream());
+    }
+
+    private static void extractedMethod9080(final ChannelBuilder cb, final OutputStream header) {
+        cb.withHeaderStream(header);
+        
         for (ChannelConfigurator cc : ChannelConfigurator.all()) {
             cc.onChannelBuilding(cb,null);  // TODO: what to pass as a context?
         }
-
-        return cb.build(proc.getInputStream(),proc.getOutputStream());
     }
 
     /**
