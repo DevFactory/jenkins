@@ -61,24 +61,7 @@ public class BasicHeaderApiTokenAuthenticatorTest {
     @Test
     @Issue("SECURITY-896")
     public void legacyToken_regularCase() {
-        AtomicReference<String> token = new AtomicReference<>();
-        rr.addStep(new Statement() {
-            @Override
-            public void evaluate() throws Throwable {
-                enableLegacyTokenGenerationOnUserCreation();
-                configureSecurity();
-                
-                {
-                    JenkinsRule.WebClient wc = rr.j.createWebClient();
-                    // default SecurityListener will save the user when adding the LastGrantedAuthoritiesProperty
-                    // and so the user is persisted
-                    wc.login("user1");
-                    HtmlPage page = wc.goTo("user/user1/configure");
-                    String tokenValue = ((HtmlTextInput) page.getDocumentElement().querySelector("#apiToken")).getText();
-                    token.set(tokenValue);
-                }
-            }
-        });
+        AtomicReference<String> token = getToken30489();
         rr.addStep(new Statement() {
             @Override
             public void evaluate() throws Throwable {
@@ -117,22 +100,7 @@ public class BasicHeaderApiTokenAuthenticatorTest {
     @Test
     @Issue("SECURITY-896")
     public void legacyToken_withoutLastGrantedAuthorities() {
-        AtomicReference<String> token = new AtomicReference<>();
-        rr.addStep(new Statement() {
-            @Override
-            public void evaluate() throws Throwable {
-                enableLegacyTokenGenerationOnUserCreation();
-                configureSecurity();
-                
-                {
-                    JenkinsRule.WebClient wc = rr.j.createWebClient();
-                    wc.login("user1");
-                    HtmlPage page = wc.goTo("user/user1/configure");
-                    String tokenValue = ((HtmlTextInput) page.getDocumentElement().querySelector("#apiToken")).getText();
-                    token.set(tokenValue);
-                }
-            }
-        });
+        AtomicReference<String> token = getToken30489();
         rr.addStep(new Statement() {
             @Override
             public void evaluate() throws Throwable {
@@ -171,6 +139,28 @@ public class BasicHeaderApiTokenAuthenticatorTest {
                 assertNull(user);
             }
         });
+    }
+
+    private AtomicReference<String> getToken30489() {
+        AtomicReference<String> token = new AtomicReference<>();
+        rr.addStep(new Statement() {
+            @Override
+            public void evaluate() throws Throwable {
+                enableLegacyTokenGenerationOnUserCreation();
+                configureSecurity();
+                
+                {
+                    JenkinsRule.WebClient wc = rr.j.createWebClient();
+                    // default SecurityListener will save the user when adding the LastGrantedAuthoritiesProperty
+                    // and so the user is persisted
+                    wc.login("user1");
+                    HtmlPage page = wc.goTo("user/user1/configure");
+                    String tokenValue = ((HtmlTextInput) page.getDocumentElement().querySelector("#apiToken")).getText();
+                    token.set(tokenValue);
+                }
+            }
+        });
+        return token;
     }
     
     @TestExtension("legacyToken_withoutLastGrantedAuthorities")
