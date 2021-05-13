@@ -38,14 +38,7 @@ public class ParametersAction2Test {
                 new StringParameterDefinition("foo", "foo"),
                 new StringParameterDefinition("bar", "bar")
         })));
-        ParametersCheckBuilder b = new ParametersCheckBuilder(false);
-        p.getBuildersList().add(b);
-        p.save();
-
-        j.assertBuildStatusSuccess(p.scheduleBuild2(0, new Cause.UserIdCause(), new ParametersAction(
-                new StringParameterValue("foo", "baz"),
-                new StringParameterValue("undef", "undef")
-        )));
+        extractedMethod83218(p);
     }
 
     @Test
@@ -87,10 +80,14 @@ public class ParametersAction2Test {
         hasParameterWithName(pa, "UNDEF");
 
         // A new build should work as expected (undef is not published to env)
+        extractedMethod83218(p);
+    }
+
+    private void extractedMethod83218(final FreeStyleProject p) throws Exception {
         ParametersCheckBuilder b = new ParametersCheckBuilder(false);
         p.getBuildersList().add(b);
         p.save();
-
+        
         j.assertBuildStatusSuccess(p.scheduleBuild2(0, new Cause.UserIdCause(), new ParametersAction(
                 new StringParameterValue("foo", "baz"),
                 new StringParameterValue("undef", "undef")
