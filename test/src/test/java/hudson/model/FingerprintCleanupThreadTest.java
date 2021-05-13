@@ -155,17 +155,7 @@ public class FingerprintCleanupThreadTest {
         TestTaskListener testTaskListener = new TestTaskListener();
 
         String localFingerprintId = Util.getDigestOf("local");
-        new Fingerprint((Run) null, "foo.jar", Util.fromHexString(localFingerprintId));
-
-        configureExternalTestStorage();
-        String externalFingerprintId = Util.getDigestOf("local");
-        new Fingerprint((Run) null, "bar.jar", Util.fromHexString(externalFingerprintId));
-
-        assertThat(Fingerprint.load(localFingerprintId), is(not(nullValue())));
-        assertThat(Fingerprint.load(externalFingerprintId), is(not(nullValue())));
-
-        FingerprintCleanupThread cleanupThread = new FingerprintCleanupThread();
-        cleanupThread.execute(testTaskListener);
+        String externalFingerprintId = getExternalFingerprintId82039(localFingerprintId, testTaskListener);
 
         assertThat(Fingerprint.load(localFingerprintId), is(nullValue()));
         assertThat(Fingerprint.load(externalFingerprintId), is(nullValue()));
@@ -178,20 +168,25 @@ public class FingerprintCleanupThreadTest {
         TestTaskListener testTaskListener = new TestTaskListener();
 
         String localFingerprintId = Util.getDigestOf("local");
-        new Fingerprint((Run) null, "foo.jar", Util.fromHexString(localFingerprintId));
+        String externalFingerprintId = getExternalFingerprintId82039(localFingerprintId, testTaskListener);
 
+        assertThat(Fingerprint.load(localFingerprintId), is(not(nullValue())));
+        assertThat(Fingerprint.load(externalFingerprintId), is(not(nullValue())));
+    }
+
+    private String getExternalFingerprintId82039(final String localFingerprintId, final TestTaskListener testTaskListener) throws IOException {
+        new Fingerprint((Run) null, "foo.jar", Util.fromHexString(localFingerprintId));
+        
         configureExternalTestStorage();
         String externalFingerprintId = Util.getDigestOf("local");
         new Fingerprint((Run) null, "bar.jar", Util.fromHexString(externalFingerprintId));
-
+        
         assertThat(Fingerprint.load(localFingerprintId), is(not(nullValue())));
         assertThat(Fingerprint.load(externalFingerprintId), is(not(nullValue())));
-
+        
         FingerprintCleanupThread cleanupThread = new FingerprintCleanupThread();
         cleanupThread.execute(testTaskListener);
-
-        assertThat(Fingerprint.load(localFingerprintId), is(not(nullValue())));
-        assertThat(Fingerprint.load(externalFingerprintId), is(not(nullValue())));
+        return externalFingerprintId;
     }
 
     private void configureLocalTestStorage(Fingerprint fingerprint) {
