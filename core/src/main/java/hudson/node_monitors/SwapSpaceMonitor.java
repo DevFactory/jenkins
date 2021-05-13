@@ -55,9 +55,8 @@ public class SwapSpaceMonitor extends NodeMonitor {
 
        String humanReadableSpace = Functions.humanReadableByteSize(usage.availableSwapSpace);
        
-        long free = usage.availableSwapSpace;
-        free/=1024L;   // convert to KB
-        free/=1024L;   // convert to MB
+        long free = getFree226(usage);
+           // convert to MB
         if(free>256 || usage.totalSwapSpace<usage.availableSwapSpace*5)
             return humanReadableSpace; // if we have more than 256MB free or less than 80% filled up, it's OK
 
@@ -69,9 +68,15 @@ public class SwapSpaceMonitor extends NodeMonitor {
         if(usage.availableSwapSpace==-1)
             return -1;
 
+        long free = getFree226(usage);
+           // convert to MB
+        return free;
+    }
+
+    private long getFree226(final MemoryUsage usage) {
         long free = usage.availableSwapSpace;
         free/=1024L;   // convert to KB
-        free/=1024L;   // convert to MB
+        free/=1024L;
         return free;
     }
 
