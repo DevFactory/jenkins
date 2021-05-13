@@ -61,9 +61,7 @@ public class UserSeedPropertyTest {
     @Issue("SECURITY-901")
     public void userCreation_implies_userSeedCreation() throws Exception {
         User alice = User.getById("alice", true);
-        assertNotNull(alice);
-        UserSeedProperty userSeed = alice.getProperty(UserSeedProperty.class);
-        assertNotNull(userSeed);
+        UserSeedProperty userSeed = getUserSeed95299(alice);
         assertNotNull(userSeed.getSeed());
     }
 
@@ -137,9 +135,7 @@ public class UserSeedPropertyTest {
         wc.login(ALICE);
 
         User alice = User.getById(ALICE, false);
-        assertNotNull(alice);
-        UserSeedProperty userSeed = alice.getProperty(UserSeedProperty.class);
-        assertNotNull(userSeed);
+        UserSeedProperty userSeed = getUserSeed95299(alice);
 
         assertUserConnected(wc, ALICE);
 
@@ -175,9 +171,7 @@ public class UserSeedPropertyTest {
             wc.login(ALICE);
 
             User alice = User.getById(ALICE, false);
-            assertNotNull(alice);
-            UserSeedProperty userSeed = alice.getProperty(UserSeedProperty.class);
-            assertNotNull(userSeed);
+            UserSeedProperty userSeed = getUserSeed95299(alice);
 
             assertUserConnected(wc, ALICE);
 
@@ -224,9 +218,7 @@ public class UserSeedPropertyTest {
         wc.login(ALICE);
 
         User alice = User.getById(ALICE, false);
-        assertNotNull(alice);
-        UserSeedProperty userSeed = alice.getProperty(UserSeedProperty.class);
-        assertNotNull(userSeed);
+        UserSeedProperty userSeed = getUserSeed95299(alice);
 
         assertUserConnected(wc, ALICE);
 
@@ -237,6 +229,13 @@ public class UserSeedPropertyTest {
 
         wc.login(ALICE);
         assertUserConnected(wc, ALICE);
+    }
+
+    private UserSeedProperty getUserSeed95299(final User alice) {
+        assertNotNull(alice);
+        UserSeedProperty userSeed = alice.getProperty(UserSeedProperty.class);
+        assertNotNull(userSeed);
+        return userSeed;
     }
 
     @Test
