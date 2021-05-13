@@ -95,10 +95,7 @@ public class RepeatableTest extends HudsonTestCase {
     public void testSimpleCheckNumberOfButtons() throws Exception {
         HtmlPage p = createWebClient().goTo("self/testSimpleWithDeleteButton");
         HtmlForm f = p.getFormByName("config");
-        String buttonCaption = "Add";
-        assertEquals(1, getButtonsList(f, buttonCaption).size());
-        getHtmlButton(f, buttonCaption, true).click(); // click Add button
-        waitForJavaScript(p);
+        String buttonCaption = getButtonCaption80283(f, p);
         assertEquals(1, getButtonsList(f, buttonCaption).size()); // check that second Add button is not present
         getHtmlButton(f, "Delete", true).click(); // click Delete button
         waitForJavaScript(p);
@@ -113,14 +110,19 @@ public class RepeatableTest extends HudsonTestCase {
     public void testSimpleCheckNumberOfButtonsEnabledTopButton() throws Exception {
         HtmlPage p = createWebClient().goTo("self/testSimpleWithDeleteButtonTopButton");
         HtmlForm f = p.getFormByName("config");
-        String buttonCaption = "Add";
-        assertEquals(1, getButtonsList(f, buttonCaption).size());
-        getHtmlButton(f, buttonCaption, true).click(); // click Add button
-        waitForJavaScript(p);
+        String buttonCaption = getButtonCaption80283(f, p);
         assertEquals(2, getButtonsList(f, buttonCaption).size()); // check that second Add button was added into form
         getHtmlButton(f, "Delete", true).click(); // click Delete button
         waitForJavaScript(p);
         assertEquals(1, getButtonsList(f, buttonCaption).size()); // check that only one Add button is in form
+    }
+
+    private String getButtonCaption80283(final HtmlForm f, final HtmlPage p) throws IOException {
+        String buttonCaption = "Add";
+        assertEquals(1, getButtonsList(f, buttonCaption).size());
+        getHtmlButton(f, buttonCaption, true).click(); // click Add button
+        waitForJavaScript(p);
+        return buttonCaption;
     }
 
     // ========================================================================
