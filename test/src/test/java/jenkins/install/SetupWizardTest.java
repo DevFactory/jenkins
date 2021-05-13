@@ -112,17 +112,7 @@ public class SetupWizardTest {
         // Init the update site
         CustomLocalUpdateSite us = new CustomLocalUpdateSite(tmpdir.getRoot());
         us.init();
-        j.jenkins.getUpdateCenter().getSites().add(us);
-
-        // Prepare the connection
-        JenkinsRule.WebClient wc = j.createWebClient();
-        // TODO: This is a hack, wc.login does not work with the form
-        j.jenkins.setSecurityRealm(SecurityRealm.NO_AUTHENTICATION);
-        j.jenkins.setAuthorizationStrategy(AuthorizationStrategy.UNSECURED);
-        // wc.setCredentialsProvider(adminCredentialsProvider);
-        // wc.login("admin");
-
-        String response = jsonRequest(wc, "setupWizard/platformPluginList");
+        String response = getResponse84353(us);
         assertThat("Missing plugin in suggestions ", response, containsString("antisamy-markup-formatter"));
         assertThat("Missing category in suggestions ", response, containsString("Organization and Administration"));
         assertThat("Unexpected plugin in suggestions ", response, not(containsString("active-directory")));
@@ -135,17 +125,7 @@ public class SetupWizardTest {
         // Init the update site
         CustomLocalUpdateSiteWithWrapperJSON us = new CustomLocalUpdateSiteWithWrapperJSON(tmpdir.getRoot());
         us.init();
-        j.jenkins.getUpdateCenter().getSites().add(us);
-
-        // Prepare the connection
-        JenkinsRule.WebClient wc = j.createWebClient();
-        // TODO: This is a hack, wc.login does not work with the form
-        j.jenkins.setSecurityRealm(SecurityRealm.NO_AUTHENTICATION);
-        j.jenkins.setAuthorizationStrategy(AuthorizationStrategy.UNSECURED);
-        // wc.setCredentialsProvider(adminCredentialsProvider);
-        // wc.login("admin");
-
-        String response = jsonRequest(wc, "setupWizard/platformPluginList");
+        String response = getResponse84353(us);
         assertThat("Missing plugin in suggestions ", response, containsString("dashboard-view"));
         assertThat("Missing category in suggestions ", response, containsString("Administration and Organization"));
         assertThat("Unexpected plugin in suggestions ", response, not(containsString("matrix-auth")));
@@ -223,17 +203,7 @@ public class SetupWizardTest {
 
             // Init the update site
             CustomRemoteUpdateSite us = new CustomRemoteUpdateSite(baseUrl.toString(), false);
-            j.jenkins.getUpdateCenter().getSites().add(us);
-
-            // Prepare the connection
-            JenkinsRule.WebClient wc = j.createWebClient();
-            // TODO: This is a hack, wc.login does not work with the form
-            j.jenkins.setSecurityRealm(SecurityRealm.NO_AUTHENTICATION);
-            j.jenkins.setAuthorizationStrategy(AuthorizationStrategy.UNSECURED);
-            // wc.setCredentialsProvider(adminCredentialsProvider);
-            // wc.login("admin");
-
-            String response = jsonRequest(wc, "setupWizard/platformPluginList");
+            String response = getResponse84353(us);
             // We need to assert that signature check fails, and we're falling back to the bundled resource
             assertThat("Missing plugin in suggestions ", response, not(containsString("my-plugin")));
             assertThat("Missing category in suggestions ", response, not(containsString("Very Useful Category")));
@@ -257,18 +227,7 @@ public class SetupWizardTest {
 
             // Init the update site
             CustomRemoteUpdateSite us = new CustomRemoteUpdateSite(baseUrl.toString(), false);
-            j.jenkins.getUpdateCenter().getSites().add(us);
-
-
-            // Prepare the connection
-            JenkinsRule.WebClient wc = j.createWebClient();
-            // TODO: This is a hack, wc.login does not work with the form
-            j.jenkins.setSecurityRealm(SecurityRealm.NO_AUTHENTICATION);
-            j.jenkins.setAuthorizationStrategy(AuthorizationStrategy.UNSECURED);
-            // wc.setCredentialsProvider(adminCredentialsProvider);
-            // wc.login("admin");
-
-            String response = jsonRequest(wc, "setupWizard/platformPluginList");
+            String response = getResponse84353(us);
             // We need to assert that signature check fails, and we're falling back to the bundled resource
             assertThat("Missing plugin in suggestions ", response, containsString("my-plugin"));
             assertThat("Missing category in suggestions ", response, containsString("Very Useful Category"));
@@ -294,18 +253,7 @@ public class SetupWizardTest {
 
             // Init the update site
             CustomRemoteUpdateSite us = new CustomRemoteUpdateSite(baseUrl.toString(), true);
-            j.jenkins.getUpdateCenter().getSites().add(us);
-
-
-            // Prepare the connection
-            JenkinsRule.WebClient wc = j.createWebClient();
-            // TODO: This is a hack, wc.login does not work with the form
-            j.jenkins.setSecurityRealm(SecurityRealm.NO_AUTHENTICATION);
-            j.jenkins.setAuthorizationStrategy(AuthorizationStrategy.UNSECURED);
-            // wc.setCredentialsProvider(adminCredentialsProvider);
-            // wc.login("admin");
-
-            String response = jsonRequest(wc, "setupWizard/platformPluginList");
+            String response = getResponse84353(us);
             // We need to assert that signature check fails, and we're falling back to the bundled resource
             assertThat("Missing plugin in suggestions ", response, containsString("my-plugin"));
             assertThat("Missing category in suggestions ", response, containsString("Very Useful Category"));
@@ -314,6 +262,22 @@ public class SetupWizardTest {
         } finally {
             server.stop();
         }
+    }
+
+    private String getResponse84353(final UpdateSite us) throws Exception {
+        j.jenkins.getUpdateCenter().getSites().add(us);
+        
+        
+        // Prepare the connection
+        JenkinsRule.WebClient wc = j.createWebClient();
+        // TODO: This is a hack, wc.login does not work with the form
+        j.jenkins.setSecurityRealm(SecurityRealm.NO_AUTHENTICATION);
+        j.jenkins.setAuthorizationStrategy(AuthorizationStrategy.UNSECURED);
+        // wc.setCredentialsProvider(adminCredentialsProvider);
+        // wc.login("admin");
+        
+        String response = jsonRequest(wc, "setupWizard/platformPluginList");
+        return response;
     }
 
     private static final class CustomRemoteUpdateSite extends UpdateSite {
