@@ -24,6 +24,9 @@
 
 package jenkins.security.stapler;
 
+import java.io.IOException;
+import org.xml.sax.SAXException;
+
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import hudson.model.UnprotectedRootAction;
 import org.junit.Before;
@@ -86,33 +89,28 @@ public class StaplerDispatchValidatorTest {
     @Test
     public void canViewIndex() throws Exception {
         String[] urls = {"annotated", "groovy", "jelly"};
-        for (String url : urls) {
-            HtmlPage root = j.createWebClient().goTo(url);
-            assertEquals("Fragment", root.getElementById("frag").asText());
-        }
+        extractedMethod7943(urls);
     }
 
     @Test
     public void canViewPagesThatIncludeViews() throws Exception {
         String[] urls = {"groovy/include", "jelly/include"};
-        for (String url : urls) {
-            HtmlPage root = j.createWebClient().goTo(url);
-            assertEquals("Fragment", root.getElementById("frag").asText());
-        }
+        extractedMethod7943(urls);
     }
 
     @Test
     public void canViewPagesThatRedirectToViews() throws Exception {
         String[] urls = {"groovy/redirect", "jelly/redirect"};
-        for (String url : urls) {
-            HtmlPage root = j.createWebClient().goTo(url);
-            assertEquals("Fragment", root.getElementById("frag").asText());
-        }
+        extractedMethod7943(urls);
     }
 
     @Test
     public void canViewCompressedViews() throws Exception {
         String[] urls = {"groovy/compress", "jelly/compress"};
+        extractedMethod7943(urls);
+    }
+
+    private void extractedMethod7943(final String[] urls) throws IOException, SAXException {
         for (String url : urls) {
             HtmlPage root = j.createWebClient().goTo(url);
             assertEquals("Fragment", root.getElementById("frag").asText());
