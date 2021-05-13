@@ -24,6 +24,8 @@
 
 package jenkins.security;
 
+import java.io.IOException;
+
 import hudson.FilePath;
 import hudson.slaves.DumbSlave;
 import hudson.util.DirScanner;
@@ -50,10 +52,7 @@ public class FilePathSecureTest {
 
     @Test public void unzip() throws Exception {
         FilePath dir = root.child("dir");
-        dir.mkdirs();
-        dir.child("stuff").write("hello", null);
-        FilePath zip = root.child("dir.zip");
-        dir.zip(zip);
+        FilePath zip = getZip10508(dir);
         zip.unzip(remote);
         assertEquals("hello", remote.child("dir/stuff").readToString());
     }
@@ -72,12 +71,17 @@ public class FilePathSecureTest {
 
     @Test public void zip() throws Exception {
         FilePath dir = remote.child("dir");
+        FilePath zip = getZip10508(dir);
+        zip.unzip(root);
+        assertEquals("hello", remote.child("dir/stuff").readToString());
+    }
+
+    private FilePath getZip10508(final FilePath dir) throws IOException, InterruptedException {
         dir.mkdirs();
         dir.child("stuff").write("hello", null);
         FilePath zip = root.child("dir.zip");
         dir.zip(zip);
-        zip.unzip(root);
-        assertEquals("hello", remote.child("dir/stuff").readToString());
+        return zip;
     }
 
     @Test public void tar() throws Exception {
