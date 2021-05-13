@@ -24,6 +24,8 @@
 
 package jenkins.security;
 
+import java.io.IOException;
+
 import hudson.FilePath;
 import hudson.slaves.DumbSlave;
 import hudson.util.DirScanner;
@@ -63,10 +65,7 @@ public class FilePathSecureTest {
         dir.mkdirs();
         dir.child("stuff").write("hello", null);
         FilePath tar = root.child("dir.tar");
-        try (OutputStream os = tar.write()) {
-            dir.tar(os, new DirScanner.Full());
-        }
-        tar.untar(remote, FilePath.TarCompression.NONE);
+        extractedMethod52499(tar, dir, remote);
         assertEquals("hello", remote.child("dir/stuff").readToString());
     }
 
@@ -85,11 +84,15 @@ public class FilePathSecureTest {
         dir.mkdirs();
         dir.child("stuff").write("hello", null);
         FilePath tar = root.child("dir.tar");
+        extractedMethod52499(tar, dir, root);
+        assertEquals("hello", remote.child("dir/stuff").readToString());
+    }
+
+    private void extractedMethod52499(final FilePath tar, final FilePath dir, final FilePath root) throws IOException, InterruptedException {
         try (OutputStream os = tar.write()) {
             dir.tar(os, new DirScanner.Full());
         }
         tar.untar(root, FilePath.TarCompression.NONE);
-        assertEquals("hello", remote.child("dir/stuff").readToString());
     }
 
 }
