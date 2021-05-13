@@ -177,10 +177,7 @@ public class ListViewTest {
         ListView view = new ListView("view", j.jenkins);
         j.jenkins.addView(view);
         FreeStyleProject job = j.createFreeStyleProject("old_name");
-        view.add(job);
-
-        assertTrue(view.contains(job));
-        assertTrue(view.jobNamesContains(job));
+        extractedMethod80210(view, job);
 
         job.renameTo("new_name");
 
@@ -195,10 +192,7 @@ public class ListViewTest {
         folder.addView(view);
 
         FreeStyleProject job = folder.createProject(FreeStyleProject.class, "old_name");
-        view.add(job);
-
-        assertTrue(view.contains(job));
-        assertTrue(view.jobNamesContains(job));
+        extractedMethod80210(view, job);
 
         job.renameTo("new_name");
 
@@ -212,10 +206,7 @@ public class ListViewTest {
         ListView view = new ListView("view", j.jenkins);
         j.jenkins.addView(view);
         FreeStyleProject job = j.createFreeStyleProject("project");
-        view.add(job);
-
-        assertTrue(view.contains(job));
-        assertTrue(view.jobNamesContains(job));
+        extractedMethod80210(view, job);
 
         job.delete();
 
@@ -228,15 +219,19 @@ public class ListViewTest {
         ListView view = new ListView("view", folder);
         folder.addView(view);
         FreeStyleProject job = folder.createProject(FreeStyleProject.class, "project");
-        view.add(job);
-
-        assertTrue(view.contains(job));
-        assertTrue(view.jobNamesContains(job));
+        extractedMethod80210(view, job);
 
         job.delete();
 
         assertFalse(view.contains(job));
         assertFalse(view.jobNamesContains(job));
+    }
+
+    private void extractedMethod80210(final ListView view, final FreeStyleProject job) throws IOException {
+        view.add(job);
+        
+        assertTrue(view.contains(job));
+        assertTrue(view.jobNamesContains(job));
     }
 
     @Issue("JENKINS-22769")
