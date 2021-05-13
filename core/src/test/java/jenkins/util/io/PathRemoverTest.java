@@ -376,10 +376,7 @@ public class PathRemoverTest {
         Files.createSymbolicLink(path.resolve("sym-dir"), d1.toPath());
         Files.createSymbolicLink(path.resolve("sym-file"), f2.toPath());
 
-        PathRemover remover = PathRemover.newSimpleRemover();
-        remover.forceRemoveRecursive(path);
-
-        assertTrue("Unable to delete directory: " + path, Files.notExists(path));
+        extractedMethod39306(path);
         for (File file : Arrays.asList(d1, d1f1, f2)) {
             assertTrue("Should not have deleted target: " + file, file.exists());
         }
@@ -414,11 +411,15 @@ public class PathRemoverTest {
         Path symlink = Files.createSymbolicLink(tmp.getRoot().toPath().resolve("linked"), folder.toPath());
         Path d1p = symlink.resolve("d1");
 
+        extractedMethod39306(d1p);
+        assertFalse(d1.exists());
+    }
+
+    private void extractedMethod39306(final Path d1p) throws IOException {
         PathRemover remover = PathRemover.newSimpleRemover();
         remover.forceRemoveRecursive(d1p);
-
+        
         assertTrue("Unable to delete directory: " + d1p, Files.notExists(d1p));
-        assertFalse(d1.exists());
     }
 
     @Test
