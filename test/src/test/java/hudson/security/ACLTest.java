@@ -70,12 +70,7 @@ public class ACLTest {
     @Test
     public void checkAnyPermissionPassedIfOneIsValid() {
         Jenkins jenkins = r.jenkins;
-        jenkins.setSecurityRealm(r.createDummySecurityRealm());
-        jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy()
-                .grant(Jenkins.MANAGE).everywhere().to("manager")
-        );
-
-        final User manager = User.getOrCreateByIdOrFullName("manager");
+        final User manager = getManager99973(jenkins);
         try (ACLContext ignored = ACL.as2(manager.impersonate2())) {
             jenkins.getACL().checkAnyPermission(Jenkins.MANAGE);
         }
@@ -84,12 +79,7 @@ public class ACLTest {
     @Test
     public void checkAnyPermissionThrowsIfPermissionIsMissing() {
         Jenkins jenkins = r.jenkins;
-        jenkins.setSecurityRealm(r.createDummySecurityRealm());
-        jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy()
-                .grant(Jenkins.MANAGE).everywhere().to("manager")
-        );
-
-        final User manager = User.getOrCreateByIdOrFullName("manager");
+        final User manager = getManager99973(jenkins);
 
         try (ACLContext ignored = ACL.as2(manager.impersonate2())) {
             Exception e = Assert.assertThrows(AccessDeniedException.class,
@@ -101,18 +91,23 @@ public class ACLTest {
     @Test
     public void checkAnyPermissionThrowsIfMissingMoreThanOne() {
         Jenkins jenkins = r.jenkins;
-        jenkins.setSecurityRealm(r.createDummySecurityRealm());
-        jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy()
-                .grant(Jenkins.MANAGE).everywhere().to("manager")
-        );
-
-        final User manager = User.getOrCreateByIdOrFullName("manager");
+        final User manager = getManager99973(jenkins);
 
         try (ACLContext ignored = ACL.as2(manager.impersonate2())) {
             Exception e = Assert.assertThrows(AccessDeniedException.class,
                     () -> jenkins.getACL().checkAnyPermission(Jenkins.ADMINISTER, Jenkins.READ));
             Assert.assertEquals("manager is missing a permission, one of Overall/Administer, Overall/Read is required", e.getMessage());
         }
+    }
+
+    private User getManager99973(final Jenkins jenkins) {
+        jenkins.setSecurityRealm(r.createDummySecurityRealm());
+        jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy()
+                .grant(Jenkins.MANAGE).everywhere().to("manager")
+        );
+        
+        final User manager = User.getOrCreateByIdOrFullName("manager");
+        return manager;
     }
 
     @Test
