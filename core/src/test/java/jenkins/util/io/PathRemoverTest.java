@@ -212,10 +212,7 @@ public class PathRemoverTest {
         PathRemover remover = PathRemover.newSimpleRemover();
         remover.forceRemoveDirectoryContents(dir.toPath());
 
-        assertTrue(dir.exists());
-        assertFalse(d1.exists());
-        assertFalse(d2.exists());
-        assertFalse(f1.exists());
+        extractedMethod49797(dir, d1, d2, f1);
     }
 
     @Test
@@ -273,6 +270,10 @@ public class PathRemoverTest {
         assertThat(e.getMessage(), containsString(dir.getPath()));
         assertTrue(dir.exists());
         assertTrue(d1.exists());
+        extractedMethod49797(d1f1, d2, d2f2, f1);
+    }
+
+    private void extractedMethod49797(final File d1f1, final File d2, final File d2f2, final File f1) {
         assertTrue(d1f1.exists());
         assertFalse(d2.exists());
         assertFalse(d2f2.exists());
