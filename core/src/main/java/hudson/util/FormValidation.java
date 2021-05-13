@@ -23,6 +23,8 @@
  */
 package hudson.util;
 
+import hudson.ExtractedSeparateClass16038;
+
 import hudson.Functions;
 import hudson.Launcher;
 import hudson.ProxyConfiguration;
@@ -604,11 +606,7 @@ public abstract class FormValidation extends IOException implements HttpResponse
                     if (name.equals("value"))
                         continue;   // 'value' parameter is implicit
 
-                    RelativePath rp = p.annotation(RelativePath.class);
-                    if (rp!=null)
-                        name = rp.value()+'/'+name;
-
-                    names.add(name);
+                    ExtractedSeparateClass16038.extractedMethod51454(p, name, names);
                     continue;
                 }
 
