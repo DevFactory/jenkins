@@ -127,15 +127,7 @@ public class UserIdMigratorTest {
 
     @Test
     public void migrateSimpleUser() throws IOException {
-        File usersDirectory = createTestDirectory(getClass(), name);
-        IdStrategy idStrategy = IdStrategy.CASE_INSENSITIVE;
-        UserIdMigrator migrator = new UserIdMigrator(usersDirectory, idStrategy);
-        TestUserIdMapper mapper = new TestUserIdMapper(usersDirectory, idStrategy);
-        mapper.init();
-        assertThat(migrator.needsMigration(), is(false));
-        mapper = new TestUserIdMapper(usersDirectory, idStrategy);
-        mapper.init();
-        assertThat(mapper.getConvertedUserIds().size(), is(1));
+        TestUserIdMapper mapper = getMapper62982();
         assertThat(mapper.isMapped("fred"), is(true));
     }
 
@@ -157,6 +149,11 @@ public class UserIdMigratorTest {
 
     @Test
     public void migrateUsersXml() throws IOException {
+        TestUserIdMapper mapper = getMapper62982();
+        assertThat(mapper.isMapped("users.xml"), is(true));
+    }
+
+    private TestUserIdMapper getMapper62982() throws IOException {
         File usersDirectory = createTestDirectory(getClass(), name);
         IdStrategy idStrategy = IdStrategy.CASE_INSENSITIVE;
         UserIdMigrator migrator = new UserIdMigrator(usersDirectory, idStrategy);
@@ -166,7 +163,7 @@ public class UserIdMigratorTest {
         mapper = new TestUserIdMapper(usersDirectory, idStrategy);
         mapper.init();
         assertThat(mapper.getConvertedUserIds().size(), is(1));
-        assertThat(mapper.isMapped("users.xml"), is(true));
+        return mapper;
     }
 
     @Test
