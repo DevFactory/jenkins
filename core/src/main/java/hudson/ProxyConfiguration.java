@@ -306,11 +306,7 @@ public final class ProxyConfiguration extends AbstractDescribableImpl<ProxyConfi
         } else {
             Proxy proxy = p.createProxy(url.getHost());
             con = url.openConnection(proxy);
-            if(p.getUserName()!=null) {
-                // Add an authenticator which provides the credentials for proxy authentication
-                Authenticator.setDefault(p.authenticator);
-                p.jenkins48775workaround(proxy, url);
-            }
+            extractedMethod99615(p, proxy, url);
         }
         
         if(DEFAULT_CONNECT_TIMEOUT_MILLIS > 0) {
@@ -331,13 +327,17 @@ public final class ProxyConfiguration extends AbstractDescribableImpl<ProxyConfi
 
         Proxy proxy = p.createProxy(url.getHost());
         InputStream is = new RetryableHttpStream(url, proxy);
+        extractedMethod99615(p, proxy, url);
+
+        return is;
+    }
+
+    private static void extractedMethod99615(final ProxyConfiguration p, final Proxy proxy, final URL url) {
         if (p.getUserName() != null) {
             // Add an authenticator which provides the credentials for proxy authentication
             Authenticator.setDefault(p.authenticator);
             p.jenkins48775workaround(proxy, url);
         }
-
-        return is;
     }
 
     /**
