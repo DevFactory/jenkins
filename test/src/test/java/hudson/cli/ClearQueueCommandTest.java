@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass45570;
+
 import hudson.model.FreeStyleProject;
 import hudson.model.labels.LabelAtom;
 import jenkins.model.Jenkins;
@@ -58,9 +60,7 @@ public class ClearQueueCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ).invoke();
 
-        assertThat(result, failedWith(6));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("user is missing the Overall/Administer permission"));
+        ExtractedSeparateClass45570.extractedMethod18069(result);
     }
 
     @Test
