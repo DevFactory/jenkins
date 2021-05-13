@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import hudson.model.ExtractedSeparateClass40378;
+
 import java.util.Objects;
 import java.util.logging.Logger;
 import jenkins.model.Jenkins;
@@ -227,10 +229,8 @@ public class RunParameterDefinition extends SimpleParameterDefinition {
         if (getClass() != obj.getClass())
             return false;
         RunParameterDefinition other = (RunParameterDefinition) obj;
-        if (!Objects.equals(getName(), other.getName()))
-            return false;
-        if (!Objects.equals(getDescription(), other.getDescription()))
-            return false;
+        Boolean var96024 = ExtractedSeparateClass40378.getVar85851(other, this);
+        if (var96024 != null) return var96024;
         if (!Objects.equals(projectName, other.projectName))
             return false;
         if (!Objects.equals(runId, other.runId))

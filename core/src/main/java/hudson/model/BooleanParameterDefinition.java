@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import hudson.model.ExtractedSeparateClass40378;
+
 import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -111,10 +113,8 @@ public class BooleanParameterDefinition extends SimpleParameterDefinition {
         if (getClass() != obj.getClass())
             return false;
         BooleanParameterDefinition other = (BooleanParameterDefinition) obj;
-        if (!Objects.equals(getName(), other.getName()))
-            return false;
-        if (!Objects.equals(getDescription(), other.getDescription()))
-            return false;
+        Boolean var26967 = ExtractedSeparateClass40378.getVar85851(other, this);
+        if (var26967 != null) return var26967;
         return defaultValue == other.defaultValue;
     }
 

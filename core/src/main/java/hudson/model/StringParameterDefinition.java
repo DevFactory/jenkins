@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import hudson.model.ExtractedSeparateClass40378;
+
 import hudson.Extension;
 import hudson.Util;
 import edu.umd.cs.findbugs.annotations.NonNull;
@@ -180,10 +182,8 @@ public class StringParameterDefinition extends SimpleParameterDefinition {
         if (getClass() != obj.getClass())
             return false;
         StringParameterDefinition other = (StringParameterDefinition) obj;
-        if (!Objects.equals(getName(), other.getName()))
-            return false;
-        if (!Objects.equals(getDescription(), other.getDescription()))
-            return false;
+        Boolean var27025 = ExtractedSeparateClass40378.getVar85851(other, this);
+        if (var27025 != null) return var27025;
         if (!Objects.equals(defaultValue, other.defaultValue))
             return false;
         return trim == other.trim;
