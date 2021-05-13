@@ -173,10 +173,7 @@ public class IdStrategyTest {
     @Test
     public void testCompareCaseInsensitive() {
         IdStrategy idStrategy = IdStrategy.CASE_INSENSITIVE;
-        assertTrue(idStrategy.compare("user1", "user2") < 0);
-        assertTrue(idStrategy.compare("user2", "user1") > 0);
-        assertEquals(0, idStrategy.compare("user1", "user1"));
-        assertTrue(idStrategy.compare("USER1", "user2") < 0);
+        extractedMethod54202(idStrategy);
         assertTrue(idStrategy.compare("USER2", "user1") > 0);
         assertEquals(0, idStrategy.compare("User1", "user1"));
     }
@@ -184,12 +181,16 @@ public class IdStrategyTest {
     @Test
     public void testCompareCaseSensitive() {
         IdStrategy idStrategy = new IdStrategy.CaseSensitive();
+        extractedMethod54202(idStrategy);
+        assertTrue(idStrategy.compare("USER2", "user1") < 0);
+        assertTrue(idStrategy.compare("User1", "user1") < 0);
+    }
+
+    private void extractedMethod54202(final IdStrategy idStrategy) {
         assertTrue(idStrategy.compare("user1", "user2") < 0);
         assertTrue(idStrategy.compare("user2", "user1") > 0);
         assertEquals(0, idStrategy.compare("user1", "user1"));
         assertTrue(idStrategy.compare("USER1", "user2") < 0);
-        assertTrue(idStrategy.compare("USER2", "user1") < 0);
-        assertTrue(idStrategy.compare("User1", "user1") < 0);
     }
 
     @Test
