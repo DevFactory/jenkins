@@ -24,6 +24,8 @@
 
 package hudson.model;
 
+import hudson.model.UpdateSite.Plugin;
+
 import hudson.PluginWrapper;
 import hudson.model.UpdateSite.Data;
 import hudson.util.FormValidation;
@@ -182,10 +184,7 @@ public class UpdateSiteTest {
     @Test
     public void isPluginUpdateCompatible() throws Exception {
         UpdateSite site = getUpdateSite("/plugins/minJavaVersion-update-center.json");
-        final UpdateSite.Plugin tasksPlugin = site.getPlugin("tasks");
-        assertNotNull(tasksPlugin);
-        assertFalse(tasksPlugin.isNeededDependenciesForNewerJava());
-        assertFalse(tasksPlugin.isForNewerJava());
+        final UpdateSite.Plugin tasksPlugin = getTasksPlugin63814(site);
         assertTrue(tasksPlugin.isCompatible());
     }
 
@@ -193,10 +192,7 @@ public class UpdateSiteTest {
     @Test public void minimumJavaVersion() throws Exception {
         UpdateSite site = getUpdateSite("/plugins/minJavaVersion-update-center.json");
 
-        final UpdateSite.Plugin tasksPlugin = site.getPlugin("tasks");
-        assertNotNull(tasksPlugin);
-        assertFalse(tasksPlugin.isNeededDependenciesForNewerJava());
-        assertFalse(tasksPlugin.isForNewerJava());
+        final UpdateSite.Plugin tasksPlugin = getTasksPlugin63814(site);
 
         final UpdateSite.Plugin pluginCompiledForTooRecentJava = site.getPlugin("java-too-recent");
         assertFalse(pluginCompiledForTooRecentJava.isNeededDependenciesForNewerJava());
@@ -206,6 +202,14 @@ public class UpdateSiteTest {
         assertTrue(pluginDependingOnPluginCompiledForTooRecentJava.isNeededDependenciesForNewerJava());
         assertFalse(pluginDependingOnPluginCompiledForTooRecentJava.isForNewerJava());
 
+    }
+
+    private UpdateSite.Plugin getTasksPlugin63814(final UpdateSite site) {
+        final UpdateSite.Plugin tasksPlugin = site.getPlugin("tasks");
+        assertNotNull(tasksPlugin);
+        assertFalse(tasksPlugin.isNeededDependenciesForNewerJava());
+        assertFalse(tasksPlugin.isForNewerJava());
+        return tasksPlugin;
     }
 
     @Issue("JENKINS-31448")
