@@ -1,5 +1,8 @@
 package org.kohsuke.stapler.beanutils;
 
+import java.io.IOException;
+import org.xml.sax.SAXException;
+
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import hudson.model.InvisibleAction;
 import hudson.model.RootAction;
@@ -125,10 +128,7 @@ public class TagTest {
                 final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyNamespaceWithClassInclude");
                 assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
             }
-            {
-                final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyNamespaceWithItInclude");
-                assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
-            }
+            extractedMethod83828(wc);
         }
         try {
             StaplerTagLibrary.DISABLE_INCLUDE_TAG_CLASS_ATTRIBUTE_REWRITING = true;
@@ -172,13 +172,17 @@ public class TagTest {
                     final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyNamespaceWithClassInclude");
                     assertThat(page.getWebResponse().getStatusCode(), is(500)); // the error we're preventing
                 }
-                {
-                    final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyNamespaceWithItInclude");
-                    assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
-                }
+                extractedMethod83828(wc);
             }
         } finally {
             StaplerTagLibrary.DISABLE_INCLUDE_TAG_CLASS_ATTRIBUTE_REWRITING = false;
+        }
+    }
+
+    private void extractedMethod83828(final JenkinsRule.WebClient wc) throws IOException, SAXException {
+        {
+            final HtmlPage page = wc.goTo(ROOT_ACTION_URL + "/groovyNamespaceWithItInclude");
+            assertThat(page.getWebResponse().getContentAsString(), containsString("Hello, World"));
         }
     }
 
