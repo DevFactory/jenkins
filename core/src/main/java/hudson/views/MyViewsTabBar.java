@@ -23,6 +23,8 @@
  */
 package hudson.views;
 
+import hudson.views.ExtractedSeparateClass55698;
+
 import hudson.DescriptorExtensionList;
 import hudson.Extension;
 import hudson.ExtensionPoint;
@@ -82,14 +84,7 @@ public abstract class MyViewsTabBar extends AbstractDescribableImpl<MyViewsTabBa
     @Restricted(NoExternalUse.class)
     @SuppressWarnings("unused") // invoked from stapler view
     public List<View> sort(@NonNull List<? extends View> views) {
-        List<View> result = new ArrayList<>(views);
-        result.sort(new Comparator<View>() {
-            @Override
-            public int compare(View o1, View o2) {
-                return o1.getDisplayName().compareTo(o2.getDisplayName());
-            }
-        });
-        return result;
+        return ExtractedSeparateClass55698.getResult868(views);
     }
 
     /**
