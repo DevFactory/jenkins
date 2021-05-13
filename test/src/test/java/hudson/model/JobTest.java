@@ -341,10 +341,7 @@ public class JobTest {
         String oldDirContent = dirContent(oldBuildsDir);
         p.renameTo("different-name");
         final File newBuildDir = p.getBuildDir();
-        assertNotNull(newBuildDir);
-        assertNotEquals(oldBuildsDir.getAbsolutePath(), newBuildDir.getAbsolutePath());
-        String newDirContent = dirContent(newBuildDir);
-        assertEquals(oldDirContent, newDirContent);
+        String newDirContent = getNewP1DirContent75563(newBuildDir, oldBuildsDir, oldDirContent);
     }
 
     @Issue("JENKINS-44657")
@@ -359,10 +356,7 @@ public class JobTest {
         f.renameTo("different-name");
 
         File newP1BuildDir = p1.getBuildDir();
-        assertNotNull(newP1BuildDir);
-        assertNotEquals(oldP1BuildsDir.getAbsolutePath(), newP1BuildDir.getAbsolutePath());
-        String newP1DirContent = dirContent(newP1BuildDir);
-        assertEquals(oldP1DirContent, newP1DirContent);
+        String newP1DirContent = getNewP1DirContent75563(newP1BuildDir, oldP1BuildsDir, oldP1DirContent);
 
         final FreeStyleProject p2 = f.createProject(FreeStyleProject.class, "P2");
         if (Functions.isWindows()) {
@@ -404,6 +398,14 @@ public class JobTest {
         assertNotEquals(oldP2BuildsDir.getAbsolutePath(), newP2BuildDir.getAbsolutePath());
         String newP2DirContent = dirContent(newP2BuildDir);
         assertEquals(oldP2DirContent, newP2DirContent);
+    }
+
+    private String getNewP1DirContent75563(final File newP1BuildDir, final File oldP1BuildsDir, final String oldP1DirContent) throws IOException, InterruptedException {
+        assertNotNull(newP1BuildDir);
+        assertNotEquals(oldP1BuildsDir.getAbsolutePath(), newP1BuildDir.getAbsolutePath());
+        String newP1DirContent = dirContent(newP1BuildDir);
+        assertEquals(oldP1DirContent, newP1DirContent);
+        return newP1DirContent;
     }
 
     private String dirContent(File dir) throws IOException, InterruptedException {
