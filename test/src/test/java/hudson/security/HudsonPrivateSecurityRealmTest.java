@@ -24,6 +24,8 @@
 
 package hudson.security;
 
+import java.io.IOException;
+
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.util.Cookie;
@@ -100,11 +102,7 @@ public class HudsonPrivateSecurityRealmTest {
     @Test
     public void fullNameCollisionPassword() throws Exception {
         HudsonPrivateSecurityRealm securityRealm = new HudsonPrivateSecurityRealm(false, false, null);
-        j.jenkins.setSecurityRealm(securityRealm);
-        
-        User u1 = securityRealm.createAccount("user1", "password1");
-        u1.setFullName("User One");
-        u1.save();
+        User u1 = getU114745(securityRealm);
 
         User u2 = securityRealm.createAccount("user2", "password2");
         u2.setFullName("User Two");
@@ -149,11 +147,7 @@ public class HudsonPrivateSecurityRealmTest {
         ApiTokenTestHelper.enableLegacyBehavior();
         
         HudsonPrivateSecurityRealm securityRealm = new HudsonPrivateSecurityRealm(false, false, null);
-        j.jenkins.setSecurityRealm(securityRealm);
-        
-        User u1 = securityRealm.createAccount("user1", "password1");
-        u1.setFullName("User One");
-        u1.save();
+        User u1 = getU114745(securityRealm);
         String u1Token = u1.getProperty(ApiTokenProperty.class).getApiToken();
 
         User u2 = securityRealm.createAccount("user2", "password2");
@@ -185,6 +179,15 @@ public class HudsonPrivateSecurityRealmTest {
         
         w2 = (XmlPage) wc2.goTo("whoAmI/api/xml", "application/xml");
         assertThat(w2, hasXPath("//name", is("user2")));
+    }
+
+    private User getU114745(final HudsonPrivateSecurityRealm securityRealm) throws IOException {
+        j.jenkins.setSecurityRealm(securityRealm);
+        
+        User u1 = securityRealm.createAccount("user1", "password1");
+        u1.setFullName("User One");
+        u1.save();
+        return u1;
     }
 
 
