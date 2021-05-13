@@ -23,6 +23,8 @@
  */
 package hudson;
 
+import hudson.ExtractedSeparateClass49834;
+
 import hudson.model.Action;
 import hudson.model.Computer;
 import hudson.model.Item;
@@ -274,9 +276,7 @@ public class FunctionsTest {
     }
 
     private Jenkins createMockJenkins() {
-        mockStatic(Jenkins.class);
-        Jenkins j = mock(Jenkins.class);
-        when(Jenkins.get()).thenReturn(j);
+        Jenkins j = ExtractedSeparateClass49834.getJ92619();
         return j;
     }
     
