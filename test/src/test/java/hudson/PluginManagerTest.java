@@ -371,12 +371,7 @@ public class PluginManagerTest {
         }
 
         // Load mandatory-depender 0.0.2, depending on dependee 0.0.2
-        try {
-            dynamicLoad("mandatory-depender-0.0.2.hpi");
-            fail("Should not have worked");
-        } catch (IOException e) {
-            // Expected
-        }
+        extractedMethod55401();
     }
 
     @Issue("JENKINS-21486")
@@ -407,6 +402,10 @@ public class PluginManagerTest {
         }
 
         // Load mandatory-depender 0.0.2, depending on dependee 0.0.2
+        extractedMethod55401();
+    }
+
+    private void extractedMethod55401() throws InterruptedException, RestartRequiredException {
         try {
             dynamicLoad("mandatory-depender-0.0.2.hpi");
             fail("Should not have worked");
