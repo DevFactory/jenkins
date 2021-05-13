@@ -257,23 +257,7 @@ public class SetupWizardTest {
 
             // Init the update site
             CustomRemoteUpdateSite us = new CustomRemoteUpdateSite(baseUrl.toString(), false);
-            j.jenkins.getUpdateCenter().getSites().add(us);
-
-
-            // Prepare the connection
-            JenkinsRule.WebClient wc = j.createWebClient();
-            // TODO: This is a hack, wc.login does not work with the form
-            j.jenkins.setSecurityRealm(SecurityRealm.NO_AUTHENTICATION);
-            j.jenkins.setAuthorizationStrategy(AuthorizationStrategy.UNSECURED);
-            // wc.setCredentialsProvider(adminCredentialsProvider);
-            // wc.login("admin");
-
-            String response = jsonRequest(wc, "setupWizard/platformPluginList");
-            // We need to assert that signature check fails, and we're falling back to the bundled resource
-            assertThat("Missing plugin in suggestions ", response, containsString("my-plugin"));
-            assertThat("Missing category in suggestions ", response, containsString("Very Useful Category"));
-            assertThat("Unexpected plugin in suggestions ", response, not(containsString("matrix-auth")));
-            assertThat("Unexpected category in suggestions ", response, not(containsString("Pipelines and Continuous Delivery")));
+            extractedMethod67716(us);
         } finally {
             DownloadService.signatureCheck = true;
             server.stop();
@@ -294,26 +278,30 @@ public class SetupWizardTest {
 
             // Init the update site
             CustomRemoteUpdateSite us = new CustomRemoteUpdateSite(baseUrl.toString(), true);
-            j.jenkins.getUpdateCenter().getSites().add(us);
-
-
-            // Prepare the connection
-            JenkinsRule.WebClient wc = j.createWebClient();
-            // TODO: This is a hack, wc.login does not work with the form
-            j.jenkins.setSecurityRealm(SecurityRealm.NO_AUTHENTICATION);
-            j.jenkins.setAuthorizationStrategy(AuthorizationStrategy.UNSECURED);
-            // wc.setCredentialsProvider(adminCredentialsProvider);
-            // wc.login("admin");
-
-            String response = jsonRequest(wc, "setupWizard/platformPluginList");
-            // We need to assert that signature check fails, and we're falling back to the bundled resource
-            assertThat("Missing plugin in suggestions ", response, containsString("my-plugin"));
-            assertThat("Missing category in suggestions ", response, containsString("Very Useful Category"));
-            assertThat("Unexpected plugin in suggestions ", response, not(containsString("matrix-auth")));
-            assertThat("Unexpected category in suggestions ", response, not(containsString("Pipelines and Continuous Delivery")));
+            extractedMethod67716(us);
         } finally {
             server.stop();
         }
+    }
+
+    private void extractedMethod67716(final CustomRemoteUpdateSite us) throws Exception {
+        j.jenkins.getUpdateCenter().getSites().add(us);
+        
+        
+        // Prepare the connection
+        JenkinsRule.WebClient wc = j.createWebClient();
+        // TODO: This is a hack, wc.login does not work with the form
+        j.jenkins.setSecurityRealm(SecurityRealm.NO_AUTHENTICATION);
+        j.jenkins.setAuthorizationStrategy(AuthorizationStrategy.UNSECURED);
+        // wc.setCredentialsProvider(adminCredentialsProvider);
+        // wc.login("admin");
+        
+        String response = jsonRequest(wc, "setupWizard/platformPluginList");
+        // We need to assert that signature check fails, and we're falling back to the bundled resource
+        assertThat("Missing plugin in suggestions ", response, containsString("my-plugin"));
+        assertThat("Missing category in suggestions ", response, containsString("Very Useful Category"));
+        assertThat("Unexpected plugin in suggestions ", response, not(containsString("matrix-auth")));
+        assertThat("Unexpected category in suggestions ", response, not(containsString("Pipelines and Continuous Delivery")));
     }
 
     private static final class CustomRemoteUpdateSite extends UpdateSite {
