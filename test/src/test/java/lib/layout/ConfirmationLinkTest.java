@@ -23,6 +23,8 @@
  */
 package lib.layout;
 
+import lib.layout.ExtractedSeparateClass52589;
+
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.html.DomNodeList;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
@@ -171,9 +173,7 @@ public class ConfirmationLinkTest {
     }
     
     private HtmlAnchor getClickableLink(HtmlPage page){
-        DomNodeList<HtmlElement> anchors = page.getElementById("test-panel").getElementsByTagName("a");
-        assertEquals(1, anchors.size());
-        return (HtmlAnchor) anchors.get(0);
+        return ExtractedSeparateClass52589.getVar87000(page);
     }
     
     @TestExtension("noInjectionArePossible")
