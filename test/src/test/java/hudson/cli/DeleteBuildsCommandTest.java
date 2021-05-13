@@ -200,10 +200,7 @@ public class DeleteBuildsCommandTest {
     }
 
     @Test public void deleteBuildsManyShouldSuccessEvenABuildIsSpecifiedTwice() throws Exception {
-        FreeStyleProject project = j.createFreeStyleProject("aProject");
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(2));
+        extractedMethod68134();
 
         CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, Job.READ, Run.DELETE)
@@ -221,10 +218,7 @@ public class DeleteBuildsCommandTest {
     }
 
     @Test public void deleteBuildsManyShouldSuccessEvenLastBuildDoesNotExist() throws Exception {
-        FreeStyleProject project = j.createFreeStyleProject("aProject");
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(2));
+        extractedMethod68134();
 
         CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, Job.READ, Run.DELETE)
@@ -239,6 +233,13 @@ public class DeleteBuildsCommandTest {
         assertThat(result, succeeded());
         assertThat(result.stdout(), containsString("Deleted 1 builds"));
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(0));
+    }
+
+    private void extractedMethod68134() throws Exception {
+        FreeStyleProject project = j.createFreeStyleProject("aProject");
+        j.buildAndAssertSuccess(project);
+        j.buildAndAssertSuccess(project);
+        assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(2));
     }
 
     @Test public void deleteBuildsManyShouldSuccessEvenMiddleBuildDoesNotExist() throws Exception {
