@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass69646;
+
 import hudson.model.Computer;
 import hudson.slaves.DumbSlave;
 import hudson.slaves.OfflineCause;
@@ -92,9 +94,7 @@ public class DisconnectNodeCommandTest {
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode");
         assertThat(result, succeededSilently());
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
-        assertThat(slave.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
-        assertThat(((OfflineCause.ByCLI) slave.toComputer().getOfflineCause()).message, equalTo(null));
+        ExtractedSeparateClass69646.extractedMethod97971(slave);
 
         slave.toComputer().connect(true);
         slave.toComputer().waitUntilOnline();
@@ -105,17 +105,13 @@ public class DisconnectNodeCommandTest {
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode");
         assertThat(result, succeededSilently());
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
-        assertThat(slave.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
-        assertThat(((OfflineCause.ByCLI) slave.toComputer().getOfflineCause()).message, equalTo(null));
+        ExtractedSeparateClass69646.extractedMethod97971(slave);
 
         result = command
                 .authorizedTo(Computer.DISCONNECT, Jenkins.READ)
                 .invokeWithArgs("aNode");
         assertThat(result, succeededSilently());
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
-        assertThat(slave.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
-        assertThat(((OfflineCause.ByCLI) slave.toComputer().getOfflineCause()).message, equalTo(null));
+        ExtractedSeparateClass69646.extractedMethod97971(slave);
     }
 
     @Test
@@ -177,12 +173,8 @@ public class DisconnectNodeCommandTest {
         assertThat(slave1.toComputer().isOffline(), equalTo(true));
         assertThat(slave1.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
         assertThat(((OfflineCause.ByCLI) slave1.toComputer().getOfflineCause()).message, equalTo(null));
-        assertThat(slave2.toComputer().isOffline(), equalTo(true));
-        assertThat(slave2.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
-        assertThat(((OfflineCause.ByCLI) slave2.toComputer().getOfflineCause()).message, equalTo(null));
-        assertThat(slave3.toComputer().isOffline(), equalTo(true));
-        assertThat(slave3.toComputer().getOfflineCause(), instanceOf(OfflineCause.ByCLI.class));
-        assertThat(((OfflineCause.ByCLI) slave3.toComputer().getOfflineCause()).message, equalTo(null));
+        ExtractedSeparateClass69646.extractedMethod97971(slave2);
+        ExtractedSeparateClass69646.extractedMethod97971(slave3);
     }
 
     @Test
