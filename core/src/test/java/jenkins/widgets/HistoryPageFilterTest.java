@@ -201,10 +201,7 @@ public class HistoryPageFilterTest {
         HistoryPageFilter<ModelObject> historyPageFilter = newPage(5, 11L, null);
         Iterable<ModelObject> itemList = newRuns(1, 10);
 
-        historyPageFilter.add(itemList);
-
-        Assert.assertFalse(historyPageFilter.hasUpPage);
-        Assert.assertTrue(historyPageFilter.hasDownPage);
+        extractedMethod86168(historyPageFilter, itemList);
         Assert.assertEquals(0, historyPageFilter.runs.size());
     }
 
@@ -301,14 +298,18 @@ public class HistoryPageFilterTest {
             itemList.add(new ExplodingMockRun(queueId));
         }
 
-        historyPageFilter.add(itemList);
-
-        Assert.assertFalse(historyPageFilter.hasUpPage);
-        Assert.assertTrue(historyPageFilter.hasDownPage);
+        extractedMethod86168(historyPageFilter, itemList);
         Assert.assertEquals(5, historyPageFilter.runs.size());
 
         Assert.assertEquals(HistoryPageEntry.getEntryId(10), historyPageFilter.newestOnPage);
         Assert.assertEquals(HistoryPageEntry.getEntryId(6), historyPageFilter.oldestOnPage);
+    }
+
+    private void extractedMethod86168(final HistoryPageFilter<ModelObject> historyPageFilter, final Iterable itemList) {
+        historyPageFilter.add(itemList);
+        
+        Assert.assertFalse(historyPageFilter.hasUpPage);
+        Assert.assertTrue(historyPageFilter.hasDownPage);
     }
 
     @Test
