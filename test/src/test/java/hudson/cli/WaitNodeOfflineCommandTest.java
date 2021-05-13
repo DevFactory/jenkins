@@ -73,15 +73,7 @@ public class WaitNodeOfflineCommandTest {
     public void waitNodeOfflineShouldSucceedOnOfflineNode() throws Exception {
         DumbSlave slave = j.createSlave("aNode", "", null);
         slave.toComputer().setTemporarilyOffline(true);
-        while (!slave.toComputer().isOffline()) {
-            Thread.sleep(100);
-        }
-
-        final CLICommandInvoker.Result result = command
-                .authorizedTo(Jenkins.READ)
-                .invokeWithArgs("aNode");
-        assertThat(result, succeededSilently());
-        assertThat(slave.toComputer().isOffline(), equalTo(true));
+        extractedMethod45515(slave);
     }
 
     @Test
@@ -100,10 +92,14 @@ public class WaitNodeOfflineCommandTest {
     public void waitNodeOfflineShouldSucceedOnDisconnectedNode() throws Exception {
         DumbSlave slave = j.createSlave("aNode", "", null);
         slave.toComputer().disconnect();
+        extractedMethod45515(slave);
+    }
+
+    private void extractedMethod45515(final DumbSlave slave) throws InterruptedException {
         while (!slave.toComputer().isOffline()) {
             Thread.sleep(100);
         }
-
+        
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ)
                 .invokeWithArgs("aNode");
