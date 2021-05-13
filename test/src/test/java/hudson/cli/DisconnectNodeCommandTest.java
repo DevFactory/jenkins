@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass27345;
+
 import hudson.model.Computer;
 import hudson.slaves.DumbSlave;
 import hudson.slaves.OfflineCause;
@@ -59,15 +61,7 @@ public class DisconnectNodeCommandTest {
 
     @Test
     public void disconnectNodeShouldFailWithoutComputerDisconnectPermission() throws Exception {
-        j.createSlave("aNode", "", null);
-
-        final CLICommandInvoker.Result result = command
-                .authorizedTo(Jenkins.READ)
-                .invokeWithArgs("aNode");
-        assertThat(result, failedWith(6));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: user is missing the Agent/Disconnect permission"));
-        assertThat(result.stderr(), not(containsString("ERROR: " + CLICommand.CLI_LISTPARAM_SUMMARY_ERROR_TEXT)));
+        ExtractedSeparateClass27345.extractedMethod79832(j, command);
     }
 
     @Test
