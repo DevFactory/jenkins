@@ -1,5 +1,7 @@
 package hudson.model;
 
+import java.util.concurrent.ExecutionException;
+
 import com.gargoylesoftware.htmlunit.html.DomNodeUtil;
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -154,16 +156,7 @@ public class ParametersTest {
         FreeStyleProject project = j.createFreeStyleProject();
         ParametersDefinitionProperty pdb = new ParametersDefinitionProperty(
                 new StringParameterDefinition("string", "defaultValue", "string description"));
-        project.addProperty(pdb);
-
-        CaptureEnvironmentBuilder builder = new CaptureEnvironmentBuilder();
-        project.getBuildersList().add(builder);
-
-        FreeStyleBuild build = project.scheduleBuild2(0).get();
-        Set<String> sensitiveVars = build.getSensitiveBuildVariables();
-
-        assertNotNull(sensitiveVars);
-        assertFalse(sensitiveVars.contains("string"));
+        Set<String> sensitiveVars = getSensitiveVars22950(project, pdb);
     }
 
     @Test
@@ -174,18 +167,23 @@ public class ParametersTest {
                 new PasswordParameterDefinition("password", "12345", "password description"),
                 new StringParameterDefinition("string2", "Value2", "string description")
         );
-        project.addProperty(pdb);
-
-        CaptureEnvironmentBuilder builder = new CaptureEnvironmentBuilder();
-        project.getBuildersList().add(builder);
-
-        FreeStyleBuild build = project.scheduleBuild2(0).get();
-        Set<String> sensitiveVars = build.getSensitiveBuildVariables();
-
-        assertNotNull(sensitiveVars);
-        assertFalse(sensitiveVars.contains("string"));
+        Set<String> sensitiveVars = getSensitiveVars22950(project, pdb);
         assertTrue(sensitiveVars.contains("password"));
         assertFalse(sensitiveVars.contains("string2"));
+    }
+
+    private Set<String> getSensitiveVars22950(final FreeStyleProject project, final ParametersDefinitionProperty pdb) throws ExecutionException, IOException, InterruptedException {
+        project.addProperty(pdb);
+        
+        CaptureEnvironmentBuilder builder = new CaptureEnvironmentBuilder();
+        project.getBuildersList().add(builder);
+        
+        FreeStyleBuild build = project.scheduleBuild2(0).get();
+        Set<String> sensitiveVars = build.getSensitiveBuildVariables();
+        
+        assertNotNull(sensitiveVars);
+        assertFalse(sensitiveVars.contains("string"));
+        return sensitiveVars;
     }
 
     @Test
