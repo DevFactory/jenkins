@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass64147;
+
 import hudson.model.Job;
 import jenkins.model.Jenkins;
 import org.junit.Before;
@@ -98,9 +100,7 @@ public class DeleteJobCommandTest {
                 .authorizedTo(Job.READ, Job.DELETE, Jenkins.READ)
                 .invokeWithArgs("never_created");
 
-        assertThat(result, failedWith(3));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: No such job 'never_created'"));
+        ExtractedSeparateClass64147.extractedMethod50733(result);
     }
 
     @Test public void deleteJobManyShouldSucceed() throws Exception {

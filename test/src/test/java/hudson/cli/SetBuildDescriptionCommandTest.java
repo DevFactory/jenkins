@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass64147;
+
 import hudson.Functions;
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
@@ -114,9 +116,7 @@ public class SetBuildDescriptionCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Run.UPDATE, Job.READ, Jenkins.READ)
                 .invokeWithArgs("never_created");
-        assertThat(result, failedWith(3));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: No such job 'never_created'"));
+        ExtractedSeparateClass64147.extractedMethod50733(result);
     }
 
     @Test public void setBuildDescriptionShouldFailIfJobDoesNotExistButNearExists() throws Exception {

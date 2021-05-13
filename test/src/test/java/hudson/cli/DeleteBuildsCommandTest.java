@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass64147;
+
 import hudson.Functions;
 import hudson.model.ExecutorTest;
 import hudson.model.FreeStyleProject;
@@ -85,9 +87,7 @@ public class DeleteBuildsCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, Job.READ, Run.DELETE)
                 .invokeWithArgs("never_created", "1");
-        assertThat(result, failedWith(3));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: No such job 'never_created'"));
+        ExtractedSeparateClass64147.extractedMethod50733(result);
     }
 
     @Test public void deleteBuildsShouldFailIfJobNameIsEmpty() throws Exception {

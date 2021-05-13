@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass64147;
+
 import hudson.Functions;
 import hudson.model.FreeStyleProject;
 import hudson.model.Item;
@@ -101,9 +103,7 @@ public class ConsoleCommandTest {
                 .authorizedTo(Jenkins.READ, Job.READ, Item.BUILD)
                 .invokeWithArgs("never_created");
 
-        assertThat(result, failedWith(3));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: No such job 'never_created'"));
+        ExtractedSeparateClass64147.extractedMethod50733(result);
     }
 
     @Test public void consoleShouldFailWhenLastBuildDoesNotExist() throws Exception {

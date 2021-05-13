@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass64147;
+
 import hudson.Extension;
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
@@ -88,9 +90,7 @@ public class RunRangeCommandTest {
         final CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, Job.READ)
                 .invokeWithArgs("never_created", "1");
-        assertThat(result, failedWith(3));
-        assertThat(result, hasNoStandardOutput());
-        assertThat(result.stderr(), containsString("ERROR: No such job 'never_created'"));
+        ExtractedSeparateClass64147.extractedMethod50733(result);
     }
 
     @Test public void dummyRangeShouldFailIfJobNameIsEmpty() {
