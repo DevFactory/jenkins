@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import hudson.model.ExtractedSeparateClass39347;
+
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.WebRequest;
@@ -214,9 +216,7 @@ public class NodeTest {
         assertNotNull("Node should not take project because node property does not allow it.", node.canTake(item));
         assertTrue("Cause of blockage should be busy label.", node.canTake(item) instanceof CauseOfBlockage.BecauseLabelIsBusy);
         User user = User.get("John");
-        GlobalMatrixAuthorizationStrategy auth = new GlobalMatrixAuthorizationStrategy();
-        j.jenkins.setAuthorizationStrategy(auth);
-        j.jenkins.setCrumbIssuer(null);
+        GlobalMatrixAuthorizationStrategy auth = ExtractedSeparateClass39347.getAuth95621(j);
         HudsonPrivateSecurityRealm realm = new HudsonPrivateSecurityRealm(false);
         j.jenkins.setSecurityRealm(realm);
         realm.createAccount("John", "");
@@ -243,9 +243,7 @@ public class NodeTest {
     @Test
     public void testHasPermission() throws Exception {
         Node node = j.createOnlineSlave();
-        GlobalMatrixAuthorizationStrategy auth = new GlobalMatrixAuthorizationStrategy();
-        j.jenkins.setAuthorizationStrategy(auth);
-        j.jenkins.setCrumbIssuer(null);
+        GlobalMatrixAuthorizationStrategy auth = ExtractedSeparateClass39347.getAuth95621(j);
         HudsonPrivateSecurityRealm realm = new HudsonPrivateSecurityRealm(false);
         j.jenkins.setSecurityRealm(realm);
         User user = realm.createAccount("John Smith","abcdef");

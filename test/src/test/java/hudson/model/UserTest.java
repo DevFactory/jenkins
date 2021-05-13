@@ -24,6 +24,8 @@
  */
 package hudson.model;
 
+import hudson.model.ExtractedSeparateClass39347;
+
 import com.gargoylesoftware.htmlunit.WebAssert;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.WebResponse;
@@ -388,9 +390,7 @@ public class UserTest {
 
     @Test
     public void testDoConfigSubmit() throws Exception {
-        GlobalMatrixAuthorizationStrategy auth = new GlobalMatrixAuthorizationStrategy();
-        j.jenkins.setAuthorizationStrategy(auth);
-        j.jenkins.setCrumbIssuer(null);
+        GlobalMatrixAuthorizationStrategy auth = ExtractedSeparateClass39347.getAuth95621(j);
         HudsonPrivateSecurityRealm realm = new HudsonPrivateSecurityRealm(false);
         j.jenkins.setSecurityRealm(realm);
         User user = realm.createAccount("John Smith", "password");
@@ -470,9 +470,7 @@ public class UserTest {
 
     @Test
     public void testHasPermission() throws IOException {
-        GlobalMatrixAuthorizationStrategy auth = new GlobalMatrixAuthorizationStrategy();
-        j.jenkins.setAuthorizationStrategy(auth);
-        j.jenkins.setCrumbIssuer(null);
+        GlobalMatrixAuthorizationStrategy auth = ExtractedSeparateClass39347.getAuth95621(j);
         HudsonPrivateSecurityRealm realm = new HudsonPrivateSecurityRealm(false);
         j.jenkins.setSecurityRealm(realm);
         User user = realm.createAccount("John Smith","password");
@@ -489,9 +487,7 @@ public class UserTest {
 
     @Test
     public void testCanDelete() throws IOException {
-        GlobalMatrixAuthorizationStrategy auth = new GlobalMatrixAuthorizationStrategy();
-        j.jenkins.setAuthorizationStrategy(auth);
-        j.jenkins.setCrumbIssuer(null);
+        GlobalMatrixAuthorizationStrategy auth = ExtractedSeparateClass39347.getAuth95621(j);
         HudsonPrivateSecurityRealm realm = new HudsonPrivateSecurityRealm(false);
         j.jenkins.setSecurityRealm(realm);
         User user = realm.createAccount("John Smith","password");

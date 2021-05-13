@@ -23,6 +23,8 @@
  */
 package hudson.model;
 
+import hudson.model.ExtractedSeparateClass39347;
+
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.javascript.host.event.Event;
@@ -557,9 +559,7 @@ public class ProjectTest {
     @Test
     public void testDoDoDelete() throws Exception{
         FreeStyleProject project = j.createFreeStyleProject("project");
-        GlobalMatrixAuthorizationStrategy auth = new GlobalMatrixAuthorizationStrategy();   
-        j.jenkins.setAuthorizationStrategy(auth);
-        j.jenkins.setCrumbIssuer(null);
+        GlobalMatrixAuthorizationStrategy auth = ExtractedSeparateClass39347.getAuth95621(j);
         j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
         User user = User.getById("john", true);
         try (ACLContext as = ACL.as(user)) {
