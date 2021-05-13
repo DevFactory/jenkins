@@ -1,5 +1,7 @@
 package jenkins.security;
 
+import java.io.IOException;
+
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import hudson.ExtensionList;
@@ -73,12 +75,7 @@ public class ResourceDomainTest {
         }
 
         { // direct access to resource URL works
-            Page page = webClient.getPage(resourceResponseUrl);
-            resourceResponseUrl = page.getUrl().toString();
-            Assert.assertEquals("resource response success", 200, page.getWebResponse().getStatusCode());
-            Assert.assertNull("no CSP headers", page.getWebResponse().getResponseHeaderValue("Content-Security-Policy"));
-            Assert.assertTrue("Served from resource domain", resourceResponseUrl.contains(RESOURCE_DOMAIN));
-            Assert.assertTrue("Served from resource action", resourceResponseUrl.contains("static-files"));
+            resourceResponseUrl = getResourceResponseUrl61444(webClient, resourceResponseUrl);
         }
 
         { // show directory index
@@ -128,13 +125,18 @@ public class ResourceDomainTest {
         a.grant(Jenkins.READ).onRoot().to("anonymous");
 
         { // now it works again
-            Page page = webClient.getPage(resourceResponseUrl);
-            resourceResponseUrl = page.getUrl().toString();
-            Assert.assertEquals("resource response success", 200, page.getWebResponse().getStatusCode());
-            Assert.assertNull("no CSP headers", page.getWebResponse().getResponseHeaderValue("Content-Security-Policy"));
-            Assert.assertTrue("Served from resource domain", resourceResponseUrl.contains(RESOURCE_DOMAIN));
-            Assert.assertTrue("Served from resource action", resourceResponseUrl.contains("static-files"));
+            resourceResponseUrl = getResourceResponseUrl61444(webClient, resourceResponseUrl);
         }
+    }
+
+    private String getResourceResponseUrl61444(final JenkinsRule.WebClient webClient, String resourceResponseUrl) throws IOException {
+        Page page = webClient.getPage(resourceResponseUrl);
+        resourceResponseUrl = page.getUrl().toString();
+        Assert.assertEquals("resource response success", 200, page.getWebResponse().getStatusCode());
+        Assert.assertNull("no CSP headers", page.getWebResponse().getResponseHeaderValue("Content-Security-Policy"));
+        Assert.assertTrue("Served from resource domain", resourceResponseUrl.contains(RESOURCE_DOMAIN));
+        Assert.assertTrue("Served from resource action", resourceResponseUrl.contains("static-files"));
+        return resourceResponseUrl;
     }
 
     @Test
