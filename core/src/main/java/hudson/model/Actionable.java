@@ -206,9 +206,7 @@ public abstract class Actionable extends AbstractModelObject implements ModelObj
             }
         }
         current.removeAll(old);
-        if (!found) {
-            addAction(a);
-        }
+        extractedMethod46838(found, a);
         return !found || !old.isEmpty();
     }
 
@@ -303,10 +301,14 @@ public abstract class Actionable extends AbstractModelObject implements ModelObj
             }
         }
         current.removeAll(old);
+        extractedMethod46838(found, a);
+        return !(old.isEmpty() && found);
+    }
+
+    private void extractedMethod46838(final boolean found, final Action a) {
         if (!found) {
             addAction(a);
         }
-        return !(old.isEmpty() && found);
     }
 
     /** @deprecated No clear purpose, since subclasses may have overridden {@link #getActions}, and does not consider {@link TransientActionFactory}. */
