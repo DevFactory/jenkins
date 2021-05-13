@@ -66,20 +66,12 @@ public class ResourceDomainTest {
         { // DBS on primary domain forwards to second domain when trying to access a file URL
             webClient.setRedirectEnabled(true);
             Page page = webClient.goTo("userContent/readme.txt", "text/plain");
-            resourceResponseUrl = page.getUrl().toString();
-            Assert.assertEquals("resource response success", 200, page.getWebResponse().getStatusCode());
-            Assert.assertNull("no CSP headers", page.getWebResponse().getResponseHeaderValue("Content-Security-Policy"));
-            Assert.assertTrue("Served from resource domain", resourceResponseUrl.contains(RESOURCE_DOMAIN));
-            Assert.assertTrue("Served from resource action", resourceResponseUrl.contains("static-files"));
+            resourceResponseUrl = getResourceResponseUrl20837(page);
         }
 
         { // direct access to resource URL works
             Page page = webClient.getPage(resourceResponseUrl);
-            resourceResponseUrl = page.getUrl().toString();
-            Assert.assertEquals("resource response success", 200, page.getWebResponse().getStatusCode());
-            Assert.assertNull("no CSP headers", page.getWebResponse().getResponseHeaderValue("Content-Security-Policy"));
-            Assert.assertTrue("Served from resource domain", resourceResponseUrl.contains(RESOURCE_DOMAIN));
-            Assert.assertTrue("Served from resource action", resourceResponseUrl.contains("static-files"));
+            resourceResponseUrl = getResourceResponseUrl20837(page);
         }
 
         { // show directory index
@@ -130,11 +122,7 @@ public class ResourceDomainTest {
 
         { // now it works again
             Page page = webClient.getPage(resourceResponseUrl);
-            resourceResponseUrl = page.getUrl().toString();
-            Assert.assertEquals("resource response success", 200, page.getWebResponse().getStatusCode());
-            Assert.assertNull("no CSP headers", page.getWebResponse().getResponseHeaderValue("Content-Security-Policy"));
-            Assert.assertTrue("Served from resource domain", resourceResponseUrl.contains(RESOURCE_DOMAIN));
-            Assert.assertTrue("Served from resource action", resourceResponseUrl.contains("static-files"));
+            resourceResponseUrl = getResourceResponseUrl20837(page);
         }
     }
 
@@ -167,11 +155,7 @@ public class ResourceDomainTest {
             webClient.setRedirectEnabled(true);
             webClient.setThrowExceptionOnFailingStatusCode(false);
             Page page = webClient.goTo("userContent/readme.txt", "text/plain");
-            resourceResponseUrl = page.getUrl().toString();
-            Assert.assertEquals("resource response success", 200, page.getWebResponse().getStatusCode());
-            Assert.assertNull("no CSP headers", page.getWebResponse().getResponseHeaderValue("Content-Security-Policy"));
-            Assert.assertTrue("Served from resource domain", resourceResponseUrl.contains(RESOURCE_DOMAIN));
-            Assert.assertTrue("Served from resource action", resourceResponseUrl.contains("static-files"));
+            resourceResponseUrl = getResourceResponseUrl20837(page);
         }
 
         {
@@ -183,6 +167,15 @@ public class ResourceDomainTest {
         }
 
 
+    }
+
+    private String getResourceResponseUrl20837(final Page page) {
+        String resourceResponseUrl = page.getUrl().toString();
+        Assert.assertEquals("resource response success", 200, page.getWebResponse().getStatusCode());
+        Assert.assertNull("no CSP headers", page.getWebResponse().getResponseHeaderValue("Content-Security-Policy"));
+        Assert.assertTrue("Served from resource domain", resourceResponseUrl.contains(RESOURCE_DOMAIN));
+        Assert.assertTrue("Served from resource action", resourceResponseUrl.contains("static-files"));
+        return resourceResponseUrl;
     }
 
     @Test
