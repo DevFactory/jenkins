@@ -24,6 +24,8 @@
 
 package hudson.cli;
 
+import hudson.cli.ExtractedSeparateClass80889;
+
 import hudson.model.Computer;
 import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
@@ -140,10 +142,7 @@ public class OfflineNodeCommandTest {
 
     @Test
     public void offlineNodeShouldSucceedOnDisconnectedNode() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        slave.toComputer().waitUntilOnline();
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
-        assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
+        DumbSlave slave = ExtractedSeparateClass80889.getSlave61367(j);
         slave.toComputer().disconnect();
         slave.toComputer().waitUntilOffline();
         assertThat(slave.toComputer().isOnline(), equalTo(false));
@@ -214,10 +213,7 @@ public class OfflineNodeCommandTest {
 
     @Test
     public void offlineNodeShouldSucceedOnDisconnectedNodeWithCause() throws Exception {
-        DumbSlave slave = j.createSlave("aNode", "", null);
-        slave.toComputer().waitUntilOnline();
-        assertThat(slave.toComputer().isOnline(), equalTo(true));
-        assertThat(slave.toComputer().getOfflineCause(), equalTo(null));
+        DumbSlave slave = ExtractedSeparateClass80889.getSlave61367(j);
         slave.toComputer().disconnect();
         slave.toComputer().waitUntilOffline();
         assertThat(slave.toComputer().isOnline(), equalTo(false));
