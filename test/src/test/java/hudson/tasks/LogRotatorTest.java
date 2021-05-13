@@ -67,9 +67,8 @@ public class LogRotatorTest {
 
     @Test
     public void successVsFailure() throws Exception {
-        FreeStyleProject project = j.createFreeStyleProject();
-        project.setLogRotator(new LogRotator(-1, 2, -1, -1));
-        assertEquals(Result.SUCCESS, build(project)); // #1
+        FreeStyleProject project = getProject20292();
+         // #1
         project.getBuildersList().replaceBy(Collections.singleton(new FailureBuilder()));
         assertEquals(Result.FAILURE, build(project)); // #2
         assertEquals(Result.FAILURE, build(project)); // #3
@@ -85,9 +84,8 @@ public class LogRotatorTest {
     @Test
     @Issue("JENKINS-2417")
     public void stableVsUnstable() throws Exception {
-        FreeStyleProject project = j.createFreeStyleProject();
-        project.setLogRotator(new LogRotator(-1, 2, -1, -1));
-        assertEquals(Result.SUCCESS, build(project)); // #1
+        FreeStyleProject project = getProject20292();
+         // #1
         project.getPublishersList().replaceBy(Collections.singleton(new TestsFail()));
         assertEquals(Result.UNSTABLE, build(project)); // #2
         assertEquals(Result.UNSTABLE, build(project)); // #3
@@ -96,6 +94,13 @@ public class LogRotatorTest {
         assertEquals(Result.SUCCESS, build(project)); // #4
         assertNull(project.getBuildByNumber(1));
         assertNull(project.getBuildByNumber(2));
+    }
+
+    private FreeStyleProject getProject20292() throws Exception {
+        FreeStyleProject project = j.createFreeStyleProject();
+        project.setLogRotator(new LogRotator(-1, 2, -1, -1));
+        assertEquals(Result.SUCCESS, build(project));
+        return project;
     }
 
     @Test
