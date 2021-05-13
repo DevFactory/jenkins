@@ -632,23 +632,7 @@ public class HudsonPrivateSecurityRealmTest {
         String initialSeed = alice.getProperty(UserSeedProperty.class).getSeed();
 
         WebClient wc = j.createWebClient();
-        WebClient wc_anotherTab = j.createWebClient();
-
-        wc.login(alice.getId());
-        assertUserConnected(wc, alice.getId());
-
-        wc_anotherTab.login(alice.getId());
-        assertUserConnected(wc_anotherTab, alice.getId());
-
-        HtmlPage configurePage = wc.goTo(alice.getUrl() + "/configure");
-        HtmlPasswordInput password1 = configurePage.getElementByName("user.password");
-        HtmlPasswordInput password2 = configurePage.getElementByName("user.password2");
-
-        password1.setText("alice2");
-        password2.setText("alice2");
-
-        HtmlForm form = configurePage.getFormByName("config");
-        j.submit(form);
+        WebClient wc_anotherTab = getWc_anotherTab28067(wc, alice);
 
         assertUserNotConnected(wc, alice.getId());
         assertUserNotConnected(wc_anotherTab, alice.getId());
@@ -694,29 +678,34 @@ public class HudsonPrivateSecurityRealmTest {
             User alice = prepareRealmAndAlice();
 
             WebClient wc = j.createWebClient();
-            WebClient wc_anotherTab = j.createWebClient();
-
-            wc.login(alice.getId());
-            assertUserConnected(wc, alice.getId());
-
-            wc_anotherTab.login(alice.getId());
-            assertUserConnected(wc_anotherTab, alice.getId());
-
-            HtmlPage configurePage = wc.goTo(alice.getUrl() + "/configure");
-            HtmlPasswordInput password1 = configurePage.getElementByName("user.password");
-            HtmlPasswordInput password2 = configurePage.getElementByName("user.password2");
-
-            password1.setText("alice2");
-            password2.setText("alice2");
-
-            HtmlForm form = configurePage.getFormByName("config");
-            j.submit(form);
+            WebClient wc_anotherTab = getWc_anotherTab28067(wc, alice);
 
             assertUserConnected(wc, alice.getId());
             assertUserConnected(wc_anotherTab, alice.getId());
         } finally {
             UserSeedProperty.DISABLE_USER_SEED = previousConfig;
         }
+    }
+
+    private WebClient getWc_anotherTab28067(final WebClient wc, final User alice) throws Exception {
+        WebClient wc_anotherTab = j.createWebClient();
+        
+        wc.login(alice.getId());
+        assertUserConnected(wc, alice.getId());
+        
+        wc_anotherTab.login(alice.getId());
+        assertUserConnected(wc_anotherTab, alice.getId());
+        
+        HtmlPage configurePage = wc.goTo(alice.getUrl() + "/configure");
+        HtmlPasswordInput password1 = configurePage.getElementByName("user.password");
+        HtmlPasswordInput password2 = configurePage.getElementByName("user.password2");
+        
+        password1.setText("alice2");
+        password2.setText("alice2");
+        
+        HtmlForm form = configurePage.getFormByName("config");
+        j.submit(form);
+        return wc_anotherTab;
     }
 
     private User prepareRealmAndAlice() throws Exception {
