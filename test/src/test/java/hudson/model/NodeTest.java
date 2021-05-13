@@ -23,6 +23,9 @@
  */
 package hudson.model;
 
+import java.io.IOException;
+import javax.servlet.ServletException;
+
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.WebRequest;
@@ -123,10 +126,7 @@ public class NodeTest {
         computer.doChangeOfflineCause("new message");
         cause = (UserCause) computer.getOfflineCause();
         assertTrue(cause.toString(), cause.toString().matches("^.*?Disconnected by root@localhost : new message"));
-        assertEquals(root, cause.getUser());
-
-        computer.doToggleOffline(null);
-        assertNull(computer.getOfflineCause());
+        extractedMethod58104(root, cause, computer);
     }
 
     @Test
@@ -149,8 +149,12 @@ public class NodeTest {
         }
         cause = (UserCause) computer.getOfflineCause();
         assertThat(cause.toString(), endsWith("Disconnected by root@localhost : new message"));
-        assertEquals(root, cause.getUser());
+        extractedMethod58104(root, cause, computer);
+    }
 
+    private void extractedMethod58104(final User root, final OfflineCause.UserCause cause, final Computer computer) throws IOException, ServletException {
+        assertEquals(root, cause.getUser());
+        
         computer.doToggleOffline(null);
         assertNull(computer.getOfflineCause());
     }
