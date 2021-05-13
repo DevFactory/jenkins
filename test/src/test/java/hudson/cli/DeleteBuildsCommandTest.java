@@ -176,10 +176,7 @@ public class DeleteBuildsCommandTest {
     }
 
     @Test public void deleteBuildsManyShouldSuccess() throws Exception {
-        FreeStyleProject project = j.createFreeStyleProject("aProject");
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
+        FreeStyleProject project = getProject80360();
         j.buildAndAssertSuccess(project);
         j.buildAndAssertSuccess(project);
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(5));
@@ -242,10 +239,7 @@ public class DeleteBuildsCommandTest {
     }
 
     @Test public void deleteBuildsManyShouldSuccessEvenMiddleBuildDoesNotExist() throws Exception {
-        FreeStyleProject project = j.createFreeStyleProject("aProject");
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
+        FreeStyleProject project = getProject80360();
         j.buildAndAssertSuccess(project);
         j.buildAndAssertSuccess(project);
         j.buildAndAssertSuccess(project);
@@ -269,10 +263,7 @@ public class DeleteBuildsCommandTest {
     }
 
     @Test public void deleteBuildsManyShouldSuccessEvenFirstBuildDoesNotExist() throws Exception {
-        FreeStyleProject project = j.createFreeStyleProject("aProject");
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
+        FreeStyleProject project = getProject80360();
         project.getBuildByNumber(1).delete();
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(2));
 
@@ -292,10 +283,7 @@ public class DeleteBuildsCommandTest {
     }
 
     @Test public void deleteBuildsManyShouldSuccessEvenTheFirstAndLastBuildDoesNotExist() throws Exception {
-        FreeStyleProject project = j.createFreeStyleProject("aProject");
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
-        j.buildAndAssertSuccess(project);
+        FreeStyleProject project = getProject80360();
         j.buildAndAssertSuccess(project);
         j.buildAndAssertSuccess(project);
         project.getBuildByNumber(1).delete();
@@ -316,5 +304,13 @@ public class DeleteBuildsCommandTest {
         assertThat(result, succeeded());
         assertThat(result.stdout(), containsString("Deleted 1 builds"));
         assertThat(((FreeStyleProject) j.jenkins.getItem("aProject")).getBuilds(), hasSize(0));
+    }
+
+    private FreeStyleProject getProject80360() throws Exception {
+        FreeStyleProject project = j.createFreeStyleProject("aProject");
+        j.buildAndAssertSuccess(project);
+        j.buildAndAssertSuccess(project);
+        j.buildAndAssertSuccess(project);
+        return project;
     }
 }
