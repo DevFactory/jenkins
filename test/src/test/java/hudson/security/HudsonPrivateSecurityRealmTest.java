@@ -674,11 +674,7 @@ public class HudsonPrivateSecurityRealmTest {
 
         HtmlPage configurePage = wc.goTo(alice.getUrl() + "/configure");
         // not changing password this time
-        HtmlForm form = configurePage.getFormByName("config");
-        j.submit(form);
-
-        assertUserConnected(wc, alice.getId());
-        assertUserConnected(wc_anotherTab, alice.getId());
+        extractedMethod56005(configurePage, wc, alice, wc_anotherTab);
 
         String seedAfter = alice.getProperty(UserSeedProperty.class).getSeed();
         assertThat(seedAfter, is(initialSeed));
@@ -709,14 +705,18 @@ public class HudsonPrivateSecurityRealmTest {
             password1.setText("alice2");
             password2.setText("alice2");
 
-            HtmlForm form = configurePage.getFormByName("config");
-            j.submit(form);
-
-            assertUserConnected(wc, alice.getId());
-            assertUserConnected(wc_anotherTab, alice.getId());
+            extractedMethod56005(configurePage, wc, alice, wc_anotherTab);
         } finally {
             UserSeedProperty.DISABLE_USER_SEED = previousConfig;
         }
+    }
+
+    private void extractedMethod56005(final HtmlPage configurePage, final WebClient wc, final User alice, final WebClient wc_anotherTab) throws Exception {
+        HtmlForm form = configurePage.getFormByName("config");
+        j.submit(form);
+        
+        assertUserConnected(wc, alice.getId());
+        assertUserConnected(wc_anotherTab, alice.getId());
     }
 
     private User prepareRealmAndAlice() throws Exception {
