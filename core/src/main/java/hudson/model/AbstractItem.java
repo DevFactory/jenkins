@@ -885,13 +885,7 @@ public abstract class AbstractItem extends Actionable implements Item, HttpDelet
                 throw new IOException("Expecting "+this.getClass()+" but got "+o.getClass()+" instead");
             }
 
-            Items.whileUpdatingByXml(new NotReallyRoleSensitiveCallable<Void,IOException>() {
-                @Override public Void call() throws IOException {
-                    onLoad(getParent(), getRootDir().getName());
-                    return null;
-                }
-            });
-            Jenkins.get().rebuildDependencyGraphAsync();
+            extractedMethod8320();
 
             // if everything went well, commit this new version
             out.commit();
@@ -917,6 +911,12 @@ public abstract class AbstractItem extends Actionable implements Item, HttpDelet
 
         // try to reflect the changes by reloading
         getConfigFile().unmarshal(this);
+        extractedMethod8320();
+
+        SaveableListener.fireOnChange(this, getConfigFile());
+    }
+
+    private void extractedMethod8320() throws IOException {
         Items.whileUpdatingByXml(new NotReallyRoleSensitiveCallable<Void, IOException>() {
             @Override
             public Void call() throws IOException {
@@ -925,8 +925,6 @@ public abstract class AbstractItem extends Actionable implements Item, HttpDelet
             }
         });
         Jenkins.get().rebuildDependencyGraphAsync();
-
-        SaveableListener.fireOnChange(this, getConfigFile());
     }
 
 
