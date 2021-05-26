@@ -139,17 +139,7 @@ public class ResourceListTest {
 
     @Test
     public void parentChildR() {
-        x.r(a1);
-        x.r(a2);
-        y.r(a3);
-        y.r(a4);
-        z.r(a);
-        assertFalse("Reads should never conflict", x.isCollidingWith(y));
-        assertFalse("Reads should never conflict", y.isCollidingWith(x));
-        assertFalse("Reads should never conflict", x.isCollidingWith(z));
-        assertFalse("Reads should never conflict", z.isCollidingWith(x));
-        assertFalse("Reads should never conflict", z.isCollidingWith(y));
-        assertFalse("Reads should never conflict", y.isCollidingWith(z));
+        extractedMethod69996(a1, a2, a3, a4, a); // CAP AL
     }
 
     @Test
@@ -169,18 +159,22 @@ public class ResourceListTest {
 
     @Test
     public void parentChildR3() {
-        x.r(c1);
-        x.r(c2);
-        y.r(c3);
-        y.r(c4);
-        z.r(c);
-        assertFalse("Reads should never conflict", x.isCollidingWith(y));
-        assertFalse("Reads should never conflict", y.isCollidingWith(x));
-        assertFalse("Reads should never conflict", x.isCollidingWith(z));
-        assertFalse("Reads should never conflict", z.isCollidingWith(x));
-        assertFalse("Reads should never conflict", z.isCollidingWith(y));
-        assertFalse("Reads should never conflict", y.isCollidingWith(z));
+        extractedMethod69996(c1, c2, c3, c4, c); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod69996(final Resource c1, final Resource c2, final Resource c3, final Resource c4, final Resource c) { // CAP AL
+        x.r(c1); // CAP AL
+        x.r(c2); // CAP AL
+        y.r(c3); // CAP AL
+        y.r(c4); // CAP AL
+        z.r(c); // CAP AL
+        assertFalse("Reads should never conflict", x.isCollidingWith(y)); // CAP AL
+        assertFalse("Reads should never conflict", y.isCollidingWith(x)); // CAP AL
+        assertFalse("Reads should never conflict", x.isCollidingWith(z)); // CAP AL
+        assertFalse("Reads should never conflict", z.isCollidingWith(x)); // CAP AL
+        assertFalse("Reads should never conflict", z.isCollidingWith(y)); // CAP AL
+        assertFalse("Reads should never conflict", y.isCollidingWith(z)); // CAP AL
+    } // CAP AL
 
     @Test
     public void parentChildW3() {
