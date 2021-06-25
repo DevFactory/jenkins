@@ -364,18 +364,7 @@ public class SearchTest {
     @Issue("SECURITY-385")
     @Test
     public void testInaccessibleViews() throws IOException {
-        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
-        GlobalMatrixAuthorizationStrategy strategy = new GlobalMatrixAuthorizationStrategy();
-        strategy.add(Jenkins.READ, "alice");
-        j.jenkins.setAuthorizationStrategy(strategy);
-
-        j.jenkins.addView(new ListView("foo", j.jenkins));
-
-        // SYSTEM can see all the views
-        assertEquals("two views exist", 2, Jenkins.get().getViews().size());
-        List<SearchItem> results = new ArrayList<>();
-        j.jenkins.getSearchIndex().suggest("foo", results);
-        assertEquals("nonempty results list", 1, results.size());
+        extractedMethod13(); // CAP AL
 
 
         // Alice can't
@@ -383,14 +372,33 @@ public class SearchTest {
         ACL.impersonate2(User.get("alice").impersonate2(), new Runnable() {
             @Override
             public void run() {
-                assertEquals("no visible views", 0, Jenkins.get().getViews().size());
-
-                List<SearchItem> results = new ArrayList<>();
-                j.jenkins.getSearchIndex().suggest("foo", results);
-                assertEquals("empty results list", Collections.emptyList(), results);
+                extractedMethod14(); // CAP AL
             }
         });
     }
+ // CAP AL
+    private void extractedMethod13() throws IOException { // CAP AL
+        j.jenkins.setSecurityRealm(j.createDummySecurityRealm()); // CAP AL
+        GlobalMatrixAuthorizationStrategy strategy = new GlobalMatrixAuthorizationStrategy(); // CAP AL
+        strategy.add(Jenkins.READ, "alice"); // CAP AL
+        j.jenkins.setAuthorizationStrategy(strategy); // CAP AL
+         // CAP AL
+        j.jenkins.addView(new ListView("foo", j.jenkins)); // CAP AL
+         // CAP AL
+        // SYSTEM can see all the views // CAP AL
+        assertEquals("two views exist", 2, Jenkins.get().getViews().size()); // CAP AL
+        List<SearchItem> results = new ArrayList<>(); // CAP AL
+        j.jenkins.getSearchIndex().suggest("foo", results); // CAP AL
+        assertEquals("nonempty results list", 1, results.size()); // CAP AL
+    } // CAP AL
+ // CAP AL
+    private void extractedMethod14() { // CAP AL
+        assertEquals("no visible views", 0, Jenkins.get().getViews().size()); // CAP AL
+         // CAP AL
+        List<SearchItem> results = new ArrayList<>(); // CAP AL
+        j.jenkins.getSearchIndex().suggest("foo", results); // CAP AL
+        assertEquals("empty results list", Collections.emptyList(), results); // CAP AL
+    } // CAP AL
     
     @Test
     public void testSearchWithinFolders() throws Exception {
