@@ -168,33 +168,37 @@ public class SearchTest {
     
     @Test
     public void testProjectNamePrecedesDisplayName() throws Exception {
-        final String project1Name = "foo";
-        final String project1DisplayName = "project1DisplayName";
-        final String project2Name = "project2Name";
-        final String project2DisplayName = project1Name;
-        final String project3Name = "project3Name";
-        final String project3DisplayName = "project3DisplayName";
-        
-        // create 1 freestyle project with the name foo
-        FreeStyleProject project1 = j.createFreeStyleProject(project1Name);
-        project1.setDisplayName(project1DisplayName);
-        
-        // create another with the display name foo
-        FreeStyleProject project2 = j.createFreeStyleProject(project2Name);
-        project2.setDisplayName(project2DisplayName);
-
-        // create a third project and make sure it's not picked up by search
-        FreeStyleProject project3 = j.createFreeStyleProject(project3Name);
-        project3.setDisplayName(project3DisplayName);
-        
-        // search for foo
-        Page result = j.search(project1Name);
-        String contents = getContents45221(result, project1DisplayName); // CAP AL
-        // make sure projects 2 and 3 were not picked up
-        assertFalse(contents.contains(project2Name));
-        assertFalse(contents.contains(project3Name));
-        assertFalse(contents.contains(project3DisplayName));
+        extractedMethod18(); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod18() throws Exception { // CAP AL
+        final String project1Name = "foo"; // CAP AL
+        final String project1DisplayName = "project1DisplayName"; // CAP AL
+        final String project2Name = "project2Name"; // CAP AL
+        final String project2DisplayName = project1Name; // CAP AL
+        final String project3Name = "project3Name"; // CAP AL
+        final String project3DisplayName = "project3DisplayName"; // CAP AL
+         // CAP AL
+        // create 1 freestyle project with the name foo // CAP AL
+        FreeStyleProject project1 = j.createFreeStyleProject(project1Name); // CAP AL
+        project1.setDisplayName(project1DisplayName); // CAP AL
+         // CAP AL
+        // create another with the display name foo // CAP AL
+        FreeStyleProject project2 = j.createFreeStyleProject(project2Name); // CAP AL
+        project2.setDisplayName(project2DisplayName); // CAP AL
+         // CAP AL
+        // create a third project and make sure it's not picked up by search // CAP AL
+        FreeStyleProject project3 = j.createFreeStyleProject(project3Name); // CAP AL
+        project3.setDisplayName(project3DisplayName); // CAP AL
+         // CAP AL
+        // search for foo // CAP AL
+        Page result = j.search(project1Name); // CAP AL
+        String contents = getContents45221(result, project1DisplayName); // CAP AL // CAP AL
+        // make sure projects 2 and 3 were not picked up // CAP AL
+        assertFalse(contents.contains(project2Name)); // CAP AL
+        assertFalse(contents.contains(project3Name)); // CAP AL
+        assertFalse(contents.contains(project3DisplayName)); // CAP AL
+    } // CAP AL
  // CAP AL
     private String getContents45221(final Page result, final String project1DisplayName) { // CAP AL
         assertNotNull(result); // CAP AL
