@@ -561,27 +561,32 @@ public class Items {
      * @since 1.548
      */
     public static <I extends AbstractItem & TopLevelItem> I move(I item, DirectlyModifiableTopLevelItemGroup destination) throws IOException, IllegalArgumentException {
-        DirectlyModifiableTopLevelItemGroup oldParent = (DirectlyModifiableTopLevelItemGroup) item.getParent();
-        if (oldParent == destination) {
-            throw new IllegalArgumentException();
-        }
-        // TODO verify that destination is to not equal to, or inside, item
-        if (!destination.canAdd(item)) {
-            throw new IllegalArgumentException();
-        }
-        String name = item.getName();
-        verifyItemDoesNotAlreadyExist(destination, name, null);
-        String oldFullName = item.getFullName();
-        // TODO AbstractItem.renameTo has a more baroque implementation; factor it out into a utility method perhaps?
-        File destDir = destination.getRootDirFor(item);
-        FileUtils.forceMkdir(destDir.getParentFile());
-        FileUtils.moveDirectory(item.getRootDir(), destDir);
-        oldParent.remove(item);
-        I newItem = destination.add(item, name);
-        item.movedTo(destination, newItem, destDir);
-        ItemListener.fireLocationChange(newItem, oldFullName);
+        I newItem = getNewItem(destination, item); // CAP AL
         return newItem;
     }
+ // CAP AL
+    private static <I extends AbstractItem, I extends TopLevelItem> I getNewItem(final DirectlyModifiableTopLevelItemGroup destination, final I item) throws IOException { // CAP AL
+        DirectlyModifiableTopLevelItemGroup oldParent = (DirectlyModifiableTopLevelItemGroup) item.getParent(); // CAP AL
+        if (oldParent == destination) { // CAP AL
+            throw new IllegalArgumentException(); // CAP AL
+        } // CAP AL
+        // TODO verify that destination is to not equal to, or inside, item // CAP AL
+        if (!destination.canAdd(item)) { // CAP AL
+            throw new IllegalArgumentException(); // CAP AL
+        } // CAP AL
+        String name = item.getName(); // CAP AL
+        verifyItemDoesNotAlreadyExist(destination, name, null); // CAP AL
+        String oldFullName = item.getFullName(); // CAP AL
+        // TODO AbstractItem.renameTo has a more baroque implementation; factor it out into a utility method perhaps? // CAP AL
+        File destDir = destination.getRootDirFor(item); // CAP AL
+        FileUtils.forceMkdir(destDir.getParentFile()); // CAP AL
+        FileUtils.moveDirectory(item.getRootDir(), destDir); // CAP AL
+        oldParent.remove(item); // CAP AL
+        I newItem = destination.add(item, name); // CAP AL
+        item.movedTo(destination, newItem, destDir); // CAP AL
+        ItemListener.fireLocationChange(newItem, oldFullName); // CAP AL
+        return newItem; // CAP AL
+    } // CAP AL
 
     private static class AllItemsIterable<T extends Item> implements Iterable<T> {
 
