@@ -89,27 +89,31 @@ public class MyViewsProperty extends UserProperty implements ModifiableViewGroup
 
     @Restricted(NoExternalUse.class)
     public Object readResolve() {
-        if (views == null)
-            // this shouldn't happen, but an error in 1.319 meant the last view could be deleted
-            views = new CopyOnWriteArrayList<>();
-
-        if (views.isEmpty()) {
-            // preserve the non-empty invariant
-            views.add(new AllView(AllView.DEFAULT_VIEW_NAME, this));
-        }
-        if (primaryViewName != null) {
-            // It may happen when the default constructor is invoked
-            primaryViewName = AllView.migrateLegacyPrimaryAllViewLocalizedName(views, primaryViewName);
-        }
-
-        viewGroupMixIn = new ViewGroupMixIn(this) {
-            protected List<View> views() { return views; }
-            protected String primaryView() { return primaryViewName; }
-            protected void primaryView(String name) { primaryViewName=name; }
-        };
-
-        return this;
+        return getVar078(); // CAP AL
     }
+ // CAP AL
+    private Object getVar078() { // CAP AL
+        if (views == null) // CAP AL
+            // this shouldn't happen, but an error in 1.319 meant the last view could be deleted // CAP AL
+            views = new CopyOnWriteArrayList<>(); // CAP AL
+         // CAP AL
+        if (views.isEmpty()) { // CAP AL
+            // preserve the non-empty invariant // CAP AL
+            views.add(new AllView(AllView.DEFAULT_VIEW_NAME, this)); // CAP AL
+        } // CAP AL
+        if (primaryViewName != null) { // CAP AL
+            // It may happen when the default constructor is invoked // CAP AL
+            primaryViewName = AllView.migrateLegacyPrimaryAllViewLocalizedName(views, primaryViewName); // CAP AL
+        } // CAP AL
+         // CAP AL
+        viewGroupMixIn = new ViewGroupMixIn(this) { // CAP AL
+            protected List<View> views() { return views; } // CAP AL
+            protected String primaryView() { return primaryViewName; } // CAP AL
+            protected void primaryView(String name) { primaryViewName=name; } // CAP AL
+        }; // CAP AL
+         // CAP AL
+        return this; // CAP AL
+    } // CAP AL
 
     @CheckForNull
     public String getPrimaryViewName() {
