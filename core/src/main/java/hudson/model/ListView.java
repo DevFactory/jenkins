@@ -219,18 +219,7 @@ public class ListView extends View implements DirectlyModifiableView {
         ItemGroup<? extends TopLevelItem> parent = getOwner().getItemGroup();
 
         if (recurse) {
-            if (!names.isEmpty() || includePattern != null) {
-                items.addAll(parent.getAllItems(TopLevelItem.class, item -> {
-                    String itemName = item.getRelativeNameFrom(parent);
-                    if (names.contains(itemName)) {
-                        return true;
-                    }
-                    if (includePattern != null) {
-                        return includePattern.matcher(itemName).matches();
-                    }
-                    return false;
-                }));
-            }
+            extractedMethod7(items, names, parent); // CAP AL
         } else {
             for (String name : names) {
                 try {
@@ -242,27 +231,50 @@ public class ListView extends View implements DirectlyModifiableView {
                     //Ignore
                 }
             }
-            if (includePattern != null) {
-                items.addAll(parent.getItems(item -> {
-                    String itemName = item.getRelativeNameFrom(parent);
-                    return includePattern.matcher(itemName).matches();
-                }));
-            }
+            extractedMethod8(items, parent); // CAP AL
         }
 
-        Collection<ViewJobFilter> jobFilters = getJobFilters();
-        if (!jobFilters.isEmpty()) {
-            List<TopLevelItem> candidates = recurse ? parent.getAllItems(TopLevelItem.class) : new ArrayList<>(parent.getItems());
-            // check the filters
-            for (ViewJobFilter jobFilter : jobFilters) {
-                items = jobFilter.filter(items, candidates, this);
-            }
-        }
-        // for sanity, trim off duplicates
-        items = new ArrayList<>(new LinkedHashSet<>(items));
-        
-        return items;
+        return getItems(items, parent, recurse); // CAP AL
     }
+ // CAP AL
+    private List<TopLevelItem> getItems(List<TopLevelItem> items, final ItemGroup<? extends TopLevelItem> parent, final boolean recurse) { // CAP AL
+        Collection<ViewJobFilter> jobFilters = getJobFilters(); // CAP AL
+        if (!jobFilters.isEmpty()) { // CAP AL
+            List<TopLevelItem> candidates = recurse ? parent.getAllItems(TopLevelItem.class) : new ArrayList<>(parent.getItems()); // CAP AL
+            // check the filters // CAP AL
+            for (ViewJobFilter jobFilter : jobFilters) { // CAP AL
+                items = jobFilter.filter(items, candidates, this); // CAP AL
+            } // CAP AL
+        } // CAP AL
+        // for sanity, trim off duplicates // CAP AL
+        items = new ArrayList<>(new LinkedHashSet<>(items)); // CAP AL
+         // CAP AL
+        return items; // CAP AL
+    } // CAP AL
+ // CAP AL
+    private void extractedMethod7(final List<TopLevelItem> items, final SortedSet<String> names, final ItemGroup<? extends TopLevelItem> parent) { // CAP AL
+        if (!names.isEmpty() || includePattern != null) { // CAP AL
+            items.addAll(parent.getAllItems(TopLevelItem.class, item -> { // CAP AL
+                String itemName = item.getRelativeNameFrom(parent); // CAP AL
+                if (names.contains(itemName)) { // CAP AL
+                    return true; // CAP AL
+                } // CAP AL
+                if (includePattern != null) { // CAP AL
+                    return includePattern.matcher(itemName).matches(); // CAP AL
+                } // CAP AL
+                return false; // CAP AL
+            })); // CAP AL
+        } // CAP AL
+    } // CAP AL
+ // CAP AL
+    private void extractedMethod8(final List<TopLevelItem> items, final ItemGroup<? extends TopLevelItem> parent) { // CAP AL
+        if (includePattern != null) { // CAP AL
+            items.addAll(parent.getItems(item -> { // CAP AL
+                String itemName = item.getRelativeNameFrom(parent); // CAP AL
+                return includePattern.matcher(itemName).matches(); // CAP AL
+            })); // CAP AL
+        } // CAP AL
+    } // CAP AL
 
     @Override
     public SearchIndexBuilder makeSearchIndex() {
