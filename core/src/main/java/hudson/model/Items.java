@@ -321,49 +321,61 @@ public class Items {
         String[] groupFullNameA = groupFullName.isEmpty() ? MemoryReductionUtil.EMPTY_STRING_ARRAY : groupFullName.split("/");
         for (int i = 0; ; i++) {
             if (i == itemFullNameA.length) {
-                if (i == groupFullNameA.length) {
-                    // itemFullName and groupFullName are identical
-                    return ".";
-                } else {
-                    // itemFullName is an ancestor of groupFullName; insert ../ for rest of groupFullName
-                    StringBuilder b = new StringBuilder();
-                    for (int j = 0; j < groupFullNameA.length - itemFullNameA.length; j++) {
-                        if (j > 0) {
-                            b.append('/');
-                        }
-                        b.append("..");
-                    }
-                    return b.toString();
-                }
+                return getVar096(groupFullNameA, i, itemFullNameA); // CAP AL
             } else if (i == groupFullNameA.length) {
                 // groupFullName is an ancestor of itemFullName; insert rest of itemFullName
-                StringBuilder b = new StringBuilder();
-                for (int j = i; j < itemFullNameA.length; j++) {
-                    if (j > i) {
-                        b.append('/');
-                    }
-                    b.append(itemFullNameA[j]);
-                }
-                return b.toString();
+                return getVar935(i, itemFullNameA); // CAP AL
             } else if (itemFullNameA[i].equals(groupFullNameA[i])) {
                 // identical up to this point
                 continue;
             } else {
                 // first mismatch; insert ../ for rest of groupFullName, then rest of itemFullName
-                StringBuilder b = new StringBuilder();
-                for (int j = i; j < groupFullNameA.length; j++) {
-                    if (j > i) {
-                        b.append('/');
-                    }
-                    b.append("..");
-                }
-                for (int j = i; j < itemFullNameA.length; j++) {
-                    b.append('/').append(itemFullNameA[j]);
-                }
-                return b.toString();
+                return getVar302(groupFullNameA, i, itemFullNameA); // CAP AL
             }
         }
     }
+ // CAP AL
+    private static String getVar302(final String[] groupFullNameA, final int i, final String[] itemFullNameA) { // CAP AL
+        StringBuilder b = new StringBuilder(); // CAP AL
+        for (int j = i; j < groupFullNameA.length; j++) { // CAP AL
+            if (j > i) { // CAP AL
+                b.append('/'); // CAP AL
+            } // CAP AL
+            b.append(".."); // CAP AL
+        } // CAP AL
+        for (int j = i; j < itemFullNameA.length; j++) { // CAP AL
+            b.append('/').append(itemFullNameA[j]); // CAP AL
+        } // CAP AL
+        return b.toString(); // CAP AL
+    } // CAP AL
+ // CAP AL
+    private static String getVar935(final int i, final String[] itemFullNameA) { // CAP AL
+        StringBuilder b = new StringBuilder(); // CAP AL
+        for (int j = i; j < itemFullNameA.length; j++) { // CAP AL
+            if (j > i) { // CAP AL
+                b.append('/'); // CAP AL
+            } // CAP AL
+            b.append(itemFullNameA[j]); // CAP AL
+        } // CAP AL
+        return b.toString(); // CAP AL
+    } // CAP AL
+ // CAP AL
+    private static String getVar096(final String[] groupFullNameA, final int i, final String[] itemFullNameA) { // CAP AL
+        if (i == groupFullNameA.length) { // CAP AL
+            // itemFullName and groupFullName are identical // CAP AL
+            return "."; // CAP AL
+        } else { // CAP AL
+            // itemFullName is an ancestor of groupFullName; insert ../ for rest of groupFullName // CAP AL
+            StringBuilder b = new StringBuilder(); // CAP AL
+            for (int j = 0; j < groupFullNameA.length - itemFullNameA.length; j++) { // CAP AL
+                if (j > 0) { // CAP AL
+                    b.append('/'); // CAP AL
+                } // CAP AL
+                b.append(".."); // CAP AL
+            } // CAP AL
+            return b.toString(); // CAP AL
+        } // CAP AL
+    } // CAP AL
 
     /**
      * Loads a {@link Item} from a config file.
