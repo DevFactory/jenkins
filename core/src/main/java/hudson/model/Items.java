@@ -253,33 +253,42 @@ public class Items {
         String[] c = context.getFullName().split("/");
         String[] p = path.split("/");
 
-        Stack<String> name = new Stack<>();
-        for (int i=0; i<c.length;i++) {
-            if (i==0 && c[i].equals("")) continue;
-            name.push(c[i]);
-        }
+        Stack<String> name = getName(c); // CAP AL
         for (int i=0; i<p.length;i++) {
-            if (i==0 && p[i].equals("")) {
-                // Absolute path starting with a "/"
-                name.clear();
-                continue;
-            }
-            if (p[i].equals("..")) {
-                if (name.size() == 0) {
-                    throw new IllegalArgumentException(String.format(
-                            "Illegal relative path '%s' within context '%s'", path, context.getFullName()
-                    ));
-                }
-                name.pop();
-                continue;
-            }
-            if (p[i].equals(".")) {
-                continue;
-            }
-            name.push(p[i]);
+            extractedMethod10(context, i, name, p, path); // CAP AL
         }
         return StringUtils.join(name, '/');
     }
+ // CAP AL
+    private static Stack<String> getName(final String[] c) { // CAP AL
+        Stack<String> name = new Stack<>(); // CAP AL
+        for (int i=0; i<c.length;i++) { // CAP AL
+            if (i==0 && c[i].equals("")) continue; // CAP AL
+            name.push(c[i]); // CAP AL
+        } // CAP AL
+        return name; // CAP AL
+    } // CAP AL
+ // CAP AL
+    private static void extractedMethod10(final ItemGroup context, final int i, final Stack<String> name, final String[] p, final String path) { // CAP AL
+        if (i==0 && p[i].equals("")) { // CAP AL
+            // Absolute path starting with a "/" // CAP AL
+            name.clear(); // CAP AL
+            continue; // CAP AL
+        } // CAP AL
+        if (p[i].equals("..")) { // CAP AL
+            if (name.size() == 0) { // CAP AL
+                throw new IllegalArgumentException(String.format( // CAP AL
+                        "Illegal relative path '%s' within context '%s'", path, context.getFullName() // CAP AL
+                )); // CAP AL
+            } // CAP AL
+            name.pop(); // CAP AL
+            continue; // CAP AL
+        } // CAP AL
+        if (p[i].equals(".")) { // CAP AL
+            continue; // CAP AL
+        } // CAP AL
+        name.push(p[i]); // CAP AL
+    } // CAP AL
 
     /**
      * Computes the relative name of list of items after a rename or move occurred.
