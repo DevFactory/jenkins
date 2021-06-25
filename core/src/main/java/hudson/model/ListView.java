@@ -435,39 +435,48 @@ public class ListView extends View implements DirectlyModifiableView {
      */
     @Override
     protected void submit(StaplerRequest req) throws ServletException, FormException, IOException {
-        JSONObject json = req.getSubmittedForm();
-        synchronized (this) {
-            recurse = json.optBoolean("recurse", true);
-            jobNames.clear();
-            Iterable<? extends TopLevelItem> items;
-            if (recurse) {
-                items = getOwner().getItemGroup().getAllItems(TopLevelItem.class);
-            } else {
-                items = getOwner().getItemGroup().getItems();
-            }
-            for (TopLevelItem item : items) {
-                String relativeNameFrom = item.getRelativeNameFrom(getOwner().getItemGroup());
-                if(req.getParameter(relativeNameFrom)!=null) {
-                    jobNames.add(relativeNameFrom);
-                }
-            }
-        }
+        JSONObject json = getJson(req); // CAP AL
 
-        setIncludeRegex(req.getParameter("useincluderegex") != null ? req.getParameter("includeRegex") : null);
-
-        if (columns == null) {
-            columns = new DescribableList<>(this);
-        }
-        columns.rebuildHetero(req, json, ListViewColumn.all(), "columns");
-
-        if (jobFilters == null) {
-        	jobFilters = new DescribableList<>(this);
-        }
-        jobFilters.rebuildHetero(req, json, ViewJobFilter.all(), "jobFilters");
-
-        String filter = Util.fixEmpty(req.getParameter("statusFilter"));
-        statusFilter = filter != null ? "1".equals(filter) : null;
+        extractedMethod16(json, req); // CAP AL
     }
+ // CAP AL
+    private JSONObject getJson(final StaplerRequest req) throws ServletException { // CAP AL
+        JSONObject json = req.getSubmittedForm(); // CAP AL
+        synchronized (this) { // CAP AL
+            recurse = json.optBoolean("recurse", true); // CAP AL
+            jobNames.clear(); // CAP AL
+            Iterable<? extends TopLevelItem> items; // CAP AL
+            if (recurse) { // CAP AL
+                items = getOwner().getItemGroup().getAllItems(TopLevelItem.class); // CAP AL
+            } else { // CAP AL
+                items = getOwner().getItemGroup().getItems(); // CAP AL
+            } // CAP AL
+            for (TopLevelItem item : items) { // CAP AL
+                String relativeNameFrom = item.getRelativeNameFrom(getOwner().getItemGroup()); // CAP AL
+                if(req.getParameter(relativeNameFrom)!=null) { // CAP AL
+                    jobNames.add(relativeNameFrom); // CAP AL
+                } // CAP AL
+            } // CAP AL
+        } // CAP AL
+         // CAP AL
+        setIncludeRegex(req.getParameter("useincluderegex") != null ? req.getParameter("includeRegex") : null); // CAP AL
+        return json; // CAP AL
+    } // CAP AL
+ // CAP AL
+    private void extractedMethod16(final JSONObject json, final StaplerRequest req) throws IOException, FormException { // CAP AL
+        if (columns == null) { // CAP AL
+            columns = new DescribableList<>(this); // CAP AL
+        } // CAP AL
+        columns.rebuildHetero(req, json, ListViewColumn.all(), "columns"); // CAP AL
+         // CAP AL
+        if (jobFilters == null) { // CAP AL
+        	jobFilters = new DescribableList<>(this); // CAP AL
+        } // CAP AL
+        jobFilters.rebuildHetero(req, json, ViewJobFilter.all(), "jobFilters"); // CAP AL
+         // CAP AL
+        String filter = Util.fixEmpty(req.getParameter("statusFilter")); // CAP AL
+        statusFilter = filter != null ? "1".equals(filter) : null; // CAP AL
+    } // CAP AL
     
     /** @since 1.526 */
     @DataBoundSetter
