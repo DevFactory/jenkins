@@ -98,13 +98,7 @@ public class ByteBuffer extends OutputStream {
             @Override
             public int read(byte[] b, int off, int len) throws IOException {
                 synchronized(ByteBuffer.this) {
-                    if(size==pos)
-                        return -1;
-
-                    int sz = Math.min(len,size-pos);
-                    System.arraycopy(buf,pos,b,off,sz);
-                    pos+=sz;
-                    return sz;
+                    return getSz(b, len, off); // CAP AL
                 }
             }
 
@@ -118,12 +112,26 @@ public class ByteBuffer extends OutputStream {
 
             @Override
             public long skip(long n) throws IOException {
-                synchronized(ByteBuffer.this) {
-                    int diff = (int) Math.min(n,size-pos);
-                    pos+=diff;
-                    return diff;
-                }
+                return getDiff(n); // CAP AL
             }
         };
     }
+ // CAP AL
+    private int getSz(final byte[] b, final int len, final int off) { // CAP AL
+        if(size==pos) // CAP AL
+            return -1; // CAP AL
+         // CAP AL
+        int sz = Math.min(len,size-pos); // CAP AL
+        System.arraycopy(buf,pos,b,off,sz); // CAP AL
+        pos+=sz; // CAP AL
+        return sz; // CAP AL
+    } // CAP AL
+ // CAP AL
+    private long getDiff(final long n) { // CAP AL
+        synchronized(ByteBuffer.this) { // CAP AL
+            int diff = (int) Math.min(n,size-pos); // CAP AL
+            pos+=diff; // CAP AL
+            return diff; // CAP AL
+        } // CAP AL
+    } // CAP AL
 }
