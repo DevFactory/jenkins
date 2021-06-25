@@ -140,31 +140,35 @@ public class SearchTest {
     @Test
     public void testSearch2ProjectsWithSameDisplayName() throws Exception {
         // create 2 freestyle projects with the same display name
-        final String projectName1 = "projectName1";
-        final String projectName2 = "projectName2";
-        final String projectName3 = "projectName3";
-        final String displayName = "displayNameFoo";
-        final String otherDisplayName = "otherDisplayName";
-        
-        FreeStyleProject project1 = j.createFreeStyleProject(projectName1);
-        project1.setDisplayName(displayName);
-        FreeStyleProject project2 = j.createFreeStyleProject(projectName2);
-        project2.setDisplayName(displayName);
-        FreeStyleProject project3 = j.createFreeStyleProject(projectName3);
-        project3.setDisplayName(otherDisplayName);
-
-        // make sure that on search we get back one of the projects, it doesn't
-        // matter which one as long as the one that is returned has displayName
-        // as the display name
-        Page result = j.search(displayName);
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-
-        // make sure we've fetched the testSearchByDisplayName project page
-        String contents = result.getWebResponse().getContentAsString();
-        assertTrue(contents.contains(String.format("<title>%s [Jenkins]</title>", displayName)));
-        assertFalse(contents.contains(otherDisplayName));
+        extractedMethod18(); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod18() throws Exception { // CAP AL
+        final String projectName1 = "projectName1"; // CAP AL
+        final String projectName2 = "projectName2"; // CAP AL
+        final String projectName3 = "projectName3"; // CAP AL
+        final String displayName = "displayNameFoo"; // CAP AL
+        final String otherDisplayName = "otherDisplayName"; // CAP AL
+         // CAP AL
+        FreeStyleProject project1 = j.createFreeStyleProject(projectName1); // CAP AL
+        project1.setDisplayName(displayName); // CAP AL
+        FreeStyleProject project2 = j.createFreeStyleProject(projectName2); // CAP AL
+        project2.setDisplayName(displayName); // CAP AL
+        FreeStyleProject project3 = j.createFreeStyleProject(projectName3); // CAP AL
+        project3.setDisplayName(otherDisplayName); // CAP AL
+         // CAP AL
+        // make sure that on search we get back one of the projects, it doesn't // CAP AL
+        // matter which one as long as the one that is returned has displayName // CAP AL
+        // as the display name // CAP AL
+        Page result = j.search(displayName); // CAP AL
+        assertNotNull(result); // CAP AL
+        j.assertGoodStatus(result); // CAP AL
+         // CAP AL
+        // make sure we've fetched the testSearchByDisplayName project page // CAP AL
+        String contents = result.getWebResponse().getContentAsString(); // CAP AL
+        assertTrue(contents.contains(String.format("<title>%s [Jenkins]</title>", displayName))); // CAP AL
+        assertFalse(contents.contains(otherDisplayName)); // CAP AL
+    } // CAP AL
     
     @Test
     public void testProjectNamePrecedesDisplayName() throws Exception {
