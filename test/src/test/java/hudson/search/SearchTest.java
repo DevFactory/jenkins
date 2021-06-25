@@ -211,40 +211,45 @@ public class SearchTest {
         final String projectName = "project name";
         final String displayName = "display name";
 
-        FreeStyleProject project1 = j.createFreeStyleProject(projectName);
-        project1.setDisplayName(displayName);
-        
-        WebClient wc = j.createWebClient();
-        Page result = wc.goTo("search/suggest?query=name", "application/json");
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-        
-        String content = result.getWebResponse().getContentAsString();
-        System.out.println(content);
-        JSONObject jsonContent = (JSONObject)JSONSerializer.toJSON(content);
-        assertNotNull(jsonContent);
-        JSONArray jsonArray = jsonContent.getJSONArray("suggestions");
-        assertNotNull(jsonArray);
-        
-        assertEquals(2, jsonArray.size());
-        
-        boolean foundProjectName = false;
-        boolean foundDisplayName = false;
-        for(Object suggestion : jsonArray) {
-            JSONObject jsonSuggestion = (JSONObject)suggestion;
-            
-            String name = (String)jsonSuggestion.get("name");
-            if(projectName.equals(name)) {
-                foundProjectName = true;
-            }
-            else if(displayName.equals(name)) {
-                foundDisplayName = true;
-            }
-        }
-
-        assertTrue(foundProjectName);
+        boolean foundDisplayName = isFoundDisplayName(displayName, projectName); // CAP AL
         assertTrue(foundDisplayName);
     }
+ // CAP AL
+    private boolean isFoundDisplayName(final String displayName, final String projectName) throws IOException, SAXException { // CAP AL
+        FreeStyleProject project1 = j.createFreeStyleProject(projectName); // CAP AL
+        project1.setDisplayName(displayName); // CAP AL
+         // CAP AL
+        WebClient wc = j.createWebClient(); // CAP AL
+        Page result = wc.goTo("search/suggest?query=name", "application/json"); // CAP AL
+        assertNotNull(result); // CAP AL
+        j.assertGoodStatus(result); // CAP AL
+         // CAP AL
+        String content = result.getWebResponse().getContentAsString(); // CAP AL
+        System.out.println(content); // CAP AL
+        JSONObject jsonContent = (JSONObject)JSONSerializer.toJSON(content); // CAP AL
+        assertNotNull(jsonContent); // CAP AL
+        JSONArray jsonArray = jsonContent.getJSONArray("suggestions"); // CAP AL
+        assertNotNull(jsonArray); // CAP AL
+         // CAP AL
+        assertEquals(2, jsonArray.size()); // CAP AL
+         // CAP AL
+        boolean foundProjectName = false; // CAP AL
+        boolean foundDisplayName = false; // CAP AL
+        for(Object suggestion : jsonArray) { // CAP AL
+            JSONObject jsonSuggestion = (JSONObject)suggestion; // CAP AL
+             // CAP AL
+            String name = (String)jsonSuggestion.get("name"); // CAP AL
+            if(projectName.equals(name)) { // CAP AL
+                foundProjectName = true; // CAP AL
+            } // CAP AL
+            else if(displayName.equals(name)) { // CAP AL
+                foundDisplayName = true; // CAP AL
+            } // CAP AL
+        } // CAP AL
+         // CAP AL
+        assertTrue(foundProjectName); // CAP AL
+        return foundDisplayName; // CAP AL
+    } // CAP AL
 
     @Issue("JENKINS-24433")
     @Test
