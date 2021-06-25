@@ -68,27 +68,36 @@ public class PluginManagerTest {
     @Issue("SECURITY-167")
     @Test
     public void parseInvalidRequestedPlugins() throws Exception {
-        String evilXML = "<?xml version='1.0' encoding='UTF-8'?>\n" +
-                "<!DOCTYPE project[<!ENTITY foo SYSTEM \"file:///\">]>\n" +
-                "<root>\n" +
-                "  <stuff plugin='stuff@1.0'>\n" +
-                "&foo;" +
-                "    <more plugin='other@2.0'>\n" +
-                "      <things plugin='stuff@1.2'/>\n" +
-                "    </more>\n" +
-                "  </stuff>\n" +
-                "</root>\n";
+        String evilXML = getEvilXML(); // CAP AL
 
-        PluginManager pluginManager = new LocalPluginManager(Util.createTempDir());
-        try {
-            pluginManager.parseRequestedPlugins(new StringInputStream(evilXML));
-            fail("XML contains an external entity, but no exception was thrown.");
-        }
-        catch (IOException ex) {
-            assertThat(ex.getCause(), instanceOf(SAXException.class));
-            assertThat(ex.getCause().getMessage(), containsString("Refusing to resolve entity with publicId(null) and systemId (file:///)"));
-        }
+        extractedMethod2(evilXML); // CAP AL
     }
+ // CAP AL
+    private void extractedMethod2(final String evilXML) throws IOException { // CAP AL
+        PluginManager pluginManager = new LocalPluginManager(Util.createTempDir()); // CAP AL
+        try { // CAP AL
+            pluginManager.parseRequestedPlugins(new StringInputStream(evilXML)); // CAP AL
+            fail("XML contains an external entity, but no exception was thrown."); // CAP AL
+        } // CAP AL
+        catch (IOException ex) { // CAP AL
+            assertThat(ex.getCause(), instanceOf(SAXException.class)); // CAP AL
+            assertThat(ex.getCause().getMessage(), containsString("Refusing to resolve entity with publicId(null) and systemId (file:///)")); // CAP AL
+        } // CAP AL
+    } // CAP AL
+ // CAP AL
+    private String getEvilXML() { // CAP AL
+        String evilXML = "<?xml version='1.0' encoding='UTF-8'?>\n" + // CAP AL
+                "<!DOCTYPE project[<!ENTITY foo SYSTEM \"file:///\">]>\n" + // CAP AL
+                "<root>\n" + // CAP AL
+                "  <stuff plugin='stuff@1.0'>\n" + // CAP AL
+                "&foo;" + // CAP AL
+                "    <more plugin='other@2.0'>\n" + // CAP AL
+                "      <things plugin='stuff@1.2'/>\n" + // CAP AL
+                "    </more>\n" + // CAP AL
+                "  </stuff>\n" + // CAP AL
+                "</root>\n"; // CAP AL
+        return evilXML; // CAP AL
+    } // CAP AL
     
     @Test
     public void shouldProperlyParseManifestFromJar() throws IOException {
