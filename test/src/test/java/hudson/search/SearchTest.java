@@ -435,32 +435,37 @@ public class SearchTest {
 
         ListView listView = new ListView("ListView", j.jenkins);
         listView.setRecurse(true);
-        listView.add(myMockFolder);
-        listView.add(freeStyleProject);
-
-        j.jenkins.addView(listView);
-        j.jenkins.setPrimaryView(listView);
-
-        assertEquals(2, j.jenkins.getPrimaryView().getAllItems().size());
-
-        WebClient wc = j.createWebClient();
-        Page result = wc.goTo("search/suggest?query=" + freeStyleProject.getName(), "application/json");
-
-        assertNotNull(result);
-        j.assertGoodStatus(result);
-
-        String content = result.getWebResponse().getContentAsString();
-        JSONObject jsonContent = (JSONObject)JSONSerializer.toJSON(content);
-        assertNotNull(jsonContent);
-        JSONArray jsonArray = jsonContent.getJSONArray("suggestions");
-        assertNotNull(jsonArray);
-
-        assertEquals(2, jsonArray.size());
-
-        Page searchResult = wc.goTo("search?q=" + myMockFolder.getName() + "%2F" + freeStyleProject.getName());
-
-        extractedMethod96842(searchResult, freeStyleProject); // CAP AL
+        extractedMethod28(freeStyleProject, listView, myMockFolder); // CAP AL
+         // CAP AL
     }
+ // CAP AL
+    private void extractedMethod28(final FreeStyleProject freeStyleProject, final ListView listView, final MockFolder myMockFolder) throws IOException, SAXException { // CAP AL
+        listView.add(myMockFolder); // CAP AL
+        listView.add(freeStyleProject); // CAP AL
+         // CAP AL
+        j.jenkins.addView(listView); // CAP AL
+        j.jenkins.setPrimaryView(listView); // CAP AL
+         // CAP AL
+        assertEquals(2, j.jenkins.getPrimaryView().getAllItems().size()); // CAP AL
+         // CAP AL
+        WebClient wc = j.createWebClient(); // CAP AL
+        Page result = wc.goTo("search/suggest?query=" + freeStyleProject.getName(), "application/json"); // CAP AL
+         // CAP AL
+        assertNotNull(result); // CAP AL
+        j.assertGoodStatus(result); // CAP AL
+         // CAP AL
+        String content = result.getWebResponse().getContentAsString(); // CAP AL
+        JSONObject jsonContent = (JSONObject)JSONSerializer.toJSON(content); // CAP AL
+        assertNotNull(jsonContent); // CAP AL
+        JSONArray jsonArray = jsonContent.getJSONArray("suggestions"); // CAP AL
+        assertNotNull(jsonArray); // CAP AL
+         // CAP AL
+        assertEquals(2, jsonArray.size()); // CAP AL
+         // CAP AL
+        Page searchResult = wc.goTo("search?q=" + myMockFolder.getName() + "%2F" + freeStyleProject.getName()); // CAP AL
+         // CAP AL
+        extractedMethod96842(searchResult, freeStyleProject); // CAP AL
+    } // CAP AL
  // CAP AL
     private void extractedMethod96842(final Page result, final FreeStyleProject myFreeStyleProject) { // CAP AL
         assertNotNull(result); // CAP AL
