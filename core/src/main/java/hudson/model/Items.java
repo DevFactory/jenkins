@@ -647,35 +647,47 @@ public class Items {
                 }
                 Predicate<Item> search = t -> t instanceof ItemGroup || (type.isInstance(t) && pred.test(type.cast(t)));
                 while (true) {
-                    if (delegate == null || !delegate.hasNext()) {
-                        if (stack.isEmpty()) {
-                            return false;
-                        }
-                        ItemGroup group = stack.pop();
-                        // group.getItems() is responsible for performing the permission check so we will not repeat it
-                        if (Jenkins.getAuthentication2().equals(authentication)) {
-                            delegate = group.getItems(search).iterator();
-                        } else {
-                            // slower path because the caller has switched authentication
-                            // we need to keep the original authentication so that allItems() can be used
-                            // like getAllItems() without the cost of building the entire list up front
-                            try (ACLContext ctx = ACL.as2(authentication)) {
-                                delegate = group.getItems(search).iterator();
-                            }
-                        }
-                    }
-                    while (delegate.hasNext()) {
-                        Item item = delegate.next();
-                        if (item instanceof ItemGroup) {
-                            stack.push((ItemGroup) item);
-                        }
-                        if (type.isInstance(item) && pred.test(type.cast(item))) {
-                            next = type.cast(item);
-                            return true;
-                        }
-                    }
+                    Boolean var237 = getVar237(search); // CAP AL
+                    if (var237 != null) return var237; // CAP AL
+                    Boolean var368 = getVar368(); // CAP AL
+                    if (var368 != null) return var368; // CAP AL
                 }
             }
+ // CAP AL
+            private Boolean getVar368() { // CAP AL
+                while (delegate.hasNext()) { // CAP AL
+                    Item item = delegate.next(); // CAP AL
+                    if (item instanceof ItemGroup) { // CAP AL
+                        stack.push((ItemGroup) item); // CAP AL
+                    } // CAP AL
+                    if (type.isInstance(item) && pred.test(type.cast(item))) { // CAP AL
+                        next = type.cast(item); // CAP AL
+                        return true; // CAP AL
+                    } // CAP AL
+                } // CAP AL
+                return null; // CAP AL
+            } // CAP AL
+ // CAP AL
+            private Boolean getVar237(final Predicate<Item> search) { // CAP AL
+                if (delegate == null || !delegate.hasNext()) { // CAP AL
+                    if (stack.isEmpty()) { // CAP AL
+                        return false; // CAP AL
+                    } // CAP AL
+                    ItemGroup group = stack.pop(); // CAP AL
+                    // group.getItems() is responsible for performing the permission check so we will not repeat it // CAP AL
+                    if (Jenkins.getAuthentication2().equals(authentication)) { // CAP AL
+                        delegate = group.getItems(search).iterator(); // CAP AL
+                    } else { // CAP AL
+                        // slower path because the caller has switched authentication // CAP AL
+                        // we need to keep the original authentication so that allItems() can be used // CAP AL
+                        // like getAllItems() without the cost of building the entire list up front // CAP AL
+                        try (ACLContext ctx = ACL.as2(authentication)) { // CAP AL
+                            delegate = group.getItems(search).iterator(); // CAP AL
+                        } // CAP AL
+                    } // CAP AL
+                } // CAP AL
+                return null; // CAP AL
+            } // CAP AL
 
             @Override
             public T next() {
